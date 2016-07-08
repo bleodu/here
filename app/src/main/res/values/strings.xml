@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">KENFESTOCHE</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Téléphone</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="action_sign_in">VALIDER</string>
+    <string name="action_sign_in_short">VALIDER</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">Mot de passe requis</string>
+    <string name="error_incorrect_password">Votre mot de passe est incorrect</string>
+    <string name="error_field_required">Ce champ est requis</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="action_newuser">Nouvel Utilisateur</string>
+</resources>
