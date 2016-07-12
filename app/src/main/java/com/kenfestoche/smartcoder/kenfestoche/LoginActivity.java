@@ -395,6 +395,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 if(RetourConnect=="1") //EN CREATION DE COMPTE
                 {
+
                     return true;
                 }else if (RetourConnect=="2"){ //COMPTE ACTIVE
                     return true;

@@ -13,7 +13,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name="com.orm.SugarApp"
         android:theme="@style/AppTheme">
+
+        <meta-data android:name="DATABASE" android:value="festochedb" />
+        <meta-data android:name="VERSION" android:value="2" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.kenfestoche.smartcoder.kenfestoche" />
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name">
@@ -32,7 +39,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".NewProfil"></activity>
+        <activity android:name=".NewProfil" />
+        <activity android:name=".VerifSmsCode"></activity>
     </application>
 
 </manifest>
