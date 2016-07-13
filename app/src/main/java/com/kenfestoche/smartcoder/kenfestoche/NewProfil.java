@@ -4,15 +4,20 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
@@ -28,6 +33,8 @@ public class NewProfil extends AppCompatActivity {
     EditText Pseudo;
     EditText Pass;
     EditText Age;
+    EditText Phone;
+    TextView txCondition;
     RadioButton radioSexeButton;
     RadioButton radioTendanceButton;
     RadioGroup radioSexeGroup;
@@ -41,67 +48,138 @@ public class NewProfil extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_profil);
-
+        Utilisateur.deleteAll(Utilisateur.class);
         Valider = (Button) findViewById(R.id.btValidCompte);
         Pseudo = (EditText) findViewById(R.id.edtPseudo);
         Pass = (EditText) findViewById(R.id.edtPass);
         Age = (EditText) findViewById(R.id.edtAge);
+        Phone = (EditText) findViewById(R.id.edtPhone);
         radioSexeGroup = (RadioGroup) findViewById(R.id.radioSexeGroup);
         radioTendanceSexe = (RadioGroup) findViewById(R.id.radioTendanceGroup);
         mProgressView = (View) findViewById(R.id.createuser_progress);
         mCreateUserView = (View) findViewById(R.id.createuser_form);
+        radioTendanceButton = (RadioButton) findViewById(R.id.rdBi);
+        radioSexeButton = (RadioButton) findViewById(R.id.radioMale);
+        txCondition = (TextView) findViewById(R.id.txCondition);
+
+        txCondition.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+
+        txCondition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),CGUActivity.class);
+                startActivity(i);
+            }
+        });
 
         Valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
-                Utilisateur User = new Utilisateur();
-                User.login = Pseudo.getText().toString();
-                User.password = Pass.getText().toString();
-                User.age = Integer.parseInt(Age.getText().toString());
 
-                int selectedId=radioSexeGroup.getCheckedRadioButtonId();
-                radioSexeButton=(RadioButton)findViewById(selectedId);
+                // Reset errors.
+                Pseudo.setError(null);
+                Pass.setError(null);
+                Age.setError(null);
+                Phone.setError(null);
+                View focusView = null;
+                boolean cancel = false;
 
-                switch (radioSexeButton.getText().toString())
-                {
-                    case "un homme" :
-                        User.sexe=0;
-                        break;
-
-                    case "une femme" :
-                        User.sexe=1;
-                        break;
+                //check si le pseudo est renseigné
+                if (TextUtils.isEmpty(Age.getText().toString())) {
+                    Age.setError("Merci de renseigner votre âge");
+                    focusView = Age;
+                    cancel = true;
                 }
 
-
-                selectedId=radioTendanceSexe.getCheckedRadioButtonId();
-                radioTendanceButton=(RadioButton)findViewById(selectedId);
-
-
-                switch (radioTendanceButton.getText().toString())
-                {
-                    case "bi" :
-                        User.tendancesexe=0;
-                        break;
-
-                    case "hétéro" :
-                        User.tendancesexe=1;
-                        break;
-
-                    case "homo" :
-                        User.tendancesexe=2;
-                        break;
+                //check si le pseudo est renseigné
+                if (TextUtils.isEmpty(Pass.getText().toString())) {
+                    Pass.setError("Merci de renseigner un mot de passe");
+                    focusView = Pass;
+                    cancel = true;
                 }
 
+                //check si le pseudo est renseigné
+                if (TextUtils.isEmpty(Phone.getText().toString())) {
+                    Phone.setError("Merci de renseigner votre téléphone");
+                    focusView = Phone;
+                    cancel = true;
+                }
 
-                //creation de l'utilisateur en base de données. Si retour ok on passe à la vérification du code par sms
-                //WebService WS = new WebService();
-                //WS.CreateUser(User);
-                showProgress(true);
-                mCreateUserTask = new UserCreateTask(User);
-                mCreateUserTask.execute((Void) null);
+                //check si le pseudo est renseigné
+                if (TextUtils.isEmpty(Pseudo.getText().toString())) {
+                    Pseudo.setError("Merci de renseigner un pseudo");
+                    focusView = Pseudo;
+                    cancel = true;
+                }
+
+                int selectedId=radioTendanceSexe.getCheckedRadioButtonId();
+
+                if(selectedId<0){
+                    radioTendanceButton.setError("Merci de renseigner votre orientation sexuelle.");
+                }
+
+                selectedId=radioSexeGroup.getCheckedRadioButtonId();
+                if(selectedId<0){
+                    radioSexeButton.setError("Merci de renseigner votre sexe.");
+                }
+
+                if (cancel) {
+                    // There was an error; don't attempt login and focus the first
+                    // form field with an error.
+                    focusView.requestFocus();
+                } else {
+                    //creation de l'utilisateur en base de données. Si retour ok on passe à la vérification du code par sms
+                    //WebService WS = new WebService();
+                    //WS.CreateUser(User);
+
+
+                    Utilisateur User = new Utilisateur();
+                    User.login = Pseudo.getText().toString();
+                    User.password = Pass.getText().toString();
+                    User.age = Integer.parseInt(Age.getText().toString());
+                    User.phone = Phone.getText().toString();
+
+                    selectedId=radioSexeGroup.getCheckedRadioButtonId();
+                    radioSexeButton=(RadioButton)findViewById(selectedId);
+
+                    switch (radioSexeButton.getText().toString())
+                    {
+                        case "un homme" :
+                            User.sexe=0;
+                            break;
+
+                        case "une femme" :
+                            User.sexe=1;
+                            break;
+                    }
+
+
+                    selectedId=radioTendanceSexe.getCheckedRadioButtonId();
+                    radioTendanceButton=(RadioButton)findViewById(selectedId);
+
+
+                    switch (radioTendanceButton.getText().toString())
+                    {
+                        case "bi" :
+                            User.tendancesexe=0;
+                            break;
+
+                        case "hétéro" :
+                            User.tendancesexe=1;
+                            break;
+
+                        case "homo" :
+                            User.tendancesexe=2;
+                            break;
+                    }
+
+                    showProgress(true);
+                    mCreateUserTask = new UserCreateTask(User);
+                    mCreateUserTask.execute((Void) null);
+                }
+
 
 
             }
@@ -172,19 +250,38 @@ public class NewProfil extends AppCompatActivity {
             WebService WS = new WebService();
 
             JSONArray Retour = WS.CreateUser(Uti);
-
+            JSONObject User;
             try {
-                JSONObject User = Retour.getJSONObject(0);
+                User = Retour.getJSONObject(0);
                 String RetourConnect = User.getString("statut");
 
-                if(RetourConnect=="1") //EN CREATION DE COMPTE
+                if(RetourConnect.equals("1")) //EN CREATION DE COMPTE
                 {
+
                     Uti.save();
+                    Uti.getId();
+                    SharedPreferences pref = getSharedPreferences("EASER", MODE_PRIVATE);
+
+                    SharedPreferences.Editor edt = pref.edit();
+
+                    edt.putLong("IdUser",Uti.getId());
+
+                    edt.commit();
+
                     return true;
-                }else if (RetourConnect=="2"){ //COMPTE ACTIVE
+                }else if (RetourConnect.equals("2")){ //COMPTE ACTIVE
                     return true;
                 }
                 else{
+                    //publishProgress(User.getString("message").toString());
+                    //Toast.makeText(getApplicationContext(),User.getString("message"),Toast.LENGTH_LONG).show();
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),"Le pseudo est déjà utilisé dans notre base de données.",Toast.LENGTH_LONG).show();
+                        }
+                    });
                     return false;
                 }
             } catch (JSONException e) {
@@ -195,8 +292,9 @@ public class NewProfil extends AppCompatActivity {
             return true;
         }
 
+
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(Boolean success) {
 
             showProgress(false);
 
@@ -205,7 +303,8 @@ public class NewProfil extends AppCompatActivity {
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
             } else {
-                Toast.makeText(getApplicationContext(),"Erreur lors de la creation de l'utilisateur",Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(),"Erreur lors de la creation de l'utilisateur",Toast.LENGTH_LONG).show();
+
 
             }
         }

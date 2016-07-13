@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private Button btNewUser;
+    private Button btPref;
     private View mLoginFormView;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -88,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mPasswordView = (EditText) findViewById(R.id.password);
         btNewUser = (Button) findViewById(R.id.btNewUser);
+        btPref = (Button) findViewById(R.id.prefeaser);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -111,6 +113,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),NewProfil.class);
+                startActivity(i);
+            }
+        });
+
+        btPref.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),SendMotPasse.class);
                 startActivity(i);
             }
         });

@@ -10,7 +10,7 @@
 
     <style name="TextZEN" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">25dp</item>
+        <item name="android:textSize">20dp</item>
         <item name="android:textStyle">italic</item>
         <item name="android:typeface">normal</item>
     </style>

@@ -1,6 +1,7 @@
 package com.kenfestoche.smartcoder.kenfestoche;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,13 +30,19 @@ public class VerifSmsCode extends AppCompatActivity {
         setContentView(R.layout.activity_verif_sms_code);
 
         Valider = (Button) findViewById(R.id.btValidSmsCode);
+        SendSms = (Button) findViewById(R.id.btSendNewSms);
         CodeSms = (EditText) findViewById(R.id.edtCodeSms);
 
-        Utilisateur User = Utilisateur.findById(Utilisateur.class, 1);
+        SharedPreferences pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
-        WebService WS = new WebService();
+        SharedPreferences.Editor edt = pref.edit();
 
-        JSONArray Result = WS.GetSmsCode(User);
+
+        Utilisateur User = Utilisateur.findById(Utilisateur.class, pref.getLong("IdUser",0));
+
+        final WebService WS = new WebService();
+
+        JSONArray Result = WS.GetSmsCode(User,false,false);
 
         try {
             Code = Result.getJSONObject(0);
@@ -44,6 +51,34 @@ public class VerifSmsCode extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        SendSms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SharedPreferences pref = getSharedPreferences("EASER", MODE_PRIVATE);
+
+                SharedPreferences.Editor edt = pref.edit();
+
+
+                Utilisateur User = Utilisateur.findById(Utilisateur.class, pref.getLong("IdUser",0));
+
+                JSONArray Result = WS.GetSmsCode(User,true,false);
+
+                try {
+                    Code = Result.getJSONObject(0);
+
+                    if(Code.getString("statut").equals("0")){
+                        Toast.makeText(getApplicationContext(),Code.getString("message"),Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Code envoyé par SMS.",Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
         Valider.setOnClickListener(new View.OnClickListener() {
             @Override

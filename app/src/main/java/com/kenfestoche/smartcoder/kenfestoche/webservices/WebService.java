@@ -94,7 +94,7 @@ public class WebService {
                 client = (HttpURLConnection) url.openConnection();
                 client.setRequestMethod("POST");
 
-                String urlParameters = "login="+User.login+"&cn=&password="+User.password+"&age="+User.age+"&sexe="+User.sexe+"&tendancesexe="+User.tendancesexe;
+                String urlParameters = "login="+User.login+"&phone="+User.phone+"&=&password="+User.password+"&age="+User.age+"&sexe="+User.sexe+"&tendancesexe="+User.tendancesexe;
 
                 // Send post request
                 client.setDoOutput(true);
@@ -135,7 +135,7 @@ public class WebService {
         return Messages;
     }
 
-    public JSONArray GetSmsCode(Utilisateur User) {
+    public JSONArray GetSmsCode(Utilisateur User,Boolean newSms,Boolean smsPass) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -148,8 +148,15 @@ public class WebService {
             try {
                 client = (HttpURLConnection) url.openConnection();
                 client.setRequestMethod("POST");
+                String urlParameters = "phone="+User.phone;
+                if(newSms){
+                    urlParameters = urlParameters+"&newSMS=OK";
+                }
 
-                String urlParameters = "phone="+User.login;
+                if(smsPass){
+                    urlParameters = urlParameters+"&sendPass=OK";
+                }
+
 
                 // Send post request
                 client.setDoOutput(true);
