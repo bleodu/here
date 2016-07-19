@@ -94,7 +94,7 @@ public class WebService {
                 client = (HttpURLConnection) url.openConnection();
                 client.setRequestMethod("POST");
 
-                String urlParameters = "login="+User.login+"&phone="+User.phone+"&=&password="+User.password+"&age="+User.age+"&sexe="+User.sexe+"&tendancesexe="+User.tendancesexe;
+                String urlParameters = "login="+User.login+"&phone="+User.phone+"&=&password="+User.password+"&age="+User.age+"&sexe="+User.sexe+"&tendancesexe="+User.tendancesexe+"&latitude="+User.latitude+"&longitude="+User.longitude;
 
                 // Send post request
                 client.setDoOutput(true);

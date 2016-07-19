@@ -87,6 +87,7 @@ public class VerifSmsCode extends AppCompatActivity {
                     if(Code.getString("codesms").toString().equals(CodeSms.getText().toString())){
                         Intent i = new Intent(getApplicationContext(),UserProfil.class);
                         startActivity(i);
+                        finish();
                     }else{
                         Toast toast = Toast.makeText(getApplicationContext(),"Code SMS non valide",Toast.LENGTH_LONG);
                         toast.show();
