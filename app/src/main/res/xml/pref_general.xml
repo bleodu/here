@@ -1,14 +1,37 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="gps_switch_notif"
+        android:title="@string/pref_title_notification" />
+
     <SwitchPreference
         android:defaultValue="true"
         android:key="gps_switch"
-        android:summary="@string/pref_description_social_recommendations"
+        android:summary="Ses amis n'ont plus accès à sa position"
         android:title="@string/pref_title_gps" />
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="gps_switch_tous"
+        android:summary="Plus personne ne peut voir ma position"
+        android:title="@string/pref_title_gps_tous" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="gps_switch_profil"
+        android:summary="Plus personne ne peut voir son profil ou sa photo, sauf ses match"
+        android:title="@string/pref_title_profil" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="gps_switch_fb"
+        android:summary="@string/pref_description_social_recommendations"
+        android:title="@string/pref_title_facebook_amis" />
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
-    <EditTextPreference
+    <!--  <EditTextPreference
         android:capitalize="words"
         android:defaultValue=""
         android:inputType="textCapWords"
@@ -16,7 +39,7 @@
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="@string/pref_title_display_name" />
+        android:title="@string/pref_title_display_name" />-->
 
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->

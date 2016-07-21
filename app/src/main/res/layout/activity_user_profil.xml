@@ -11,6 +11,22 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/userprofil_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+    <ScrollView
+        android:id="@+id/userprofil_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -20,19 +36,9 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextZEN"
             android:text="Je suis plutôt"
             android:id="@+id/textView"
             android:autoText="false"
-            android:textAlignment="center" />
-
-
-        <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextZEN"
-        android:text="photos"
-        android:id="@+id/txPhotos"
             android:textAlignment="center" />
 
     </LinearLayout>
@@ -41,6 +47,154 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="calme et posé"
+            android:id="@+id/txcalme"
+            android:autoText="false"
+            android:textAlignment="center" />
+
+
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_weight="1"
+                android:checked="true"
+                android:id="@+id/rdcalme1" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:id="@+id/rdcalme2" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:id="@+id/rdcalme3" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:id="@+id/rdcalme4" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:id="@+id/rdcalme5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="fêtard sans limite"
+            android:id="@+id/txfetard"
+            android:autoText="false"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="partager un verre"
+            android:id="@+id/txverre"
+            android:autoText="false"
+            android:textAlignment="center" />
+
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_weight="1"
+            android:checked="true"
+            android:id="@+id/rdverre1" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:id="@+id/rdverre2" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:id="@+id/rdverre3" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:id="@+id/rdverre4" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:id="@+id/rdverre5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="plus si affinité"
+            android:id="@+id/txaffinite"
+            android:autoText="false"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="photos"
+            android:id="@+id/txPhotos"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_vertical">
 
         <GridLayout
@@ -57,60 +211,58 @@
                 android:layout_width="wrap_content"
                 android:layout_height="100dp" />
 
-            <ImageView
-                android:layout_rowSpan="1"
 
-                android:background="@android:color/transparent"
-                android:src="@mipmap/plus"
-                android:layout_gravity="fill"
-                android:layout_columnWeight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp" />
-
-            <ImageView
-            android:layout_rowSpan="1"
-
-            android:background="@android:color/transparent"
-            android:src="@mipmap/plus"
-            android:layout_weight="1"
-            android:layout_gravity="fill"
-            android:layout_columnWeight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"/>
-
-            <ImageView
-                android:layout_rowSpan="1"
-                android:text="1"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/plus"
-                android:layout_width="wrap_content"
-                android:layout_gravity="fill"
-                android:layout_columnWeight="1"
-                android:layout_height="100dp" />
-
-            <ImageView
-                android:layout_rowSpan="1"
-                android:text="1"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/plus"
-                android:layout_width="wrap_content"
-                android:layout_gravity="fill"
-                android:layout_columnWeight="1"
-                android:layout_height="100dp" />
-
-            <ImageView
-                android:layout_rowSpan="1"
-                android:text="1"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/plus"
-                android:layout_width="wrap_content"
-                android:layout_gravity="fill"
-                android:layout_columnWeight="1"
-                android:layout_height="100dp" />
 
         </GridLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_vertical">
+
+
+
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/edtqqmot"
+        android:hint="quelques mot sur vous"
+        android:maxLength="100" />
+
+    <Button
+        style="?android:textAppearanceSmall"
+        android:id="@+id/btParametre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/parametre"
+        android:textStyle="bold"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        style="?android:textAppearanceSmall"
+        android:id="@+id/btDeconnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/deconnect"
+        android:textStyle="bold"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>
