@@ -2,6 +2,7 @@ package com.kenfestoche.smartcoder.kenfestoche.webservices;
 
 
 import android.os.StrictMode;
+import android.util.Log;
 
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 
@@ -9,7 +10,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -82,6 +86,83 @@ public class WebService {
     }
 
         return Messages;
+    }
+
+
+
+    public void UploadImage(String pathImg){
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        HttpURLConnection connection = null;
+        DataOutputStream outputStream = null;
+        DataInputStream inputStream = null;
+        String pathToOurFile = pathImg;
+        String urlServer = "http://www.smartcoder-dev.fr/ZENAPP/webservice/WS_UploadFile.php";
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary =  "*****";
+
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1*1024*1024;
+
+        try
+        {
+            FileInputStream fileInputStream = new FileInputStream(new File(pathToOurFile) );
+
+            URL url = new URL(urlServer);
+            connection = (HttpURLConnection) url.openConnection();
+
+            // Allow Inputs &amp; Outputs.
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setUseCaches(false);
+
+            // Set HTTP method to POST.
+            connection.setRequestMethod("POST");
+
+            connection.setRequestProperty("Connection", "Keep-Alive");
+            connection.setRequestProperty("Content-Type", "multipart/form-data;boundary="+boundary);
+
+            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+
+            //outputStream = new DataOutputStream(connection.getOutputStream());
+            wr.writeBytes(twoHyphens + boundary + lineEnd);
+            wr.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + pathToOurFile +"\"" + lineEnd);
+            wr.writeBytes(lineEnd);
+
+            bytesAvailable = fileInputStream.available();
+            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            buffer = new byte[bufferSize];
+
+            // Read file
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+            while (bytesRead > 0)
+            {
+                wr.write(buffer, 0, bufferSize);
+                bytesAvailable = fileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            }
+
+            wr.writeBytes(lineEnd);
+            wr.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+            // Responses from the server (code and message)
+            int serverResponseCode = connection.getResponseCode();
+            String serverResponseMessage = connection.getResponseMessage();
+
+            fileInputStream.close();
+            wr.flush();
+            wr.close();
+        }
+        catch (Exception ex)
+        {
+            //Exception handling
+            //Log.i("erreur upload",ex.getMessage());
+
+        }
     }
 
     public JSONArray CreateUser(Utilisateur User) {
