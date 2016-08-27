@@ -90,14 +90,14 @@ public class WebService {
 
 
 
-    public void UploadImage(String pathImg){
+    public void UploadImage(String pathImg,Utilisateur user){
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         HttpURLConnection connection = null;
         DataOutputStream outputStream = null;
         DataInputStream inputStream = null;
         String pathToOurFile = pathImg;
-        String urlServer = "http://www.smartcoder-dev.fr/ZENAPP/webservice/WS_UploadFile.php";
+        String urlServer = "http://www.smartcoder-dev.fr/ZENAPP/webservice/WS_UploadFile.php?id_user="+user.login;
         String lineEnd = "\r\n";
         String twoHyphens = "--";
         String boundary =  "*****";
@@ -278,4 +278,110 @@ public class WebService {
         return Messages;
     }
 
+
+    public JSONArray SetProfilUser(Utilisateur User) {
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_SetProfilUser.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+
+                String urlParameters = "login="+User.login+"&phone="+User.phone+"&=&password="+User.password+"calme="+User.calme+"&affinity="+User.affinity+"&=&qqmots="+User.description+"&age="+User.age+"&sexe="+User.sexe+"&tendancesexe="+User.tendancesexe+"&latitude="+User.latitude+"&longitude="+User.longitude;
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray GetListPhotos(Utilisateur User) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_GetListPhotos.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "login="+User.login;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
 }

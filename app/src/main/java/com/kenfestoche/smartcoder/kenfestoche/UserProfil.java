@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,20 +19,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.kenfestoche.smartcoder.kenfestoche.model.ImagesProfil;
+import com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto;
+import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class UserProfil extends AppCompatActivity {
 
@@ -49,7 +51,15 @@ public class UserProfil extends AppCompatActivity {
 
     Button Parametre;
 
+    Button Valider;
+
+    MyGridPhoto gridPhotos;
+
+    EditText Edtqqmot;
+
     ImageView imgAdd;
+
+    Utilisateur User;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,20 +72,44 @@ public class UserProfil extends AppCompatActivity {
         rbcalme4 = (RadioButton) findViewById(R.id.rdcalme4);
         rbcalme5 = (RadioButton) findViewById(R.id.rdcalme5);
 
+        SharedPreferences pref = getSharedPreferences("EASER", MODE_PRIVATE);
+
+        SharedPreferences.Editor edt = pref.edit();
+
+
+        User = Utilisateur.findById(Utilisateur.class, pref.getLong("IdUser",0));
+
         rbverre1 = (RadioButton) findViewById(R.id.rdverre1);
         rbverre2 = (RadioButton) findViewById(R.id.rdverre2);
         rbverre3 = (RadioButton) findViewById(R.id.rdverre3);
         rbverre4 = (RadioButton) findViewById(R.id.rdverre4);
         rbverre5 = (RadioButton) findViewById(R.id.rdverre4);
 
+        gridPhotos = (MyGridPhoto) findViewById(R.id.gridphotos);
+
+        gridPhotos.setAdapter(new ImagesProfil(getApplicationContext(),1,User));
+
         Parametre = (Button) findViewById(R.id.btParametre);
 
-        imgAdd = (ImageView) findViewById(R.id.imgaddprofil);
+        Valider = (Button) findViewById(R.id.btValidProfil);
 
-        imgAdd.setOnClickListener(new View.OnClickListener() {
+        Edtqqmot = (EditText) findViewById(R.id.edtqqmot);
+
+
+        gridPhotos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectImage();
+            }
+        });
+
+        Valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectImage();
+                User.description=Edtqqmot.getText().toString();
+                WebService WS = new WebService();
+                WS.SetProfilUser(User);
+                Toast.makeText(getApplicationContext(),"Profil enregistré",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -96,6 +130,7 @@ public class UserProfil extends AppCompatActivity {
                 rbcalme3.setChecked(false);
                 rbcalme4.setChecked(false);
                 rbcalme5.setChecked(false);
+                User.calme=1;
             }
         });
 
@@ -107,6 +142,7 @@ public class UserProfil extends AppCompatActivity {
                 rbcalme3.setChecked(false);
                 rbcalme4.setChecked(false);
                 rbcalme5.setChecked(false);
+                User.calme=2;
             }
         });
 
@@ -118,6 +154,7 @@ public class UserProfil extends AppCompatActivity {
                 rbcalme3.setChecked(true);
                 rbcalme4.setChecked(false);
                 rbcalme5.setChecked(false);
+                User.calme=3;
             }
         });
 
@@ -129,6 +166,7 @@ public class UserProfil extends AppCompatActivity {
                 rbcalme3.setChecked(true);
                 rbcalme4.setChecked(true);
                 rbcalme5.setChecked(false);
+                User.calme=4;
             }
         });
 
@@ -140,6 +178,7 @@ public class UserProfil extends AppCompatActivity {
                 rbcalme3.setChecked(true);
                 rbcalme4.setChecked(true);
                 rbcalme5.setChecked(true);
+                User.calme=5;
             }
         });
 
@@ -151,6 +190,7 @@ public class UserProfil extends AppCompatActivity {
                 rbverre3.setChecked(false);
                 rbverre4.setChecked(false);
                 rbverre5.setChecked(false);
+                User.affinity=1;
             }
         });
 
@@ -162,6 +202,7 @@ public class UserProfil extends AppCompatActivity {
                 rbverre3.setChecked(false);
                 rbverre4.setChecked(false);
                 rbverre5.setChecked(false);
+                User.affinity=2;
             }
         });
 
@@ -173,6 +214,7 @@ public class UserProfil extends AppCompatActivity {
                 rbverre3.setChecked(true);
                 rbverre4.setChecked(false);
                 rbverre5.setChecked(false);
+                User.affinity=3;
             }
         });
 
@@ -184,6 +226,7 @@ public class UserProfil extends AppCompatActivity {
                 rbverre3.setChecked(true);
                 rbverre4.setChecked(true);
                 rbverre5.setChecked(false);
+                User.affinity=4;
             }
         });
 
@@ -195,6 +238,7 @@ public class UserProfil extends AppCompatActivity {
                 rbverre3.setChecked(true);
                 rbverre4.setChecked(true);
                 rbverre5.setChecked(true);
+                User.affinity=5;
             }
         });
 
@@ -235,17 +279,24 @@ public class UserProfil extends AppCompatActivity {
                     picturePath);
             imgAdd.setImageBitmap(thumbnail);
             //Get image
-              /*  Bitmap newProfilePic = extras.getParcelable("data");
-                imgAdd.setImageBitmap(newProfilePic);
-                // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);*/
+            /*  Bitmap newProfilePic = extras.getParcelable("data");
+            imgAdd.setImageBitmap(newProfilePic);
+            // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);*/
+
+            SharedPreferences pref = getSharedPreferences("EASER", MODE_PRIVATE);
+
+            SharedPreferences.Editor edt = pref.edit();
+
+
+            Utilisateur User = Utilisateur.findById(Utilisateur.class, pref.getLong("IdUser",0));
             WebService WS = new WebService();
-            WS.UploadImage(picturePath);
+            WS.UploadImage(picturePath,User);
 
         }
     }

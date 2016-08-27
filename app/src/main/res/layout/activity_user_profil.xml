@@ -197,24 +197,15 @@
         android:layout_marginTop="20dp"
         android:layout_gravity="center_vertical">
 
-        <GridLayout
+        <com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto
             android:layout_width="match_parent"
-            android:columnCount="3"
-            android:rowCount="3"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_rowSpan="1"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/plus"
-                android:id="@+id/imgaddprofil"
-                android:layout_gravity="fill"
-                android:layout_columnWeight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp" />
+            android:numColumns="3"
+            android:id="@+id/gridphotos"
+            android:stretchMode="columnWidth"
+            android:layout_height="wrap_content">
 
 
-
-        </GridLayout>
+        </com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto>
     </LinearLayout>
 
     <LinearLayout
@@ -236,6 +227,19 @@
         android:id="@+id/edtqqmot"
         android:hint="quelques mot sur vous"
         android:maxLength="100" />
+
+
+    <Button
+        style="?android:textAppearanceSmall"
+        android:id="@+id/btValidProfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/valider"
+        android:textStyle="bold"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_horizontal" />
 
     <Button
         style="?android:textAppearanceSmall"

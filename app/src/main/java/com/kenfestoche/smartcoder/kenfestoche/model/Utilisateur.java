@@ -16,6 +16,9 @@ public class Utilisateur extends SugarRecord{
     public int sexe;
     public int tendancesexe;
     public int age;
+    public int calme;
+    public int affinity;
+    public String description;
 
 
 }
