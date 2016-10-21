@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.kenfestoche.smartcoder.kenfestoche.model.SquareImageView
+        android:id="@+id/imphotoprofil"
+        android:layout_width="match_parent"
+        android:src="@drawable/ajoutphoto"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/croix"
+        android:id="@+id/imdeletephoto"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/imphotoprofil"
+        android:layout_alignEnd="@+id/imphotoprofil" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="invisible"
+        android:id="@+id/txID"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="48dp"
+        android:layout_marginStart="48dp" />
+
+
+</RelativeLayout>

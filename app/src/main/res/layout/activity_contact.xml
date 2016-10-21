@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondeaser"
+    android:orientation="vertical"
+    tools:context="com.kenfestoche.smartcoder.kenfestoche.ContactActivity">
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="#2c2954"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imBanniereContact"
+            app:srcCompat="@drawable/bannierecontact" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imFlecheGaucheContact"
+            android:src="@drawable/fleche"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imFlecheDroiteContact"
+            android:src="@drawable/flechedroite"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dip"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:padding="10dip"
+            android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+
+        android:background="#2c2954"
+        android:layout_margin="10dip"
+
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txMesKiffs"
+            android:textColor="#fff"
+            android:layout_margin="10dip"
+            android:textSize="11pt"
+            android:layout_weight="1"
+            tools:text="mes kiffs" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dip"
+        android:layout_height="wrap_content">
+
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:longClickable="true"
+            android:id="@+id/lstkiffs"/>
+    </LinearLayout>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:background="#2c2954"
+                android:layout_margin="10dip"
+
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txAmis"
+                    android:textColor="#fff"
+                    android:layout_margin="10dip"
+                    android:textSize="11pt"
+                    android:layout_weight="1"
+                    tools:text="mes amis" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/plus"
+                    android:layout_marginRight="21dp"
+                    android:layout_marginEnd="21dp"
+                    android:id="@+id/imPlusAmis"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/bulle"
+                    android:id="@+id/imBulle"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/imPlusAmis" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginRight="10dip"
+                android:layout_marginLeft="10dip"
+                android:layout_height="wrap_content">
+
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lstamis"/>
+            </LinearLayout>
+
+        </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+</LinearLayout>

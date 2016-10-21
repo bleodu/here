@@ -1,11 +1,13 @@
 package com.kenfestoche.smartcoder.kenfestoche;
 
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
@@ -27,8 +29,15 @@ public class SendMotPasse extends AppCompatActivity {
 
         NumTel = (EditText) findViewById(R.id.edtPhoneSms);
 
-        ValidSmsCode = (Button) findViewById(R.id.btValidSmsCode);
+        ValidSmsCode = (Button) findViewById(R.id.btVerifCode);
 
+        Typeface face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
+
+        NumTel.setTypeface(face);
+        ValidSmsCode.setTypeface(face);
+
+        TextView txtSendSms = (TextView) findViewById(R.id.txNumTel);
+        txtSendSms.setTypeface(face);
 
         ValidSmsCode.setOnClickListener(new View.OnClickListener() {
             @Override

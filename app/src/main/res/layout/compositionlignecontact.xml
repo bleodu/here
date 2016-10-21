@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:longClickable="true"
+    android:id="@+id/ligneContact"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical">
+
+    <com.kenfestoche.smartcoder.kenfestoche.model.SquareImageView
+        android:id="@+id/imgPhotoKiffs"
+        android:layout_width="40dp"
+        android:src="@drawable/bouteille"
+        android:layout_height="40dp"
+        android:layout_margin="10dip"
+        android:scaleType="centerCrop"
+        />
+
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10pt"
+        android:textColor="#2c2954"
+        android:id="@+id/txPseudoLigne"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="0dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imgPhotoKiffs"
+        android:layout_toEndOf="@+id/imgPhotoKiffs" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/btajout"
+        android:id="@+id/imbtajoutamis"
+        android:visibility="invisible"
+        android:layout_marginRight="17dp"
+        android:layout_marginEnd="17dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/btrefuser"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="8dp"
+        android:id="@+id/imbtrefuseramis"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/imbtajoutamis"
+        android:layout_toStartOf="@+id/imbtajoutamis" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/localiser"
+        android:id="@+id/imlocaliser"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/imbtajoutamis"
+        android:layout_alignEnd="@+id/imbtajoutamis" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/sablier"
+        android:visibility="visible"
+        android:id="@+id/imsablier"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/imbtajoutamis"
+        android:layout_alignEnd="@+id/imbtajoutamis" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/supprimerkiff"
+        android:layout_centerVertical="true"
+        android:visibility="visible"
+        android:layout_alignRight="@+id/imbtajoutamis"
+        android:layout_alignEnd="@+id/imbtajoutamis"
+        android:id="@+id/imSuppKiffs" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/signaler"
+        android:visibility="visible"
+        android:id="@+id/imSignalerKiffs"
+        android:layout_marginRight="40dip"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/imSuppKiffs" />
+
+</RelativeLayout>

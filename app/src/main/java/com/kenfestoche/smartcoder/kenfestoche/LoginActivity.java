@@ -4,9 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -19,7 +20,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,11 +32,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.appevents.AppEventsLogger;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
+
+import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 
 import org.json.JSONArray;
@@ -69,17 +73,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
-    private Button btNewUser;
+    private TextView btNewUser;
+    private TextView btNewConnexion;
     private Button btPref;
     private View mLoginFormView;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    TextView mPassOublie;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +95,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
+        Typeface face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
+
+        preferences = getSharedPreferences("EASER", MODE_PRIVATE);
+
+
+        mEmailView = (EditText) findViewById(R.id.email);
+        //populateAutoComplete();
+        mEmailView.setText(preferences.getString("phone", ""));
 
         mPasswordView = (EditText) findViewById(R.id.password);
-        btNewUser = (Button) findViewById(R.id.btNewUser);
-        btPref = (Button) findViewById(R.id.prefeaser);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        btNewUser = (TextView) findViewById(R.id.btNewUser);
+
+        btNewUser.setTypeface(face);
+        mPasswordView.setTypeface(face);
+        mEmailView.setTypeface(face);
+
+        mPassOublie = (TextView) findViewById(R.id.txPasseOublie);
+        mPassOublie.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),SendMotPasse.class);
+                startActivity(i);
+            }
+        });
+        //btPref = (Button) findViewById(R.id.prefeaser);
+        /*mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -103,15 +129,73 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 return false;
             }
+        });*/
+
+        /*mEmailView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(mEmailView.length()<=0){
+                    btNewUser.setVisibility(View.VISIBLE);
+                }else{
+                    btNewUser.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        mPasswordView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(mPasswordView.length()<=0){
+                    mPassOublie.setVisibility(View.VISIBLE);
+                }else{
+                    mPassOublie.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });*/
+
+        TextView mconnexion = (TextView) findViewById(R.id.btconnecttel);
+        mconnexion.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
+
+        mconnexion.setTypeface(face);
+        TextView mconnexionFacebook = (TextView) findViewById(R.id.btconnexion);
+        mconnexionFacebook.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),LoginFacebook.class);
+                startActivity(i);
+            }
+        });
+
+        mconnexionFacebook.setTypeface(face);
+
+
+
+        mPassOublie.setTypeface(face);
 
         btNewUser.setOnClickListener(new OnClickListener() {
             @Override
@@ -121,19 +205,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        btPref.setOnClickListener(new OnClickListener() {
+        /*btPref.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),SendMotPasse.class);
                 startActivity(i);
             }
-        });
+        });*/
 
-        mLoginFormView = findViewById(R.id.login_form);
+        mLoginFormView = findViewById(R.id.email_login_form);
         mProgressView = findViewById(R.id.login_progress);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        //client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
     }
 
     private void populateAutoComplete() {
@@ -151,18 +236,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
+
         return false;
     }
 
@@ -186,9 +260,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+
 
         // Reset errors.
         mEmailView.setError(null);
@@ -201,19 +273,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email) ) {
+            //mEmailView.setError(getString(R.string.error_field_required));
+            Toast.makeText(getApplicationContext(),"Le téléphone est obligatoire.",Toast.LENGTH_LONG).show();
+            focusView = mEmailView;
+            cancel = true;
+        }
+
         // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password) && cancel==false) {
+            //mPasswordView.setError(getString(R.string.error_invalid_password));
+            Toast.makeText(getApplicationContext(),R.string.error_incorrect_password,Toast.LENGTH_LONG).show();
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } /*else if (!isEmailValid(email)) {
+        /*else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -226,6 +302,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            mAuthTask = null;
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
@@ -304,61 +381,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cursor.moveToNext();
         }
 
-        addEmailsToAutoComplete(emails);
+        //addEmailsToAutoComplete(emails);
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+    public void onLoaderReset(Loader<Cursor> loader) {
 
-    }
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Login Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.kenfestoche.smartcoder.kenfestoche/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Login Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.kenfestoche.smartcoder.kenfestoche/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 
 
@@ -390,39 +418,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+
 
             // TODO: register the new account here.
 
             WebService WS = new WebService();
 
-            JSONArray Retour = WS.Connect(mEmail,mPassword);
+            Utilisateur user = WS.Connect(mEmail,mPassword);
 
-            try {
-                JSONObject User = Retour.getJSONObject(0);
-                String RetourConnect = User.getString("statut");
-
-                if(RetourConnect=="1") //EN CREATION DE COMPTE
-                {
-
-                    return true;
-                }else if (RetourConnect=="2"){ //COMPTE ACTIVE
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(user.id_user > 0 && user.statut > 1) //COMPTE ACTIF
+            {
+                editor = preferences.edit();
+                user.connecte=true;
+                editor.putLong("UserId", user.getId());
+                editor.commit();
+                return true;
+            }else if(user.id_user > 0 && user.statut == 1){ //COMPTE EN COURS DE VALIDATION
+                editor = preferences.edit();
+                user.connecte=true;
+                editor.putLong("UserId", user.getId());
+                editor.commit();
+                Intent i = new Intent(getApplicationContext(), VerifSmsCode.class);
+                startActivity(i);
+                return false;
+            }else{
+                return false;
             }
 
-
-            return true;
         }
 
         @Override
@@ -431,9 +453,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                Intent i = new Intent(getApplicationContext(), UserProfil.class);
+                Intent i = new Intent(getApplicationContext(), FragmentsSliderActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra("phone", mEmailView.getText().toString());
+                editor = preferences.edit();
+                editor.putString("phone", mEmailView.getText().toString());
+                editor.commit();
+                finish();
                 startActivity(i);
+
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

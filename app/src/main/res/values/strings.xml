@@ -1,18 +1,22 @@
 <resources>
-    <string name="app_name">EASER</string>
+    <string name="app_name">Easer</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Téléphone</string>
     <string name="prompt_password">Mot de passe</string>
-    <string name="action_sign_in">VALIDER</string>
-    <string name="deconnect">Se deconnecter</string>
+    <string name="action_sign_in">valider</string>
+    <string name="deconnect">déconnexion</string>
+    <string name="conditionbouton">En cliquant sur valider vous acceptez les &lt;u>conditions générales d\'utilisation&lt;/u> et la &lt;u>politique de confidentialité&lt;/u>.</string>
     <string name="parametre">Paramètres</string>
-    <string name="valider">Valider</string>
-    <string name="action_sign_in_short">VALIDER</string>
+    <string name="valider">valider</string>
+    <string name="action_connexion">connexion</string>
+    <string name="action_sign_in_short">valider</string>
+    <string name="coloreaser">#2c2954</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">Mot de passe requis</string>
     <string name="error_incorrect_password">Votre mot de passe est incorrect</string>
     <string name="error_field_required">Ce champ est requis</string>
+    <string name="renvoiecode"><u>Renvoyer le code</u></string>
     <string name="facebook_app_id">1812222652346767</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."

@@ -19,6 +19,17 @@ public class Utilisateur extends SugarRecord{
     public int calme;
     public int affinity;
     public String description;
+    public String id_facebook;
+    public int id_user;
+    public int statut;
+    public boolean connecte;
+    public String errormess;
+    public String tokenFirebase;
+    public int localiser;
+
+    public Utilisateur(){
+    }
+
 
 
 }

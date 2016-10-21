@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "723905820982",
+    "firebase_url": "https://easer-142813.firebaseio.com",
+    "project_id": "easer-142813",
+    "storage_bucket": "easer-142813.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723905820982:android:391ef54759ddea25",
+        "android_client_info": {
+          "package_name": "com.kenfestoche.smartcoder.kenfestoche"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723905820982-pa4dekfs7nq531fjrk350j81lj22guuq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSvQA0We_o9NdjfByxgom1dsrJaUOMxYg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

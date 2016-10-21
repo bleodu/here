@@ -6,7 +6,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -16,11 +18,15 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -40,15 +46,31 @@ public class NewProfil extends AppCompatActivity {
     EditText Pass;
     EditText Age;
     EditText Phone;
+    TextView txHetero;
+    TextView txHomo;
+    TextView txBi;
     TextView txCondition;
-    RadioButton radioSexeButton;
-    RadioButton radioTendanceButton;
+    ImageButton radioSexeHomme;
+    ImageButton radioSexeFemme;
+    ImageButton radioBi;
+    ImageButton radioHetero;
+    ImageButton radioHomo;
+    ImageView imrdmale;
+    ImageView imrdfemale;
     RadioGroup radioSexeGroup;
     RadioGroup radioTendanceSexe;
     private View mProgressView;
     private View mCreateUserView;
     Double Latitude;
     Double Longitude;
+    Utilisateur User = new Utilisateur();
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    LinearLayout viewBi;
+    LinearLayout viewHomo;
+    LinearLayout viewHete;
+    LinearLayout viewMale;
+    LinearLayout viewFemale;
 
     private UserCreateTask mCreateUserTask = null;
 
@@ -57,10 +79,15 @@ public class NewProfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_profil);
 
+        Typeface face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
+        preferences = getSharedPreferences("EASER", MODE_PRIVATE);
 
-
+        SharedPreferences.Editor edt = preferences.edit();
         // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+       // LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        LocationManager locationManager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
 
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
@@ -79,7 +106,7 @@ public class NewProfil extends AppCompatActivity {
         };
 
         // Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        //locationManager.requestLocationUpdates(Context.LOCATION_SERVICE, 0, 0, locationListener);
 
         Utilisateur.deleteAll(Utilisateur.class);
         Valider = (Button) findViewById(R.id.btValidCompte);
@@ -87,21 +114,151 @@ public class NewProfil extends AppCompatActivity {
         Pass = (EditText) findViewById(R.id.edtPass);
         Age = (EditText) findViewById(R.id.edtAge);
         Phone = (EditText) findViewById(R.id.edtPhone);
-        radioSexeGroup = (RadioGroup) findViewById(R.id.radioSexeGroup);
-        radioTendanceSexe = (RadioGroup) findViewById(R.id.radioTendanceGroup);
+        //radioSexeGroup = (RadioGroup) findViewById(R.id.radioSexeGroup);
+        radioSexeHomme = (ImageButton) findViewById(R.id.radioMale);
+        radioSexeFemme = (ImageButton) findViewById(R.id.radioFemale);
+        imrdfemale = (ImageView) findViewById(R.id.imrdFemale);
+        imrdmale = (ImageView) findViewById(R.id.imrdMale);
         mProgressView = (View) findViewById(R.id.createuser_progress);
         mCreateUserView = (View) findViewById(R.id.createuser_form);
-        radioTendanceButton = (RadioButton) findViewById(R.id.rdBi);
-        radioSexeButton = (RadioButton) findViewById(R.id.radioMale);
+        radioBi = (ImageButton) findViewById(R.id.imnewBi);
+        radioHetero = (ImageButton) findViewById(R.id.imnewhete);
+        radioHomo = (ImageButton) findViewById(R.id.imnewHomo);
         txCondition = (TextView) findViewById(R.id.txCondition);
+        txHetero = (TextView) findViewById(R.id.txnewhetero);
+        txHomo = (TextView) findViewById(R.id.txnewHomo);
+        txBi = (TextView) findViewById(R.id.txnewBi);
 
-        txCondition.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        viewBi = (LinearLayout) findViewById(R.id.viewnewBi);
+        viewHomo = (LinearLayout) findViewById(R.id.viewnewHomo);
+        viewHete = (LinearLayout) findViewById(R.id.viewnewHete);
+
+        viewMale = (LinearLayout) findViewById(R.id.viewMale);
+        viewFemale = (LinearLayout) findViewById(R.id.viewFemale);
+        Pseudo.setTypeface(face);
+        Pass.setTypeface(face);
+        Age.setTypeface(face);
+        Phone.setTypeface(face);
+        txCondition.setTypeface(face);
+        txHetero.setTypeface(face);
+        txHomo.setTypeface(face);
+        txBi.setTypeface(face);
+
+        User.tendancesexe=-1;
+        User.sexe=-1;
+        //txCondition.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        txCondition.setText(Html.fromHtml(getString(R.string.conditionbouton)));
 
         txCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),CGUActivity.class);
                 startActivity(i);
+            }
+        });
+
+        radioSexeFemme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioSexeFemme.setBackgroundColor(Color.parseColor("#2c2954"));
+                radioSexeHomme.setBackgroundColor(Color.parseColor("#d2d2db"));
+                imrdmale.setImageResource(R.drawable.homme);
+                imrdfemale.setImageResource(R.drawable.femmecoche);
+                User.sexe=1;
+            }
+        });
+
+        radioSexeHomme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioSexeHomme.setBackgroundColor(Color.parseColor("#2c2954"));
+                radioSexeFemme.setBackgroundColor(Color.parseColor("#d2d2db"));
+                imrdmale.setImageResource(R.drawable.hommecoche);
+                imrdfemale.setImageResource(R.drawable.femme);
+                User.sexe=0;
+
+            }
+        });
+
+        viewMale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioSexeHomme.setBackgroundColor(Color.parseColor("#2c2954"));
+                radioSexeFemme.setBackgroundColor(Color.parseColor("#d2d2db"));
+                imrdmale.setImageResource(R.drawable.hommecoche);
+                imrdfemale.setImageResource(R.drawable.femme);
+                User.sexe=0;
+            }
+        });
+
+        viewFemale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioSexeFemme.setBackgroundColor(Color.parseColor("#2c2954"));
+                radioSexeHomme.setBackgroundColor(Color.parseColor("#d2d2db"));
+                imrdmale.setImageResource(R.drawable.homme);
+                imrdfemale.setImageResource(R.drawable.femmecoche);
+                User.sexe=1;
+            }
+        });
+
+        radioBi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioBi.setBackgroundColor(Color.parseColor("#2c2954"));
+                radioHetero.setBackgroundColor(Color.parseColor("#d2d2db"));
+                radioHomo.setBackgroundColor(Color.parseColor("#d2d2db"));
+                User.tendancesexe=0;
+            }
+        });
+
+        radioHetero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioHetero.setBackgroundColor(Color.parseColor("#2c2954"));
+                radioHomo.setBackgroundColor(Color.parseColor("#d2d2db"));
+                radioBi.setBackgroundColor(Color.parseColor("#d2d2db"));
+                User.tendancesexe=1;
+            }
+        });
+
+        radioHomo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioHomo.setBackgroundColor(Color.parseColor("#2c2954"));
+                radioHetero.setBackgroundColor(Color.parseColor("#d2d2db"));
+                radioBi.setBackgroundColor(Color.parseColor("#d2d2db"));
+                User.tendancesexe=2;
+            }
+        });
+
+        viewBi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioBi.setBackgroundColor(Color.parseColor("#2c2954"));
+                radioHetero.setBackgroundColor(Color.parseColor("#d2d2db"));
+                radioHomo.setBackgroundColor(Color.parseColor("#d2d2db"));
+                User.tendancesexe=0;
+            }
+        });
+
+        viewHete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioHetero.setBackgroundColor(Color.parseColor("#2c2954"));
+                radioHomo.setBackgroundColor(Color.parseColor("#d2d2db"));
+                radioBi.setBackgroundColor(Color.parseColor("#d2d2db"));
+                User.tendancesexe=1;
+            }
+        });
+
+        viewHomo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                radioHomo.setBackgroundColor(Color.parseColor("#2c2954"));
+                radioHetero.setBackgroundColor(Color.parseColor("#d2d2db"));
+                radioBi.setBackgroundColor(Color.parseColor("#d2d2db"));
+                User.tendancesexe=2;
             }
         });
 
@@ -122,6 +279,10 @@ public class NewProfil extends AppCompatActivity {
                 //check si le pseudo est renseigné
                 if (TextUtils.isEmpty(Age.getText().toString())) {
                     Age.setError("Merci de renseigner votre âge");
+                    focusView = Age;
+                    cancel = true;
+                }else if(Integer.parseInt(Age.getText().toString())<18){
+                    Age.setError("Vous devez avoir plus de 18 ans.");
                     focusView = Age;
                     cancel = true;
                 }
@@ -147,43 +308,54 @@ public class NewProfil extends AppCompatActivity {
 
                 //check si le pseudo est renseigné
                 if (TextUtils.isEmpty(Pseudo.getText().toString())) {
-                    Pseudo.setError("Merci de renseigner un pseudo");
+                    Pseudo.setError("Merci de renseigner un prénom");
                     focusView = Pseudo;
                     cancel = true;
                 }
 
-                int selectedId=radioTendanceSexe.getCheckedRadioButtonId();
+                if(User.sexe==-1 && cancel ==false)
+                {
+                    Toast.makeText (getApplicationContext(),"Merci de renseigner votre sexe.",Toast.LENGTH_LONG).show();
+                    cancel = true;
+                }
+
+                if(User.tendancesexe==-1 && cancel ==false)
+                {
+                    Toast.makeText (getApplicationContext(),"Merci de renseigner votre orientation sexuelle.",Toast.LENGTH_LONG).show();
+                    cancel = true;
+                }
+
+                /*int selectedId=radioTendanceSexe.getCheckedRadioButtonId();
 
                 if(selectedId<0){
-                    radioTendanceButton.setError("Merci de renseigner votre orientation sexuelle.");
+                    Toast.makeText (getApplicationContext(),"Merci de renseigner votre orientation sexuelle.",Toast.LENGTH_LONG).show();
                 }
 
                 selectedId=radioSexeGroup.getCheckedRadioButtonId();
                 if(selectedId<0){
-                    radioSexeButton.setError("Merci de renseigner votre sexe.");
-                }
+                    Toast.makeText (getApplicationContext(),"Merci de renseigner votre sexe.",Toast.LENGTH_LONG).show();
+                }*/
 
                 if (cancel) {
                     // There was an error; don't attempt login and focus the first
                     // form field with an error.
-                    focusView.requestFocus();
+                    //focusView.requestFocus();
                 } else {
                     //creation de l'utilisateur en base de données. Si retour ok on passe à la vérification du code par sms
                     //WebService WS = new WebService();
                     //WS.CreateUser(User);
 
-
-                    Utilisateur User = new Utilisateur();
                     User.login = Pseudo.getText().toString();
                     User.password = Pass.getText().toString();
                     User.age = Integer.parseInt(Age.getText().toString());
                     User.phone = Phone.getText().toString();
                     User.latitude=Latitude;
                     User.longitude=Longitude;
-                    selectedId=radioSexeGroup.getCheckedRadioButtonId();
-                    radioSexeButton=(RadioButton)findViewById(selectedId);
+                    User.connecte=true;
+                    //selectedId=radioSexeGroup.getCheckedRadioButtonId();
+                    //radioSexeButton=(RadioButton)findViewById(selectedId);
 
-                    switch (radioSexeButton.getText().toString())
+                    /*switch (radioSexeButton.getText().toString())
                     {
                         case "un homme" :
                             User.sexe=0;
@@ -192,14 +364,14 @@ public class NewProfil extends AppCompatActivity {
                         case "une femme" :
                             User.sexe=1;
                             break;
-                    }
+                    }*/
 
 
-                    selectedId=radioTendanceSexe.getCheckedRadioButtonId();
-                    radioTendanceButton=(RadioButton)findViewById(selectedId);
+                    /*selectedId=radioTendanceSexe.getCheckedRadioButtonId();
+                    radioTendanceButton=(RadioButton)findViewById(selectedId);*/
 
 
-                    switch (radioTendanceButton.getText().toString())
+                    /*switch (radioTendanceButton.getText().toString())
                     {
                         case "bi" :
                             User.tendancesexe=0;
@@ -212,8 +384,8 @@ public class NewProfil extends AppCompatActivity {
                         case "homo" :
                             User.tendancesexe=2;
                             break;
-                    }
-
+                    }*/
+                    User.save();
                     showProgress(true);
                     mCreateUserTask = new UserCreateTask(User);
                     mCreateUserTask.execute((Void) null);
@@ -287,60 +459,45 @@ public class NewProfil extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(4000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            // TODO: register the new account here.
 
             WebService WS = new WebService();
 
-            JSONArray Retour = WS.CreateUser(Uti);
-            JSONObject User;
-            try {
-                User = Retour.getJSONObject(0);
-                String RetourConnect = User.getString("statut");
+            User = WS.SaveUser(Uti);
 
-                if(RetourConnect.equals("1")) //EN CREATION DE COMPTE
-                {
+            //JSONObject User;
+            // User = Retour.getJSONObject(0);
+            //String RetourConnect = User.getString("statut");
 
-                    Uti.save();
-                    Uti.getId();
-                    SharedPreferences pref = getSharedPreferences("EASER", MODE_PRIVATE);
+            if(User.id_user>0) //EN CREATION DE COMPTE
+            {
 
-                    SharedPreferences.Editor edt = pref.edit();
+                User.save();
+                User.getId();
+                //SharedPreferences pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
-                    edt.putLong("IdUser",Uti.getId());
+                editor = preferences.edit();
 
-                    edt.commit();
+                editor.putLong("UserId",User.getId());
 
-                    return true;
-                }else if (RetourConnect.equals("2")){ //COMPTE ACTIVE
-                    return true;
-                }
-                else{
-                    //publishProgress(User.getString("message").toString());
-                    //Toast.makeText(getApplicationContext(),User.getString("message"),Toast.LENGTH_LONG).show();
-                    runOnUiThread(new Runnable() {
+                editor.commit();
 
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),"Le pseudo est déjà utilisé dans notre base de données.",Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    return false;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+                return true;
+            }else{
+                //publishProgress(User.getString("message").toString());
+                //Toast.makeText(getApplicationContext(),User.getString("message"),Toast.LENGTH_LONG).show();
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),User.errormess,Toast.LENGTH_LONG).show();
+                    }
+                });
+                return false;
             }
 
 
-            return true;
+            //return true;
         }
 
 
@@ -352,11 +509,13 @@ public class NewProfil extends AppCompatActivity {
             if (success) {
                 Intent i = new Intent(getApplicationContext(), VerifSmsCode.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-                finish();
-            } else {
-                Toast.makeText(getApplicationContext(),"Erreur lors de la creation de l'utilisateur",Toast.LENGTH_LONG).show();
+                //i.putExtra("phone",Phone.getText().toString());
 
+                //editor = preferences.edit();
+                //editor.putLong("UserId", User.getId());
+                //editor.commit();
+                finish();
+                startActivity(i);
 
             }
         }

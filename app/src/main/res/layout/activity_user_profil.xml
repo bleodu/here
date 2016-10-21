@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.kenfestoche.smartcoder.kenfestoche.UserProfil"
     android:gravity="center_horizontal"
     android:orientation="vertical">
@@ -18,160 +15,289 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
+
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:id="@+id/vueuserprofil"
+        android:layout_width="match_parent"
+        android:background="#2c2954"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView7"
+            android:src="@drawable/banniereprofil"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:id="@+id/imParam"
+            android:layout_marginRight="10dip"
+            android:src="@drawable/boutonparam"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imFlecheGaucheUser"
+            android:src="@drawable/fleche"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true" />
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/userprofil_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
+            android:padding="10dip"
             android:layout_height="wrap_content">
-    <LinearLayout
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></LinearLayout>
+
+            <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Je suis plutôt"
-            android:id="@+id/textView"
+            android:textColor="#2c2954"
+            android:id="@+id/txPlutot"
+            android:textSize="11pt"
             android:autoText="false"
             android:textAlignment="center" />
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imLignePLutot"
+                    app:srcCompat="@drawable/ligne" />
 
-    <LinearLayout
+            </LinearLayout>
+
+            <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center_vertical|fill_horizontal"
+                android:gravity="center_vertical|center_horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:text="calme"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/txcalme"
+                    android:textColor="#2c2954"
+                    android:textSize="18sp"
+                    android:autoText="false"
+                    android:textAlignment="center" />
 
-            android:text="calme et posé"
-            android:id="@+id/txcalme"
-            android:autoText="false"
-            android:textAlignment="center" />
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
 
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_weight="1"
-                android:checked="true"
-                android:id="@+id/rdcalme1" />
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdcalme1" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:id="@+id/rdcalme2" />
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdcalme2" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
                 android:id="@+id/rdcalme3" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
                 android:id="@+id/rdcalme4" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
                 android:id="@+id/rdcalme5" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="fêtard sans limite"
-            android:id="@+id/txfetard"
-            android:autoText="false"
-            android:textAlignment="center" />
+                    </LinearLayout>
 
-    </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal">
+
+                    <TextView
+                android:layout_height="wrap_content"
+                android:text="fêtard"
+                android:id="@+id/txfetard"
+                android:layout_width="wrap_content"
+                android:textColor="#2c2954"
+                        android:textSize="18dp"
+                android:autoText="false"
+                android:textAlignment="center" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/bouteille"
+                        android:id="@+id/imageView12" />
+                </LinearLayout>
+
+            </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical|center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="partager un verre"
+            android:textColor="#2c2954"
+            android:textSize="18sp"
+            android:text="amis"
             android:id="@+id/txverre"
-            android:autoText="false"
             android:textAlignment="center" />
 
 
-
-        <RadioButton
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_horizontal">
+
+        <ImageButton
+            android:background="#d2d2db"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
             android:layout_weight="1"
-            android:checked="true"
             android:id="@+id/rdverre1" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:id="@+id/rdverre2" />
+            <ImageButton
+                android:background="#d2d2db"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:id="@+id/rdverre2" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            <ImageButton
+            android:background="#d2d2db"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
             android:layout_weight="1"
-            android:text=""
             android:id="@+id/rdverre3" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:background="#d2d2db"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
             android:layout_weight="1"
-            android:text=""
             android:id="@+id/rdverre4" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:background="#d2d2db"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
             android:layout_weight="1"
-            android:text=""
             android:id="@+id/rdverre5" />
 
-        <TextView
+            </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="plus si affinité"
+            android:gravity="center_vertical|center_horizontal">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="#2c2954"
+            android:textSize="18sp"
+            android:text="amour"
             android:id="@+id/txaffinite"
-            android:autoText="false"
             android:textAlignment="center" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/coeur"
+                android:id="@+id/imCoeur" />
+
+            </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imAdd" />
+
+            <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
@@ -182,13 +308,22 @@
 
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:textColor="#2c2954"
+            android:textSize="11.33pt"
             android:layout_height="wrap_content"
             android:text="photos"
             android:id="@+id/txPhotos"
             android:textAlignment="center" />
 
     </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ligne"
+                android:layout_marginBottom="10dip"
+                android:id="@+id/imLignePhoto" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -200,6 +335,8 @@
         <com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto
             android:layout_width="match_parent"
             android:numColumns="3"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
             android:id="@+id/gridphotos"
             android:stretchMode="columnWidth"
             android:layout_height="wrap_content">
@@ -208,64 +345,103 @@
         </com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_vertical">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
 
 
 
-    </LinearLayout>
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/edtqqmot"
-        android:hint="quelques mot sur vous"
-        android:maxLength="100" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="#2c2954"
+                    android:textSize="11.33pt"
+                    android:layout_height="wrap_content"
+                    android:text="présentation"
+                    android:id="@+id/txPresentation"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ligne"
+                android:layout_marginBottom="10dip"
+                android:id="@+id/imLignePres" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:background="#2c2954"
+                android:layout_height="wrap_content">
+
+                <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+                    android:textColor="#fff"
+                    android:textColorHint="#fff"
+                    android:textSize="11.33pt"
+                    android:backgroundTint="#2c2954"
+            android:id="@+id/edtqqmot"
+            android:hint="Je suis ..."
+            android:maxLength="150" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/txNbCaract"
+                    android:text="150"
+                    android:textColor="#fff"
+                    android:textColorHint="#fff"
+                    android:textSize="8pt"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="5dip"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dip"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+            android:id="@+id/btDeconnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/deconnect"
+                    android:textSize="11.33pt"
+            android:textColor="#2c2954"
+            android:layout_gravity="center_horizontal" />
+
+                <Button
+                    style="?android:textAppearanceSmall"
+                    android:id="@+id/btValidProfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:text="@string/action_sign_in"
+                    android:textColor="#ffffff"
+                    android:background="#2c2954"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
 
-    <Button
-        style="?android:textAppearanceSmall"
-        android:id="@+id/btValidProfil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/valider"
-        android:textStyle="bold"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="#ffffff"
-        android:layout_gravity="center_horizontal" />
+            </RelativeLayout>
 
-    <Button
-        style="?android:textAppearanceSmall"
-        android:id="@+id/btParametre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/parametre"
-        android:textStyle="bold"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:textColor="#ffffff"
-        android:layout_gravity="center_horizontal" />
 
-    <Button
-        style="?android:textAppearanceSmall"
-        android:id="@+id/btDeconnect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/deconnect"
-        android:textStyle="bold"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="#ffffff"
-        android:layout_gravity="center_horizontal" />
-
-</LinearLayout>
+        </LinearLayout>
 
     </ScrollView>
 

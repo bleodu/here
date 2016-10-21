@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_chat_view_conversation"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kenfestoche.smartcoder.kenfestoche.ChatViewConversation">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="#2c2954"
+        android:id="@+id/rlbBanniere"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bannierenu"
+            android:id="@+id/imageView3" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imFlecheGaucheListAmis"
+            android:src="@drawable/fleche"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dip"
+            android:layout_alignParentLeft="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/bouteilleblanche"
+            android:id="@+id/imageView4"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imFlecheGaucheListAmis"
+            android:layout_toEndOf="@+id/imFlecheGaucheListAmis" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#2c2954"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/barrebasmessage"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/imageView8"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Taper un message..."
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:ems="10"
+            android:id="@+id/editText2"
+            android:layout_toLeftOf="@+id/editText3"
+            android:layout_toStartOf="@+id/editText3" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Envoyer"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/editText3" />
+
+    </RelativeLayout>
+
+    <me.himanshusoni.chatmessageview.ChatMessageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cmv_backgroundColor="#88BABABA"
+        app:cmv_backgroundColorPressed="#FFBABABA"
+        app:cmv_cornerRadius="3dp"
+        android:layout_below="@+id/rlbBanniere"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="142dp">
+
+        <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello" />
+
+
+    </me.himanshusoni.chatmessageview.ChatMessageView>
+
+</RelativeLayout>

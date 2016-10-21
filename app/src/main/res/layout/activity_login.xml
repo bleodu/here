@@ -4,37 +4,36 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#2c2954"
     tools:context="com.kenfestoche.smartcoder.kenfestoche.LoginActivity">
 
-    <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
 
-    <ScrollView
-        android:id="@+id/login_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
-            <android.support.design.widget.TextInputLayout
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/imlogin"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="false"
+                android:background="@drawable/logoaccueil"
+                android:layout_alignParentTop="true" />
+
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
+                android:layout_marginTop="20dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
                 android:layout_height="wrap_content">
-
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -42,14 +41,36 @@
                     android:digits="1234567890"
                     android:maxLength="10"
                     android:inputType="phone"
+                    android:backgroundTint="#fff"
+                    android:textColor="@color/cardview_light_background"
+                    android:textColorHint="@color/cardview_light_background"
+                    android:textSize="12pt"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="0642224968" />
+                    android:text="" />
 
-            </android.support.design.widget.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="nouvel utilisateur "
+                    android:layout_marginRight="10dip"
+                    android:textColor="@color/cardview_light_background"
+                    android:id="@+id/btNewUser"
+                    android:layout_centerVertical="true"
+                    android:textSize="8pt"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
-            <android.support.design.widget.TextInputLayout
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
+                android:layout_marginTop="20dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
                 android:layout_height="wrap_content">
 
                 <EditText
@@ -60,51 +81,97 @@
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
+                    android:textSize="12pt"
+                    android:textColor="@color/cardview_light_background"
+                    android:textColorHint="@color/cardview_light_background"
+                    android:backgroundTint="#fff"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="test" />
+                    android:text="" />
 
-            </android.support.design.widget.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="oublié ? "
+                    android:layout_marginRight="10dip"
+                    android:textColor="@color/cardview_light_background"
+                    android:id="@+id/txPasseOublie"
+                    android:textSize="8pt"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
-            <Button
-                android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
+            </RelativeLayout>
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold"
-                android:backgroundTint="@color/colorPrimary"
-                android:background="@color/colorPrimary"
-                android:textColor="#ffffff" />
+                android:layout_height="match_parent"
 
-            <Button
-                style="?android:textAppearanceSmall"
-                android:id="@+id/btNewUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_newuser"
-                android:textStyle="bold"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="#ffffff"
-                android:layout_gravity="center_horizontal" />
+                >
 
-            <Button
-                android:id="@+id/prefeaser"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Mot de passe oublié"
-                android:textStyle="bold"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="#ffffff" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/btconnecttel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/action_sign_in"
+                        android:textSize="11.33pt"
+                        android:layout_margin="10dip"
+                        android:background="@android:color/transparent"
+                        android:textColor="#ffffff"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dip"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dip"
+                            android:id="@+id/imFacebook"
+                            android:src="@drawable/logofacebook"
+                            android:layout_alignTop="@+id/btconnexion"
+                            android:layout_toLeftOf="@+id/btconnexion"
+                            android:layout_alignParentBottom="true" />
+
+                        <TextView
+                            android:id="@+id/btconnexion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/action_connexion"
+                            android:textSize="11.33pt"
+                            android:background="@android:color/transparent"
+                            android:textColor="#ffffff"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true" />
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+            </RelativeLayout>
+
 
         </LinearLayout>
-    </ScrollView>
+
+
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
 
 </LinearLayout>
