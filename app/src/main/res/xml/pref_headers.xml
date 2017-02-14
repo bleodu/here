@@ -8,5 +8,34 @@
         android:title="@string/pref_header_general" />
 
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="gps_switch_notif"
+        android:title="@string/pref_title_notification" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="gps_switch"
+        android:summary="Ses amis n'ont plus accès à sa position"
+        android:title="@string/pref_title_gps" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="gps_switch_tous"
+        android:summary="Plus personne ne peut voir ma position"
+        android:title="@string/pref_title_gps_tous" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="gps_switch_profil"
+        android:summary="Plus personne ne peut voir son profil ou sa photo, sauf ses match"
+        android:title="@string/pref_title_profil" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="gps_switch_fb"
+        android:summary="@string/pref_description_social_recommendations"
+        android:title="@string/pref_title_facebook_amis" />
+
 
 </preference-headers>

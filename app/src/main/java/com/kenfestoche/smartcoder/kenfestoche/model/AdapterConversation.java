@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kenfestoche.smartcoder.kenfestoche.ChatViewConversation;
+import com.kenfestoche.smartcoder.kenfestoche.Conversation;
 import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 
@@ -35,7 +36,7 @@ public class AdapterConversation extends SimpleAdapter {
     ImageView imRefuseAmis;
     ImageView imSignaler;
     ImageView imSuppKiffs;
-
+    HashMap<String, Object> valeur;
     boolean gestionAjout;
     HashMap<String, Object> ami;
 
@@ -64,12 +65,30 @@ public class AdapterConversation extends SimpleAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
+        //valeur = new HashMap<String, Object>();
+        //valeur=arrayList.get(position);
+
 
         TextView txPseudo= (TextView) view.findViewById(R.id.txPseudoLigne);
         ImageView imPhotoKiffs=(ImageView) view.findViewById(R.id.imgPhotoKiffs);
 
+
         imPhotoKiffs.setImageResource(R.drawable.ajoutphoto);
         RelativeLayout ligneContact = (RelativeLayout) view.findViewById(R.id.ligneContact);
+        ligneContact.setTag(String.valueOf(position));
+
+        ligneContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int pos=Integer.parseInt(view.getTag().toString());
+                valeur=arrayList.get(pos);
+                String idConv = (String) valeur.get("id");
+                Intent intent = new Intent(context.getApplicationContext(),Conversation.class);
+                intent.putExtra("idconv",idConv);
+                intent.putExtra("nomconv",(String) valeur.get("conversation"));
+                view.getContext().startActivity(intent);
+            }
+        });
 
         txPseudo.setTypeface(face);
 

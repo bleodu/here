@@ -1,8 +1,13 @@
 package com.kenfestoche.smartcoder.kenfestoche;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -48,27 +53,42 @@ public class MainActivity extends AppCompatActivity {
 
         User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
 
-        if(User != null)
-        {
-            if(User.connecte==true && (User.statut>1 || User.id_facebook!="")){
-                WebService WS = new WebService();
-                User=WS.SaveUser(User);
-                editor = pref.edit();
-                editor.putLong("UserId", User.getId());
-                editor.commit();
-                finish();
-                startActivity(new Intent(getApplicationContext(),FragmentsSliderActivity.class));
+        if(isOnline()==false){
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("Connexion Internet");
+            alertDialog.setMessage("Pas de connexion internet disponible. Veuillez vérifier vos paramètres de connexions.");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }else{
+            if(User != null)
+            {
+                if(User.connecte==true && (User.statut>1 || User.id_facebook!="")){
+                    WebService WS = new WebService();
+                    User=WS.SaveUser(User);
+                    editor = pref.edit();
+                    editor.putLong("UserId", User.getId());
+                    editor.commit();
+                    finish();
+                    startActivity(new Intent(getApplicationContext(),FragmentsSliderActivity.class));
 
-            }else if(User.connecte==true && User.statut==1){
-                WebService WS = new WebService();
-                User=WS.SaveUser(User);
-                editor = pref.edit();
-                editor.putLong("UserId", User.getId());
-                editor.commit();
-                finish();
-                startActivity(new Intent(getApplicationContext(),VerifSmsCode.class));
+                }else if(User.connecte==true && User.statut==1){
+                    WebService WS = new WebService();
+                    User=WS.SaveUser(User);
+                    editor = pref.edit();
+                    editor.putLong("UserId", User.getId());
+                    editor.commit();
+                    finish();
+                    startActivity(new Intent(getApplicationContext(),VerifSmsCode.class));
+                }
             }
+
         }
+
 
         //LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         bttel= (ImageButton) findViewById(R.id.BtimTel);
@@ -78,23 +98,58 @@ public class MainActivity extends AppCompatActivity {
         bttel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(i);
-                finish();
+                if(isOnline()==false) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                    alertDialog.setTitle("Connexion Internet");
+                    alertDialog.setMessage("Pas de connexion internet disponible. Veuillez vérifier vos paramètres de connexions.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }else{
+                    Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+
             }
         });
 
         btfacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),LoginFacebook.class);
-                startActivity(i);
-                finish();
+                if(isOnline()==false) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                    alertDialog.setTitle("Connexion Internet");
+                    alertDialog.setMessage("Pas de connexion internet disponible. Veuillez vérifier vos paramètres de connexions.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }else{
+                    Intent i = new Intent(getApplicationContext(),LoginFacebook.class);
+                    startActivity(i);
+                    finish();
+                }
+
             }
         });
 
 
 
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     @Override

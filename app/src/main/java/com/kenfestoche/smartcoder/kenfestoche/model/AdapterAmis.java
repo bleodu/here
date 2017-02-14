@@ -1,6 +1,7 @@
 package com.kenfestoche.smartcoder.kenfestoche.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kenfestoche.smartcoder.kenfestoche.AddConversation;
+import com.kenfestoche.smartcoder.kenfestoche.Conversation;
 import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 
@@ -81,6 +83,12 @@ public class AdapterAmis extends SimpleAdapter {
         Bitmap photo;
 
         imAjoutAmis.setTag(String.valueOf(position));
+        imRefuseAmis.setTag(String.valueOf(position));
+        imSuppKiffs.setTag(String.valueOf(position));
+        imSignaler.setTag(String.valueOf(position));
+        ligneContact.setTag(String.valueOf(position));
+        imRefuseAmis.setVisibility(View.INVISIBLE);
+        imAjoutAmis.setVisibility(View.INVISIBLE);
 
         photo = (Bitmap)  ami.get("photo");
 
@@ -121,9 +129,27 @@ public class AdapterAmis extends SimpleAdapter {
         imPhotoKiffs.setImageBitmap(photo);
 
         if(ami.containsKey("id_kiff")){
+
+            ligneContact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos=Integer.parseInt(view.getTag().toString());
+                    ami = arrayList.get(pos);
+
+                    Intent i = new Intent(view.getContext(), Conversation.class);
+                    Utilisateur User = (Utilisateur) ami.get("user");
+                    i.putExtra("id_kiffs",(String) ami.get("id_kiff"));
+                    i.putExtra("id_user",User.id_user);
+                    i.putExtra("prive",1);
+                    view.getContext().startActivity(i);
+                }
+            });
+
             ligneContact.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
+
+
                     imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
                     imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
                     imSignaler.setImageResource(R.drawable.signaler);
@@ -134,6 +160,8 @@ public class AdapterAmis extends SimpleAdapter {
                     imSuppKiffs.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            int pos=Integer.parseInt(view.getTag().toString());
+                            ami = arrayList.get(pos);
                             //imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
                             //imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
                             WebService WS = new WebService();
@@ -141,14 +169,19 @@ public class AdapterAmis extends SimpleAdapter {
                             String id_ami = (String) ami.get("id_kiff");
                             Toast.makeText(view.getContext(),"Kiff supprimé",Toast.LENGTH_SHORT).show();
                             WS.DeleteKiffs(User,id_ami);
+                            arrayList.remove(ami);
                             imSignaler.setVisibility(View.INVISIBLE);
                             imSuppKiffs.setVisibility(View.INVISIBLE);
+
+                            notifyDataSetChanged();
                         }
                     });
 
                     imSignaler.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            int pos=Integer.parseInt(view.getTag().toString());
+                            ami = arrayList.get(pos);
                             //imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
                             //imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
                             WebService WS = new WebService();
@@ -173,15 +206,21 @@ public class AdapterAmis extends SimpleAdapter {
         imAjoutAmis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int pos=Integer.parseInt(view.getTag().toString());
+                View viewLigne = parent.getChildAt(pos);
+                imAjoutAmis=(ImageView) viewLigne.findViewById(R.id.imbtajoutamis);
+                imRefuseAmis=(ImageView) viewLigne.findViewById(R.id.imbtrefuseramis);
 
                 if(ami.containsKey("id_useramis")){
-                    int pos=Integer.parseInt(view.getTag().toString());
+
                     ami = arrayList.get(pos);
                     AddConversation.listusers=AddConversation.listusers+";"+ami.get("id_useramis");
                     Toast.makeText(view.getContext(),ami.get("pseudo")+" ajouté",Toast.LENGTH_SHORT).show();
+                    arrayList.remove(ami);
+                    notifyDataSetChanged();
                 }else{
                     if(gestionAjout){
-                        int pos=Integer.parseInt(view.getTag().toString());
+                       // int pos=Integer.parseInt(view.getTag().toString());
                         ami = arrayList.get(pos);
                         final Utilisateur User = (Utilisateur) ami.get("user");
 
@@ -191,10 +230,11 @@ public class AdapterAmis extends SimpleAdapter {
                         WS.SetNewFriend(User,id_ami);
                         imAjoutAmis.setVisibility(View.INVISIBLE);
                         imRefuseAmis.setVisibility(View.INVISIBLE);
-
+                        arrayList.remove(ami);
+                        notifyDataSetChanged();
                         Toast.makeText(view.getContext(),"Invitation envoyée",Toast.LENGTH_SHORT).show();
                     }else{
-                        int pos=Integer.parseInt(view.getTag().toString());
+                       // int pos=Integer.parseInt(view.getTag().toString());
 
                         imAjoutAmis = (ImageView) view;
                         //View ligne = getView(pos,convertView,parent);
@@ -222,7 +262,12 @@ public class AdapterAmis extends SimpleAdapter {
             @Override
             public void onClick(View view) {
 
+
                 final Utilisateur User = (Utilisateur) ami.get("user");
+                int pos=Integer.parseInt(view.getTag().toString());
+                View viewLigne = parent.getChildAt(pos);
+                imAjoutAmis=(ImageView) viewLigne.findViewById(R.id.imbtajoutamis);
+                ami = arrayList.get(pos);
 
                 String id_ami = (String) ami.get("id_ami");
 
@@ -233,6 +278,10 @@ public class AdapterAmis extends SimpleAdapter {
 
                 imAjoutAmis.setVisibility(View.INVISIBLE);
                 imRefuseAmis.setVisibility(View.INVISIBLE);
+
+                arrayList.remove(pos);
+                notifyDataSetChanged();
+
 
             }
         });

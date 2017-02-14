@@ -45,6 +45,8 @@ public class WebService {
     public static final String URL_ZENAPP = "http://www.smartcoder-dev.fr/ZENAPP/webservice/";
 
     public Utilisateur Connect(String Login, String Pass) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         StringBuilder builder = new StringBuilder();
         JSONArray Messages = null;
         Utilisateur user=null;
@@ -603,7 +605,7 @@ public class WebService {
         return Messages;
     }
 
-    public JSONArray GetLastPositionUser(Utilisateur User) {
+    public JSONArray GetinfoUser(String idUser) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -611,7 +613,227 @@ public class WebService {
         StringBuilder builder = new StringBuilder();
         JSONArray Messages = null;
         try{
-            URL url = new URL(URL_ZENAPP+"WS_GetPositionUser.php");
+            URL url = new URL(URL_ZENAPP+"WS_GetInfoUser.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_user="+idUser;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray KiffUser(String idUser,String id_kiff,String statut) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_SetKiffUser.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_user="+idUser+"&id_kiff="+id_kiff+"&statut="+statut;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray GetLastPositionUserInconnu(Utilisateur User) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_GetPositionUserInconnu.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_user="+User.id_user;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray GetLastPositionUserMatch(Utilisateur User) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_GetPositionUserMatch.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_user="+User.id_user;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray GetLastPositionUserAmis(Utilisateur User) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_GetPositionUserAmis.php");
             HttpURLConnection client = null;
             try {
                 client = (HttpURLConnection) url.openConnection();
@@ -768,7 +990,7 @@ public class WebService {
         return Messages;
     }
 
-    public JSONArray GetListUserByPhone(String Phone) {
+    public JSONArray GetListUserByPhone(String Phone,Utilisateur User) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -781,7 +1003,7 @@ public class WebService {
             try {
                 client = (HttpURLConnection) url.openConnection();
                 client.setRequestMethod("POST");
-                String urlParameters = "phone="+Phone;
+                String urlParameters = "phone="+Phone+"&id_user="+User.id_user;
 
 
                 // Send post request
@@ -823,7 +1045,7 @@ public class WebService {
         return Messages;
     }
 
-    public JSONArray GetListUserByPhones() {
+    public JSONArray GetListUserByPhones(Utilisateur User) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -836,11 +1058,232 @@ public class WebService {
             try {
                 client = (HttpURLConnection) url.openConnection();
                 client.setRequestMethod("POST");
+                String urlParameters = "id_user="+User.id_user;
 
                 // Send post request
                 client.setDoOutput(true);
                 DataOutputStream wr = new DataOutputStream(client.getOutputStream());
-                //wr.writeBytes(urlParameters);
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray GetDetailConversation(String  idconv,Utilisateur User) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_GetDetailConversation.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_conversation="+idconv+"&id_user="+User.id_user;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray GetNewDetailConversation(String  idconv,Utilisateur User) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_GetNewDetailConversation.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_conversation="+idconv+"&id_user="+User.id_user;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray GetListProfils(Utilisateur User) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_GetListProfils.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_user="+User.id_user;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray GetListPhotosProfil(String id_user) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_GetListPhotosUser.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_user="+id_user;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
                 wr.flush();
                 wr.close();
                 int status = client.getResponseCode();
@@ -885,6 +1328,61 @@ public class WebService {
         JSONArray Messages = null;
         try{
             URL url = new URL(URL_ZENAPP+"WS_GetListAmis.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_user="+User.id_user;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray GetProfilPhoto(Utilisateur User) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_GetProfilPhotoUser.php");
             HttpURLConnection client = null;
             try {
                 client = (HttpURLConnection) url.openConnection();
@@ -986,7 +1484,62 @@ public class WebService {
         return Messages;
     }
 
-    public JSONArray AddConversation(String NomConversation, String idusers) {
+    public JSONArray AddChatMessage(Utilisateur User,String Message,String idConv) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_AddChatMessage.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_user="+User.id_user+"&message="+Message+"&id_conv="+idConv;
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray AddConversation(String NomConversation, String idusers,Utilisateur User) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -999,7 +1552,63 @@ public class WebService {
             try {
                 client = (HttpURLConnection) url.openConnection();
                 client.setRequestMethod("POST");
-                String urlParameters = "nom_conversation="+NomConversation+"&id_users="+idusers;
+                String urlParameters = "nom_conversation="+NomConversation+"&id_users="+idusers+"&id_user="+User.id_user;
+
+
+
+                // Send post request
+                client.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+                int status = client.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                        //StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            builder.append(line+"\n");
+                        }
+                        //builder.close();
+
+                }
+                //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                Messages = new JSONArray(builder.toString());
+
+            } catch (IOException e){
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Messages;
+    }
+
+    public JSONArray AddConversationPrive(String iduser,String id_kiffs) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+
+        StringBuilder builder = new StringBuilder();
+        JSONArray Messages = null;
+        try{
+            URL url = new URL(URL_ZENAPP+"WS_AddConversationPrive.php");
+            HttpURLConnection client = null;
+            try {
+                client = (HttpURLConnection) url.openConnection();
+                client.setRequestMethod("POST");
+                String urlParameters = "id_kiffs="+id_kiffs+"&id_user="+iduser;
 
 
 

@@ -62,7 +62,7 @@ import com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto;
 import com.kenfestoche.smartcoder.kenfestoche.model.SwipeGestureDetector;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
-import com.squareup.okhttp.OkHttpClient;
+//import com.squareup.okhttp.OkHttpClient;
 
 
 import org.apache.http.params.HttpParams;
@@ -98,7 +98,7 @@ public class UserProfil extends Fragment {
     ImageButton rbcalme4;
     ImageButton rbcalme5;
 
-    private OkHttpClient okHttpClient;
+    //private OkHttpClient okHttpClient;
 
 
     ImageButton rbverre1;
@@ -503,9 +503,10 @@ public class UserProfil extends Fragment {
                 }
                 User.statut=2;
                 User.save();
+                User.delete();
 
                 editor = pref.edit();
-                editor.putLong("UserId", User.getId());
+                editor.putLong("UserId", 0);
                 editor.commit();
                 Intent i = new Intent(getActivity().getApplicationContext(),MainActivity.class);
                 getActivity().finish();
@@ -799,6 +800,23 @@ public class UserProfil extends Fragment {
         return super.getActivity().onTouchEvent(ev);
     }*/
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        User.description=Edtqqmot.getText().toString();
+        WebService WS = new WebService();
+        WS.SaveUser(User);
+    }
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        User.description=Edtqqmot.getText().toString();
+        WebService WS = new WebService();
+        WS.SaveUser(User);
+    }
 
     public void pickImage() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -969,6 +987,11 @@ public class UserProfil extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+
+        User.description=Edtqqmot.getText().toString();
+        WebService WS = new WebService();
+        WS.SaveUser(User);
+
         pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
 
 
@@ -1158,7 +1181,6 @@ public class UserProfil extends Fragment {
             mCreateUserView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-
 
 
 

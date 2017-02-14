@@ -311,7 +311,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_sign_in"
-        android:textColor="#ffffff"
+        android:textColor="@color/text_color"
         android:background="#2c2954"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentTop="true"

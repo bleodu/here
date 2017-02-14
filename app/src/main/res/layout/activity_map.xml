@@ -53,6 +53,26 @@
             android:layout_marginStart="24dp"
             android:layout_marginBottom="22dp">
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal">
+
+                <com.kenfestoche.smartcoder.kenfestoche.model.SquareImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/fille"
+                    android:id="@+id/imPhotoMap"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_alignTop="@+id/linearLayout"
+                    android:layout_alignRight="@+id/imgeoloc"
+                    android:layout_alignEnd="@+id/imgeoloc"
+                    android:layout_marginTop="7dp" />
+            </LinearLayout>
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,9 +94,20 @@
                 android:layout_marginBottom="10dip"
                 android:id="@+id/imlegamis" />
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/compass"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginTop="14dp"
+            android:id="@+id/imgeoloc" />
+
     </RelativeLayout>
-
-
 
 
 </LinearLayout>

@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,6 +37,7 @@ public class AddConversation extends AppCompatActivity {
 
     ListView lstAmis;
     ArrayList<HashMap<String, Object>> amisconversations;
+    ArrayList<HashMap<String, Object>> amisconversationssauv;
     SimpleAdapter mSchedule;
     SharedPreferences.Editor editor;
     SharedPreferences pref;
@@ -55,6 +58,7 @@ public class AddConversation extends AppCompatActivity {
         btAnnuler = (ImageView) findViewById(R.id.imAnnulerContact);
         btValider = (ImageView) findViewById(R.id.imValiderContact);
         amisconversations =  new ArrayList<HashMap<String,Object>>();
+        amisconversationssauv =  new ArrayList<HashMap<String,Object>>();
 
         pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
@@ -119,12 +123,44 @@ public class AddConversation extends AppCompatActivity {
                     }
 
                     amisconversations.add(valeur);
+                    amisconversationssauv.add(valeur);
                 }
             }
 
         }
 
-        AdapterAmis ConversationsAmisArray = new AdapterAmis(getBaseContext(), amisconversations, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
+
+        final AdapterAmis ConversationsAmisArray = new AdapterAmis(getBaseContext(), amisconversations, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
+
+
+        edtAmis.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                amisconversations.clear();
+                HashMap<String, Object> valeur = new HashMap<String, Object>();
+                for (int j = 0; j < amisconversationssauv.size(); j++) {
+                    valeur=amisconversationssauv.get(j);
+
+                    if(valeur.get("pseudo").toString().toLowerCase().substring(0,edtAmis.getText().length()).equals(edtAmis.getText().toString().toLowerCase()))
+                    {
+                        amisconversations.add(amisconversationssauv.get(j));
+                    }
+                }
+
+
+                ConversationsAmisArray.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         //mSchedule.setViewBinder(new MyViewBinder());
         lstAmis.setAdapter(ConversationsAmisArray);
@@ -134,7 +170,7 @@ public class AddConversation extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 WebService WS = new WebService();
-                WS.AddConversation(edtNomConversation.getText().toString(),listusers);
+                WS.AddConversation(edtNomConversation.getText().toString(),listusers,User);
                 finish();
             }
         });

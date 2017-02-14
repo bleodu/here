@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kenfestoche.smartcoder.kenfestoche.ModuleSmartcoder;
 import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.UserProfil;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
@@ -138,7 +139,15 @@ public class ImagesProfil extends BaseAdapter {
         URL url = null;
         try {
             url = new URL("http://www.smartcoder-dev.fr/ZENAPP/webservice/" +  photo.getString("photo"));
-            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            //Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            Bitmap image = ModuleSmartcoder.getbitmap(photo.getString("photo").replace("./imgprofil/",""));
+
+            if(image==null){
+                image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                //valeur.put("LOGO", bitmap);
+                File fichier = ModuleSmartcoder.savebitmap(image,photo.getString("photo").replace("./imgprofil/",""));
+            }
+
             holder.img.setImageBitmap(image);
             holder.imgdelete.setId(photo.getInt("ID"));
             if(photo.getString("photo").equals("./imgprofil/ajoutphoto.png")){

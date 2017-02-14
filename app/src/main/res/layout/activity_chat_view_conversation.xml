@@ -24,20 +24,48 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imFlecheGaucheListAmis"
-            android:src="@drawable/fleche"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dip"
-            android:layout_alignParentLeft="true" />
+            app:srcCompat="@drawable/bouteilleblanche"
+            android:id="@+id/imageView4"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dip"
+            />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/bouteilleblanche"
-            android:id="@+id/imageView4"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/imFlecheGaucheListAmis"
-            android:layout_toEndOf="@+id/imFlecheGaucheListAmis" />
+            android:id="@+id/imFlecheGaucheConversation"
+            android:src="@drawable/fleche"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+
+            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp" />
+
+        <com.kenfestoche.smartcoder.kenfestoche.model.SquareImageView
+            android:id="@+id/imPhotoConversation"
+            android:layout_width="50dp"
+            android:src="@drawable/ajoutphoto"
+            android:layout_height="50dp"
+
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView4"
+            android:layout_toEndOf="@+id/imageView4"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp" />
+
+        <TextView
+            android:text="Les Kepons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp"
+            android:id="@+id/txNomConversation"
+            android:textColor="#fff"
+            android:textSize="10pt"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imPhotoConversation"
+            android:layout_toEndOf="@+id/imPhotoConversation" />
 
     </RelativeLayout>
 
@@ -45,6 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:id="@+id/rlvChat"
         android:background="#2c2954"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -67,42 +96,40 @@
             android:hint="Taper un message..."
             android:textColor="#fff"
             android:textColorHint="#fff"
+            android:textColorHighlight="#fff"
             android:ems="10"
-            android:id="@+id/editText2"
-            android:layout_toLeftOf="@+id/editText3"
-            android:layout_toStartOf="@+id/editText3" />
+            android:id="@+id/edtMessage"
+            android:layout_toLeftOf="@+id/edtSendMessage"
+            android:layout_toStartOf="@+id/edtSendMessage" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:hint="Envoyer"
             android:textColor="#fff"
             android:textColorHint="#fff"
+            android:textSize="10pt"
+            android:id="@+id/edtSendMessage"
+            android:gravity="center_vertical"
+            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:id="@+id/editText3" />
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_alignBottom="@+id/edtMessage" />
 
     </RelativeLayout>
 
-    <me.himanshusoni.chatmessageview.ChatMessageView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cmv_backgroundColor="#88BABABA"
-        app:cmv_backgroundColorPressed="#FFBABABA"
-        app:cmv_cornerRadius="3dp"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:id="@+id/lstChat"
         android:layout_below="@+id/rlbBanniere"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="142dp">
+        android:layout_above="@+id/rlvChat" />
 
-        <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello" />
-
-
-    </me.himanshusoni.chatmessageview.ChatMessageView>
 
 </RelativeLayout>

@@ -44,7 +44,7 @@ public class ListeConversations extends AppCompatActivity {
     RelativeLayout rlvNewConversation;
     AdapterConversation ConversationsArray;
     ImageView imFleche;
-
+    JSONArray ListConversations;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +87,7 @@ public class ListeConversations extends AppCompatActivity {
         if(User!=null) {
             WebService WS = new WebService();
 
-            JSONArray ListConversations = WS.GetListConversations(User);
+            ListConversations = WS.GetListConversations(User);
 
             if (ListConversations != null) {
 
@@ -123,7 +123,12 @@ public class ListeConversations extends AppCompatActivity {
         lstConversations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                try {
+                    JSONObject LaConv  = ListConversations.getJSONObject(i);
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

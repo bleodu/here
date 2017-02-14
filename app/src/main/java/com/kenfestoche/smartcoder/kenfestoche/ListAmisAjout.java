@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -98,6 +99,8 @@ public class ListAmisAjout extends AppCompatActivity {
             RlvRechTel.setVisibility(View.VISIBLE);
         }
 
+        //GDS TEST
+
         edtPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -119,7 +122,7 @@ public class ListAmisAjout extends AppCompatActivity {
                         public void run() {
 
                             WebService WS = new WebService();
-                            JSONArray ListUsers = WS.GetListUserByPhone(edtPhone.getText().toString());
+                            JSONArray ListUsers = WS.GetListUserByPhone(edtPhone.getText().toString(),User);
 
                             if (ListUsers != null) {
 
@@ -149,7 +152,13 @@ public class ListAmisAjout extends AppCompatActivity {
 
                                         Bitmap bitmap = null;
                                         try {
-                                            bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
+                                            bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+
+                                            if(bitmap==null){
+                                                bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
+                                                //valeur.put("LOGO", bitmap);
+                                                File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                                            }
                                         } catch (IOException e) {
                                             // TODO Auto-generated catch block
                                             e.printStackTrace();
@@ -195,7 +204,7 @@ public class ListAmisAjout extends AppCompatActivity {
     public void RechercherRepertoire(){
         WebService WS = new WebService();
         Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-        JSONArray ListUsers = WS.GetListUserByPhones();
+        JSONArray ListUsers = WS.GetListUserByPhones(User);
         while (phones.moveToNext())
         {
             String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
@@ -204,7 +213,7 @@ public class ListAmisAjout extends AppCompatActivity {
             for (int i = 0; i < ListUsers.length(); i++) {
                 try {
                     JSONObject Amis = ListUsers.getJSONObject(i);
-                    if(Amis.getString("phone").trim().equals(phoneNumber.replace(" ",""))){
+                    if(Amis.getString("phone").trim().equals(phoneNumber.replace(" ","")) || Amis.getString("phone").trim().equals(phoneNumber.replace(" ","").replace("+336","06"))){
                         HashMap<String, Object> valeur = new HashMap<String, Object>();
                         try {
                             Amis = ListUsers.getJSONObject(i);
@@ -226,7 +235,13 @@ public class ListAmisAjout extends AppCompatActivity {
 
                             Bitmap bitmap = null;
                             try {
-                                bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
+                                bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+
+                                if(bitmap==null){
+                                    bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
+                                    //valeur.put("LOGO", bitmap);
+                                    File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                                }
                             } catch (IOException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();

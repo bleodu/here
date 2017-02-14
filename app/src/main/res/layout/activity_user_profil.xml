@@ -430,7 +430,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10dip"
                     android:text="@string/action_sign_in"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/text_color"
                     android:background="#2c2954"
                     android:layout_gravity="center_horizontal"
                     android:layout_alignParentBottom="true"

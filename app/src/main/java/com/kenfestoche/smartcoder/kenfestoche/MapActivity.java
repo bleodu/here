@@ -1,6 +1,8 @@
 package com.kenfestoche.smartcoder.kenfestoche;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
@@ -38,6 +40,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -60,13 +64,22 @@ public class MapActivity extends Fragment implements GoogleApiClient.ConnectionC
     ImageView imLegInconnu;
     ImageView imLegKiffs;
     ImageView imFlecheMap;
+    ImageView imGeoloc;
+    ImageView imPhotoMap;
     ViewPager pager;
+    Boolean clicAmis;
+    Boolean clicKiff;
+    Boolean clicInconnu;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
+        clicAmis=false;
+        clicInconnu=false;
+        clicKiff=false;
         pager = (ViewPager) container;
 
         View rootView = inflater.inflate(R.layout.activity_map, container, false);
@@ -75,11 +88,35 @@ public class MapActivity extends Fragment implements GoogleApiClient.ConnectionC
         imLegKiffs = (ImageView) rootView.findViewById(R.id.imlegmatch);
         imLegInconnu = (ImageView) rootView.findViewById(R.id.imleginconnu);
         imFlecheMap = (ImageView) rootView.findViewById(R.id.imFlecheDroiteMap);
+        imGeoloc = (ImageView) rootView.findViewById(R.id.imgeoloc);
+        imPhotoMap = (ImageView) rootView.findViewById(R.id.imPhotoMap);
 
         imLegAmis.setImageResource(R.drawable.legendeamis);
         imLegKiffs.setImageResource(R.drawable.legendematch);
         imLegInconnu.setImageResource(R.drawable.legendeinconnu);
+        imGeoloc.setImageResource(R.drawable.compass);
 
+
+        imGeoloc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // check if GPS enabled
+                if(gps.canGetLocation()) {
+
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+
+                    // For dropping a marker at a point on the Map
+                    LatLng moi = new LatLng(latitude, longitude);
+
+                    // For zooming automatically to the location of the marker
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(moi).zoom(15).build();
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+                }
+            }
+        });
 
 
         imFlecheMap.setOnClickListener(new View.OnClickListener() {
@@ -93,21 +130,370 @@ public class MapActivity extends Fragment implements GoogleApiClient.ConnectionC
         imLegAmis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imLegAmis.setImageResource(R.drawable.legendeamisbarre);
+
+                if (clicAmis == false) {
+                    imLegAmis.setImageResource(R.drawable.legendeamisbarre);
+                    clicAmis = true;
+
+                    googleMap.clear();
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+
+                    // For dropping a marker at a point on the Map
+                    LatLng moi = new LatLng(latitude, longitude);
+
+                    googleMap.addMarker(new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi)));
+
+                    if (User != null) {
+                        WebService WS = new WebService();
+                        JSONArray ListPositions;
+                        if (clicInconnu == false) {
+                            ListPositions = WS.GetLastPositionUserInconnu(User);
+
+                            for (int i = 0; i < ListPositions.length(); i++) {
+                                JSONObject Position = null;
+
+                                try {
+                                    Position = ListPositions.getJSONObject(i);
+
+                                    latitude = Position.getDouble("latitude");
+                                    longitude = Position.getDouble("longitude");
+
+                                    LatLng user = new LatLng(latitude, longitude);
+
+                                    googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+
+                        if (clicKiff == false) {
+                            ListPositions = WS.GetLastPositionUserMatch(User);
+
+                            for (int i = 0; i < ListPositions.length(); i++) {
+                                JSONObject Position = null;
+
+                                try {
+                                    Position = ListPositions.getJSONObject(i);
+
+                                    latitude = Position.getDouble("latitude");
+                                    longitude = Position.getDouble("longitude");
+
+                                    LatLng user = new LatLng(latitude, longitude);
+
+                                    googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                        }
+
+                        if (clicAmis == false) {
+                            ListPositions = WS.GetLastPositionUserAmis(User);
+
+                            for (int i = 0; i < ListPositions.length(); i++) {
+                                JSONObject Position = null;
+
+                                try {
+                                    Position = ListPositions.getJSONObject(i);
+
+                                    latitude = Position.getDouble("latitude");
+                                    longitude = Position.getDouble("longitude");
+
+                                    LatLng user = new LatLng(latitude, longitude);
+
+                                    googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+
+                    }
+
+                } else {
+                    imLegAmis.setImageResource(R.drawable.legendeamis);
+                    clicAmis = false;
+                    double latitude;
+                    double longitude;
+                    WebService WS = new WebService();
+                    JSONArray ListPositions = WS.GetLastPositionUserAmis(User);
+
+                    for (int i = 0; i < ListPositions.length(); i++) {
+                        JSONObject Position = null;
+
+                        try {
+                            Position = ListPositions.getJSONObject(i);
+
+                            latitude = Position.getDouble("latitude");
+                            longitude = Position.getDouble("longitude");
+
+                            LatLng user = new LatLng(latitude, longitude);
+
+                            googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
             }
         });
 
         imLegKiffs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imLegKiffs.setImageResource(R.drawable.legendematchsbarre);
+                if(clicKiff==false){
+                    imLegKiffs.setImageResource(R.drawable.legendematchsbarre);
+                    clicKiff=true;
+
+                    googleMap.clear();
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+
+                    // For dropping a marker at a point on the Map
+                    LatLng moi = new LatLng(latitude, longitude);
+
+                    googleMap.addMarker(new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi)));
+
+                    if(User!=null) {
+                        WebService WS = new WebService();
+                        JSONArray ListPositions;
+                        if (clicInconnu == false) {
+                            ListPositions = WS.GetLastPositionUserInconnu(User);
+
+                            for (int i = 0; i < ListPositions.length(); i++) {
+                                JSONObject Position = null;
+
+                                try {
+                                    Position = ListPositions.getJSONObject(i);
+
+                                    latitude = Position.getDouble("latitude");
+                                    longitude = Position.getDouble("longitude");
+
+                                    LatLng user = new LatLng(latitude, longitude);
+
+                                    googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+
+                        if (clicKiff == false) {
+                            ListPositions = WS.GetLastPositionUserMatch(User);
+
+                            for (int i = 0; i < ListPositions.length(); i++) {
+                                JSONObject Position = null;
+
+                                try {
+                                    Position = ListPositions.getJSONObject(i);
+
+                                    latitude = Position.getDouble("latitude");
+                                    longitude = Position.getDouble("longitude");
+
+                                    LatLng user = new LatLng(latitude, longitude);
+
+                                    googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                        }
+
+                        if (clicAmis == false) {
+                            ListPositions = WS.GetLastPositionUserAmis(User);
+
+                            for (int i = 0; i < ListPositions.length(); i++) {
+                                JSONObject Position = null;
+
+                                try {
+                                    Position = ListPositions.getJSONObject(i);
+
+                                    latitude = Position.getDouble("latitude");
+                                    longitude = Position.getDouble("longitude");
+
+                                    LatLng user = new LatLng(latitude, longitude);
+
+                                    googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+
+                    }
+                }else{
+                    imLegKiffs.setImageResource(R.drawable.legendematch);
+                    clicKiff=false;
+
+                    double latitude;
+                    double longitude;
+                    WebService WS = new WebService();
+                    JSONArray ListPositions = WS.GetLastPositionUserMatch(User);
+
+                    for (int i = 0; i < ListPositions.length(); i++) {
+                        JSONObject Position = null;
+
+                        try {
+                            Position = ListPositions.getJSONObject(i);
+
+                            latitude = Position.getDouble("latitude");
+                            longitude = Position.getDouble("longitude");
+
+                            LatLng user = new LatLng(latitude, longitude);
+
+                            googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }
+
             }
         });
 
         imLegInconnu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imLegInconnu.setImageResource(R.drawable.legendeinconnusbarre);
+                if(clicInconnu==false){
+                    imLegInconnu.setImageResource(R.drawable.legendeinconnusbarre);
+                    clicInconnu=true;
+
+
+                    googleMap.clear();
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+
+                    // For dropping a marker at a point on the Map
+                    LatLng moi = new LatLng(latitude, longitude);
+
+                    googleMap.addMarker(new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi)));
+
+                    if(User!=null) {
+                        WebService WS = new WebService();
+                        JSONArray ListPositions;
+                        if (clicInconnu == false) {
+                            ListPositions = WS.GetLastPositionUserInconnu(User);
+
+                            for (int i = 0; i < ListPositions.length(); i++) {
+                                JSONObject Position = null;
+
+                                try {
+                                    Position = ListPositions.getJSONObject(i);
+
+                                    latitude = Position.getDouble("latitude");
+                                    longitude = Position.getDouble("longitude");
+
+                                    LatLng user = new LatLng(latitude, longitude);
+
+                                    googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+
+                        if (clicKiff == false) {
+                            ListPositions = WS.GetLastPositionUserMatch(User);
+
+                            for (int i = 0; i < ListPositions.length(); i++) {
+                                JSONObject Position = null;
+
+                                try {
+                                    Position = ListPositions.getJSONObject(i);
+
+                                    latitude = Position.getDouble("latitude");
+                                    longitude = Position.getDouble("longitude");
+
+                                    LatLng user = new LatLng(latitude, longitude);
+
+                                    googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                        }
+
+                        if (clicAmis == false) {
+                            ListPositions = WS.GetLastPositionUserAmis(User);
+
+                            for (int i = 0; i < ListPositions.length(); i++) {
+                                JSONObject Position = null;
+
+                                try {
+                                    Position = ListPositions.getJSONObject(i);
+
+                                    latitude = Position.getDouble("latitude");
+                                    longitude = Position.getDouble("longitude");
+
+                                    LatLng user = new LatLng(latitude, longitude);
+
+                                    googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                        }
+                    }
+
+                }else{
+                    imLegInconnu.setImageResource(R.drawable.legendeinconnu);
+                    clicInconnu=false;
+
+                    double latitude;
+                    double longitude;
+                    WebService WS = new WebService();
+                    JSONArray ListPositions = WS.GetLastPositionUserInconnu(User);
+
+                    for (int i = 0; i < ListPositions.length(); i++) {
+                        JSONObject Position = null;
+
+                        try {
+                            Position = ListPositions.getJSONObject(i);
+
+                            latitude = Position.getDouble("latitude");
+                            longitude = Position.getDouble("longitude");
+
+                            LatLng user = new LatLng(latitude, longitude);
+
+                            googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }
+                //imLegInconnu.setImageResource(R.drawable.legendeinconnusbarre);
             }
         });
 
@@ -136,12 +522,13 @@ public class MapActivity extends Fragment implements GoogleApiClient.ConnectionC
             e.printStackTrace();
         }
 
+
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
 
-
+                //googleMap.setMyLocationEnabled(true);
 
                 // check if GPS enabled
                 if(gps.canGetLocation()) {
@@ -163,11 +550,11 @@ public class MapActivity extends Fragment implements GoogleApiClient.ConnectionC
                     // For showing a move to my location button
                     //googleMap.setMyLocationEnabled(true);
 
-                    googleMap.addMarker(new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi)));
+                    googleMap.addMarker(new MarkerOptions().position(moi).title("Ma Position").snippet("").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi)));
 
                     if(User!=null){
                         WebService WS = new WebService();
-                        JSONArray ListPositions = WS.GetLastPositionUser(User);
+                        JSONArray ListPositions = WS.GetLastPositionUserInconnu(User);
 
                         for (int i = 0; i < ListPositions.length(); i++) {
                             JSONObject Position = null;
@@ -180,7 +567,49 @@ public class MapActivity extends Fragment implements GoogleApiClient.ConnectionC
 
                                 LatLng user = new LatLng(latitude, longitude);
 
-                                googleMap.addMarker(new MarkerOptions().position(moi).title(Position.getString("pseudo")).snippet(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+                                googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        ListPositions = WS.GetLastPositionUserMatch(User);
+
+                        for (int i = 0; i < ListPositions.length(); i++) {
+                            JSONObject Position = null;
+
+                            try {
+                                Position = ListPositions.getJSONObject(i);
+
+                                latitude = Position.getDouble("latitude");
+                                longitude = Position.getDouble("longitude");
+
+                                LatLng user = new LatLng(latitude, longitude);
+
+                                googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        ListPositions = WS.GetLastPositionUserAmis(User);
+
+                        for (int i = 0; i < ListPositions.length(); i++) {
+                            JSONObject Position = null;
+
+                            try {
+                                Position = ListPositions.getJSONObject(i);
+
+                                latitude = Position.getDouble("latitude");
+                                longitude = Position.getDouble("longitude");
+
+                                LatLng user = new LatLng(latitude, longitude);
+
+                                googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).snippet(Position.getString("photo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -197,11 +626,47 @@ public class MapActivity extends Fragment implements GoogleApiClient.ConnectionC
 
                 }
 
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        String photo = marker.getSnippet();
+                        if(photo!=""){
+                            URL pictureURL;
+
+                            pictureURL = null;
+
+                            try {
+                                pictureURL = new URL(photo);
+                            } catch (MalformedURLException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            Bitmap bitmap=null;
+                            try {
+                                //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+
+                                if(bitmap==null){
+                                    bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
+                                    //valeur.put("LOGO", bitmap);
+                                    //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                                }
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                            imPhotoMap.setImageBitmap(bitmap);
+                        }
+
+                        //Using position get Value from arraylist
+                        return false;
+                    }
+                });
 
 
 
             }
         });
+
 
         return rootView;
 

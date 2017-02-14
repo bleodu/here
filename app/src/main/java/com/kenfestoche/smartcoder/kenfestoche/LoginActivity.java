@@ -302,10 +302,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            mAuthTask = null;
+            /*mAuthTask = null;
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask.execute((Void) null);*/
+            WebService WS = new WebService();
+
+            Utilisateur user = WS.Connect(email,password);
+
+            if(user.id_user > 0 && user.statut > 1) //COMPTE ACTIF
+            {
+                editor = preferences.edit();
+                user.connecte=true;
+                editor.putLong("UserId", user.getId());
+                editor.commit();
+                Intent i = new Intent(getApplicationContext(), FragmentsSliderActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra("phone", mEmailView.getText().toString());
+                editor = preferences.edit();
+                editor.putString("phone", mEmailView.getText().toString());
+                editor.commit();
+                finish();
+                startActivity(i);
+                //return true;
+            }else if(user.id_user > 0 && user.statut == 1){ //COMPTE EN COURS DE VALIDATION
+                editor = preferences.edit();
+                user.connecte=true;
+                editor.putLong("UserId", user.getId());
+                editor.commit();
+                Intent i = new Intent(getApplicationContext(), VerifSmsCode.class);
+                startActivity(i);
+                //return false;
+            }
         }
     }
 

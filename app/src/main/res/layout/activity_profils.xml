@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:background="@drawable/fondeaser"
     tools:context="com.kenfestoche.smartcoder.kenfestoche.ProfilsActivity">
 
     <RelativeLayout
@@ -40,6 +41,234 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></LinearLayout>
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:id="@+id/rltProfil"
+            android:layout_height="wrap_content" >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pagerProfil"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="20dip"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:layout_alignParentTop="true"
+                android:layout_height="380dp" />
+
+
+        </RelativeLayout>
+
+
+        <!-- <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dip"
+            android:gravity="center_vertical"
+            android:layout_gravity="left">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_width="210dp">
+
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdverre1" />
+
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdverre2" />
+
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdverre3" />
+
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdverre4" />
+
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdverre5" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dip"
+                android:src="@drawable/bouteilleprofil"/>
+
+            <TextView
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:id="@+id/txNomProfil"
+                android:layout_marginLeft="15dip"
+                android:textColor="#2c2954"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:textSize="10pt"
+                android:text="Anne-S"
+                android:layout_width="120dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dip"
+            android:gravity="center_vertical"
+            android:layout_gravity="left">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_width="210dp">
+
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdcoeur1" />
+
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdcoeur2" />
+
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdcoeur3" />
+
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdcoeur4" />
+
+                <ImageButton
+                    android:background="#d2d2db"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:id="@+id/rdcoeur5" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dip"
+                android:src="@drawable/coeurprofil"/>
+
+            <TextView
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:id="@+id/txAge"
+                android:layout_marginLeft="15dip"
+                android:textColor="#2c2954"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:textSize="10pt"
+                android:text="Anne-S"
+                android:layout_width="120dp" />
+
+        </LinearLayout>-->
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_margin="15dip"
+        android:layout_width="match_parent"
+
+        android:layout_height="30dip"
+        android:id="@+id/pbKiffe" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dip"
+            app:srcCompat="@drawable/beurk"
+            android:id="@+id/imBeurk"
+            android:layout_weight="1" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txNbKiffs"
+            android:textSize="9pt"
+            android:layout_marginBottom="5dip"
+            android:layout_weight="1"
+            tools:text="kiffée 56000 fois \n à 500m"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/kiffe"
+            android:layout_marginBottom="15dip"
+            android:gravity="right"
+            android:id="@+id/imKiffe"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </LinearLayout>

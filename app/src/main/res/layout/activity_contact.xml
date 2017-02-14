@@ -51,7 +51,8 @@
         android:background="#2c2954"
         android:layout_margin="10dip"
 
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/panelkiffs">
 
         <TextView
             android:layout_width="match_parent"
@@ -86,7 +87,8 @@
                 android:background="#2c2954"
                 android:layout_margin="10dip"
 
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/panelamis">
 
                 <TextView
                     android:layout_width="wrap_content"

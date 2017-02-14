@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:hint="nom de la conversation"
+            android:hint="Nom de la conversation"
             android:layout_marginRight="10dip"
             android:layout_marginLeft="10dip"
             android:textColor="#fff"
@@ -51,7 +51,7 @@
             android:layout_marginRight="10dip"
             android:layout_marginLeft="10dip"
             android:textColorHint="#fff"
-            android:hint="A"
+            android:hint="Ajouter des amis"
             android:ems="10"
             android:id="@+id/edtpersonnes" />
     </LinearLayout>
