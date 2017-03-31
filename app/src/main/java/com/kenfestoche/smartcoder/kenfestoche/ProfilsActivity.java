@@ -14,16 +14,27 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.eftimoff.viewpagertransformers.AccordionTransformer;
+import com.eftimoff.viewpagertransformers.DrawFromBackTransformer;
+import com.eftimoff.viewpagertransformers.RotateDownTransformer;
+import com.eftimoff.viewpagertransformers.RotateUpTransformer;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.kenfestoche.smartcoder.kenfestoche.model.ImagesProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.SlidingImgProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
+import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +51,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.kenfestoche.smartcoder.kenfestoche.R.id.imFlecheDroite;
 import static com.kenfestoche.smartcoder.kenfestoche.R.id.imFlecheGauche;
 import static com.kenfestoche.smartcoder.kenfestoche.R.id.pagerProfil;
+import static com.kenfestoche.smartcoder.kenfestoche.R.id.txAge;
 import static com.kenfestoche.smartcoder.kenfestoche.R.id.txNbKiffs;
+import static com.kenfestoche.smartcoder.kenfestoche.R.id.txPseudo;
 
 public class ProfilsActivity extends Fragment {
 
@@ -57,32 +70,35 @@ public class ProfilsActivity extends Fragment {
     ImageView imPhotoProfil;
     ImageView boutonBeurk;
     ImageView boutonKiffe;
-    //TextView txAge;
-    //TextView txNom;
+    ImageView imKiffBeurk;
     String idUserKiff;
-    /*ImageButton rbcalme1;
-    ImageButton rbcalme2;
-    ImageButton rbcalme3;
-    ImageButton rbcalme4;
-    ImageButton rbcalme5;*/
     int positionprofil;
-    //private OkHttpClient okHttpClient;
     RelativeLayout rltProfil;
     int nbKiffs;
     ImageView pbKiffs;
+    HideKiffsBeurk mHideKiffs;
+    String IdUserKiffsPrecedent;
+    TextView txNewKiff;
+    TextView txKiff;
+
+    ImageView btIgnorer;
+    ImageView btAllerVoir;
 
     TextView txDistanceKiffs;
+    TextView txRechercheProche;
 
-    /*ImageButton rbverre1;
-    ImageButton rbverre2;
-    ImageButton rbverre3;
-    ImageButton rbverre4;
-    ImageButton rbverre5;*/
+    GetListProfils mLoadProfils;
+    SlidingImgProfil ArrayProfils;
+    public static ViewHolder viewHolder;
+
+    RelativeLayout rlvNewKiff;
+
 
     ArrayList<HashMap<String, Object>> profils;
-    private static ViewPager mPager;
-
-    @Override
+    //private static ViewPager mPager;
+    private SwipeFlingAdapterView flingContainer;
+    MyAppAdapter myAppAdapter;
+    /*@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -91,36 +107,55 @@ public class ProfilsActivity extends Fragment {
         return inflater.inflate(R.layout.activity_profils, container, false);
 
 
+    }*/
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
+
+        editor = pref.edit();
+        User = FragmentsSliderActivity.User;
+
+
+
+
+
+
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         //super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_user_profil);
-        super.onActivityCreated(savedInstanceState);
-        View v = getView();
+       // super.onActivityCreated(savedInstanceState);
+        View v = inflater.inflate(R.layout.activity_profils, container, false);
 
+        profils =  new ArrayList<HashMap<String,Object>>();
+
+
+        mLoadProfils =new GetListProfils();
+
+        mLoadProfils.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        pager = (ViewPager) container;
         nbKiffs=1;
+        imKiffBeurk = (ImageView) v.findViewById(R.id.imBeurkKiff);
 
+        imKiffBeurk.setVisibility(View.INVISIBLE);
 
-
-        //Getting registration token
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
 
         //sleep for 1s in background...
         gps = new GPSTracker(v.getContext());
-// create class object
         pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
 
-        editor = pref.edit();
-        User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
-        if(User!=null){
-            User.tokenFirebase = refreshedToken;
-            WebService WS = new WebService();
-            WS.SaveUser(User);
 
-        }
+
+
 
         new RefreshTask(v.getContext()).execute();
 
@@ -130,8 +165,44 @@ public class ProfilsActivity extends Fragment {
         imFlecheDroite = (ImageView) v.findViewById(R.id.imFlecheDroite);
         boutonBeurk =  (ImageView) v.findViewById(R.id.imBeurk);
         boutonKiffe =  (ImageView) v.findViewById(R.id.imKiffe);
+        btAllerVoir = (ImageView) v.findViewById(R.id.imAllerVoir);
+        btIgnorer = (ImageView) v.findViewById(R.id.imIgnorer);
         pbKiffs =  (ImageView) v.findViewById(R.id.pbKiffe);
         txDistanceKiffs = (TextView) v.findViewById(R.id.txNbKiffs);
+        txRechercheProche = (TextView) v.findViewById(R.id.txRechercheProfil);
+        flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.frameProfil);
+        rlvNewKiff = (RelativeLayout) v.findViewById(R.id.rlvNewKiff);
+
+        txNewKiff = (TextView) v.findViewById(R.id.txNewKiff);
+        txKiff = (TextView) v.findViewById(R.id.txKiff);
+
+
+
+        txDistanceKiffs.setVisibility(View.INVISIBLE);
+        boutonBeurk.setVisibility(View.INVISIBLE);
+        boutonKiffe.setVisibility(View.INVISIBLE);
+        rlvNewKiff.setVisibility(View.INVISIBLE);
+
+        if(User.nbKiffs>10){
+            boutonKiffe.setVisibility(View.INVISIBLE);
+            boutonBeurk.setVisibility(View.INVISIBLE);
+        }
+
+        if(User.sexe==0 && User.tendancesexe==1) {
+            txRechercheProche.setText("Recherche de filles proches...");
+        }else if(User.sexe==1 && User.tendancesexe==0){
+            txRechercheProche.setText("Recherche d'hommes proches...");
+        }
+        else if(User.sexe==1 && User.tendancesexe==2){
+            txRechercheProche.setText("Recherche de filles proches...");
+        }
+        else if(User.sexe==0 && User.tendancesexe==2){
+            txRechercheProche.setText("Recherche d'hommes proches...");
+        }
+        else if(User.tendancesexe==1){
+            txRechercheProche.setText("Recherche d'hommes et de femmes proches...");
+        }
+
 
 
         switch (nbKiffs){
@@ -171,28 +242,15 @@ public class ProfilsActivity extends Fragment {
 
         Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
 
-        /*rbcalme1 = (ImageButton) v.findViewById(R.id.rdcoeur1);
-        rbcalme2 = (ImageButton) v.findViewById(R.id.rdcoeur2);
-        rbcalme3 = (ImageButton) v.findViewById(R.id.rdcoeur3);
-        rbcalme4 = (ImageButton) v.findViewById(R.id.rdcoeur4);
-        rbcalme5 = (ImageButton) v.findViewById(R.id.rdcoeur5);
-
-
-        rbverre1 = (ImageButton) v.findViewById(R.id.rdverre1);
-        rbverre2 = (ImageButton) v.findViewById(R.id.rdverre2);
-        rbverre3 = (ImageButton) v.findViewById(R.id.rdverre3);
-        rbverre4 = (ImageButton) v.findViewById(R.id.rdverre4);
-        rbverre5 = (ImageButton) v.findViewById(R.id.rdverre5);*/
-
-        /*txNom = (TextView) v.findViewById(R.id.txNomProfil);
-        txAge = (TextView) v.findViewById(R.id.txAge);
-
-        txAge.setTypeface(face);
-        txNom.setTypeface(face);*/
-
+        txRechercheProche.setTypeface(face);
+        txNewKiff.setTypeface(face);
+        txKiff.setTypeface(face);
         txDistanceKiffs.setTypeface(face);
         boutonBeurk.setImageResource(R.drawable.beurk);
         boutonKiffe.setImageResource(R.drawable.kiffe);
+
+        flingContainer.setVisibility(View.VISIBLE);
+
 
         imFlecheDroite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,281 +266,74 @@ public class ProfilsActivity extends Fragment {
             }
         });
 
-        profils =  new ArrayList<HashMap<String,Object>>();
-
-        WebService WS = new WebService();
-        JSONArray ListProfils = WS.GetListProfils(User);
-
-        if(ListProfils != null)
-        {
-
-            String Url=null;
-
-            for (int i = 0; i < ListProfils.length(); i++) {
-                JSONObject Amis=null;
-
-                HashMap<String, Object> valeur = new HashMap<String, Object>();
-                try {
-                    Amis = ListProfils.getJSONObject(i);
-                    valeur.put("pseudo", Amis.getString("pseudo"));
-                    valeur.put("id_user", Amis.getString("id_user"));
-                    valeur.put("age", Amis.getString("age"));
-                    valeur.put("calme", Amis.getString("calme"));
-                    valeur.put("affinity", Amis.getString("affinity"));
-
-                    Url = Amis.getString("photo").replace(" ","%20");
-
-                    URL pictureURL;
-
-                    pictureURL = null;
-
-                    try {
-                        pictureURL = new URL(Url);
-                    } catch (MalformedURLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
 
 
-                    Bitmap bitmap=null;
-                    try {
-                        //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-
-                        if(bitmap==null){
-                            bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                            //valeur.put("LOGO", bitmap);
-                            //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-                        }
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                    valeur.put("photo", bitmap);
-
-
-                } catch (JSONException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-
-                profils.add(valeur);
-            }
-        }
-
-        mPager = (ViewPager) v.findViewById(R.id.pagerProfil);
-
-        mPager.setAdapter(new SlidingImgProfil(getActivity().getBaseContext(),profils,false));
 
         if(profils.size()>0){
             final HashMap<String, Object> profil = profils.get(0);
             idUserKiff= (String) profil.get("id_user");
-
+        }else{
+            txRechercheProche.setVisibility(View.VISIBLE);
         }
 
-        mPager.setOnClickListener(new View.OnClickListener() {
+        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
-
-                i.putExtra("id_user",idUserKiff);
-                startActivity(i);
+            public void onItemClicked(int itemPosition, Object dataObject) {
+                if(profils.size()>0){
+                    Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
+                    idUserKiff= (String) profils.get(0).get("id_user");
+                    i.putExtra("id_user",idUserKiff);
+                    startActivity(i);
+                }
             }
+
+
         });
 
         rltProfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
+                if(profils.size()>0){
+                    Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
 
-                i.putExtra("id_user",idUserKiff);
+                    i.putExtra("id_user",idUserKiff);
+                    startActivity(i);
+                }
+
+            }
+        });
+
+        btAllerVoir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
+                rlvNewKiff.setVisibility(View.INVISIBLE);
+                i.putExtra("id_user",IdUserKiffsPrecedent);
                 startActivity(i);
+                pager.setCurrentItem(2);
             }
         });
 
 
-        /*final JSONArray[] InfoUser = {WS.GetinfoUser((String) profil.get("id_user"))};
-        try {
-            JSONObject userobj = InfoUser[0].getJSONObject(0);
-            txAge.setText(userobj.getString("age") + " Ans");
-            txNom.setText(userobj.getString("pseudo"));
-
-            switch (userobj.getInt("calme"))
-            {
-                case 1:
-                    rbcalme1.setImageResource(R.drawable.carreselect);
-                    rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme2.setImageResource(R.drawable.carre);
-                    rbcalme2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbcalme3.setImageResource(R.drawable.carre);
-                    rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbcalme4.setImageResource(R.drawable.carre);
-                    rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbcalme5.setImageResource(R.drawable.carre);
-                    rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    break;
-                case 2:
-                    rbcalme1.setImageResource(R.drawable.carreselect);
-                    rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme2.setImageResource(R.drawable.carreselect);
-                    rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme3.setImageResource(R.drawable.carre);
-                    rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbcalme4.setImageResource(R.drawable.carre);
-                    rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbcalme5.setImageResource(R.drawable.carre);
-                    rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    break;
-                case 3:
-                    rbcalme1.setImageResource(R.drawable.carreselect);
-                    rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme2.setImageResource(R.drawable.carreselect);
-                    rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme3.setImageResource(R.drawable.carreselect);
-                    rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme4.setImageResource(R.drawable.carre);
-                    rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbcalme5.setImageResource(R.drawable.carre);
-                    rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    break;
-                case 4:
-                    rbcalme1.setImageResource(R.drawable.carreselect);
-                    rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme2.setImageResource(R.drawable.carreselect);
-                    rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme3.setImageResource(R.drawable.carreselect);
-                    rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme4.setImageResource(R.drawable.carreselect);
-                    rbcalme4.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme5.setImageResource(R.drawable.carre);
-                    rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    break;
-                case 5:
-                    rbcalme1.setImageResource(R.drawable.carreselect);
-                    rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme2.setImageResource(R.drawable.carreselect);
-                    rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme3.setImageResource(R.drawable.carreselect);
-                    rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme4.setImageResource(R.drawable.carreselect);
-                    rbcalme4.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbcalme5.setImageResource(R.drawable.carreselect);
-                    rbcalme5.setBackgroundColor(Color.parseColor("#2c2954"));
-                    break;
-                default:
-                    rbcalme1.setImageResource(R.drawable.carre);
-                    rbcalme1.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbcalme2.setImageResource(R.drawable.carre);
-                    rbcalme2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbcalme3.setImageResource(R.drawable.carre);
-                    rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbcalme4.setImageResource(R.drawable.carre);
-                    rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbcalme5.setImageResource(R.drawable.carre);
-                    rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-
-            }
-
-            switch (userobj.getInt("affinity"))
-            {
-                case 1:
-                    rbverre1.setImageResource(R.drawable.carreselect);
-                    rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre2.setImageResource(R.drawable.carre);
-                    rbverre2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbverre3.setImageResource(R.drawable.carre);
-                    rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbverre4.setImageResource(R.drawable.carre);
-                    rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbverre5.setImageResource(R.drawable.carre);
-                    rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    break;
-                case 2:
-                    rbverre1.setImageResource(R.drawable.carreselect);
-                    rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre2.setImageResource(R.drawable.carreselect);
-                    rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre3.setImageResource(R.drawable.carre);
-                    rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbverre4.setImageResource(R.drawable.carre);
-                    rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbverre5.setImageResource(R.drawable.carre);
-                    rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    break;
-                case 3:
-                    rbverre1.setImageResource(R.drawable.carreselect);
-                    rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre2.setImageResource(R.drawable.carreselect);
-                    rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre3.setImageResource(R.drawable.carreselect);
-                    rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre4.setImageResource(R.drawable.carre);
-                    rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbverre5.setImageResource(R.drawable.carre);
-                    rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    break;
-                case 4:
-                    rbverre1.setImageResource(R.drawable.carreselect);
-                    rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre2.setImageResource(R.drawable.carreselect);
-                    rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre3.setImageResource(R.drawable.carreselect);
-                    rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre4.setImageResource(R.drawable.carreselect);
-                    rbverre4.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre5.setImageResource(R.drawable.carre);
-                    rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    break;
-                case 5:
-                    rbverre1.setImageResource(R.drawable.carreselect);
-                    rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre2.setImageResource(R.drawable.carreselect);
-                    rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre3.setImageResource(R.drawable.carreselect);
-                    rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre4.setImageResource(R.drawable.carreselect);
-                    rbverre4.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre5.setImageResource(R.drawable.carreselect);
-                    rbverre5.setBackgroundColor(Color.parseColor("#2c2954"));
-                    break;
-                default:
-                    rbverre1.setImageResource(R.drawable.carreselect);
-                    rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                    rbverre2.setImageResource(R.drawable.carre);
-                    rbverre2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbverre3.setImageResource(R.drawable.carre);
-                    rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbverre4.setImageResource(R.drawable.carre);
-                    rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    rbverre5.setImageResource(R.drawable.carre);
-                    rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-
         boutonKiffe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebService WS = new WebService();
-                JSONArray Rep = WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"1");
-                try {
-                    JSONObject Retour=Rep.getJSONObject(0);
-                    if(Retour.getString("NEWMATCH")=="1"){
-                        Toast.makeText(getApplicationContext(), "Vous avez un nouveau match", Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(profils.size()>0){
+
+                    flingContainer.getTopCardListener().selectRight();
+
+
+
+                }else{
+                    txRechercheProche.setVisibility(View.VISIBLE);
+                    //mPager.setVisibility(View.INVISIBLE);
+                    txDistanceKiffs.setVisibility(View.INVISIBLE);
                 }
 
-                HashMap<String, Object> profil = profils.get(positionprofil);
-                profils.remove(profil);
-                mPager.getAdapter().notifyDataSetChanged();
-                mPager.setCurrentItem(mPager.getCurrentItem()+1);
-                nbKiffs= nbKiffs+1;
 
-                switch (nbKiffs){
+
+
+                switch (User.nbKiffs){
                     case 1 :
                         pbKiffs.setImageResource(R.drawable.barrepos1);
                         break;
@@ -521,15 +372,101 @@ public class ProfilsActivity extends Fragment {
         boutonBeurk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(profils.size()>0){
+
+                    flingContainer.getTopCardListener().selectLeft();
+
+                }
+
+
+
+                boutonKiffe.setImageResource(R.drawable.kiffe);
+                boutonKiffe.setEnabled(true);
+
+            }
+        });
+
+
+        btIgnorer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rlvNewKiff.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+        switch (User.nbKiffs){
+            case 1 :
+                pbKiffs.setImageResource(R.drawable.barrepos1);
+                break;
+            case 2 :
+                pbKiffs.setImageResource(R.drawable.barrepos2);
+                break;
+            case 3 :
+                pbKiffs.setImageResource(R.drawable.barrepos3);
+                break;
+            case 4 :
+                pbKiffs.setImageResource(R.drawable.barrepos4);
+                break;
+            case 5 :
+                pbKiffs.setImageResource(R.drawable.barrepos5);
+                break;
+            case 6 :
+                pbKiffs.setImageResource(R.drawable.barrepos6);
+                break;
+            case 7 :
+                pbKiffs.setImageResource(R.drawable.barrepos7);
+                break;
+            case 8 :
+                pbKiffs.setImageResource(R.drawable.barrepos8);
+                break;
+            case 9 :
+                pbKiffs.setImageResource(R.drawable.barrepos9);
+                break;
+            case 10 :
+                pbKiffs.setImageResource(R.drawable.barrepos10);
+                break;
+        }
+
+        myAppAdapter = new MyAppAdapter(profils, getActivity().getBaseContext());
+
+        flingContainer.setAdapter(myAppAdapter);
+
+        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+            @Override
+            public void removeFirstObjectInAdapter() {
+
+            }
+
+
+            @Override
+            public void onLeftCardExit(Object dataObject) {
+
+                imKiffBeurk.setVisibility(View.INVISIBLE);
+                //ShowBeurk show = new ShowBeurk();
+                //show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                if(mHideKiffs!=null){
+                    mHideKiffs.cancel(true);
+                }
+
+                //mHideKiffs =new HideKiffsBeurk();
+                idUserKiff= (String) profils.get(0).get(("id_user"));
+                IdUserKiffsPrecedent = idUserKiff;
+                //mHideKiffs.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 WebService WS = new WebService();
                 WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"4");
-                HashMap<String, Object> profil = profils.get(positionprofil);
-                profils.remove(profil);
-                mPager.getAdapter().notifyDataSetChanged();
-                mPager.setCurrentItem(mPager.getCurrentItem()+1);
-                nbKiffs= nbKiffs-1;
+                User.nbKiffs= User.nbKiffs-1;
+                //User.nbKiffs=nbKiffs;
 
-                switch (nbKiffs){
+                User.save();
+
+                if(User.nbKiffs<0){
+                    User.nbKiffs=0;
+                    User.save();
+                }
+
+                switch (User.nbKiffs){
                     case 1 :
                         pbKiffs.setImageResource(R.drawable.barrepos1);
                         break;
@@ -562,184 +499,233 @@ public class ProfilsActivity extends Fragment {
                         break;
                 }
 
-            }
-        });
 
-
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
+                profils.remove(0);
+                myAppAdapter.notifyDataSetChanged();
                 if(profils.size()>0){
-                    HashMap<String, Object> profil = profils.get(position);
-                    positionprofil=position;
-                    WebService WS = new WebService();
-                    JSONArray InfoUser = WS.GetinfoUser((String) profil.get("id_user"));
-                    idUserKiff= (String) profil.get("id_user");
-                    try {
-                        JSONObject userobj = InfoUser.getJSONObject(0);
-                        if(userobj!=null) {
-                            txDistanceKiffs.setText("kiffés " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
-                            //txNom.setText(userobj.getString("pseudo"));
-
-                       /* switch (userobj.getInt("calme")) {
-                            case 1:
-                                rbcalme1.setImageResource(R.drawable.carreselect);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme2.setImageResource(R.drawable.carre);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme3.setImageResource(R.drawable.carre);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme4.setImageResource(R.drawable.carre);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme5.setImageResource(R.drawable.carre);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 2:
-                                rbcalme1.setImageResource(R.drawable.carreselect);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme2.setImageResource(R.drawable.carreselect);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme3.setImageResource(R.drawable.carre);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme4.setImageResource(R.drawable.carre);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme5.setImageResource(R.drawable.carre);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 3:
-                                rbcalme1.setImageResource(R.drawable.carreselect);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme2.setImageResource(R.drawable.carreselect);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme3.setImageResource(R.drawable.carreselect);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme4.setImageResource(R.drawable.carre);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme5.setImageResource(R.drawable.carre);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 4:
-                                rbcalme1.setImageResource(R.drawable.carreselect);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme2.setImageResource(R.drawable.carreselect);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme3.setImageResource(R.drawable.carreselect);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme4.setImageResource(R.drawable.carreselect);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme5.setImageResource(R.drawable.carre);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 5:
-                                rbcalme1.setImageResource(R.drawable.carreselect);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme2.setImageResource(R.drawable.carreselect);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme3.setImageResource(R.drawable.carreselect);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme4.setImageResource(R.drawable.carreselect);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme5.setImageResource(R.drawable.carreselect);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#2c2954"));
-                                break;
-                            default:
-                                rbcalme1.setImageResource(R.drawable.carre);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme2.setImageResource(R.drawable.carre);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme3.setImageResource(R.drawable.carre);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme4.setImageResource(R.drawable.carre);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme5.setImageResource(R.drawable.carre);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-
+                    JSONArray InfoUser = WS.GetinfoKiff((String) profils.get(0).get("id_user"),User.id_user);
+                    if(InfoUser!=null){
+                        idUserKiff= (String) profils.get(0).get("id_user");
+                        try {
+                            JSONObject userobj = InfoUser.getJSONObject(0);
+                            if(userobj!=null) {
+                                txDistanceKiffs.setText("kiffé " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
+                                //txNom.setText(userobj.getString("pseudo"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    }
+                }
 
-                        switch (userobj.getInt("affinity")) {
-                            case 1:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carre);
-                                rbverre2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre3.setImageResource(R.drawable.carre);
-                                rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre4.setImageResource(R.drawable.carre);
-                                rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre5.setImageResource(R.drawable.carre);
-                                rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 2:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carreselect);
-                                rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre3.setImageResource(R.drawable.carre);
-                                rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre4.setImageResource(R.drawable.carre);
-                                rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre5.setImageResource(R.drawable.carre);
-                                rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 3:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carreselect);
-                                rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre3.setImageResource(R.drawable.carreselect);
-                                rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre4.setImageResource(R.drawable.carre);
-                                rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre5.setImageResource(R.drawable.carre);
-                                rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 4:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carreselect);
-                                rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre3.setImageResource(R.drawable.carreselect);
-                                rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre4.setImageResource(R.drawable.carreselect);
-                                rbverre4.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre5.setImageResource(R.drawable.carre);
-                                rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 5:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carreselect);
-                                rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre3.setImageResource(R.drawable.carreselect);
-                                rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre4.setImageResource(R.drawable.carreselect);
-                                rbverre4.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre5.setImageResource(R.drawable.carreselect);
-                                rbverre5.setBackgroundColor(Color.parseColor("#2c2954"));
-                                break;
-                            default:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carre);
-                                rbverre2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre3.setImageResource(R.drawable.carre);
-                                rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre4.setImageResource(R.drawable.carre);
-                                rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre5.setImageResource(R.drawable.carre);
-                                rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
+                boutonKiffe.setImageResource(R.drawable.kiffe);
+                boutonKiffe.setEnabled(true);
 
-                        }*/
+                if(profils.size()>0){
+                    txRechercheProche.setVisibility(View.INVISIBLE);
+                    //mPager.setVisibility(View.VISIBLE);
+                    txDistanceKiffs.setVisibility(View.VISIBLE);
+                    boutonBeurk.setVisibility(View.VISIBLE);
+                    boutonKiffe.setVisibility(View.VISIBLE);
+                }else{
+                    //mPager.setVisibility(View.INVISIBLE);
+                    txDistanceKiffs.setVisibility(View.INVISIBLE);
+                    boutonBeurk.setVisibility(View.INVISIBLE);
+                    boutonKiffe.setVisibility(View.INVISIBLE);
+                }
+
+
+            }
+
+            @Override
+            public void onRightCardExit(Object dataObject) {
+
+                if(User.nbKiffs<10){
+                    imKiffBeurk.setVisibility(View.INVISIBLE);
+                   /* ShowKiffs show = new ShowKiffs();
+                    show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
+                    myAppAdapter.notifyDataSetChanged();
+
+                    idUserKiff= (String) profils.get(0).get(("id_user"));
+                    IdUserKiffsPrecedent = idUserKiff;
+                    WebService WS = new WebService();
+                    JSONArray Rep = WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"1");
+                    try {
+                        JSONObject Retour=Rep.getJSONObject(0);
+                        if(Retour.getString("NEWMATCH")=="1"){
+                            Toast.makeText(getApplicationContext(), "Vous avez un nouveau match", Toast.LENGTH_LONG).show();
+                            rlvNewKiff.setVisibility(View.VISIBLE);
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+                    if(User.nbKiffs<0){
+                        User.nbKiffs=0;
+                        User.save();
+                    }
+
+                    if(mHideKiffs!=null){
+                        mHideKiffs.cancel(true);
+                    }
+                    profils.remove(0);
+
+                    if(profils.size()>0){
+                        JSONArray InfoUser = WS.GetinfoKiff((String) profils.get(0).get("id_user"),User.id_user);
+                        if(InfoUser!=null){
+                            idUserKiff= (String) profils.get(0).get("id_user");
+                            try {
+                                JSONObject userobj = InfoUser.getJSONObject(0);
+                                if(userobj!=null) {
+                                    txDistanceKiffs.setText("kiffé " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
+                                    //txNom.setText(userobj.getString("pseudo"));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+
+
+                    if(User.nbKiffs<10){
+                        User.nbKiffs= User.nbKiffs+1;
+                        User.save();
+                        if(User.nbKiffs>10){
+                            boutonKiffe.setImageResource(R.drawable.kiffgrise);
+                            boutonKiffe.setEnabled(false);
+                        }
+                        //User.nbKiffs=nbKiffs;
+                    }else{
+                        boutonKiffe.setImageResource(R.drawable.kiffgrise);
+                        boutonKiffe.setEnabled(false);
+                        //boutonBeurk.setVisibility(View.INVISIBLE);
+
+                    }
+
+                    if(User.nbKiffs>5){
+                        int nbKiffsRestant=10 - User.nbKiffs;
+                        Toast.makeText(getContext(),"Attention, il ne vous reste plus que " + nbKiffsRestant +  " kiffs disponible.",Toast.LENGTH_SHORT).show();
+                        if(nbKiffsRestant<=0){
+                            boutonKiffe.setImageResource(R.drawable.kiffgrise);
+                            boutonKiffe.setEnabled(false);
+                        }
+                    }
+
+                    switch (User.nbKiffs){
+                        case 1 :
+                            pbKiffs.setImageResource(R.drawable.barrepos1);
+                            break;
+                        case 2 :
+                            pbKiffs.setImageResource(R.drawable.barrepos2);
+                            break;
+                        case 3 :
+                            pbKiffs.setImageResource(R.drawable.barrepos3);
+                            break;
+                        case 4 :
+                            pbKiffs.setImageResource(R.drawable.barrepos4);
+                            break;
+                        case 5 :
+                            pbKiffs.setImageResource(R.drawable.barrepos5);
+                            break;
+                        case 6 :
+                            pbKiffs.setImageResource(R.drawable.barrepos6);
+                            break;
+                        case 7 :
+                            pbKiffs.setImageResource(R.drawable.barrepos7);
+                            break;
+                        case 8 :
+                            pbKiffs.setImageResource(R.drawable.barrepos8);
+                            break;
+                        case 9 :
+                            pbKiffs.setImageResource(R.drawable.barrepos9);
+                            break;
+                        case 10 :
+                            pbKiffs.setImageResource(R.drawable.barrepos10);
+                            break;
+                    }
+
+                    if(profils.size()>0){
+                        txRechercheProche.setVisibility(View.INVISIBLE);
+                        //mPager.setVisibility(View.VISIBLE);
+                        txDistanceKiffs.setVisibility(View.VISIBLE);
+                        boutonBeurk.setVisibility(View.VISIBLE);
+                        boutonKiffe.setVisibility(View.VISIBLE);
+                    }else{
+                        //mPager.setVisibility(View.INVISIBLE);
+                        txDistanceKiffs.setVisibility(View.INVISIBLE);
+                        boutonBeurk.setVisibility(View.INVISIBLE);
+                        boutonKiffe.setVisibility(View.INVISIBLE);
+                    }
+                }else{
+                    boutonKiffe.setImageResource(R.drawable.kiffgrise);
+                    boutonKiffe.setEnabled(false);
+                    Toast.makeText(getContext(),"Attention, vous ne pouvez plus kiffés.",Toast.LENGTH_SHORT).show();
                 }
+
+
+            }
+
+            @Override
+            public void onAdapterAboutToEmpty(int itemsInAdapter) {
+
+            }
+
+            @Override
+            public void onScroll(float scrollProgressPercent) {
+
+
+                if(scrollProgressPercent>-0.30 && scrollProgressPercent<0.30){
+                    HideKiffsBeurk hide = new HideKiffsBeurk();
+                    hide.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                }else{
+                    if(scrollProgressPercent<0){
+                        ShowBeurk show = new ShowBeurk();
+                        show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    }else{
+                        ShowKiffs show = new ShowKiffs();
+                        show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    }
+                }
+                View view = flingContainer.getSelectedView();
+                TextView txPseudo = (TextView) view.findViewById(R.id.txNomProfil);
+                txPseudo.setText(profils.get(0).get("pseudo").toString());
+                TextView txAge = (TextView) view.findViewById(R.id.txAge);
+                txAge.setText(profils.get(0).get("age").toString());
+
+            }
+        });
+
+
+        /*mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if(profils.size()>0){
+                    HashMap<String, Object> profil = profils.get(position);
+                    positionprofil=position;
+                    WebService WS = new WebService();
+                    JSONArray InfoUser = WS.GetinfoKiff((String) profil.get("id_user"),User.id_user);
+                    if(InfoUser!=null){
+                        idUserKiff= (String) profil.get("id_user");
+                        try {
+                            JSONObject userobj = InfoUser.getJSONObject(0);
+                            if(userobj!=null) {
+                                txDistanceKiffs.setText("kiffé " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
+                                //txNom.setText(userobj.getString("pseudo"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mPager.getAdapter().notifyDataSetChanged();
+
 
 
             }
@@ -748,11 +734,263 @@ public class ProfilsActivity extends Fragment {
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });*/
+
+        return v;
+    }
+
+    private class GetListProfils extends AsyncTask<Void, Integer, Void>
+    {
+
+        Boolean NewMess=false;
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            //Toast.makeText(getApplicationContext(), "Début du traitement asynchrone", Toast.LENGTH_LONG).show();
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values){
+            super.onProgressUpdate(values);
+            // Mise à jour de la ProgressBar
+            //mProgressBar.setProgress(values[0]);
+            //lstChat.setAdapter(DetailConversationArray);
+            //mSchedule.setViewBinder(new MyViewBinder());
+            //lstChainesAdpater.notifyDataSetChanged();
+           // ArrayProfils.notifyDataSetChanged();
+            myAppAdapter.notifyDataSetChanged();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            WebService WS = new WebService();
+            JSONArray ListProfils = WS.GetListProfils(User);
+
+            if(ListProfils != null)
+            {
+
+                String Url=null;
+
+                for (int i = 0; i < ListProfils.length(); i++) {
+                    JSONObject Amis=null;
+
+                    HashMap<String, Object> valeur = new HashMap<String, Object>();
+                    try {
+                        Amis = ListProfils.getJSONObject(i);
+                        valeur.put("pseudo", Amis.getString("pseudo"));
+                        valeur.put("id_user", Amis.getString("id_user"));
+                        valeur.put("age", Amis.getString("age"));
+                        valeur.put("calme", Amis.getString("calme"));
+                        valeur.put("affinity", Amis.getString("affinity"));
+
+                        Url = Amis.getString("photo").replace(" ","%20");
+
+                        URL pictureURL;
+
+                        valeur.put("Url", Url);
+
+                        pictureURL = null;
+
+                        try {
+                            pictureURL = new URL(Url);
+                        } catch (MalformedURLException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+
+                        /*Bitmap bitmap=null;
+                        try {
+                            //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+
+                            if(bitmap==null){
+                                bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
+                                //valeur.put("LOGO", bitmap);
+                                //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                            }
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                        valeur.put("photo", bitmap);*/
+
+
+                    } catch (JSONException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+
+                    profils.add(valeur);
+
+                    publishProgress(0);
+                    //ArrayProfils.notifyDataSetChanged();
+
+                }
+            }
+
+
+
+
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            //mPager.setAdapter(ArrayProfils);
+            //mPager.getAdapter().notifyDataSetChanged();
+
+
+            flingContainer.setAdapter(myAppAdapter);
+
+
+            if(profils.size()>0){
+                txRechercheProche.setVisibility(View.INVISIBLE);
+                //mPager.setVisibility(View.VISIBLE);
+                txDistanceKiffs.setVisibility(View.VISIBLE);
+                boutonBeurk.setVisibility(View.VISIBLE);
+                boutonKiffe.setVisibility(View.VISIBLE);
+                WebService WS = new WebService();
+                JSONArray InfoUser = WS.GetinfoKiff((String) profils.get(0).get("id_user"),User.id_user);
+                if(InfoUser!=null){
+                    idUserKiff= (String) profils.get(0).get("id_user");
+                    try {
+                        JSONObject userobj = InfoUser.getJSONObject(0);
+                        if(userobj!=null) {
+                            txDistanceKiffs.setText("kiffé " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
+                            //txNom.setText(userobj.getString("pseudo"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }else{
+                //mPager.setVisibility(View.INVISIBLE);
+                txDistanceKiffs.setVisibility(View.INVISIBLE);
+                boutonBeurk.setVisibility(View.INVISIBLE);
+                boutonKiffe.setVisibility(View.INVISIBLE);
+
+            }
+            //lstPaysAdpater.notifyDataSetChanged();
+            //Toast.makeText(getApplicationContext(), "Le traitement asynchrone est terminé", Toast.LENGTH_LONG).show();
+        }
 
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    class ShowKiffs extends AsyncTask {
+
+
+
+        @Override
+        protected void onProgressUpdate(Object... values) {
+            super.onProgressUpdate(values);
+
+
+        }
+
+        @Override
+        protected Void doInBackground(Object... params) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            imKiffBeurk.setVisibility(View.VISIBLE);
+            imKiffBeurk.setImageResource(R.drawable.kiffegros);
+        }
+    }
+    class ShowBeurk extends AsyncTask {
+
+
+
+        @Override
+        protected void onProgressUpdate(Object... values) {
+            super.onProgressUpdate(values);
+
+
+        }
+
+        @Override
+        protected Void doInBackground(Object... params) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            imKiffBeurk.setVisibility(View.VISIBLE);
+            imKiffBeurk.setImageResource(R.drawable.beurkgros);
+        }
+    }
+
+    class HideKiffsBeurk extends AsyncTask {
+
+
+
+        @Override
+        protected void onProgressUpdate(Object... values) {
+            super.onProgressUpdate(values);
+
+
+        }
+
+        @Override
+        protected Void doInBackground(Object... params) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            imKiffBeurk.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    class HideNewKiff extends AsyncTask {
+
+
+
+        @Override
+        protected void onProgressUpdate(Object... values) {
+            super.onProgressUpdate(values);
+
+
+        }
+
+        @Override
+        protected Void doInBackground(Object... params) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            rlvNewKiff.setVisibility(View.INVISIBLE);
+        }
+    }
 
     class RefreshTask extends AsyncTask {
 
@@ -806,6 +1044,261 @@ public class ProfilsActivity extends Fragment {
 
             }
             return null;
+        }
+    }
+
+    public static class ViewHolder {
+        public static FrameLayout background;
+        public TextView txNom;
+        public TextView txAge;
+        public ImageView cardImage;
+        ImageButton rbcalme1;
+        ImageButton rbcalme2;
+        ImageButton rbcalme3;
+        ImageButton rbcalme4;
+        ImageButton rbcalme5;
+
+        ImageButton rbverre1;
+        ImageButton rbverre2;
+        ImageButton rbverre3;
+        ImageButton rbverre4;
+        ImageButton rbverre5;
+
+
+    }
+
+    public class MyAppAdapter extends BaseAdapter {
+
+
+        public ArrayList<HashMap<String, Object>> profilsList;
+        public Context context;
+        LayoutInflater inflater;
+        private MyAppAdapter(ArrayList<HashMap<String, Object>> data, Context context) {
+            this.profilsList = data;
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return profilsList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            View rowView = convertView;
+
+
+            if (rowView == null) {
+
+                inflater =LayoutInflater.from(context);
+
+                rowView = inflater.inflate(R.layout.slideimgprofil, parent, false);
+                // configure view holder
+                viewHolder = new ViewHolder();
+                viewHolder.txNom = (TextView) rowView.findViewById(R.id.txNomProfil);
+                viewHolder.txAge = (TextView) rowView.findViewById(R.id.txAge);
+
+                viewHolder.rbcalme1 = (ImageButton) rowView.findViewById(R.id.rdcoeur1);
+                viewHolder.rbcalme2 = (ImageButton) rowView.findViewById(R.id.rdcoeur2);
+                viewHolder.rbcalme3 = (ImageButton) rowView.findViewById(R.id.rdcoeur3);
+                viewHolder.rbcalme4 = (ImageButton) rowView.findViewById(R.id.rdcoeur4);
+                viewHolder.rbcalme5 = (ImageButton) rowView.findViewById(R.id.rdcoeur5);
+
+                viewHolder.rbverre1 = (ImageButton) rowView.findViewById(R.id.rdverre1);
+                viewHolder.rbverre2 = (ImageButton) rowView.findViewById(R.id.rdverre2);
+                viewHolder.rbverre3 = (ImageButton) rowView.findViewById(R.id.rdverre3);
+                viewHolder.rbverre4 = (ImageButton) rowView.findViewById(R.id.rdverre4);
+                viewHolder.rbverre5 = (ImageButton) rowView.findViewById(R.id.rdverre5);
+
+
+                switch (Integer.parseInt(profilsList.get(position).get("calme").toString()))
+                {
+                    case 1:
+                        viewHolder.rbcalme1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme2.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme2.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbcalme3.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbcalme4.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbcalme5.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        break;
+                    case 2:
+                        viewHolder.rbcalme1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme2.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme3.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbcalme4.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbcalme5.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        break;
+                    case 3:
+                        viewHolder.rbcalme1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme2.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme3.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme4.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbcalme5.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        break;
+                    case 4:
+                        viewHolder.rbcalme1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme2.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme3.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme4.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme4.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme5.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        break;
+                    case 5:
+                        viewHolder.rbcalme1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme2.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme3.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme4.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme4.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbcalme5.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbcalme5.setBackgroundColor(Color.parseColor("#2c2954"));
+                        break;
+                    default:
+                        viewHolder.rbcalme1.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme1.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbcalme2.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme2.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbcalme3.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbcalme4.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbcalme5.setImageResource(R.drawable.carre);
+                        viewHolder.rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
+
+                }
+
+                switch (Integer.parseInt(profilsList.get(position).get("affinity").toString()))
+                {
+                    case 1:
+                        viewHolder.rbverre1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre2.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre2.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbverre3.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbverre4.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbverre5.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        break;
+                    case 2:
+                        viewHolder.rbverre1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre2.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre3.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbverre4.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbverre5.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        break;
+                    case 3:
+                        viewHolder.rbverre1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre2.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre3.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre4.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbverre5.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        break;
+                    case 4:
+                        viewHolder.rbverre1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre2.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre3.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre4.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre4.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre5.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        break;
+                    case 5:
+                        viewHolder.rbverre1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre2.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre3.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre4.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre4.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre5.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre5.setBackgroundColor(Color.parseColor("#2c2954"));
+                        break;
+                    default:
+                        viewHolder.rbverre1.setImageResource(R.drawable.carreselect);
+                        viewHolder.rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
+                        viewHolder.rbverre2.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre2.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbverre3.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbverre4.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
+                        viewHolder.rbverre5.setImageResource(R.drawable.carre);
+                        viewHolder.rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
+
+                }
+                //viewHolder.background = (FrameLayout) rowView.findViewById(R.id.background);
+                viewHolder.cardImage = (ImageView) rowView.findViewById(R.id.image);
+                rowView.setTag(viewHolder);
+
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            if(position<=0){
+                viewHolder.txNom.setText(profilsList.get(position).get("pseudo").toString());
+                viewHolder.txAge.setText(profilsList.get(position).get("age").toString());
+            }else{
+                viewHolder.txNom.setText("");
+                viewHolder.txAge.setText("");
+            }
+
+
+            URL pictureURL = null;
+            try {
+                pictureURL = new URL((String) profilsList.get(position).get("Url"));
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Glide.with(ProfilsActivity.this).load(pictureURL).into(viewHolder.cardImage);
+
+            return rowView;
         }
     }
 }

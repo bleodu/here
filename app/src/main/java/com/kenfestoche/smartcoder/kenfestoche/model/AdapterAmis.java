@@ -19,6 +19,8 @@ import com.kenfestoche.smartcoder.kenfestoche.Conversation;
 import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -130,11 +132,20 @@ public class AdapterAmis extends SimpleAdapter {
 
         if(ami.containsKey("id_kiff")){
 
+            WebService WS = new WebService();
+            JSONArray ListMessages =  WS.GetMessageNonLu(User.id_user, (String) ami.get("id_kiff"));
+
+            if(ListMessages!=null){
+                txPseudo.setTypeface(face,Typeface.BOLD);
+            }
+
             ligneContact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos=Integer.parseInt(view.getTag().toString());
                     ami = arrayList.get(pos);
+
+
 
                     Intent i = new Intent(view.getContext(), Conversation.class);
                     Utilisateur User = (Utilisateur) ami.get("user");

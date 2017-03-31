@@ -152,12 +152,12 @@ public class ListAmisAjout extends AppCompatActivity {
 
                                         Bitmap bitmap = null;
                                         try {
-                                            bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                                            //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
 
                                             if(bitmap==null){
                                                 bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
                                                 //valeur.put("LOGO", bitmap);
-                                                File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                                                //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
                                             }
                                         } catch (IOException e) {
                                             // TODO Auto-generated catch block
@@ -235,12 +235,12 @@ public class ListAmisAjout extends AppCompatActivity {
 
                             Bitmap bitmap = null;
                             try {
-                                bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                                //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
 
                                 if(bitmap==null){
                                     bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
                                     //valeur.put("LOGO", bitmap);
-                                    File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                                    //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
                                 }
                             } catch (IOException e) {
                                 // TODO Auto-generated catch block

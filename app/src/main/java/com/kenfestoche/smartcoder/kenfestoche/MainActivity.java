@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     SharedPreferences.Editor editor;
     SharedPreferences pref;
-    Utilisateur User=null;
+    public static Utilisateur User=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
             if(User != null)
             {
                 if(User.connecte==true && (User.statut>1 || User.id_facebook!="")){
-                    WebService WS = new WebService();
-                    User=WS.SaveUser(User);
+                    //WebService WS = new WebService();
+                    //User=WS.SaveUser(User);
                     editor = pref.edit();
                     editor.putLong("UserId", User.getId());
                     editor.commit();
@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),FragmentsSliderActivity.class));
 
                 }else if(User.connecte==true && User.statut==1){
-                    WebService WS = new WebService();
-                    User=WS.SaveUser(User);
+                    //WebService WS = new WebService();
+                    //User=WS.SaveUser(User);
                     editor = pref.edit();
                     editor.putLong("UserId", User.getId());
                     editor.commit();

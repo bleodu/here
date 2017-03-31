@@ -31,10 +31,10 @@
             android:value="@string/facebook_app_id" />
         <meta-data
             android:name="DATABASE"
-            android:value="bddeaser.db" />
+            android:value="bddeaserok.db" />
         <meta-data
             android:name="VERSION"
-            android:value="12" />
+            android:value="15" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -151,7 +151,9 @@
             android:name=".AddConversation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ChatViewConversation"></activity>
+        <activity android:name=".ChatViewConversation" />
+        <activity android:name=".webservices.ParamActivity" />
+        <activity android:name=".ParamPseudo"></activity>
     </application>
 
 </manifest>

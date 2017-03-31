@@ -26,6 +26,13 @@ public class Utilisateur extends SugarRecord{
     public String errormess;
     public String tokenFirebase;
     public int localiser;
+    public int activnotif;
+    public int profilsaufkiffs;
+    public int positiontous;
+    public int positionamis;
+    public int inclusfb;
+    public int nbKiffs;
+
 
     public Utilisateur(){
     }

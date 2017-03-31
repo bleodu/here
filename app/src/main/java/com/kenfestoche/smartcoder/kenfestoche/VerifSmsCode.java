@@ -62,7 +62,7 @@ public class VerifSmsCode extends AppCompatActivity {
 
 
         Bundle extras = getIntent().getExtras();
-        User = Utilisateur.findById(Utilisateur.class,preferences.getLong("UserId", 0));
+        User = FragmentsSliderActivity.User;
 
 
         final WebService WS = new WebService();

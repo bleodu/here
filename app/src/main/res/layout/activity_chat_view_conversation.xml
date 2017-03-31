@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_chat_view_conversation"
@@ -9,127 +9,207 @@
     tools:context="com.kenfestoche.smartcoder.kenfestoche.ChatViewConversation">
 
     <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:background="#2c2954"
         android:id="@+id/rlbBanniere"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2c2954"
+        android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/imageView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/bannierenu"
-            android:id="@+id/imageView3" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/bouteilleblanche"
-            android:id="@+id/imageView4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dip"
-            />
+            android:src="@drawable/bannierenu" />
 
         <ImageView
+            android:id="@+id/imFlecheGaucheConversation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imFlecheGaucheConversation"
-            android:src="@drawable/fleche"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
 
-            android:layout_marginLeft="13dp"
-            android:layout_marginStart="13dp" />
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/fleche" />
 
         <com.kenfestoche.smartcoder.kenfestoche.model.SquareImageView
             android:id="@+id/imPhotoConversation"
             android:layout_width="50dp"
-            android:src="@drawable/ajoutphoto"
             android:layout_height="50dp"
-
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/txNomConversation"
+            android:layout_toStartOf="@+id/txNomConversation"
             android:scaleType="centerCrop"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/imageView4"
-            android:layout_toEndOf="@+id/imageView4"
-            android:layout_marginLeft="7dp"
-            android:layout_marginStart="7dp" />
+            android:src="@drawable/ajoutphoto" />
 
-        <TextView
-            android:text="Les Kepons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="13dp"
-            android:layout_marginStart="13dp"
-            android:id="@+id/txNomConversation"
-            android:textColor="#fff"
-            android:textSize="10pt"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/imPhotoConversation"
-            android:layout_toEndOf="@+id/imPhotoConversation" />
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/gridPhotoConversation"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dip"
+            android:layout_toLeftOf="@+id/txNomConversation"
+            android:layout_toStartOf="@+id/txNomConversation"
+            android:columnWidth="30dp"
+            android:horizontalSpacing="0dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="none"
+            android:verticalSpacing="0dp"
+            android:visibility="gone">
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/rlvChat"
-        android:background="#2c2954"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        </GridView>
 
         <ImageView
+            android:id="@+id/btLocaliser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/barrebasmessage"
-
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/imageView8"
+            android:layout_marginEnd="11dp"
+            android:layout_marginRight="11dp"
+            app:srcCompat="@drawable/btlocaliser"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_alignBottom="@+id/imFlecheGaucheConversation"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Taper un message..."
-            android:textColor="#fff"
-            android:textColorHint="#fff"
-            android:textColorHighlight="#fff"
-            android:ems="10"
-            android:id="@+id/edtMessage"
-            android:layout_toLeftOf="@+id/edtSendMessage"
-            android:layout_toStartOf="@+id/edtSendMessage" />
-
         <TextView
+            android:id="@+id/txNomConversation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Envoyer"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Les Kepons"
             android:textColor="#fff"
-            android:textColorHint="#fff"
-            android:textSize="10pt"
-            android:id="@+id/edtSendMessage"
-            android:gravity="center_vertical"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_alignBottom="@+id/edtMessage" />
+            android:textSize="10pt" />
 
     </RelativeLayout>
 
-    <ListView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txVousReste"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textColor="#cd0c63"
+            android:textSize="8pt"
+            android:text="Vous pouvez envoyer 6 messages" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:id="@+id/lstChat"
-        android:layout_below="@+id/rlbBanniere"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/rlvChat" />
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lstChat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btvoudrais"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/btvoudrais" />
+
+            <ImageView
+                android:id="@+id/btvoudraispas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/btveuxpasselect" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlvChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#2c2954"
+            android:padding="10dip"
+            android:paddingBottom="80dip">
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentStart="true"
+                app:srcCompat="@drawable/barrebasmessage" />
+
+            <EditText
+                android:id="@+id/edtMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/edtSendMessage"
+                android:layout_toStartOf="@+id/edtSendMessage"
+                android:ems="10"
+                android:hint="Taper un message..."
+                android:inputType="textPersonName"
+                android:textColor="#fff"
+                android:textColorHighlight="#fff"
+                android:textColorHint="#fff" />
+
+            <TextView
+                android:id="@+id/edtSendMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/edtMessage"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:gravity="center_vertical"
+                android:hint="Envoyer"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
+                android:textSize="10pt" />
+
+            <ImageView
+                android:id="@+id/btenvoyerko"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/edtMessage"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/edtMessage"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/btenvoyerko" />
+
+        </RelativeLayout>
+    </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

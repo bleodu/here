@@ -352,43 +352,44 @@ public class NewProfil extends AppCompatActivity {
                     User.latitude=Latitude;
                     User.longitude=Longitude;
                     User.connecte=true;
-                    //selectedId=radioSexeGroup.getCheckedRadioButtonId();
-                    //radioSexeButton=(RadioButton)findViewById(selectedId);
 
-                    /*switch (radioSexeButton.getText().toString())
-                    {
-                        case "un homme" :
-                            User.sexe=0;
-                            break;
-
-                        case "une femme" :
-                            User.sexe=1;
-                            break;
-                    }*/
-
-
-                    /*selectedId=radioTendanceSexe.getCheckedRadioButtonId();
-                    radioTendanceButton=(RadioButton)findViewById(selectedId);*/
-
-
-                    /*switch (radioTendanceButton.getText().toString())
-                    {
-                        case "bi" :
-                            User.tendancesexe=0;
-                            break;
-
-                        case "hétéro" :
-                            User.tendancesexe=1;
-                            break;
-
-                        case "homo" :
-                            User.tendancesexe=2;
-                            break;
-                    }*/
                     User.save();
-                    showProgress(true);
+
+                    WebService WS = new WebService();
+
+                    User = WS.SaveUser(User);
+
+                    //JSONObject User;
+                    // User = Retour.getJSONObject(0);
+                    //String RetourConnect = User.getString("statut");
+
+                    if(User.id_user>0) //EN CREATION DE COMPTE
+                    {
+
+                        User.save();
+                        User.getId();
+                        //SharedPreferences pref = getSharedPreferences("EASER", MODE_PRIVATE);
+
+                        editor = preferences.edit();
+
+                        editor.putLong("UserId",User.getId());
+
+                        editor.commit();
+
+                        Intent i = new Intent(getApplicationContext(), VerifSmsCode.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        finish();
+                        startActivity(i);
+
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),User.errormess,Toast.LENGTH_LONG).show();
+                    }
+
+                    /*showProgress(true);
                     mCreateUserTask = new UserCreateTask(User);
-                    mCreateUserTask.execute((Void) null);
+                    mCreateUserTask.execute((Void) null);*/
                 }
 
 

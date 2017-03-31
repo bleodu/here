@@ -36,105 +36,119 @@
             android:layout_marginRight="8dip"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
-<android.support.v4.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:padding="10dip"
-            android:layout_height="wrap_content">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-
-        android:background="#2c2954"
-        android:layout_margin="10dip"
-
-        android:layout_height="wrap_content"
-        android:id="@+id/panelkiffs">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txMesKiffs"
-            android:textColor="#fff"
-            android:layout_margin="10dip"
-            android:textSize="11pt"
-            android:layout_weight="1"
-            tools:text="mes kiffs" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_marginRight="10dip"
-        android:layout_marginLeft="10dip"
-        android:layout_height="wrap_content">
-
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:longClickable="true"
-            android:id="@+id/lstkiffs"/>
-    </LinearLayout>
-
-            <RelativeLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:background="#2c2954"
-                android:layout_margin="10dip"
-
                 android:layout_height="wrap_content"
-                android:id="@+id/panelamis">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txAmis"
-                    android:textColor="#fff"
-                    android:layout_margin="10dip"
-                    android:textSize="11pt"
-                    android:layout_weight="1"
-                    tools:text="mes amis" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/plus"
-                    android:layout_marginRight="21dp"
-                    android:layout_marginEnd="21dp"
-                    android:id="@+id/imPlusAmis"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/bulle"
-                    android:id="@+id/imBulle"
-                    android:layout_marginRight="15dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/imPlusAmis" />
-            </RelativeLayout>
+                android:orientation="vertical"
+                android:padding="10dip">
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/panelkiffs"
                 android:layout_width="match_parent"
-                android:layout_marginRight="10dip"
+
+                android:layout_height="wrap_content"
+                android:layout_margin="10dip"
+
+                android:background="#2c2954"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txMesKiffs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:layout_weight="1"
+                    android:textColor="#fff"
+                    android:textSize="11pt"
+                    tools:text="mes kiffs" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
-                android:layout_height="wrap_content">
+                android:layout_marginRight="10dip"
+                android:orientation="horizontal">
 
 
                 <ListView
+                    android:id="@+id/lstkiffs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/lstamis"/>
+                    android:longClickable="true" />
             </LinearLayout>
 
-        </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+                <RelativeLayout
+                    android:id="@+id/panelamis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+
+                    android:background="#2c2954"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txAmis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dip"
+                        android:layout_weight="1"
+                        android:textColor="#fff"
+                        android:textSize="11pt"
+                        tools:text="mes amis" />
+
+                    <ImageView
+                        android:id="@+id/imPlusAmis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="21dp"
+                        android:layout_marginRight="21dp"
+                        app:srcCompat="@drawable/plus" />
+
+                    <ImageView
+                        android:id="@+id/imBulle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_toLeftOf="@+id/imPlusAmis"
+                        app:srcCompat="@drawable/bulle" />
+
+                    <TextView
+                        android:id="@+id/txNbMessages"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/txAmis"
+                        android:layout_marginRight="1dip"
+                        android:layout_toLeftOf="@+id/imBulle"
+                        android:text="1"
+                        android:textColor="#fff"
+                        android:textSize="11pt" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:orientation="horizontal">
+
+
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lstamis" />
+                </LinearLayout>
+
+            </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

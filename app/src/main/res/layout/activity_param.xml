@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.kenfestoche.smartcoder.kenfestoche.MapActivity">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="#2c2954"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/parametre"
+            android:id="@+id/imageView3" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imFlecheGauche"
+            android:src="@drawable/fleche"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dip"
+            android:layout_alignParentLeft="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dip"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txPseudo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dip"
+                android:layout_weight="1"
+                android:text="modifier nom d'utilisateur"
+                android:textColor="#2c2954"
+                android:textSize="10pt" />
+
+            <ImageView
+                android:id="@+id/imNewPseudo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="25dip"
+                android:layout_weight="0.3"
+                android:src="@drawable/minifleche" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lstVerifProfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/txprofil"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dip"
+                android:layout_weight="1"
+                android:text="faire vérifier mon profil"
+                android:textColor="#2c2954"
+                android:textSize="10pt" />
+
+            <ImageView
+                android:id="@+id/imflecheprofil"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="25dip"
+                android:layout_weight="0.3"
+                android:src="@drawable/minifleche" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txactivnotif"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dip"
+                android:layout_weight="1"
+                android:text="activation des notifications"
+                android:textColor="#2c2954"
+                android:textSize="10pt" />
+
+            <ImageButton
+                android:background="#d2d2db"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip"
+                android:id="@+id/rdnotif" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txsaufkiffs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:layout_weight="1"
+                android:text="cacher mon profil à tous sauf à mes kiffs"
+                android:textColor="#2c2954"
+                android:textSize="10pt" />
+
+            <ImageButton
+                android:id="@+id/rdsaufkiffs"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip"
+                android:background="#d2d2db" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txpositionamis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:layout_weight="1"
+                android:text="cacher ma position à mes amis"
+                android:textColor="#2c2954"
+                android:textSize="10pt" />
+
+            <ImageButton
+                android:id="@+id/rdposamis"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip"
+                android:background="#d2d2db" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txpositiontous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:layout_weight="1"
+                android:text="cacher ma position à tous"
+                android:textColor="#2c2954"
+                android:textSize="10pt" />
+
+            <ImageButton
+                android:id="@+id/rdpostous"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip"
+                android:background="#d2d2db" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txamisfb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:layout_weight="1"
+                android:text="ne pas inclure mes amis fb dans les profils proposés"
+                android:textColor="#2c2954"
+                android:textSize="10pt" />
+
+            <ImageButton
+                android:id="@+id/rdamisfb"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip"
+                android:background="#d2d2db" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btSupprimeCompte"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:gravity="bottom"
+                android:text="Supprimer mon compte"
+                android:layout_marginRight="15dip"
+                android:textColor="#2c2954"
+                android:textSize="10pt" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txPolitique"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:linksClickable="false"
+                    android:gravity="right"
+                    android:longClickable="false"
+                    android:text="politique de confidentialité."
+                    android:textColor="#2c2954"
+                    android:textSize="5pt" />
+
+                <TextView
+                    android:id="@+id/txCondition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:linksClickable="false"
+                    android:longClickable="false"
+                    android:text="conditions d'utilisation."
+                    android:textColor="#2c2954"
+                    android:textSize="5pt" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

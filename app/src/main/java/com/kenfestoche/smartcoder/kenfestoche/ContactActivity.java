@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.kenfestoche.smartcoder.kenfestoche.model.AdapterAmis;
+import com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto;
 import com.kenfestoche.smartcoder.kenfestoche.model.MyViewBinder;
 import com.kenfestoche.smartcoder.kenfestoche.model.SlidingImgProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
@@ -45,6 +47,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 public class ContactActivity extends Fragment {
 
@@ -60,6 +63,7 @@ public class ContactActivity extends Fragment {
     SimpleAdapter mScheduleAmis;
     TextView txMesKiffs;
     TextView txAmis;
+    TextView txNbMessage;
     TextView txPseudoLigne;
     ImageView BanniereContact;
     ImageView imPlusAmis;
@@ -68,11 +72,41 @@ public class ContactActivity extends Fragment {
     ImageView imFlecheGauche;
     ViewPager pager;
     ImageView imFlecheDroite;
+    AdapterAmis KiffsArray;
 
+    AdapterAmis Amisrray;
+    GetListContacts mLoadContact;
 
     LinearLayout panelKiffs;
     RelativeLayout panelAmis;
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        MonActivity = getActivity();
+
+
+        User = FragmentsSliderActivity.User;
+
+        kiffs =  new ArrayList<HashMap<String,Object>>();
+        kiffssauv =  new ArrayList<HashMap<String,Object>>();
+        amis =  new ArrayList<HashMap<String,Object>>();
+
+        KiffsArray = new AdapterAmis(this.MonActivity.getBaseContext(), kiffs, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
+
+
+        Amisrray = new AdapterAmis(this.MonActivity.getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
+
+
+    }
 
 
     @Override
@@ -95,7 +129,7 @@ public class ContactActivity extends Fragment {
         pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
 
         editor = pref.edit();
-        User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+
         Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
 
         txMesKiffs = (TextView) v.findViewById(R.id.txMesKiffs);
@@ -116,8 +150,25 @@ public class ContactActivity extends Fragment {
         imBulle = (ImageView) v.findViewById(R.id.imBulle);
         imBulle.setImageResource(R.drawable.bulle);
 
+        lstKiffs = (ListView)  v.findViewById(R.id.lstkiffs);
+        lstAmis = (ListView)  v.findViewById(R.id.lstamis);
 
 
+        txNbMessage = (TextView) v.findViewById(R.id.txNbMessages);
+
+
+
+        txNbMessage.setTypeface(face);
+        txNbMessage.setVisibility(View.INVISIBLE);
+
+        WebService WS = new WebService();
+        JSONArray ListMessage = WS.GetMessageNonLu(User.id_user,"");
+
+        if(ListMessage!=null){
+            txNbMessage.setVisibility(View.VISIBLE);
+            txNbMessage.setText(String.valueOf(ListMessage.length()));
+            txNbMessage.setTypeface(face,Typeface.BOLD);
+        }
 
         txMesKiffs.setTypeface(face);
         txAmis.setTypeface(face);
@@ -126,12 +177,8 @@ public class ContactActivity extends Fragment {
         txMesKiffs.setText("mes kiffs");
         txAmis.setText("mes amis");
 
-        lstKiffs = (ListView) v.findViewById(R.id.lstkiffs);
-        lstAmis = (ListView) v.findViewById(R.id.lstamis);
 
-        kiffs =  new ArrayList<HashMap<String,Object>>();
-        kiffssauv =  new ArrayList<HashMap<String,Object>>();
-        amis =  new ArrayList<HashMap<String,Object>>();
+
 
         imFlecheDroite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,157 +195,6 @@ public class ContactActivity extends Fragment {
         });
 
         if(User!=null){
-            WebService WS = new WebService();
-
-            JSONArray ListKiffs = WS.GetListKiffs(User);
-            JSONArray ListAmis = WS.GetListAmis(User);
-
-            if(ListKiffs != null)
-            {
-
-                String Url=null;
-
-                for (int i = 0; i < ListKiffs.length(); i++) {
-                    JSONObject LeKiff=null;
-
-                    HashMap<String, Object> valeur = new HashMap<String, Object>();
-                    try {
-                        LeKiff = ListKiffs.getJSONObject(i);
-                        valeur.put("pseudo", LeKiff.getString("pseudo"));
-                        valeur.put("id_kiff", LeKiff.getString("id_user_kiff"));
-                        valeur.put("user", User);
-                        Url = LeKiff.getString("photo").replace(" ","%20");
-
-                        URL pictureURL;
-
-                        pictureURL = null;
-
-                        try {
-                            pictureURL = new URL(Url);
-                        } catch (MalformedURLException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-
-
-                        Bitmap bitmap=null;
-                        try {
-                            bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-
-                            if(bitmap==null){
-                                bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                                //valeur.put("LOGO", bitmap);
-                                File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-                            }
-                            //bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-
-                        valeur.put("photo", bitmap);
-
-
-                    } catch (JSONException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-
-                    kiffs.add(valeur);
-                    kiffssauv.add(valeur);
-                }
-            }
-
-            if(ListAmis != null)
-            {
-
-                String Url=null;
-
-                for (int i = 0; i < ListAmis.length(); i++) {
-                    JSONObject Amis=null;
-
-                    HashMap<String, Object> valeur = new HashMap<String, Object>();
-                    try {
-                        Amis = ListAmis.getJSONObject(i);
-                        valeur.put("pseudo", Amis.getString("pseudo"));
-                        valeur.put("statut", Amis.getString("statut"));
-                        valeur.put("id_ami", Amis.getString("id_useramis"));
-                        valeur.put("localiser", Amis.getString("localiser"));
-                        valeur.put("user", User);
-
-
-                        Url = Amis.getString("photo").replace(" ","%20");
-
-                        URL pictureURL;
-
-                        pictureURL = null;
-
-                        try {
-                            pictureURL = new URL(Url);
-                        } catch (MalformedURLException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-
-
-                        Bitmap bitmap=null;
-                        try {
-                            bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-
-                            if(bitmap==null){
-                                bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                                //valeur.put("LOGO", bitmap);
-                                File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-                            }
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-
-                        valeur.put("photo", bitmap);
-
-
-                    } catch (JSONException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-
-                    amis.add(valeur);
-                }
-            }
-
-
-
-
-            /*mPager.addOnAdapterChangeListener(new ViewPager.OnPageChangeListener(){
-
-
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });*/
-
-
-            final AdapterAmis KiffsArray = new AdapterAmis(this.MonActivity.getBaseContext(), kiffs, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
-
-            //mSchedule.setViewBinder(new MyViewBinder());
-            lstKiffs.setAdapter(KiffsArray);
-
-            final AdapterAmis Amisrray = new AdapterAmis(this.MonActivity.getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
-
-            //mSchedule.setViewBinder(new MyViewBinder());
-            lstAmis.setAdapter(Amisrray);
 
             panelAmis.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -322,20 +218,10 @@ public class ContactActivity extends Fragment {
                 public void onClick(View view) {
                     if(lstKiffs.getVisibility()==View.VISIBLE)
                     {
-                        kiffs.clear();
-                        KiffsArray.notifyDataSetChanged();
 
                         lstKiffs.setVisibility(View.INVISIBLE);
                     }else{
                         lstKiffs.setVisibility(View.VISIBLE);
-                        for (int j = 0; j < kiffssauv.size(); j++) {
-                            HashMap<String, Object> valeur = new HashMap<String, Object>();
-                            valeur=kiffssauv.get(j);
-                            kiffs.add(valeur);
-
-                        }
-
-                        KiffsArray.notifyDataSetChanged();
                     }
 
                     setListViewHeightBasedOnChildren(lstKiffs);
@@ -370,8 +256,8 @@ public class ContactActivity extends Fragment {
                 }
             });
 
-            setListViewHeightBasedOnChildren(lstKiffs);
-            setListViewHeightBasedOnChildren(lstAmis);
+            //setListViewHeightBasedOnChildren(lstKiffs);
+            //setListViewHeightBasedOnChildren(lstAmis);
 
 
         }
@@ -390,6 +276,13 @@ public class ContactActivity extends Fragment {
             }
         });
 
+        //mSchedule.setViewBinder(new MyViewBinder());
+        lstAmis.setAdapter(Amisrray);
+        //mSchedule.setViewBinder(new MyViewBinder());
+        lstKiffs.setAdapter(KiffsArray);
+        setListViewHeightBasedOnChildren(lstKiffs);
+        setListViewHeightBasedOnChildren(lstAmis);
+
 
     }
 
@@ -399,140 +292,190 @@ public class ContactActivity extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        WebService WS = new WebService();
 
-        kiffs.clear();
-        amis.clear();
+        mLoadContact =new GetListContacts();
 
-        JSONArray ListKiffs = WS.GetListKiffs(User);
-        JSONArray ListAmis = WS.GetListAmis(User);
-
-        if(ListKiffs != null)
-        {
-
-            String Url=null;
-
-            for (int i = 0; i < ListKiffs.length(); i++) {
-                JSONObject LeKiff=null;
-
-                HashMap<String, Object> valeur = new HashMap<String, Object>();
-                try {
-                    LeKiff = ListKiffs.getJSONObject(i);
-                    valeur.put("pseudo", LeKiff.getString("pseudo"));
-                    valeur.put("id_kiff", LeKiff.getString("id_user_kiff"));
-                    valeur.put("user", User);
-                    Url = LeKiff.getString("photo").replace(" ","%20");
-
-                    URL pictureURL;
-
-                    pictureURL = null;
-
-                    try {
-                        pictureURL = new URL(Url);
-                    } catch (MalformedURLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+        mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
-                    Bitmap bitmap=null;
-                    try {
-                        bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-
-                        if(bitmap==null){
-                            bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                            //valeur.put("LOGO", bitmap);
-                            File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-                        }
-                        //bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                    valeur.put("photo", bitmap);
-
-
-                } catch (JSONException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-
-                kiffs.add(valeur);
-            }
-        }
-
-        if(ListAmis != null)
-        {
-
-            String Url=null;
-
-            for (int i = 0; i < ListAmis.length(); i++) {
-                JSONObject Amis=null;
-
-                HashMap<String, Object> valeur = new HashMap<String, Object>();
-                try {
-                    Amis = ListAmis.getJSONObject(i);
-                    valeur.put("pseudo", Amis.getString("pseudo"));
-                    valeur.put("statut", Amis.getString("statut"));
-                    valeur.put("id_ami", Amis.getString("id_useramis"));
-                    valeur.put("localiser", Amis.getString("localiser"));
-                    valeur.put("user", User);
-
-
-                    Url = Amis.getString("photo").replace(" ","%20");
-
-                    URL pictureURL;
-
-                    pictureURL = null;
-
-                    try {
-                        pictureURL = new URL(Url);
-                    } catch (MalformedURLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-
-                    Bitmap bitmap=null;
-                    try {
-                        bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-
-                        if(bitmap==null){
-                            bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                            //valeur.put("LOGO", bitmap);
-                            File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-                        }
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                    valeur.put("photo", bitmap);
-
-
-                } catch (JSONException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-
-                amis.add(valeur);
-            }
-        }
-
-        AdapterAmis KiffsArray = new AdapterAmis(this.MonActivity.getBaseContext(), kiffs, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
-
-        //mSchedule.setViewBinder(new MyViewBinder());
-        lstKiffs.setAdapter(KiffsArray);
-
-        final AdapterAmis Amisrray = new AdapterAmis(this.MonActivity.getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
-
-        //mSchedule.setViewBinder(new MyViewBinder());
-        lstAmis.setAdapter(Amisrray);
-
-        setListViewHeightBasedOnChildren(lstKiffs);
-        setListViewHeightBasedOnChildren(lstAmis);
     }
+
+    private class GetListContacts extends AsyncTask<Void, Integer, Void>
+    {
+
+        Boolean NewMess=false;
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            //Toast.makeText(getApplicationContext(), "Début du traitement asynchrone", Toast.LENGTH_LONG).show();
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values){
+            super.onProgressUpdate(values);
+            // Mise à jour de la ProgressBar
+
+            Amisrray.notifyDataSetChanged();
+            KiffsArray.notifyDataSetChanged();
+
+            setListViewHeightBasedOnChildren(lstKiffs);
+            setListViewHeightBasedOnChildren(lstAmis);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            WebService WS = new WebService();
+
+            kiffs.clear();
+            amis.clear();
+
+            JSONArray ListKiffs = WS.GetListKiffs(User);
+            JSONArray ListAmis = WS.GetListAmis(User);
+
+            if(ListKiffs != null && ListKiffs.length()>0)
+            {
+
+                String Url=null;
+
+                for (int i = 0; i < ListKiffs.length(); i++) {
+                    JSONObject LeKiff=null;
+
+                    HashMap<String, Object> valeur = new HashMap<String, Object>();
+                    try {
+                        LeKiff = ListKiffs.getJSONObject(i);
+                        valeur.put("pseudo", LeKiff.getString("pseudo"));
+                        valeur.put("id_kiff", LeKiff.getString("id_user_kiff"));
+                        valeur.put("user", User);
+                        Url = LeKiff.getString("photo").replace(" ","%20");
+
+                        URL pictureURL;
+
+                        pictureURL = null;
+
+                        try {
+                            pictureURL = new URL(Url);
+                        } catch (MalformedURLException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+
+                        Bitmap bitmap=null;
+                        try {
+                            //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+
+                            if(bitmap==null){
+                                bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
+                                //valeur.put("LOGO", bitmap);
+                                //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                            }
+                            //bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                        valeur.put("photo", bitmap);
+
+
+                    } catch (JSONException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+
+                    kiffs.add(valeur);
+
+                    publishProgress(0);
+
+                }
+            }
+
+            if(ListAmis != null && ListAmis.length()>0)
+            {
+
+                String Url=null;
+
+                for (int i = 0; i < ListAmis.length(); i++) {
+                    JSONObject Amis=null;
+
+                    HashMap<String, Object> valeur = new HashMap<String, Object>();
+                    try {
+                        Amis = ListAmis.getJSONObject(i);
+                        valeur.put("pseudo", Amis.getString("pseudo"));
+                        valeur.put("statut", Amis.getString("statut"));
+                        valeur.put("id_ami", Amis.getString("id_useramis"));
+                        valeur.put("localiser", Amis.getString("localiser"));
+                        valeur.put("user", User);
+
+
+                        Url = Amis.getString("photo").replace(" ","%20");
+
+                        URL pictureURL;
+
+                        pictureURL = null;
+
+                        try {
+                            pictureURL = new URL(Url);
+                        } catch (MalformedURLException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+
+                        Bitmap bitmap=null;
+                        try {
+                            //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+
+                            if(bitmap==null){
+                                bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
+                                //valeur.put("LOGO", bitmap);
+                                //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                            }
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                        valeur.put("photo", bitmap);
+
+
+                    } catch (JSONException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+
+                    amis.add(valeur);
+
+                    publishProgress(0);
+
+
+                }
+            }
+
+
+
+            //setListViewHeightBasedOnChildren(lstKiffs);
+            //setListViewHeightBasedOnChildren(lstAmis);
+
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            Amisrray.notifyDataSetChanged();
+            KiffsArray.notifyDataSetChanged();
+            //lstPaysAdpater.notifyDataSetChanged();
+            //Toast.makeText(getApplicationContext(), "Le traitement asynchrone est terminé", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();

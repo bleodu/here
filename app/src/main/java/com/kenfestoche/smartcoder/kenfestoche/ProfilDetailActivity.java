@@ -35,6 +35,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.relex.circleindicator.CircleIndicator;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ProfilDetailActivity extends AppCompatActivity {
@@ -210,8 +212,11 @@ public class ProfilDetailActivity extends AppCompatActivity {
         }
 
         mPager = (ViewPager) findViewById(R.id.pagerProfil);
-
-        mPager.setAdapter(new SlidingImgProfil(this.getBaseContext(),profils,true));
+        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
+        SlidingImgProfil mAdapter = new SlidingImgProfil(this.getBaseContext(),profils,true);
+        mPager.setAdapter(mAdapter);
+        indicator.setViewPager(mPager);
+        mAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
         final JSONArray[] InfoUser = {WS.GetinfoUser(id_user)};
         try {

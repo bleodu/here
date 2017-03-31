@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kenfestoche.smartcoder.kenfestoche.VerifSmsCode"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="#2c2954"
+        android:layout_marginBottom="30dip"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:src="@drawable/headereaser"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dip"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txSaisieCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="nouveau nom d'utilisateur"
+            android:textColor="#2c2954"
+            android:textSize="11.33pt" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="70px"
+            android:text="___________________________________________________________________"
+            android:textColor="#2c2954"
+            android:textSize="8pt" />
+
+        <EditText
+            android:id="@+id/edtNewPseudo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="30dip"
+            android:background="#2c2954"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:inputType="text"
+            android:padding="10dip"
+            android:text=""
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="11.33pt" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dip">
+
+            <Button
+                android:id="@+id/btValidPseudo"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="#2c2954"
+                android:text="@string/action_sign_in"
+                android:textColor="#ffffff"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="30dip"
+                android:layout_alignParentEnd="true" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

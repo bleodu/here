@@ -61,6 +61,7 @@ import com.kenfestoche.smartcoder.kenfestoche.model.ImagesProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto;
 import com.kenfestoche.smartcoder.kenfestoche.model.SwipeGestureDetector;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
+import com.kenfestoche.smartcoder.kenfestoche.webservices.ParamActivity;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 //import com.squareup.okhttp.OkHttpClient;
 
@@ -113,7 +114,7 @@ public class UserProfil extends Fragment {
     Button Parametre;
     ImagesProfil adapterPhoto;
 
-    UserUploadTask mUploadTask;
+    LoadImage mLoadImage;
     Button Valider;
 
     MyGridPhoto gridPhotos;
@@ -155,6 +156,24 @@ public class UserProfil extends Fragment {
 
 
         return inflater.inflate(R.layout.activity_user_profil, container, false);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        MonActivity = getActivity();
+
+        pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
+
+        editor = pref.edit();
+        User = FragmentsSliderActivity.User;
+
+        gridPhotos = (MyGridPhoto) MonActivity.findViewById(R.id.gridphotos);
+
+        mLoadImage =new LoadImage();
+
+        mLoadImage.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
@@ -239,10 +258,6 @@ public class UserProfil extends Fragment {
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         AppEventsLogger.activateApp(getActivity());
 
-        pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
-
-        editor = pref.edit();
-        User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
 
         Bundle extras = getActivity().getIntent().getExtras();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -300,10 +315,8 @@ public class UserProfil extends Fragment {
                 User.connecte=true;
                 User.save();
                 //WS = new WebService();
-                User = WS.SaveUser(User);
-                editor = pref.edit();
-                editor.putLong("UserId", User.getId());
-                editor.commit();
+                WS.SaveUser(User);
+
                 /*if (object.has("picture")) {
 
                     Bitmap bm = null;
@@ -428,26 +441,18 @@ public class UserProfil extends Fragment {
 
 
         }else{
-            User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+            //User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
             User.connecte=true;
-            User.statut=2;
-            User.save();
+            //User.statut=2;
+            //User.save();
             WebService WS = new WebService();
-            User = WS.SaveUser(User);
+            WS.SaveUser(User);
         }
 
 
         //User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
 
-        MonActivity.runOnUiThread(new Runnable() {
 
-            @Override
-            public void run() {
-                //notifyDataSetChanged here or update your UI on different thread
-                adapterPhoto=new ImagesProfil(getActivity().getApplicationContext(),1,User,MonActivity);
-                gridPhotos.setAdapter(adapterPhoto);
-            }
-        });
 
 
         imFlecheGauche.setOnClickListener(new View.OnClickListener() {
@@ -468,14 +473,7 @@ public class UserProfil extends Fragment {
                 if(photo==null){
                     selectImage();
                 }else{
-                    MonActivity.runOnUiThread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            //notifyDataSetChanged here or update your UI on different thread
-                            adapterPhoto.notifyDataSetChanged();
-                        }
-                    });
                 }
 
             }
@@ -517,7 +515,7 @@ public class UserProfil extends Fragment {
         btParam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity().getApplicationContext(),SettingsEASER.class);
+                Intent i = new Intent(getActivity().getApplicationContext(),ParamActivity.class);
                 startActivity(i);
 
             }
@@ -874,7 +872,7 @@ public class UserProfil extends Fragment {
 
 
 
-        }else if(requestCode == 1){
+        }else if(requestCode == 1){ //TAKE A PHOTO
             Bitmap photo = (Bitmap) data.getExtras().get("data");
 
             // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
@@ -917,6 +915,42 @@ public class UserProfil extends Fragment {
     }
 
 
+    public class LoadImage extends AsyncTask<Void, Void, Boolean> {
+
+
+        LoadImage() {
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+
+            // TODO: register the new account here.
+
+            adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity);
+
+            adapterPhoto.notifyDataSetChanged();
+            //gridPhotos.setAdapter(adapterPhoto);
+            return true;
+
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            //adapterPhoto=new ImagesProfil(getApplicationContext(),1,User,this);
+            gridPhotos.setAdapter(adapterPhoto);
+            showProgress(false);
+        }
+
+        @Override
+        protected void onCancelled() {
+
+            showProgress(false);
+        }
+    }
+
 
     public class UserUploadTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -955,23 +989,10 @@ public class UserProfil extends Fragment {
         }
     }
 
-    public void RefreshAdapter(){
-
-        MonActivity.runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                //adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity,);
-                //adapterPhoto.notifyDataSetChanged();
-                gridPhotos.setAdapter(adapterPhoto);
-            }
-        });
-    }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        //inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
@@ -995,9 +1016,6 @@ public class UserProfil extends Fragment {
         pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
 
 
-        editor = pref.edit();
-        editor.putLong("UserId", User.getId());
-        editor.commit();
 
 
     }
@@ -1006,16 +1024,10 @@ public class UserProfil extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        MonActivity.runOnUiThread(new Runnable() {
 
-            @Override
-            public void run() {
+        mLoadImage =new LoadImage();
 
-                //adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity,);
-                //adapterPhoto.notifyDataSetChanged();
-                gridPhotos.setAdapter(adapterPhoto);
-            }
-        });
+        mLoadImage.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void selectImage() {
