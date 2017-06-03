@@ -4,11 +4,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,8 +25,13 @@ import android.widget.TextView;
 
 import com.kenfestoche.smartcoder.kenfestoche.model.AdapterAmis;
 import com.kenfestoche.smartcoder.kenfestoche.model.AdapterConversation;
+import com.kenfestoche.smartcoder.kenfestoche.model.MainChipViewAdapter;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
+import com.plumillonforge.android.chipview.Chip;
+import com.plumillonforge.android.chipview.ChipView;
+import com.plumillonforge.android.chipview.ChipViewAdapter;
+import com.plumillonforge.android.chipview.OnChipClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +42,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class AddConversation extends AppCompatActivity {
 
@@ -43,22 +55,26 @@ public class AddConversation extends AppCompatActivity {
     SharedPreferences pref;
     Utilisateur User;
     EditText edtNomConversation;
-    EditText edtAmis;
+    public static EditText edtAmis;
     ImageView btAnnuler;
     ImageView btValider;
     ImageView imFleche;
+    public static ChipView chipDefault =null;
+
     public static String listusers="";
+    public static List<Chip> chipList= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_conversation);
-
+        chipList= new ArrayList<>();
         lstAmis = (ListView) findViewById(R.id.lstContactsConversation);
         btAnnuler = (ImageView) findViewById(R.id.imAnnulerContact);
         btValider = (ImageView) findViewById(R.id.imValiderContact);
         amisconversations =  new ArrayList<HashMap<String,Object>>();
         amisconversationssauv =  new ArrayList<HashMap<String,Object>>();
+        listusers="";
 
         pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
@@ -73,11 +89,24 @@ public class AddConversation extends AppCompatActivity {
         edtAmis.setTypeface(face);
         edtNomConversation.setTypeface(face);
 
+        chipDefault = (ChipView) findViewById(R.id.chipview);
+
+        chipDefault.setChipBackgroundColor(getResources().getColor(R.color.gris));
+
+        chipDefault.setOnChipClickListener(new OnChipClickListener() {
+            @Override
+            public void onChipClick(Chip chip) {
+                chipList.remove(chip);
+                chipDefault.setChipList(chipList);
+                // Action here !
+            }
+        });
+
 
         if(User!=null) {
-            WebService WS = new WebService();
+            WebService WS = new WebService(getBaseContext());
 
-            JSONArray ListAmisConversations = WS.GetListAmis(User);
+            JSONArray ListAmisConversations = WS.GetListAmis(User,"");
 
             if (ListAmisConversations != null) {
 
@@ -93,7 +122,7 @@ public class AddConversation extends AppCompatActivity {
                         valeur.put("pseudo", Ami.getString("pseudo"));
                         Url = Ami.getString("photo").replace(" ", "%20");
 
-                        URL pictureURL;
+                        /*URL pictureURL;
 
                         pictureURL = null;
 
@@ -111,9 +140,9 @@ public class AddConversation extends AppCompatActivity {
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
-                        }
+                        }*/
 
-                        valeur.put("photo", bitmap);
+                        valeur.put("url", Url);
 
 
 
@@ -169,7 +198,7 @@ public class AddConversation extends AppCompatActivity {
         btValider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebService WS = new WebService();
+                WebService WS = new WebService(getBaseContext());
                 WS.AddConversation(edtNomConversation.getText().toString(),listusers,User);
                 finish();
             }
@@ -178,6 +207,7 @@ public class AddConversation extends AppCompatActivity {
         btAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 finish();
             }
         });
@@ -185,4 +215,6 @@ public class AddConversation extends AppCompatActivity {
 
 
     }
+
+
 }

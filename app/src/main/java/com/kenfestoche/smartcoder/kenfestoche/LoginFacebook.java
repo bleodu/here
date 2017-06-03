@@ -198,7 +198,7 @@ public class LoginFacebook extends AppCompatActivity {
                                     JSONObject object,
                                     GraphResponse response) {
                                 // Application code
-                                WebService WS = new WebService();
+                                WebService WS = new WebService(getBaseContext());
                                 Utilisateur Uti = null;
                                 try {
                                     Uti = WS.GetUserFacebook(object.getString("id"));
@@ -278,7 +278,7 @@ public class LoginFacebook extends AppCompatActivity {
             @Override
             public void onCancel() {
 
-                Toast.makeText(getApplicationContext(),"Vous avez annuler l'authentification par facebook",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Vous avez annulé l'authentification par facebook",Toast.LENGTH_LONG).show();
 
             }
 

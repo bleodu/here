@@ -15,6 +15,7 @@ public class AjoutAmis extends AppCompatActivity {
     TextView txAPartir;
     RelativeLayout RelRep;
     RelativeLayout RelPhone;
+    TextView txTel;
 
 
 
@@ -28,6 +29,7 @@ public class AjoutAmis extends AppCompatActivity {
 
         txNewAmi = (TextView) findViewById(R.id.txnewAmi);
         txAPartir = (TextView) findViewById(R.id.txAPartir);
+        txTel = (TextView) findViewById(R.id.txTel);
         RelPhone = (RelativeLayout) findViewById(R.id.RelLayPhone);
         RelRep = (RelativeLayout) findViewById(R.id.RelLayRep);
 
@@ -35,6 +37,16 @@ public class AjoutAmis extends AppCompatActivity {
         txAPartir.setTypeface(face);
 
         RelPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),ListAmisAjout.class);
+                //recherche par numéro de téléphone
+                i.putExtra("TypeRech",1);
+                startActivity(i);
+            }
+        });
+
+        txTel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),ListAmisAjout.class);

@@ -23,6 +23,7 @@ import com.kenfestoche.smartcoder.kenfestoche.model.AdapterConversation;
 import com.kenfestoche.smartcoder.kenfestoche.model.AdapterGridPhotos;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -90,7 +91,7 @@ public class ListeConversations extends AppCompatActivity {
         });
 
         if(User!=null) {
-            WebService WS = new WebService();
+            WebService WS = new WebService(getBaseContext());
 
             ListConversations = WS.GetListConversations(User);
 
@@ -106,6 +107,34 @@ public class ListeConversations extends AppCompatActivity {
                         LaConv = ListConversations.getJSONObject(i);
                         valeur.put("id", LaConv.getString("id"));
                         valeur.put("conversation", LaConv.getString("conversation"));
+                        JSONArray JsonArrayPhotos = WS.GetUsersConversation(LaConv.getString("id"));
+                        ArrayList<String> photos = new ArrayList<String>();
+
+                        if (JsonArrayPhotos != null) {
+
+
+                            for (int j = 0; j < JsonArrayPhotos.length(); j++) {
+                                JSONObject LeUser = null;
+
+
+                                try {
+                                    LeUser = JsonArrayPhotos.getJSONObject(j);
+                                    Url = LeUser.getString("photo").replace(" ","%20");
+
+                                    Bitmap bitmap=null;
+                                    photos.add(Url);
+
+
+
+
+                                } catch (JSONException e1) {
+                                    // TODO Auto-generated catch block
+                                    e1.printStackTrace();
+                                }
+
+                            }
+                            valeur.put("listphotos", photos);
+                        }
 
                     } catch (JSONException e1) {
                         // TODO Auto-generated catch block
@@ -143,9 +172,71 @@ public class ListeConversations extends AppCompatActivity {
 
         super.onResume();
 
-        mLoadConv =new GetListConversation();
+        conversations.clear();
+        if(User!=null) {
+            WebService WS = new WebService(getBaseContext());
 
-        mLoadConv.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            JSONArray ListConversations = WS.GetListConversations(User);
+
+            if (ListConversations != null) {
+
+                String Url = null;
+
+                for (int i = 0; i < ListConversations.length(); i++) {
+                    JSONObject LaConv = null;
+
+                    HashMap<String, Object> valeur = new HashMap<String, Object>();
+                    try {
+                        LaConv = ListConversations.getJSONObject(i);
+                        valeur.put("id", LaConv.getString("id"));
+                        valeur.put("conversation", LaConv.getString("conversation"));
+
+                        JSONArray JsonArrayPhotos = WS.GetUsersConversation(LaConv.getString("id"));
+                        ArrayList<String> photos = new ArrayList<String>();
+
+                        if (JsonArrayPhotos != null) {
+
+
+                            for (int j = 0; j < JsonArrayPhotos.length(); j++) {
+                                JSONObject LeUser = null;
+
+
+                                try {
+                                    LeUser = JsonArrayPhotos.getJSONObject(j);
+                                    Url = LeUser.getString("photo").replace(" ","%20");
+
+                                    Bitmap bitmap=null;
+                                    photos.add(Url);
+
+
+
+
+                                } catch (JSONException e1) {
+                                    // TODO Auto-generated catch block
+                                    e1.printStackTrace();
+                                }
+
+                            }
+                            valeur.put("listphotos", photos);
+                        }
+
+                    } catch (JSONException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+
+                    conversations.add(valeur);
+
+                }
+            }
+
+        }
+
+        ConversationsArray.notifyDataSetChanged();
+
+       /* mLoadConv =new GetListConversation();
+
+        mLoadConv.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
 
     }
 
@@ -175,7 +266,7 @@ public class ListeConversations extends AppCompatActivity {
 
             conversations.clear();
             if(User!=null) {
-                WebService WS = new WebService();
+                WebService WS = new WebService(getBaseContext());
 
                 JSONArray ListConversations = WS.GetListConversations(User);
 
@@ -193,7 +284,7 @@ public class ListeConversations extends AppCompatActivity {
                             valeur.put("conversation", LaConv.getString("conversation"));
 
                             JSONArray JsonArrayPhotos = WS.GetUsersConversation(LaConv.getString("id"));
-                            ArrayList<Bitmap> photos = new ArrayList<Bitmap>();
+                            ArrayList<String> photos = new ArrayList<String>();
 
                             if (JsonArrayPhotos != null) {
 
@@ -206,36 +297,10 @@ public class ListeConversations extends AppCompatActivity {
                                         LeUser = JsonArrayPhotos.getJSONObject(j);
                                         Url = LeUser.getString("photo").replace(" ","%20");
 
-                                        URL pictureURL;
-
-                                        pictureURL = null;
-
-                                        try {
-                                            pictureURL = new URL(Url);
-                                        } catch (MalformedURLException e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-                                        }
-
-
                                         Bitmap bitmap=null;
-                                        try {
-                                            //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
+                                        photos.add(Url);
 
-                                            if(bitmap==null){
-                                                BitmapFactory.Options options = new BitmapFactory.Options();
-                                                options.inSampleSize = 2;
-                                                bitmap = BitmapFactory.decodeStream(pictureURL.openStream(),null,options);
 
-                                                photos.add(bitmap);
-                                                //valeur.put("LOGO", bitmap);
-                                                //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-                                            }
-                                            //bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                                        } catch (IOException e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-                                        }
 
 
                                     } catch (JSONException e1) {
@@ -260,9 +325,6 @@ public class ListeConversations extends AppCompatActivity {
 
             }
 
-
-            //setListViewHeightBasedOnChildren(lstKiffs);
-            //setListViewHeightBasedOnChildren(lstAmis);
 
             return null;
 

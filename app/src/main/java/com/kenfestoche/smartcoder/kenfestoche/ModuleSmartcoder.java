@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class ModuleSmartcoder {
 
-    public static File savebitmap(Bitmap bmp, String nameFile) throws IOException {
+    public static File savbitmap(Bitmap bmp, String nameFile) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         if(nameFile.toLowerCase().contains("png")) {
             bmp.compress(Bitmap.CompressFormat.PNG, 60, bytes);
@@ -32,7 +32,7 @@ public class ModuleSmartcoder {
         return f;
     }
 
-    public static Bitmap getbitmap(String nameFile) throws IOException {
+    public static Bitmap gebitmap(String nameFile) throws IOException {
 
         Bitmap fichierbmp = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()
                 + File.separator + nameFile);

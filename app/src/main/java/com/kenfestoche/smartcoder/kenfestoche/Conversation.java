@@ -1,19 +1,24 @@
 package com.kenfestoche.smartcoder.kenfestoche;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,9 +37,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+
+
 
 public class Conversation extends AppCompatActivity {
 
@@ -62,9 +70,17 @@ public class Conversation extends AppCompatActivity {
     Bitmap bitmap;
     String id_kiffs;
     int convprive;
+    int amis;
     int id_user;
     int localiser;
     GridView gridPhotos;
+    ImageView imPopUpLocaliser;
+    ImageView imPopUpMessages;
+    LinearLayout rootView;
+    Boolean bmessageMax;
+    LinearLayout lnRoot;
+    LinearLayout lnparent;
+    RelativeLayout rlvRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +100,15 @@ public class Conversation extends AppCompatActivity {
         btVeuxPas = (ImageView) findViewById(R.id.btvoudraispas);
         txResteMessage = (TextView) findViewById(R.id.txVousReste);
         gridPhotos = (GridView) findViewById(R.id.gridPhotoConversation);
+        imPopUpLocaliser = (ImageView) findViewById(R.id.imPopUpLocaliser);
+        imPopUpMessages = (ImageView) findViewById(R.id.imPopUpMessages);
+        rootView = (LinearLayout) findViewById(R.id.activity_chat_view_conversation);
+        lnRoot = (LinearLayout) findViewById(R.id.lnroot);
+        lnparent = (LinearLayout) findViewById(R.id.lnParent);
+        rlvRoot = (RelativeLayout) findViewById(R.id.rlvRoot);
+        bmessageMax=false;
 
-
-        WebService WS = new WebService();
+        WebService WS = new WebService(getBaseContext());
         WS.SetStatutConversation(idconv,1);
         btVeuxPas.setImageResource(R.drawable.btveuxpasselect);
         btJeVeux.setImageResource(R.drawable.btvoudraisselect);
@@ -99,6 +121,8 @@ public class Conversation extends AppCompatActivity {
 
 
         convprive = getIntent().getIntExtra("prive",0);
+        amis = getIntent().getIntExtra("amis",0);
+
 
 
 
@@ -107,7 +131,7 @@ public class Conversation extends AppCompatActivity {
             gridPhotos.setVisibility(View.GONE);
             id_user=getIntent().getIntExtra("id_user",0);
             id_kiffs=getIntent().getStringExtra("id_kiffs");
-            WS = new WebService();
+            WS = new WebService(getBaseContext());
             JSONArray Result = WS.AddConversationPrive(String.valueOf(id_user),id_kiffs);
 
             try {
@@ -121,46 +145,52 @@ public class Conversation extends AppCompatActivity {
             if(Result!=null){
                 try {
                     UserKiffs=Result.getJSONObject(0);
+                    try {
+                        nomconv=UserKiffs.getString("pseudo");
+                        try {
+                            Url = UserKiffs.getString("photo").replace(" ", "%20");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        localiser = UserKiffs.getInt("localiser");
+
+                        if(localiser==0 && User.sexe==0){
+                            btLocaliser.setImageResource(R.drawable.localisernok);
+                        }
+
+                        if(User.popupmessage==0 && User.sexe==1){
+                            imPopUpLocaliser.setVisibility(View.VISIBLE);
+
+                        }
+
+                        pictureURL = null;
+
+                        try {
+                            pictureURL = new URL(Url);
+                        } catch (MalformedURLException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
+                            imPhotoConversation.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
             }
-            try {
-                nomconv=UserKiffs.getString("pseudo");
-                try {
-                    Url = UserKiffs.getString("photo").replace(" ", "%20");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
-                localiser = UserKiffs.getInt("localiser");
-
-                if(localiser==0 && User.sexe==0){
-                    btLocaliser.setImageResource(R.drawable.localisernok);
-                }
-
-                pictureURL = null;
-
-                try {
-                    pictureURL = new URL(Url);
-                } catch (MalformedURLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-                Bitmap bitmap = null;
-                try {
-                    bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                    imPhotoConversation.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if(User.sexe==1){
+            if(User.sexe==1 && amis==0){
                 btJeVeux.setVisibility(View.VISIBLE);
                 btVeuxPas.setVisibility(View.VISIBLE);
                 //btLocaliser.setVisibility(View.VISIBLE);
@@ -181,7 +211,7 @@ public class Conversation extends AppCompatActivity {
             imPhotoConversation.setVisibility(View.INVISIBLE);
             gridPhotos.setVisibility(View.VISIBLE);
             JSONArray JsonArrayPhotos = WS.GetUsersConversation(idconv);
-            ArrayList<Bitmap> lstphotos = new ArrayList<Bitmap>();
+            ArrayList<String> lstphotos = new ArrayList<String>();
 
             if (JsonArrayPhotos != null) {
 
@@ -194,36 +224,9 @@ public class Conversation extends AppCompatActivity {
                         LeUser = JsonArrayPhotos.getJSONObject(j);
                         Url = LeUser.getString("photo").replace(" ","%20");
 
+                        lstphotos.add(Url);
 
 
-                        pictureURL = null;
-
-                        try {
-                            pictureURL = new URL(Url);
-                        } catch (MalformedURLException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-
-
-                        Bitmap bitmap=null;
-                        try {
-                            //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-
-                            if(bitmap==null){
-                                BitmapFactory.Options options = new BitmapFactory.Options();
-                                options.inSampleSize = 2;
-                                bitmap = BitmapFactory.decodeStream(pictureURL.openStream(),null,options);
-
-                                lstphotos.add(bitmap);
-                                //valeur.put("LOGO", bitmap);
-                                //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-                            }
-                            //bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
 
 
                     } catch (JSONException e1) {
@@ -276,6 +279,105 @@ public class Conversation extends AppCompatActivity {
         }
 
 
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(imPopUpMessages.getVisibility()==View.VISIBLE){
+                    imPopUpMessages.setVisibility(View.GONE);
+                }
+
+                if(imPopUpLocaliser.getVisibility()==View.VISIBLE){
+                    imPopUpLocaliser.setVisibility(View.GONE);
+                    imPopUpMessages.setVisibility(View.VISIBLE);
+                    User.popupmessage=1;
+                    User.save();
+                    WebService WS = new WebService(getBaseContext());
+                    WS.SaveUser(User);
+                    FragmentsSliderActivity.User=User;
+                }
+
+
+            }
+        });
+
+        rlvRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(imPopUpMessages.getVisibility()==View.VISIBLE){
+                    imPopUpMessages.setVisibility(View.GONE);
+                }
+
+                if(imPopUpLocaliser.getVisibility()==View.VISIBLE){
+                    imPopUpLocaliser.setVisibility(View.GONE);
+                    imPopUpMessages.setVisibility(View.VISIBLE);
+                    User.popupmessage=1;
+                    User.save();
+                    WebService WS = new WebService(getBaseContext());
+                    WS.SaveUser(User);
+                    FragmentsSliderActivity.User=User;
+                }
+
+
+            }
+        });
+
+        lnparent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(imPopUpMessages.getVisibility()==View.VISIBLE){
+                    imPopUpMessages.setVisibility(View.GONE);
+                }
+
+                if(imPopUpLocaliser.getVisibility()==View.VISIBLE){
+                    imPopUpLocaliser.setVisibility(View.GONE);
+                    imPopUpMessages.setVisibility(View.VISIBLE);
+                    User.popupmessage=1;
+                    User.save();
+                    WebService WS = new WebService(getBaseContext());
+                    WS.SaveUser(User);
+                    FragmentsSliderActivity.User=User;
+                }
+
+
+            }
+        });
+
+        lnRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(imPopUpMessages.getVisibility()==View.VISIBLE){
+                    imPopUpMessages.setVisibility(View.GONE);
+                }
+
+                if(imPopUpLocaliser.getVisibility()==View.VISIBLE){
+                    imPopUpLocaliser.setVisibility(View.GONE);
+                    imPopUpMessages.setVisibility(View.VISIBLE);
+                    User.popupmessage=1;
+                    User.save();
+                    WebService WS = new WebService(getBaseContext());
+                    WS.SaveUser(User);
+                    FragmentsSliderActivity.User=User;
+                }
+
+
+            }
+        });
+
+
+        lstChat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                imPopUpMessages.setVisibility(View.GONE);
+                imPopUpLocaliser.setVisibility(View.GONE);
+            }
+        });
+
+        imPopUpMessages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imPopUpMessages.setVisibility(View.GONE);
+            }
+        });
 
         nomConversation.setText(nomconv);
 
@@ -354,22 +456,32 @@ public class Conversation extends AppCompatActivity {
         listconv=new ListConversation();
         listconv.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
+        /*this.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                GetListConversation();
+            }
+        });*/
+
 
         btJeVeux.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebService WS = new WebService();
+                WebService WS = new WebService(getBaseContext());
                 WS.SetStatutConversation(idconv,0);
                 btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
                 btJeVeux.setImageResource(R.drawable.btvoudrais);
+                imPopUpMessages.setVisibility(View.GONE);
             }
         });
 
         btVeuxPas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebService WS = new WebService();
+                WebService WS = new WebService(getBaseContext());
                 WS.SetStatutConversation(idconv,1);
+                Toast.makeText(getBaseContext(),"Vous êtes bloqué, vous pourrez continuer si elle autorise la localisation",Toast.LENGTH_SHORT).show();
                 btVeuxPas.setImageResource(R.drawable.btveuxpasselect);
                 btJeVeux.setImageResource(R.drawable.btvoudraisselect);
             }
@@ -378,9 +490,20 @@ public class Conversation extends AppCompatActivity {
         edtSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebService WS = new WebService();
+                WebService WS = new WebService(getBaseContext());
                 WS.AddChatMessage(User,edtMessage.getText().toString(),idconv);
+
+                HashMap<String, Object> valeur = new HashMap<String, Object>();
+                valeur.put("id", 0);
+                valeur.put("texte", edtMessage.getText().toString());
+                valeur.put("id_user", User.id_user);
+                Date myDate = new Date();
+                valeur.put("date_create", new SimpleDateFormat("dd/MM/yyyy").format(myDate));
+
+                detailconv.add(valeur);
+                DetailConversationArray.notifyDataSetChanged();
                 edtMessage.setText("");
+
                 //InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                 //imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 lstChat.setSelection(DetailConversationArray.getCount() - 1);
@@ -409,16 +532,39 @@ public class Conversation extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(localiser==1 || User.sexe==1){
-                    Intent i = new Intent(getApplicationContext(),FragmentsSliderActivity.class);
-                    i.putExtra("Localiser",true);
                     try {
-                        i.putExtra("Latitude", UserKiffs.getString("latitude"));
-                        i.putExtra("Longitude", UserKiffs.getString("longitude"));
-                        i.putExtra("Pseudo", UserKiffs.getString("pseudo"));
+                        if(UserKiffs.getInt("derniereposition")<6)
+                        {
+                            Intent i = new Intent(getApplicationContext(),FragmentsSliderActivity.class);
+                            i.putExtra("Localiser",true);
+                            try {
+                                i.putExtra("Latitude", UserKiffs.getString("latitude"));
+                                i.putExtra("Longitude", UserKiffs.getString("longitude"));
+                                i.putExtra("Pseudo", UserKiffs.getString("pseudo"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            startActivity(i);
+                        }else{
+
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(Conversation.this);
+                            builder1.setTitle("Pas de position");
+                            builder1.setMessage("L'utilisateur n'est plus connecté. Position introuvable");
+                            builder1.setCancelable(true);
+                            builder1.setNeutralButton(android.R.string.ok,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                            AlertDialog alert11 = builder1.create();
+                            alert11.show();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    startActivity(i);
+
                 }
 
 
@@ -444,6 +590,7 @@ public class Conversation extends AppCompatActivity {
         listconv.cancel(true);
     }
 
+
     private class ListConversation extends AsyncTask<Void, Integer, Void>
     {
 
@@ -464,8 +611,17 @@ public class Conversation extends AppCompatActivity {
             //mProgressBar.setProgress(values[0]);
             //lstChat.setAdapter(DetailConversationArray);
             //mSchedule.setViewBinder(new MyViewBinder());
-            WebService WS=new WebService();
-            if(convprive==1){
+            DetailConversationArray.notifyDataSetChanged();
+
+
+            if(NewMess==true){
+
+                lstChat.setSelection(DetailConversationArray.getCount() - 1);
+                lstChat.smoothScrollToPosition(DetailConversationArray.getCount() - 1);
+            }
+
+            WebService WS=new WebService(getBaseContext());
+            if(convprive==1 && amis==0){
                 JSONArray resultList = WS.GetStatutConversation(idconv,id_user);
 
                 String statut= null;
@@ -477,46 +633,51 @@ public class Conversation extends AppCompatActivity {
                 }
                 if(statut.equals("1")){
                     txResteMessage.setVisibility(View.VISIBLE);
+                    btEnvoyerKo.setVisibility(View.VISIBLE);
+                    edtSendMessage.setVisibility(View.INVISIBLE);
+                    btVeuxPas.setImageResource(R.drawable.btveuxpasselect);
+                    btJeVeux.setImageResource(R.drawable.btvoudraisselect);
+                    txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
                     try {
-                        if(resultList.getJSONObject(0).getInt("nbMess")>9){
-                            btEnvoyerKo.setVisibility(View.VISIBLE);
-                            edtSendMessage.setVisibility(View.INVISIBLE);
-                            txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
-                        }else{
-                            int ResteMessage = 10 - resultList.getJSONObject(0).getInt("nbMess");
-                            txResteMessage.setText("Vous pouvez envoyer " + ResteMessage + " messages");
+                        if(User.sexe==1 && resultList.getJSONObject(0).getInt("nbMess")>5){
+                            if(bmessageMax==false){
+                                imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
+                                imPopUpMessages.setVisibility(View.VISIBLE);
+                                bmessageMax=true;
+                            }
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }else{
+                    btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
+                    btJeVeux.setImageResource(R.drawable.btvoudrais);
                     btEnvoyerKo.setVisibility(View.INVISIBLE);
                     edtSendMessage.setVisibility(View.VISIBLE);
                     txResteMessage.setVisibility(View.INVISIBLE);
                 }
             }
 
-            DetailConversationArray.notifyDataSetChanged();
-            if(NewMess==true){
-
-                lstChat.setSelection(DetailConversationArray.getCount() - 1);
-                lstChat.smoothScrollToPosition(DetailConversationArray.getCount() - 1);
-            }
-
             JSONArray Result = WS.GetinfoUser(id_kiffs);
 
-            if(Result!=null){
+            if(Result!=null && amis==0){
                 try {
                     localiser = Result.getJSONObject(0).getInt("localiser");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if(localiser==0){
+                if(localiser==0 && User.sexe==0){
                     btLocaliser.setImageResource(R.drawable.localisernok);
+                    btLocaliser.setEnabled(false);
                 }else{
+                    btLocaliser.setEnabled(true);
                     btLocaliser.setImageResource(R.drawable.btlocaliser);
                 }
+            }else{
+                btLocaliser.setEnabled(true);
+                btLocaliser.setImageResource(R.drawable.btlocaliser);
             }
 
 
@@ -529,7 +690,7 @@ public class Conversation extends AppCompatActivity {
                 try {
 
                     Thread.sleep(1000);
-                    WebService WS = new WebService();
+                    WebService WS = new WebService(getBaseContext());
 
 
                     NewMess=false;
@@ -583,10 +744,12 @@ public class Conversation extends AppCompatActivity {
                             }
 
                             detailconv.add(valeur);
-                            publishProgress(0);
+
 
 
                         }
+
+                        publishProgress(0);
                         //detailconv.clear();
                         //detailconv.addAll(detailconvtemp);
 
@@ -619,5 +782,8 @@ public class Conversation extends AppCompatActivity {
         }
 
 
+
     }
+
+
 }

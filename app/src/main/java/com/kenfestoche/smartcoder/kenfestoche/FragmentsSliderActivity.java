@@ -7,6 +7,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 
 import com.eftimoff.viewpagertransformers.RotateUpTransformer;
 import com.eftimoff.viewpagertransformers.StackTransformer;
@@ -24,7 +26,7 @@ public class FragmentsSliderActivity extends FragmentActivity {
     public static boolean Localiser=false;
     public static String latitude;
     public static String longitude;
-
+    ViewPager pager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +57,7 @@ public class FragmentsSliderActivity extends FragmentActivity {
         // Fragments
         this.mPagerAdapter = new MyPagerAdapter(super.getSupportFragmentManager(), fragments);
 
-        ViewPager pager = (ViewPager) super.findViewById(R.id.viewpager);
+        pager = (ViewPager) super.findViewById(R.id.viewpager);
         // Affectation de l'adapter au ViewPager
         pager.setAdapter(this.mPagerAdapter);
         //pager.setPageTransformer(true, new StackTransformer());
@@ -66,5 +68,24 @@ public class FragmentsSliderActivity extends FragmentActivity {
             pager.setCurrentItem(1);
         }
 
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode==KeyEvent.KEYCODE_BACK && pager.getCurrentItem()!=1){
+            pager.setCurrentItem(1);
+            return false;
+        }else{
+            return super.onKeyDown(keyCode, event);
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        pager.setCurrentItem(1);
     }
 }

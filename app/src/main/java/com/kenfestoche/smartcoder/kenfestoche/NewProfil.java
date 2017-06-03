@@ -342,7 +342,7 @@ public class NewProfil extends AppCompatActivity {
                     //focusView.requestFocus();
                 } else {
                     //creation de l'utilisateur en base de données. Si retour ok on passe à la vérification du code par sms
-                    //WebService WS = new WebService();
+                    //WebService WS = new WebService(getBaseContext());
                     //WS.CreateUser(User);
 
                     User.login = Pseudo.getText().toString();
@@ -355,7 +355,7 @@ public class NewProfil extends AppCompatActivity {
 
                     User.save();
 
-                    WebService WS = new WebService();
+                    WebService WS = new WebService(getBaseContext());
 
                     User = WS.SaveUser(User);
 
@@ -462,7 +462,7 @@ public class NewProfil extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
 
 
-            WebService WS = new WebService();
+            WebService WS = new WebService(getBaseContext());
 
             User = WS.SaveUser(Uti);
 

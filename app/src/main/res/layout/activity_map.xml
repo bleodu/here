@@ -31,10 +31,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:orientation="vertical"
+        android:id="@+id/rlvMap"
         android:layout_width="match_parent"
-
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
         <com.google.android.gms.maps.MapView
@@ -42,70 +42,439 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <ImageView
+            android:id="@+id/impopupmap"
+            android:layout_width="match_parent"
+            android:layout_height="100dip"
+            android:layout_alignBottom="@+id/linearLayout2"
+            android:layout_alignLeft="@+id/rlvSoiree"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignStart="@+id/rlvSoiree"
+            android:layout_marginBottom="106dp"
+            android:visibility="invisible"
+            android:src="@drawable/popuplongmap" />
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_marginBottom="22dp"
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginBottom="22dp">
+            android:orientation="vertical"
+            android:id="@+id/linearLayout2">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical|center_horizontal">
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
 
                 <com.kenfestoche.smartcoder.kenfestoche.model.SquareImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/fille"
                     android:id="@+id/imPhotoMap"
-                    android:layout_marginRight="8dp"
+                    android:layout_width="300px"
+                    android:layout_height="300px"
+                    android:layout_alignEnd="@+id/imgeoloc"
+                    android:layout_alignRight="@+id/imgeoloc"
+                    android:layout_alignTop="@+id/linearLayout"
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="0dp"
-                    android:layout_alignTop="@+id/linearLayout"
-                    android:layout_alignRight="@+id/imgeoloc"
-                    android:layout_alignEnd="@+id/imgeoloc"
+                    android:layout_marginRight="8dp"
                     android:layout_marginTop="7dp" />
+
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/imSoiree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/legendeinconnu"
                 android:layout_marginBottom="10dip"
-                android:id="@+id/imleginconnu" />
+                android:src="@drawable/boutonsoiree" />
 
             <ImageView
+                android:id="@+id/imleginconnu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/legendematch"
                 android:layout_marginBottom="10dip"
-                android:id="@+id/imlegmatch" />
+                app:srcCompat="@drawable/legendeinconnu" />
 
             <ImageView
+                android:id="@+id/imlegmatch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/legendeamis"
                 android:layout_marginBottom="10dip"
-                android:id="@+id/imlegamis" />
+                app:srcCompat="@drawable/legendematch" />
+
+            <ImageView
+                android:id="@+id/imlegamis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                app:srcCompat="@drawable/legendeamis" />
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/imgeoloc"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/compass"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:layout_marginEnd="18dp"
+            android:layout_marginRight="18dp"
             android:layout_marginTop="14dp"
-            android:id="@+id/imgeoloc" />
+            app:srcCompat="@drawable/compass" />
+
+        <LinearLayout
+            android:id="@+id/lndetailsoiree"
+            android:layout_width="200dip"
+            android:layout_height="300dip"
+            android:layout_centerHorizontal="true"
+            android:background="#fff"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/txNomSoiree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text="TextView"
+                android:textColor="#2c2954" />
+
+            <TextView
+                android:id="@+id/txTypeSoiree"
+                android:textColor="#2c2954"
+                android:padding="5dip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/txDescriptif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text="TextView"
+                android:textColor="#2c2954" />
+
+            <TextView
+                android:id="@+id/txAdresse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text="TextView"
+                android:textColor="#2c2954" />
+
+            <TextView
+                android:id="@+id/txLienSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text="TextView"
+                android:textColor="#2c2954" />
+
+            <TextView
+                android:id="@+id/txHoraire"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text="TextView"
+                android:textColor="#2c2954" />
+
+            <TextView
+                android:id="@+id/txFermetureExceptionnel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dip"
+                android:visibility="invisible"
+                android:paddingTop="10dip"
+                android:text="TextView"
+                android:textColor="#2c2954" />
+
+            <Button
+                android:id="@+id/btValidDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_gravity="right"
+                android:layout_margin="10dip"
+                android:background="#2c2954"
+                android:text="@string/action_sign_in"
+                android:textColor="@color/text_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rlvSoiree"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="15dip"
+            android:layout_marginLeft="48dip"
+            android:layout_marginRight="48dip"
+            android:layout_marginTop="15dip"
+            android:background="#fff"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dip"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txinteresse"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Sélectionne ce qui t'intéresse !"
+                    android:textColor="#2c2954"
+                    android:textSize="10pt" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dip"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/rdFetes"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="25dip"
+                        android:background="#d2d2db" />
+
+                    <TextView
+                        android:id="@+id/txfetes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Fêtes et soirées"
+                        android:textColor="#2c2954"
+                        android:textSize="10pt" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="55dip"
+                    android:layout_marginTop="10dip"
+                    android:layout_weight="1"
+                    android:text="date"
+                    android:textColor="#2c2954"
+                    android:textSize="9pt" />
+
+                <TextView
+                    android:id="@+id/txhoraire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="55dip"
+                    android:layout_weight="1"
+                    android:text="horaire"
+                    android:textColor="#2c2954"
+                    android:textSize="9pt" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dip"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/rdConcert"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="40dip"
+                        android:layout_marginRight="5dip"
+                        android:background="#d2d2db" />
+
+                    <TextView
+                        android:id="@+id/txConcert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="concert"
+                        android:textColor="#2c2954"
+                        android:textSize="8pt" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/rdBar"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="40dip"
+                        android:layout_marginRight="5dip"
+                        android:background="#d2d2db" />
+
+                    <TextView
+                        android:id="@+id/txBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="bar"
+                        android:textColor="#2c2954"
+                        android:textSize="8pt" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/rdBoite"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="40dip"
+                        android:layout_marginRight="5dip"
+                        android:background="#d2d2db" />
+
+                    <TextView
+                        android:id="@+id/txBoite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="boîte de nuit"
+                        android:textColor="#2c2954"
+                        android:textSize="8pt" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/rdBarNuit"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="40dip"
+                        android:layout_marginRight="5dip"
+                        android:background="#d2d2db" />
+
+                    <TextView
+                        android:id="@+id/txBarNuit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="bar de nuit"
+                        android:textColor="#2c2954"
+                        android:textSize="8pt" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/rdAutre"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="40dip"
+                        android:layout_marginRight="5dip"
+                        android:background="#d2d2db" />
+
+                    <TextView
+                        android:id="@+id/txAutre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="autres"
+                        android:textColor="#2c2954"
+                        android:textSize="8pt" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/rdAlcool"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="25dip"
+                        android:background="#d2d2db" />
+
+                    <TextView
+                        android:id="@+id/txdebitalcool"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Débit d'alcool"
+                        android:textColor="#2c2954"
+                        android:textSize="10pt" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txdatedebit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="55dip"
+                    android:layout_marginTop="10dip"
+                    android:layout_weight="1"
+                    android:text="date"
+                    android:textColor="#2c2954"
+                    android:textSize="9pt" />
+
+                <TextView
+                    android:id="@+id/txhorairedebit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="55dip"
+                    android:layout_weight="1"
+                    android:text="horaire"
+                    android:textColor="#2c2954"
+                    android:textSize="9pt" />
+
+                <Button
+                    android:id="@+id/btValidSoiree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dip"
+                    android:layout_gravity="right"
+                    android:layout_margin="10dip"
+                    android:background="#2c2954"
+                    android:text="@string/action_sign_in"
+                    android:textColor="@color/text_color" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

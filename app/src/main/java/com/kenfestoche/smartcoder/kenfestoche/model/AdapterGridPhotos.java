@@ -12,6 +12,7 @@ import android.widget.SimpleAdapter;
 
 import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,10 +25,10 @@ import java.util.List;
 public class AdapterGridPhotos extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<Bitmap> listPhotos;
+    private ArrayList<String> listPhotos;
     LayoutInflater inflater;
     // Constructor
-public AdapterGridPhotos(Context context,  ArrayList<Bitmap> listePhotos) {
+public AdapterGridPhotos(Context context,  ArrayList<String> listePhotos) {
 
         listPhotos=listePhotos;
         mContext = context;
@@ -56,13 +57,24 @@ public AdapterGridPhotos(Context context,  ArrayList<Bitmap> listePhotos) {
         //View view = super.getView(i, convertView, parent);
         ImageView imageView = new ImageView(mContext);
         if(listPhotos.size()<=1) {
-            imageView.setLayoutParams(new GridView.LayoutParams(80, 80));
+            imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
+            Picasso.with(imageView.getContext())
+                    .load(listPhotos.get(i))
+                    .resize(300, 300)
+                    .centerCrop()
+                    .into(imageView);
         }else if(listPhotos.size()>1){
-            imageView.setLayoutParams(new GridView.LayoutParams(40, 40));
+            imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
+            Picasso.with(imageView.getContext())
+                    .load(listPhotos.get(i))
+                    .resize(150, 150)
+                    .centerCrop()
+                    .into(imageView);
         }
 
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageBitmap(listPhotos.get(i));
+
+        //imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        //imageView.setImageBitmap();
         //imageView.setLayoutParams(new GridView.LayoutParams(70, 70));
         return imageView;
 

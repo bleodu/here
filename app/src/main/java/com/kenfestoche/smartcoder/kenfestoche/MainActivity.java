@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             if(User != null)
             {
                 if(User.connecte==true && (User.statut>1 || User.id_facebook!="")){
-                    //WebService WS = new WebService();
+                    //WebService WS = new WebService(getBaseContext());
                     //User=WS.SaveUser(User);
                     editor = pref.edit();
                     editor.putLong("UserId", User.getId());
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),FragmentsSliderActivity.class));
 
                 }else if(User.connecte==true && User.statut==1){
-                    //WebService WS = new WebService();
+                    //WebService WS = new WebService(getBaseContext());
                     //User=WS.SaveUser(User);
                     editor = pref.edit();
                     editor.putLong("UserId", User.getId());

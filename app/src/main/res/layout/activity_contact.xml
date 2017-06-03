@@ -47,6 +47,13 @@
                 android:orientation="vertical"
                 android:padding="10dip">
 
+            <ProgressBar
+                android:id="@+id/pgLoad"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/panelkiffs"
                 android:layout_width="match_parent"
@@ -55,6 +62,7 @@
                 android:layout_margin="10dip"
 
                 android:background="#2c2954"
+                android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal">
 
                 <TextView
@@ -66,6 +74,13 @@
                     android:textColor="#fff"
                     android:textSize="11pt"
                     tools:text="mes kiffs" />
+
+                <ImageView
+                    android:id="@+id/imFlecheHaut"
+                    android:layout_width="39dp"
+                    android:layout_height="29dp"
+                    android:layout_marginRight="10dip"
+                    android:src="@drawable/flechehaut" />
 
             </LinearLayout>
 
@@ -81,10 +96,11 @@
                     android:id="@+id/lstkiffs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:longClickable="true" />
+                    android:longClickable="true"
+                    android:visibility="visible" />
             </LinearLayout>
 
-                <RelativeLayout
+            <RelativeLayout
                     android:id="@+id/panelamis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -103,36 +119,42 @@
                         android:textSize="11pt"
                         tools:text="mes amis" />
 
-                    <ImageView
-                        android:id="@+id/imPlusAmis"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="21dp"
-                        android:layout_marginRight="21dp"
-                        app:srcCompat="@drawable/plus" />
+                <ImageView
+                    android:id="@+id/imPlusAmis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:paddingBottom="10dip"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="10dip"
+                    app:srcCompat="@drawable/plus" />
 
-                    <ImageView
-                        android:id="@+id/imBulle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="15dp"
-                        android:layout_toLeftOf="@+id/imPlusAmis"
-                        app:srcCompat="@drawable/bulle" />
+                <ImageView
+                    android:id="@+id/imBulle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/imPlusAmis"
+                    android:paddingBottom="10dip"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="10dip"
+                    app:srcCompat="@drawable/bulle" />
 
-                    <TextView
-                        android:id="@+id/txNbMessages"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/txAmis"
-                        android:layout_marginRight="1dip"
-                        android:layout_toLeftOf="@+id/imBulle"
-                        android:text="1"
-                        android:textColor="#fff"
-                        android:textSize="11pt" />
+                <TextView
+                    android:id="@+id/txNbMessages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignBottom="@+id/txAmis"
+                    android:layout_marginRight="1dip"
+                    android:layout_toLeftOf="@+id/imBulle"
+                    android:text="1"
+                    android:textColor="#fff"
+                    android:textSize="11pt" />
                 </RelativeLayout>
 
                 <LinearLayout

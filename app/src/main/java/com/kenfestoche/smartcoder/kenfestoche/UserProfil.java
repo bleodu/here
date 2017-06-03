@@ -21,6 +21,7 @@ import android.net.wifi.WifiConfiguration;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.SyncStateContract;
@@ -74,6 +75,7 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -110,6 +112,7 @@ public class UserProfil extends Fragment {
 
     private View mProgressView;
     private View mCreateUserView;
+    private String pictureImagePath = "";
 
     Button Parametre;
     ImagesProfil adapterPhoto;
@@ -171,9 +174,9 @@ public class UserProfil extends Fragment {
 
         gridPhotos = (MyGridPhoto) MonActivity.findViewById(R.id.gridphotos);
 
-        mLoadImage =new LoadImage();
+        //mLoadImage =new LoadImage();
 
-        mLoadImage.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        //mLoadImage.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
@@ -284,7 +287,7 @@ public class UserProfil extends Fragment {
             try {
 
                 //recherche si l'utilisateur facebbok est déjà présent dans la base de données
-                WebService WS = new WebService();
+                WebService WS = new WebService(getContext());
                 Utilisateur Uti = WS.GetUserFacebook(object.getString("id"));
                 if(Uti == null)
                 {
@@ -314,7 +317,7 @@ public class UserProfil extends Fragment {
                 }
                 User.connecte=true;
                 User.save();
-                //WS = new WebService();
+                //WS = new WebService(getContext());
                 WS.SaveUser(User);
 
                 /*if (object.has("picture")) {
@@ -338,7 +341,7 @@ public class UserProfil extends Fragment {
 
                         // CALL THIS METHOD TO GET THE ACTUAL PATH
                         File finalFile = new File(getRealPathFromURI(tempUri));
-                        WebService WebSer = new WebService();
+                        WebService WebSer = new WebService(getContext());
                         WebSer.UploadImage(finalFile.getPath(), User);
                         adapterPhoto = new ImagesProfil(getApplicationContext(), 1, User);
 
@@ -421,9 +424,9 @@ public class UserProfil extends Fragment {
 
                             // CALL THIS METHOD TO GET THE ACTUAL PATH
                             File finalFile = new File(getRealPathFromURI(tempUri));
-                            WebService WebSer = new WebService();
+                            WebService WebSer = new WebService(getContext());
                             WebSer.UploadImage(finalFile.getPath(),User);
-                            //WebService WebSer = new WebService();
+                            //WebService WebSer = new WebService(getContext());
 
                         }
 
@@ -445,7 +448,7 @@ public class UserProfil extends Fragment {
             User.connecte=true;
             //User.statut=2;
             //User.save();
-            WebService WS = new WebService();
+            WebService WS = new WebService(getContext());
             WS.SaveUser(User);
         }
 
@@ -483,7 +486,7 @@ public class UserProfil extends Fragment {
             @Override
             public void onClick(View view) {
                 User.description=Edtqqmot.getText().toString();
-                WebService WS = new WebService();
+                WebService WS = new WebService(getContext());
                 WS.SaveUser(User);
                 Toast.makeText(getActivity().getApplicationContext(),"Profil enregistré",Toast.LENGTH_LONG).show();
             }
@@ -776,6 +779,18 @@ public class UserProfil extends Fragment {
             }
         });
 
+        MonActivity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity);
+                //adapterPhoto.notifyDataSetChanged();
+                gridPhotos.setAdapter(adapterPhoto);
+
+            }
+        });
+
 
 
 
@@ -802,7 +817,7 @@ public class UserProfil extends Fragment {
     public void onPause() {
         super.onPause();
         User.description=Edtqqmot.getText().toString();
-        WebService WS = new WebService();
+        WebService WS = new WebService(getContext());
         WS.SaveUser(User);
     }
 
@@ -812,7 +827,7 @@ public class UserProfil extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         User.description=Edtqqmot.getText().toString();
-        WebService WS = new WebService();
+        WebService WS = new WebService(getContext());
         WS.SaveUser(User);
     }
 
@@ -835,7 +850,7 @@ public class UserProfil extends Fragment {
         if (resultCode != getActivity().RESULT_OK) {
             return;
         }
-        if (requestCode == 0) {
+        if (requestCode == 0) { //PHOTO DANS LA GALERIE
             Uri selectedImage = data.getData();
             String[] filePath = { MediaStore.Images.Media.DATA };
             Cursor c = getActivity().getContentResolver().query(
@@ -851,17 +866,12 @@ public class UserProfil extends Fragment {
             SharedPreferences.Editor edt = pref.edit();
 
 
-
-            //showProgress(true);
-            /*mUploadTask = new UserUploadTask();
-            mUploadTask.execute((Void) null);*/
-
             MonActivity.runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
 
-                    WebService WS = new WebService();
+                    WebService WS = new WebService(getContext());
                     WS.UploadImage(picturePath,User);
                     //notifyDataSetChanged here or update your UI on different thread
                     adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity);
@@ -873,10 +883,21 @@ public class UserProfil extends Fragment {
 
 
         }else if(requestCode == 1){ //TAKE A PHOTO
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            //Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Uri tempUri = null;
+            File imgFile = new  File(pictureImagePath);
+            if(imgFile.exists()){
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                tempUri = getImageUri(getActivity().getApplicationContext(), myBitmap);
+                //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
+                //myImage.setImageBitmap(myBitmap);
 
+            }
+        
+            
             // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-            Uri tempUri = getImageUri(getActivity().getApplicationContext(), photo);
+        
+            ///Uri tempUri = getImageUri(getActivity().getApplicationContext(), photo);
 
             // CALL THIS METHOD TO GET THE ACTUAL PATH
             File finalFile = new File(getRealPathFromURI(tempUri));
@@ -888,7 +909,7 @@ public class UserProfil extends Fragment {
                 @Override
                 public void run() {
 
-                    WebService WS = new WebService();
+                    WebService WS = new WebService(getContext());
                     WS.UploadImage(picturePath,User);
                     //notifyDataSetChanged here or update your UI on different thread
                     adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity);
@@ -966,7 +987,7 @@ public class UserProfil extends Fragment {
 
             // TODO: register the new account here.
 
-            WebService WS = new WebService();
+            WebService WS = new WebService(getContext());
             WS.UploadImage(picturePath,User);
 
             adapterPhoto.notifyDataSetChanged();
@@ -1010,7 +1031,7 @@ public class UserProfil extends Fragment {
         super.onStop();
 
         User.description=Edtqqmot.getText().toString();
-        WebService WS = new WebService();
+        WebService WS = new WebService(getContext());
         WS.SaveUser(User);
 
         pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
@@ -1022,12 +1043,43 @@ public class UserProfil extends Fragment {
 
 
     @Override
+    public void setUserVisibleHint(boolean visible) {
+        super.setUserVisibleHint(visible);
+        if (visible && isResumed()) {
+
+            MonActivity.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    LoadProfils();
+
+                }
+            });
+
+
+        }
+    }
+
+
+    public void LoadProfils(){
+
+
+        adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity);
+
+        adapterPhoto.notifyDataSetChanged();
+
+        gridPhotos.setAdapter(adapterPhoto);
+
+
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
-        mLoadImage =new LoadImage();
+        //mLoadImage =new LoadImage();
 
-        mLoadImage.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        //mLoadImage.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void selectImage() {
@@ -1061,27 +1113,25 @@ public class UserProfil extends Fragment {
                         // Intent intent = new
                         // Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                        Intent intent = new Intent(
+                        /*Intent intent = new Intent(
                                 android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
                         intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
                                 mImageCaptureUri);
-                /*
-                 * File photo = new
-                 * File(Environment.getExternalStorageDirectory(),
-                 * "Pic.jpg"); intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                 * Uri.fromFile(photo)); imageUri = Uri.fromFile(photo);
-                 */
-                        // startActivityForResult(intent,TAKE_PICTURE);
-
-                    /*Intent intents = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                    fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-
-                    intents.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);*/
 
                         // start the image capture Intent
-                        startActivityForResult(intent, 1);
+                        startActivityForResult(intent, 1);*/
+
+                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                        String imageFileName = timeStamp + ".jpg";
+                        File storageDir = Environment.getExternalStoragePublicDirectory(
+                                Environment.DIRECTORY_PICTURES);
+                        pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+                        File file = new File(pictureImagePath);
+                        Uri outputFileUri = Uri.fromFile(file);
+                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                        startActivityForResult(cameraIntent, 1);
 
                     } else if (items[item].equals("Choisir dans la bibliothèque")) {
                         Intent pickPhoto = new Intent(Intent.ACTION_PICK,

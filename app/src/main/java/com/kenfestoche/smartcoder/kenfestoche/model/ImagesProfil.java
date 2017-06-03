@@ -24,6 +24,7 @@ import com.kenfestoche.smartcoder.kenfestoche.ModuleSmartcoder;
 import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.UserProfil;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +61,7 @@ public class ImagesProfil extends BaseAdapter {
         mInflater = LayoutInflater.from(c);
         User = user;
 
-        WebService WS = new WebService();
+        WebService WS = new WebService(mContext,false);
         ListPhotos =  WS.GetListPhotos(user);
         parentActivity=parent;
 
@@ -119,36 +120,12 @@ public class ImagesProfil extends BaseAdapter {
             e.printStackTrace();
         }
 
-        /*if (view == null) {
-            view = mInflater.inflate(R.layout.griditemphoto, viewGroup, false);
-            view.setTag(R.id.photoitem, view.findViewById(R.id.photoitem));
-            imageView = (ImageView) view.getTag(R.id.photoitem);
-            //view.setTag(R.id.text, v.findViewById(R.id.text));
-        }*/
-        //Bitmap bm = BitmapFactory
-        //      .decodeFile(images[position].getAbsolutePath());
-        /*if (view == null) {
-            imageView = new ImageView(mContext);
-            //imageView.setLayoutParams(new GridView.LayoutParams(100, 100));
 
-            //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            //imageView.setPadding(5, 10, 5, 10);
-        } else {
-            imageView = (ImageView) view;
-        }*/
         URL url = null;
         try {
-            url = new URL("http://www.smartcoder-dev.fr/ZENAPP/webservice/" +  photo.getString("photo"));
-            //Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            Bitmap image = ModuleSmartcoder.getbitmap(photo.getString("photo").replace("./imgprofil/",""));
 
-            if(image==null){
-                image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                //valeur.put("LOGO", bitmap);
-                File fichier = ModuleSmartcoder.savebitmap(image,photo.getString("photo").replace("./imgprofil/",""));
-            }
-
-            holder.img.setImageBitmap(image);
+            Picasso.with(rowView.getContext()).load("http://www.smartcoder-dev.fr/ZENAPP/webservice/" +  photo.getString("photo")).into(holder.img);
+            //holder.img.setImageBitmap(image);
             holder.imgdelete.setId(photo.getInt("ID"));
             if(photo.getString("photo").equals("./imgprofil/ajoutphoto.png")){
                 holder.img.setId(0);
@@ -156,28 +133,10 @@ public class ImagesProfil extends BaseAdapter {
                 holder.imgdelete.setId(photo.getInt("ID"));
             }
             //imageView.setImageBitmap(image);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-        e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-       /* rowView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                try {
-                    if(photo.getString("photo").equals("./imgprofil/ajoutphoto.png")){
-                        //holder.imgdelete.setVisibility(View.INVISIBLE);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });*/
 
         holder.imgdelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,7 +160,7 @@ public class ImagesProfil extends BaseAdapter {
                                     @Override
                                     public void run() {
                                         Integer TagID = ID.getId();
-                                        WebService WS = new WebService();
+                                        WebService WS = new WebService(mContext,false);
                                         WS.DeletePhotoProfil(TagID);
                                         ListPhotos =  WS.GetListPhotos(User);
                                         notifyDataSetChanged();

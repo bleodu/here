@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +38,7 @@ import com.kenfestoche.smartcoder.kenfestoche.model.SlidingImgProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +58,7 @@ import static com.kenfestoche.smartcoder.kenfestoche.R.id.pagerProfil;
 import static com.kenfestoche.smartcoder.kenfestoche.R.id.txAge;
 import static com.kenfestoche.smartcoder.kenfestoche.R.id.txNbKiffs;
 import static com.kenfestoche.smartcoder.kenfestoche.R.id.txPseudo;
+import static com.kenfestoche.smartcoder.kenfestoche.R.id.vertical;
 
 public class ProfilsActivity extends Fragment {
 
@@ -71,6 +76,7 @@ public class ProfilsActivity extends Fragment {
     ImageView boutonBeurk;
     ImageView boutonKiffe;
     ImageView imKiffBeurk;
+    ImageView imPopupKiffs;
     String idUserKiff;
     int positionprofil;
     RelativeLayout rltProfil;
@@ -80,6 +86,9 @@ public class ProfilsActivity extends Fragment {
     String IdUserKiffsPrecedent;
     TextView txNewKiff;
     TextView txKiff;
+    ProgressBar pgChargement;
+    RelativeLayout rlvProfilAll;
+
 
     ImageView btIgnorer;
     ImageView btAllerVoir;
@@ -92,22 +101,13 @@ public class ProfilsActivity extends Fragment {
     public static ViewHolder viewHolder;
 
     RelativeLayout rlvNewKiff;
-
+    public static boolean KiffValid;
+    public static boolean kiffvalue;
 
     ArrayList<HashMap<String, Object>> profils;
     //private static ViewPager mPager;
     private SwipeFlingAdapterView flingContainer;
     MyAppAdapter myAppAdapter;
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        pager = (ViewPager) container;
-
-        return inflater.inflate(R.layout.activity_profils, container, false);
-
-
-    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,43 +119,36 @@ public class ProfilsActivity extends Fragment {
         User = FragmentsSliderActivity.User;
 
 
-
-
-
-
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_user_profil);
-       // super.onActivityCreated(savedInstanceState);
+
+
         View v = inflater.inflate(R.layout.activity_profils, container, false);
 
+
         profils =  new ArrayList<HashMap<String,Object>>();
-
-
-        mLoadProfils =new GetListProfils();
-
-        mLoadProfils.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         pager = (ViewPager) container;
         nbKiffs=1;
         imKiffBeurk = (ImageView) v.findViewById(R.id.imBeurkKiff);
-
+        pgChargement = (ProgressBar) v.findViewById(R.id.pgChargement);
+        pgChargement.setVisibility(View.INVISIBLE);
         imKiffBeurk.setVisibility(View.INVISIBLE);
+
+        kiffvalue=false;
+        KiffValid=false;
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
+        User.tokenFirebase=refreshedToken;
+        WebService WS = new WebService(getContext());
+        WS.SaveUser(User);
 
         //sleep for 1s in background...
         gps = new GPSTracker(v.getContext());
         pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
-
-
-
-
 
         new RefreshTask(v.getContext()).execute();
 
@@ -172,9 +165,13 @@ public class ProfilsActivity extends Fragment {
         txRechercheProche = (TextView) v.findViewById(R.id.txRechercheProfil);
         flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.frameProfil);
         rlvNewKiff = (RelativeLayout) v.findViewById(R.id.rlvNewKiff);
+        rlvProfilAll = (RelativeLayout) v.findViewById(R.id.rlvprofilall);
+        imPopupKiffs = (ImageView) v.findViewById(R.id.imPopUpKiffs);
 
         txNewKiff = (TextView) v.findViewById(R.id.txNewKiff);
         txKiff = (TextView) v.findViewById(R.id.txKiff);
+
+        imPopupKiffs.setVisibility(View.INVISIBLE);
 
 
 
@@ -190,7 +187,7 @@ public class ProfilsActivity extends Fragment {
 
         if(User.sexe==0 && User.tendancesexe==1) {
             txRechercheProche.setText("Recherche de filles proches...");
-        }else if(User.sexe==1 && User.tendancesexe==0){
+        }else if(User.sexe==1 && User.tendancesexe==1){
             txRechercheProche.setText("Recherche d'hommes proches...");
         }
         else if(User.sexe==1 && User.tendancesexe==2){
@@ -199,7 +196,7 @@ public class ProfilsActivity extends Fragment {
         else if(User.sexe==0 && User.tendancesexe==2){
             txRechercheProche.setText("Recherche d'hommes proches...");
         }
-        else if(User.tendancesexe==1){
+        else if(User.tendancesexe==0){
             txRechercheProche.setText("Recherche d'hommes et de femmes proches...");
         }
 
@@ -255,6 +252,7 @@ public class ProfilsActivity extends Fragment {
         imFlecheDroite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
                 pager.setCurrentItem(2);
             }
         });
@@ -262,6 +260,7 @@ public class ProfilsActivity extends Fragment {
         imFlecheGauche.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
                 pager.setCurrentItem(0);
             }
         });
@@ -295,7 +294,6 @@ public class ProfilsActivity extends Fragment {
             public void onClick(View view) {
                 if(profils.size()>0){
                     Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
-
                     i.putExtra("id_user",idUserKiff);
                     startActivity(i);
                 }
@@ -306,9 +304,11 @@ public class ProfilsActivity extends Fragment {
         btAllerVoir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
                 Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
                 rlvNewKiff.setVisibility(View.INVISIBLE);
                 i.putExtra("id_user",IdUserKiffsPrecedent);
+                i.putExtra("new_match",true);
                 startActivity(i);
                 pager.setCurrentItem(2);
             }
@@ -318,6 +318,7 @@ public class ProfilsActivity extends Fragment {
         boutonKiffe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
                 if(profils.size()>0){
 
                     flingContainer.getTopCardListener().selectRight();
@@ -372,6 +373,7 @@ public class ProfilsActivity extends Fragment {
         boutonBeurk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
                 if(profils.size()>0){
 
                     flingContainer.getTopCardListener().selectLeft();
@@ -428,9 +430,15 @@ public class ProfilsActivity extends Fragment {
                 break;
         }
 
-        myAppAdapter = new MyAppAdapter(profils, getActivity().getBaseContext());
 
-        flingContainer.setAdapter(myAppAdapter);
+        rlvProfilAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
@@ -441,7 +449,7 @@ public class ProfilsActivity extends Fragment {
 
             @Override
             public void onLeftCardExit(Object dataObject) {
-
+                imPopupKiffs.setVisibility(View.INVISIBLE);
                 imKiffBeurk.setVisibility(View.INVISIBLE);
                 //ShowBeurk show = new ShowBeurk();
                 //show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -454,7 +462,7 @@ public class ProfilsActivity extends Fragment {
                 idUserKiff= (String) profils.get(0).get(("id_user"));
                 IdUserKiffsPrecedent = idUserKiff;
                 //mHideKiffs.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                WebService WS = new WebService();
+                WebService WS = new WebService(getContext());
                 WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"4");
                 User.nbKiffs= User.nbKiffs-1;
                 //User.nbKiffs=nbKiffs;
@@ -465,6 +473,7 @@ public class ProfilsActivity extends Fragment {
                     User.nbKiffs=0;
                     User.save();
                 }
+
 
                 switch (User.nbKiffs){
                     case 1 :
@@ -529,17 +538,23 @@ public class ProfilsActivity extends Fragment {
                     boutonKiffe.setVisibility(View.VISIBLE);
                 }else{
                     //mPager.setVisibility(View.INVISIBLE);
+                    txRechercheProche.setVisibility(View.VISIBLE);
                     txDistanceKiffs.setVisibility(View.INVISIBLE);
                     boutonBeurk.setVisibility(View.INVISIBLE);
                     boutonKiffe.setVisibility(View.INVISIBLE);
                 }
 
+                ShowBeurk show = new ShowBeurk();
+                show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                HideKiffsAndBeurk hide = new HideKiffsAndBeurk();
+                hide.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
             }
 
+
             @Override
             public void onRightCardExit(Object dataObject) {
-
+                imPopupKiffs.setVisibility(View.INVISIBLE);
                 if(User.nbKiffs<10){
                     imKiffBeurk.setVisibility(View.INVISIBLE);
                    /* ShowKiffs show = new ShowKiffs();
@@ -548,7 +563,7 @@ public class ProfilsActivity extends Fragment {
 
                     idUserKiff= (String) profils.get(0).get(("id_user"));
                     IdUserKiffsPrecedent = idUserKiff;
-                    WebService WS = new WebService();
+                    WebService WS = new WebService(getContext());
                     JSONArray Rep = WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"1");
                     try {
                         JSONObject Retour=Rep.getJSONObject(0);
@@ -565,6 +580,8 @@ public class ProfilsActivity extends Fragment {
                         User.nbKiffs=0;
                         User.save();
                     }
+
+
 
                     if(mHideKiffs!=null){
                         mHideKiffs.cancel(true);
@@ -604,9 +621,17 @@ public class ProfilsActivity extends Fragment {
 
                     }
 
-                    if(User.nbKiffs>5){
+                    if(User.nbKiffs==2 && User.popupprofils==0){
+                        imPopupKiffs.setVisibility(View.VISIBLE);
+                        User.popupprofils=1;
+                        User.save();
+                        WS.SaveUser(User);
+                    }
+
+
+                    if(User.nbKiffs>9){
                         int nbKiffsRestant=10 - User.nbKiffs;
-                        Toast.makeText(getContext(),"Attention, il ne vous reste plus que " + nbKiffsRestant +  " kiffs disponible.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Il vous reste un seul kiffe; beurkez plus !",Toast.LENGTH_SHORT).show();
                         if(nbKiffsRestant<=0){
                             boutonKiffe.setImageResource(R.drawable.kiffgrise);
                             boutonKiffe.setEnabled(false);
@@ -654,15 +679,25 @@ public class ProfilsActivity extends Fragment {
                         boutonKiffe.setVisibility(View.VISIBLE);
                     }else{
                         //mPager.setVisibility(View.INVISIBLE);
+                        txRechercheProche.setVisibility(View.VISIBLE);
                         txDistanceKiffs.setVisibility(View.INVISIBLE);
                         boutonBeurk.setVisibility(View.INVISIBLE);
                         boutonKiffe.setVisibility(View.INVISIBLE);
                     }
+
+                    ShowKiffs show = new ShowKiffs();
+                    show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                    HideKiffsAndBeurk hide = new HideKiffsAndBeurk();
+                    hide.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
                 }else{
                     boutonKiffe.setImageResource(R.drawable.kiffgrise);
                     boutonKiffe.setEnabled(false);
-                    Toast.makeText(getContext(),"Attention, vous ne pouvez plus kiffés.",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(),"Attention, vous ne pouvez plus kiffés.",Toast.LENGTH_SHORT).show();
                 }
+
+
 
 
             }
@@ -683,6 +718,7 @@ public class ProfilsActivity extends Fragment {
                     if(scrollProgressPercent<0){
                         ShowBeurk show = new ShowBeurk();
                         show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
                     }else{
                         ShowKiffs show = new ShowKiffs();
                         show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -697,47 +733,18 @@ public class ProfilsActivity extends Fragment {
             }
         });
 
-
-        /*mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if(profils.size()>0){
-                    HashMap<String, Object> profil = profils.get(position);
-                    positionprofil=position;
-                    WebService WS = new WebService();
-                    JSONArray InfoUser = WS.GetinfoKiff((String) profil.get("id_user"),User.id_user);
-                    if(InfoUser!=null){
-                        idUserKiff= (String) profil.get("id_user");
-                        try {
-                            JSONObject userobj = InfoUser.getJSONObject(0);
-                            if(userobj!=null) {
-                                txDistanceKiffs.setText("kiffé " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
-                                //txNom.setText(userobj.getString("pseudo"));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                }
-            }
+        getActivity().runOnUiThread(new Runnable() {
 
             @Override
-            public void onPageSelected(int position) {
-                mPager.getAdapter().notifyDataSetChanged();
-
-
+            public void run() {
+                LoadProfils();
 
             }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });*/
+        });
 
         return v;
     }
+
 
     private class GetListProfils extends AsyncTask<Void, Integer, Void>
     {
@@ -748,6 +755,7 @@ public class ProfilsActivity extends Fragment {
         protected void onPreExecute() {
 
             super.onPreExecute();
+            pgChargement.setVisibility(View.VISIBLE);
             //Toast.makeText(getApplicationContext(), "Début du traitement asynchrone", Toast.LENGTH_LONG).show();
 
         }
@@ -756,18 +764,14 @@ public class ProfilsActivity extends Fragment {
         protected void onProgressUpdate(Integer... values){
             super.onProgressUpdate(values);
             // Mise à jour de la ProgressBar
-            //mProgressBar.setProgress(values[0]);
-            //lstChat.setAdapter(DetailConversationArray);
-            //mSchedule.setViewBinder(new MyViewBinder());
-            //lstChainesAdpater.notifyDataSetChanged();
-           // ArrayProfils.notifyDataSetChanged();
+
             myAppAdapter.notifyDataSetChanged();
 
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            WebService WS = new WebService();
+            WebService WS = new WebService(getContext());
             JSONArray ListProfils = WS.GetListProfils(User);
 
             if(ListProfils != null)
@@ -789,35 +793,7 @@ public class ProfilsActivity extends Fragment {
 
                         Url = Amis.getString("photo").replace(" ","%20");
 
-                        URL pictureURL;
-
                         valeur.put("Url", Url);
-
-                        pictureURL = null;
-
-                        try {
-                            pictureURL = new URL(Url);
-                        } catch (MalformedURLException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-
-
-                        /*Bitmap bitmap=null;
-                        try {
-                            //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-
-                            if(bitmap==null){
-                                bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                                //valeur.put("LOGO", bitmap);
-                                //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-                            }
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-
-                        valeur.put("photo", bitmap);*/
 
 
                     } catch (JSONException e1) {
@@ -845,7 +821,7 @@ public class ProfilsActivity extends Fragment {
             //mPager.setAdapter(ArrayProfils);
             //mPager.getAdapter().notifyDataSetChanged();
 
-
+            pgChargement.setVisibility(View.INVISIBLE);
             flingContainer.setAdapter(myAppAdapter);
 
 
@@ -855,7 +831,7 @@ public class ProfilsActivity extends Fragment {
                 txDistanceKiffs.setVisibility(View.VISIBLE);
                 boutonBeurk.setVisibility(View.VISIBLE);
                 boutonKiffe.setVisibility(View.VISIBLE);
-                WebService WS = new WebService();
+                WebService WS = new WebService(getContext());
                 JSONArray InfoUser = WS.GetinfoKiff((String) profils.get(0).get("id_user"),User.id_user);
                 if(InfoUser!=null){
                     idUserKiff= (String) profils.get(0).get("id_user");
@@ -876,8 +852,7 @@ public class ProfilsActivity extends Fragment {
                 boutonKiffe.setVisibility(View.INVISIBLE);
 
             }
-            //lstPaysAdpater.notifyDataSetChanged();
-            //Toast.makeText(getApplicationContext(), "Le traitement asynchrone est terminé", Toast.LENGTH_LONG).show();
+
         }
 
 
@@ -887,7 +862,149 @@ public class ProfilsActivity extends Fragment {
     public void onResume() {
         super.onResume();
 
+        if(KiffValid)
+        {
+            if(kiffvalue)
+            {
+                flingContainer.getTopCardListener().selectRight();
+            }else{
+                flingContainer.getTopCardListener().selectLeft();
+            }
+            kiffvalue=false;
+            KiffValid=false;
+        }
+
+
+
     }
+
+
+
+    @Override
+    public void setUserVisibleHint(boolean visible) {
+        super.setUserVisibleHint(visible);
+        if (visible && isResumed()) {
+
+            getActivity().runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    LoadProfils();
+
+                }
+            });
+
+
+        }
+    }
+
+    public void LoadProfils(){
+
+        WebService WS = new WebService(getContext());
+        JSONArray ListProfils = WS.GetListProfils(User);
+
+        if(ListProfils != null)
+        {
+
+            String Url=null;
+
+            for (int i = 0; i < ListProfils.length(); i++) {
+                JSONObject Amis=null;
+
+                HashMap<String, Object> valeur = new HashMap<String, Object>();
+                try {
+                    Amis = ListProfils.getJSONObject(i);
+                    valeur.put("pseudo", Amis.getString("pseudo"));
+                    valeur.put("id_user", Amis.getString("id_user"));
+                    valeur.put("age", Amis.getString("age"));
+                    valeur.put("calme", Amis.getString("calme"));
+                    valeur.put("affinity", Amis.getString("affinity"));
+
+                    Url = Amis.getString("photo").replace(" ","%20");
+
+                    valeur.put("Url", Url);
+
+
+
+                } catch (JSONException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
+                profils.add(valeur);
+
+
+
+            }
+        }
+
+        myAppAdapter = new MyAppAdapter(profils, getActivity().getBaseContext());
+
+
+        pgChargement.setVisibility(View.INVISIBLE);
+        flingContainer.setAdapter(myAppAdapter);
+
+
+        if(profils.size()>0){
+            txRechercheProche.setVisibility(View.INVISIBLE);
+            //mPager.setVisibility(View.VISIBLE);
+            txDistanceKiffs.setVisibility(View.VISIBLE);
+            boutonBeurk.setVisibility(View.VISIBLE);
+            boutonKiffe.setVisibility(View.VISIBLE);
+
+            JSONArray InfoUser = WS.GetinfoKiff((String) profils.get(0).get("id_user"),User.id_user);
+            if(InfoUser!=null){
+                idUserKiff= (String) profils.get(0).get("id_user");
+                try {
+                    JSONObject userobj = InfoUser.getJSONObject(0);
+                    if(userobj!=null) {
+                        txDistanceKiffs.setText("kiffé " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
+                        //txNom.setText(userobj.getString("pseudo"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }else{
+            //mPager.setVisibility(View.INVISIBLE);
+            txDistanceKiffs.setVisibility(View.INVISIBLE);
+            boutonBeurk.setVisibility(View.INVISIBLE);
+            boutonKiffe.setVisibility(View.INVISIBLE);
+
+        }
+
+    }
+
+    class HideKiffsAndBeurk extends AsyncTask {
+
+
+
+        @Override
+        protected void onProgressUpdate(Object... values) {
+            super.onProgressUpdate(values);
+
+
+        }
+
+        @Override
+        protected Void doInBackground(Object... params) {
+            try {
+                Thread.sleep(600);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            imKiffBeurk.setVisibility(View.INVISIBLE);
+            //imKiffBeurk.setImageResource(R.drawable.kiffegros);
+        }
+    }
+
 
     class ShowKiffs extends AsyncTask {
 
@@ -914,6 +1031,8 @@ public class ProfilsActivity extends Fragment {
             imKiffBeurk.setImageResource(R.drawable.kiffegros);
         }
     }
+
+
     class ShowBeurk extends AsyncTask {
 
 
@@ -1022,7 +1141,7 @@ public class ProfilsActivity extends Fragment {
 
 
 
-                            WebService WS = new WebService();
+                            WebService WS = new WebService(getContext());
                             WS.SetLastPosition(User);
                         }
 
@@ -1049,6 +1168,8 @@ public class ProfilsActivity extends Fragment {
 
     public static class ViewHolder {
         public static FrameLayout background;
+        public LinearLayout lnAffinite;
+        public LinearLayout lnBoisson;
         public TextView txNom;
         public TextView txAge;
         public ImageView cardImage;
@@ -1108,7 +1229,8 @@ public class ProfilsActivity extends Fragment {
                 viewHolder = new ViewHolder();
                 viewHolder.txNom = (TextView) rowView.findViewById(R.id.txNomProfil);
                 viewHolder.txAge = (TextView) rowView.findViewById(R.id.txAge);
-
+                viewHolder.lnBoisson = (LinearLayout) rowView.findViewById(R.id.lnboisson);
+                viewHolder.lnAffinite = (LinearLayout) rowView.findViewById(R.id.lnaffinite);
                 viewHolder.rbcalme1 = (ImageButton) rowView.findViewById(R.id.rdcoeur1);
                 viewHolder.rbcalme2 = (ImageButton) rowView.findViewById(R.id.rdcoeur2);
                 viewHolder.rbcalme3 = (ImageButton) rowView.findViewById(R.id.rdcoeur3);
@@ -1283,20 +1405,17 @@ public class ProfilsActivity extends Fragment {
             if(position<=0){
                 viewHolder.txNom.setText(profilsList.get(position).get("pseudo").toString());
                 viewHolder.txAge.setText(profilsList.get(position).get("age").toString());
+                viewHolder.lnAffinite.setVisibility(View.VISIBLE);
+                viewHolder.lnBoisson.setVisibility(View.VISIBLE);
             }else{
                 viewHolder.txNom.setText("");
                 viewHolder.txAge.setText("");
             }
 
 
-            URL pictureURL = null;
-            try {
-                pictureURL = new URL((String) profilsList.get(position).get("Url"));
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            Glide.with(ProfilsActivity.this).load(pictureURL).into(viewHolder.cardImage);
+            Picasso.with(context).load(profilsList.get(position).get("Url").toString()).into(viewHolder.cardImage);
+
+            //Glide.with(ProfilsActivity.this).load(pictureURL).into(viewHolder.cardImage);
 
             return rowView;
         }

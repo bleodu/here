@@ -88,8 +88,8 @@ public class AdapterConversation extends SimpleAdapter {
         valeur=arrayList.get(position);
         String idConv = (String) valeur.get("id");
 
-        ArrayList<Bitmap> photos = new ArrayList<Bitmap>();
-        photos= (ArrayList<Bitmap>) valeur.get("listphotos");
+        ArrayList<String> photos = new ArrayList<String>();
+        photos= (ArrayList<String>) valeur.get("listphotos");
 
         if(photos != null){
             listPhotos = new AdapterGridPhotos(view.getContext(), photos);

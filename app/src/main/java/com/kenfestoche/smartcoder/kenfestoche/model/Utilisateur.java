@@ -32,6 +32,21 @@ public class Utilisateur extends SugarRecord{
     public int positionamis;
     public int inclusfb;
     public int nbKiffs;
+    public int popupmessage;
+    public int popupprofils;
+    public int popupmap;
+    public int nbaffichemap;
+    public boolean bfetes=false;
+    public boolean bdebit=false;
+    public boolean bconcert=false;
+    public boolean bbar=false;
+    public boolean bboitenuit=false;
+    public boolean bbarnuit=false;
+    public boolean bautre=false;
+    public String horaire;
+    public String horairedebit;
+    public String datedebit;
+    public String date;
 
 
     public Utilisateur(){

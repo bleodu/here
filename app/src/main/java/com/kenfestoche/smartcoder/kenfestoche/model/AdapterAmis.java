@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.kenfestoche.smartcoder.kenfestoche.AddConversation;
 import com.kenfestoche.smartcoder.kenfestoche.Conversation;
 import com.kenfestoche.smartcoder.kenfestoche.R;
+import com.kenfestoche.smartcoder.kenfestoche.Tag;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 
@@ -92,7 +94,9 @@ public class AdapterAmis extends SimpleAdapter {
         imRefuseAmis.setVisibility(View.INVISIBLE);
         imAjoutAmis.setVisibility(View.INVISIBLE);
 
-        photo = (Bitmap)  ami.get("photo");
+        //photo = (Bitmap)  ami.get("photo");
+        String urlPhoto = (String) ami.get("url");
+        Picasso.with(context).load(urlPhoto).into(imPhotoKiffs);
 
 
 
@@ -128,12 +132,12 @@ public class AdapterAmis extends SimpleAdapter {
             imAjoutAmis.setVisibility(View.VISIBLE);
         }
 
-        imPhotoKiffs.setImageBitmap(photo);
+        //imPhotoKiffs.setImageBitmap(photo);
 
         if(ami.containsKey("id_kiff")){
 
-            WebService WS = new WebService();
-            JSONArray ListMessages =  WS.GetMessageNonLu(User.id_user, (String) ami.get("id_kiff"));
+            WebService WS = new WebService(context,false);
+            JSONArray ListMessages =  WS.GetMessageNonLu(User.id_user, (String) ami.get("id_kiff"),"1");
 
             if(ListMessages!=null){
                 txPseudo.setTypeface(face,Typeface.BOLD);
@@ -152,6 +156,7 @@ public class AdapterAmis extends SimpleAdapter {
                     i.putExtra("id_kiffs",(String) ami.get("id_kiff"));
                     i.putExtra("id_user",User.id_user);
                     i.putExtra("prive",1);
+                    i.putExtra("amis",0);
                     view.getContext().startActivity(i);
                 }
             });
@@ -175,7 +180,7 @@ public class AdapterAmis extends SimpleAdapter {
                             ami = arrayList.get(pos);
                             //imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
                             //imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
-                            WebService WS = new WebService();
+                            WebService WS = new WebService(context,false);
                             final Utilisateur User = (Utilisateur) ami.get("user");
                             String id_ami = (String) ami.get("id_kiff");
                             Toast.makeText(view.getContext(),"Kiff supprimé",Toast.LENGTH_SHORT).show();
@@ -195,7 +200,7 @@ public class AdapterAmis extends SimpleAdapter {
                             ami = arrayList.get(pos);
                             //imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
                             //imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
-                            WebService WS = new WebService();
+                            WebService WS = new WebService(context,false);
                             final Utilisateur User = (Utilisateur) ami.get("user");
                             String id_ami = (String) ami.get("id_kiff");
 
@@ -211,6 +216,27 @@ public class AdapterAmis extends SimpleAdapter {
                     return true;
                 }
             });
+        }else{
+            if(ami.containsKey("id_ami")){
+                ligneContact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int pos=Integer.parseInt(view.getTag().toString());
+                        ami = arrayList.get(pos);
+
+
+
+                        Intent i = new Intent(view.getContext(), Conversation.class);
+                        Utilisateur User = (Utilisateur) ami.get("user");
+                        i.putExtra("id_kiffs",(String) ami.get("id_ami"));
+                        i.putExtra("id_user",User.id_user);
+                        i.putExtra("prive",1);
+                        i.putExtra("amis",1);
+                        view.getContext().startActivity(i);
+                    }
+                });
+            }
+
         }
 
 
@@ -226,6 +252,9 @@ public class AdapterAmis extends SimpleAdapter {
 
                     ami = arrayList.get(pos);
                     AddConversation.listusers=AddConversation.listusers+";"+ami.get("id_useramis");
+                    AddConversation.chipList.add(new Tag((String) ami.get("pseudo")));
+                    AddConversation.chipDefault.setChipList(AddConversation.chipList);
+                    AddConversation.edtAmis.setText("");
                     Toast.makeText(view.getContext(),ami.get("pseudo")+" ajouté",Toast.LENGTH_SHORT).show();
                     arrayList.remove(ami);
                     notifyDataSetChanged();
@@ -237,7 +266,7 @@ public class AdapterAmis extends SimpleAdapter {
 
                         String id_ami = (String) ami.get("id_ami");
 
-                        WebService WS = new WebService();
+                        WebService WS = new WebService(context,false);
                         WS.SetNewFriend(User,id_ami);
                         imAjoutAmis.setVisibility(View.INVISIBLE);
                         imRefuseAmis.setVisibility(View.INVISIBLE);
@@ -255,7 +284,7 @@ public class AdapterAmis extends SimpleAdapter {
 
                         String id_ami = (String) ami.get("id_ami");
 
-                        WebService WS = new WebService();
+                        WebService WS = new WebService(context,false);
                         WS.AcceptRefuseFriend(User,id_ami,"2");
 
                         imAjoutAmis.setVisibility(View.INVISIBLE);
@@ -282,7 +311,7 @@ public class AdapterAmis extends SimpleAdapter {
 
                 String id_ami = (String) ami.get("id_ami");
 
-                WebService WS = new WebService();
+                WebService WS = new WebService(context,false);
                 WS.AcceptRefuseFriend(User,id_ami,"3");
                 imRefuseAmis = (ImageView) view;
                 Toast.makeText(view.getContext(),"Invitation refusée",Toast.LENGTH_SHORT).show();

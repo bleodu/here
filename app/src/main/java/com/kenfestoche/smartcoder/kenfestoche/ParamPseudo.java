@@ -43,7 +43,7 @@ public class ParamPseudo extends Activity {
         btValid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebService WS = new WebService();
+                WebService WS = new WebService(getBaseContext());
                 User.login=edtPseudo.getText().toString();
                 WS.SaveUser(User);
                 User.save();

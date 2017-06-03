@@ -67,7 +67,7 @@ public class ListAmisAjout extends AppCompatActivity {
         User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
 
         TypeRecherche= getIntent().getExtras().getInt("TypeRech");
-        WebService WS = new WebService();
+        WebService WS = new WebService(getBaseContext());
 
 
         RlvMonRep.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +121,7 @@ public class ListAmisAjout extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                            WebService WS = new WebService();
+                            WebService WS = new WebService(getBaseContext());
                             JSONArray ListUsers = WS.GetListUserByPhone(edtPhone.getText().toString(),User);
 
                             if (ListUsers != null) {
@@ -138,7 +138,7 @@ public class ListAmisAjout extends AppCompatActivity {
 
                                         Url = Amis.getString("photo").replace(" ", "%20");
 
-                                        URL pictureURL;
+                                        /*URL pictureURL;
 
                                         pictureURL = null;
 
@@ -162,9 +162,11 @@ public class ListAmisAjout extends AppCompatActivity {
                                         } catch (IOException e) {
                                             // TODO Auto-generated catch block
                                             e.printStackTrace();
-                                        }
+                                        }*/
 
-                                        valeur.put("photo", bitmap);
+                                        valeur.put("url", Url);
+
+                                        //valeur.put("photo", bitmap);
                                         valeur.put("user", User);
 
                                         valeur.put("id_ami", Amis.getString("iduser"));
@@ -202,7 +204,7 @@ public class ListAmisAjout extends AppCompatActivity {
     }
 
     public void RechercherRepertoire(){
-        WebService WS = new WebService();
+        WebService WS = new WebService(getBaseContext());
         Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
         JSONArray ListUsers = WS.GetListUserByPhones(User);
         while (phones.moveToNext())
@@ -221,7 +223,7 @@ public class ListAmisAjout extends AppCompatActivity {
 
                             String Url = Amis.getString("photo").replace(" ", "%20");
 
-                            URL pictureURL;
+                            /*URL pictureURL;
 
                             pictureURL = null;
 
@@ -247,8 +249,9 @@ public class ListAmisAjout extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                            valeur.put("photo", bitmap);
+                            valeur.put("photo", bitmap);*/
                             valeur.put("user", User);
+                            valeur.put("url", Url);
 
                             valeur.put("id_ami", Amis.getString("iduser"));
 
@@ -259,7 +262,15 @@ public class ListAmisAjout extends AppCompatActivity {
                             e1.printStackTrace();
                         }
 
-                        amis.add(valeur);
+                        HashMap<String, Object> val;
+
+
+
+                        if(amis.contains(valeur)==false){
+                            amis.add(valeur);
+                        }
+
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

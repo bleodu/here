@@ -56,7 +56,7 @@ public class SendMotPasse extends AppCompatActivity {
                 }
 
                 if(cancel==false){
-                    WebService WS = new WebService();
+                    WebService WS = new WebService(getBaseContext());
                     Utilisateur User = new Utilisateur();
                     User.phone =NumTel.getText().toString();
 

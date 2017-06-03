@@ -194,7 +194,7 @@ public class ImagesFacebook extends BaseAdapter {
             public void onClick(View view) {
                 ImageView img = (ImageView) view;
 
-                WebService WS = new WebService();
+                WebService WS = new WebService(mContext,false);
                 WS.UploadImage(img.getTag().toString(),User);
                 ((Activity)mContext).finish();
             }

@@ -2,6 +2,7 @@ package com.kenfestoche.smartcoder.kenfestoche;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -80,12 +81,17 @@ public class ProfilDetailActivity extends AppCompatActivity {
     private static ViewPager mPager;
 
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_profildetail);
 
         id_user = this.getIntent().getExtras().getString("id_user");
+        Boolean newMatch = this.getIntent().getExtras().getBoolean("new_match",false);
+
 
         //Getting registration token
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -100,7 +106,7 @@ public class ProfilDetailActivity extends AppCompatActivity {
         User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
         if(User!=null){
             User.tokenFirebase = refreshedToken;
-            WebService WS = new WebService();
+            WebService WS = new WebService(getBaseContext());
             WS.SaveUser(User);
 
         }
@@ -111,6 +117,11 @@ public class ProfilDetailActivity extends AppCompatActivity {
 
         boutonBeurk =  (ImageView) findViewById(R.id.imBeurk);
         boutonKiffe =  (ImageView) findViewById(R.id.imKiffe);
+
+        if(newMatch){
+            boutonBeurk.setVisibility(View.INVISIBLE);
+            boutonKiffe.setVisibility(View.INVISIBLE);
+        }
 
         Typeface face=Typeface.createFromAsset(this.getAssets(),"fonts/weblysleekuil.ttf");
 
@@ -141,7 +152,7 @@ public class ProfilDetailActivity extends AppCompatActivity {
         imSignalement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebService WS = new WebService();
+                WebService WS = new WebService(getBaseContext());
                 WS.SignalerKiffs(User,id_user);
                 Toast.makeText(view.getContext(),"Signalement envoyé",Toast.LENGTH_SHORT).show();
             }
@@ -156,7 +167,7 @@ public class ProfilDetailActivity extends AppCompatActivity {
 
         profils =  new ArrayList<HashMap<String,Object>>();
 
-        WebService WS = new WebService();
+        WebService WS = new WebService(getBaseContext());
         JSONArray ListProfils = WS.GetListPhotosProfil(id_user);
 
         if(ListProfils != null)
@@ -383,13 +394,19 @@ public class ProfilDetailActivity extends AppCompatActivity {
         boutonKiffe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebService WS = new WebService();
+                WebService WS = new WebService(getBaseContext());
                 JSONArray Rep = WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"1");
                 try {
                     JSONObject Retour=Rep.getJSONObject(0);
                     if(Retour.getString("NEWMATCH")=="1"){
                         Toast.makeText(getApplicationContext(), "Vous avez un nouveau match", Toast.LENGTH_LONG).show();
                     }
+                    /*Intent data = new Intent();
+                    data.putExtra("kiff", true);
+                    data.putExtra("ValidKiff", true);
+                    setResult(RESULT_OK, data);*/
+                    ProfilsActivity.KiffValid=true;
+                    ProfilsActivity.kiffvalue=true;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -401,194 +418,21 @@ public class ProfilDetailActivity extends AppCompatActivity {
         boutonBeurk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebService WS = new WebService();
+                WebService WS = new WebService(getBaseContext());
                 WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"4");
+                /*Intent data = new Intent();
+                data.putExtra("kiff", true);
+                data.putExtra("ValidKiff", true);
+                setResult(RESULT_OK, data);*/
+                ProfilsActivity.KiffValid=true;
+                ProfilsActivity.kiffvalue=false;
 
                 finish();
             }
         });
 
 
-       /* mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                HashMap<String, Object> profil = profils.get(position);
-                positionprofil=position;
-                WebService WS = new WebService();
-                JSONArray InfoUser = WS.GetinfoUser((String) profil.get("id_user"));
-                idUserKiff= (String) profil.get("id_user");
-                try {
-                    JSONObject userobj = InfoUser.getJSONObject(0);
-                    if(userobj!=null) {
-                        txAge.setText(userobj.getString("age") + " Ans");
-                        txNom.setText(userobj.getString("pseudo"));
-
-                        switch (userobj.getInt("calme")) {
-                            case 1:
-                                rbcalme1.setImageResource(R.drawable.carreselect);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme2.setImageResource(R.drawable.carre);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme3.setImageResource(R.drawable.carre);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme4.setImageResource(R.drawable.carre);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme5.setImageResource(R.drawable.carre);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 2:
-                                rbcalme1.setImageResource(R.drawable.carreselect);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme2.setImageResource(R.drawable.carreselect);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme3.setImageResource(R.drawable.carre);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme4.setImageResource(R.drawable.carre);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme5.setImageResource(R.drawable.carre);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 3:
-                                rbcalme1.setImageResource(R.drawable.carreselect);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme2.setImageResource(R.drawable.carreselect);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme3.setImageResource(R.drawable.carreselect);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme4.setImageResource(R.drawable.carre);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme5.setImageResource(R.drawable.carre);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 4:
-                                rbcalme1.setImageResource(R.drawable.carreselect);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme2.setImageResource(R.drawable.carreselect);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme3.setImageResource(R.drawable.carreselect);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme4.setImageResource(R.drawable.carreselect);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme5.setImageResource(R.drawable.carre);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 5:
-                                rbcalme1.setImageResource(R.drawable.carreselect);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme2.setImageResource(R.drawable.carreselect);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme3.setImageResource(R.drawable.carreselect);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme4.setImageResource(R.drawable.carreselect);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbcalme5.setImageResource(R.drawable.carreselect);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#2c2954"));
-                                break;
-                            default:
-                                rbcalme1.setImageResource(R.drawable.carre);
-                                rbcalme1.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme2.setImageResource(R.drawable.carre);
-                                rbcalme2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme3.setImageResource(R.drawable.carre);
-                                rbcalme3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme4.setImageResource(R.drawable.carre);
-                                rbcalme4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbcalme5.setImageResource(R.drawable.carre);
-                                rbcalme5.setBackgroundColor(Color.parseColor("#d2d2db"));
-
-                        }
-
-                        switch (userobj.getInt("affinity")) {
-                            case 1:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carre);
-                                rbverre2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre3.setImageResource(R.drawable.carre);
-                                rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre4.setImageResource(R.drawable.carre);
-                                rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre5.setImageResource(R.drawable.carre);
-                                rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 2:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carreselect);
-                                rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre3.setImageResource(R.drawable.carre);
-                                rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre4.setImageResource(R.drawable.carre);
-                                rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre5.setImageResource(R.drawable.carre);
-                                rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 3:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carreselect);
-                                rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre3.setImageResource(R.drawable.carreselect);
-                                rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre4.setImageResource(R.drawable.carre);
-                                rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre5.setImageResource(R.drawable.carre);
-                                rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 4:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carreselect);
-                                rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre3.setImageResource(R.drawable.carreselect);
-                                rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre4.setImageResource(R.drawable.carreselect);
-                                rbverre4.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre5.setImageResource(R.drawable.carre);
-                                rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                break;
-                            case 5:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carreselect);
-                                rbverre2.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre3.setImageResource(R.drawable.carreselect);
-                                rbverre3.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre4.setImageResource(R.drawable.carreselect);
-                                rbverre4.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre5.setImageResource(R.drawable.carreselect);
-                                rbverre5.setBackgroundColor(Color.parseColor("#2c2954"));
-                                break;
-                            default:
-                                rbverre1.setImageResource(R.drawable.carreselect);
-                                rbverre1.setBackgroundColor(Color.parseColor("#2c2954"));
-                                rbverre2.setImageResource(R.drawable.carre);
-                                rbverre2.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre3.setImageResource(R.drawable.carre);
-                                rbverre3.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre4.setImageResource(R.drawable.carre);
-                                rbverre4.setBackgroundColor(Color.parseColor("#d2d2db"));
-                                rbverre5.setImageResource(R.drawable.carre);
-                                rbverre5.setBackgroundColor(Color.parseColor("#d2d2db"));
-
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });*/
 
 
     }
@@ -624,7 +468,7 @@ public class ProfilDetailActivity extends AppCompatActivity {
 
 
 
-                            WebService WS = new WebService();
+                            WebService WS = new WebService(getBaseContext());
                             WS.SetLastPosition(User);
                         }
 

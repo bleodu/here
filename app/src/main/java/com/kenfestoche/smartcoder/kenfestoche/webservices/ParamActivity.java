@@ -372,7 +372,7 @@ public class ParamActivity extends Activity {
         SuppCompte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebService WS = new WebService();
+                WebService WS = new WebService(getBaseContext());
                 WS.DeleteUser(User);
                 Intent i = new Intent(ParamActivity.this, LoginActivity.class);
                 startActivity(i);
@@ -387,7 +387,7 @@ public class ParamActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        WebService WS = new WebService();
+        WebService WS = new WebService(getBaseContext());
         WS.SaveUser(User);
     }
 }

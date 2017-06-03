@@ -1,179 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="380dp"
     android:gravity="center_horizontal"
-    android:layout_height="380dp">
+    android:orientation="vertical">
 
 
     <com.kenfestoche.smartcoder.kenfestoche.model.SquareImageView
         android:id="@+id/image"
-        android:src="@drawable/fille"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_width="250dp" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/lnboisson"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:layout_gravity="left"
         android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="20dip"
         android:gravity="center_vertical"
-        android:layout_gravity="left">
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:layout_width="210dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:layout_weight="1"
-            android:layout_width="210dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageButton
-                android:background="#d2d2db"
+                android:id="@+id/rdverre1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:id="@+id/rdverre1" />
+                android:background="#d2d2db" />
 
             <ImageButton
-                android:background="#d2d2db"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
-                android:layout_weight="1"
-                android:id="@+id/rdverre2" />
-
-            <ImageButton
-                android:background="#d2d2db"
+                android:id="@+id/rdverre2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:id="@+id/rdverre3" />
+                android:background="#d2d2db" />
 
             <ImageButton
-                android:background="#d2d2db"
+                android:id="@+id/rdverre3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:id="@+id/rdverre4" />
+                android:background="#d2d2db" />
 
             <ImageButton
-                android:background="#d2d2db"
+                android:id="@+id/rdverre4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:id="@+id/rdverre5" />
+                android:background="#d2d2db" />
+
+            <ImageButton
+                android:id="@+id/rdverre5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:background="#d2d2db" />
         </LinearLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dip"
-            android:src="@drawable/bouteilleprofil"/>
+            android:src="@drawable/bouteilleprofil" />
 
         <TextView
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:id="@+id/txNomProfil"
-            android:layout_marginLeft="15dip"
-            android:textColor="#2c2954"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
             android:layout_gravity="right"
+            android:layout_marginLeft="15dip"
             android:layout_weight="1"
-            android:textSize="10pt"
+            android:gravity="center_vertical"
             android:text="Anne-S"
-            android:layout_width="120dp" />
+            android:textColor="#2c2954"
+            android:textSize="10pt" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/lnaffinite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:layout_gravity="left"
         android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="20dip"
         android:gravity="center_vertical"
-        android:layout_gravity="left">
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:layout_width="210dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:layout_weight="1"
-            android:layout_width="210dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageButton
-                android:background="#d2d2db"
+                android:id="@+id/rdcoeur1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:id="@+id/rdcoeur1" />
+                android:background="#d2d2db" />
 
             <ImageButton
-                android:background="#d2d2db"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
-                android:layout_weight="1"
-                android:id="@+id/rdcoeur2" />
-
-            <ImageButton
-                android:background="#d2d2db"
+                android:id="@+id/rdcoeur2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:id="@+id/rdcoeur3" />
+                android:background="#d2d2db" />
 
             <ImageButton
-                android:background="#d2d2db"
+                android:id="@+id/rdcoeur3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:id="@+id/rdcoeur4" />
+                android:background="#d2d2db" />
 
             <ImageButton
-                android:background="#d2d2db"
+                android:id="@+id/rdcoeur4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:id="@+id/rdcoeur5" />
+                android:background="#d2d2db" />
+
+            <ImageButton
+                android:id="@+id/rdcoeur5"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:background="#d2d2db" />
         </LinearLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dip"
-            android:src="@drawable/coeurprofil"/>
+            android:src="@drawable/coeurprofil" />
 
         <TextView
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:id="@+id/txAge"
-            android:layout_marginLeft="15dip"
-            android:textColor="#2c2954"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
             android:layout_gravity="right"
+            android:layout_marginLeft="15dip"
             android:layout_weight="1"
-            android:textSize="10pt"
+            android:gravity="center_vertical"
             android:text="Anne-S"
-            android:layout_width="120dp" />
+            android:textColor="#2c2954"
+            android:textSize="10pt" />
 
     </LinearLayout>
+
 </LinearLayout>

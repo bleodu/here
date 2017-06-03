@@ -10,24 +10,23 @@
 
     <com.kenfestoche.smartcoder.kenfestoche.model.SquareImageView
         android:id="@+id/imgPhotoKiffs"
-        android:layout_width="40dp"
-        android:src="@drawable/bouteille"
-        android:layout_height="40dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_margin="10dip"
         android:scaleType="centerCrop"
-        />
+        android:src="@drawable/bouteille" />
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridimgkiff"
-        android:layout_width="80px"
-        android:layout_height="80px"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_margin="10dip"
         android:columnWidth="30dp"
         android:horizontalSpacing="0dp"
         android:numColumns="auto_fit"
         android:stretchMode="none"
         android:verticalSpacing="0dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
     </GridView>
 

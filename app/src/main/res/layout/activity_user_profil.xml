@@ -424,18 +424,19 @@
             android:layout_gravity="center_horizontal" />
 
                 <Button
-                    style="?android:textAppearanceSmall"
                     android:id="@+id/btValidProfil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dip"
-                    android:text="@string/action_sign_in"
-                    android:textColor="@color/text_color"
-                    android:background="#2c2954"
-                    android:layout_gravity="center_horizontal"
                     android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_gravity="center_horizontal"
+                    android:background="#2c2954"
+                    android:textColor="#fff"
+                    android:padding="6dip"
+                    android:textSize="18dip"
+                    android:text="@string/action_sign_in"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
 
             </RelativeLayout>
