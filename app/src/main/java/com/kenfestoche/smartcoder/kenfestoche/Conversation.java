@@ -197,7 +197,9 @@ public class Conversation extends AppCompatActivity {
             }else{
                 btJeVeux.setVisibility(View.INVISIBLE);
                 btVeuxPas.setVisibility(View.INVISIBLE);
-                //btLocaliser.setVisibility(View.INVISIBLE);
+                btLocaliser.setVisibility(View.VISIBLE);
+                btLocaliser.setEnabled(true);
+                btLocaliser.setImageResource(R.drawable.btlocaliser);
             }
 
 
@@ -246,7 +248,7 @@ public class Conversation extends AppCompatActivity {
 
             btJeVeux.setVisibility(View.INVISIBLE);
             btVeuxPas.setVisibility(View.INVISIBLE);
-            btLocaliser.setVisibility(View.INVISIBLE);
+            //btLocaliser.setVisibility(View.INVISIBLE);
 
 
             JSONArray resultList = WS.GetProfilPhoto(User);
@@ -384,7 +386,7 @@ public class Conversation extends AppCompatActivity {
         pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
         editor = pref.edit();
-        User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+        User = FragmentsSliderActivity.User;
 
 
 
@@ -405,33 +407,10 @@ public class Conversation extends AppCompatActivity {
                     valeur.put("texte", LaConv.getString("texte"));
                     valeur.put("id_user", LaConv.getString("id_user"));
                     valeur.put("date_create", LaConv.getString("date_create"));
-                    Url = LaConv.getString("photo").replace(" ", "%20");
+                    valeur.put("url", LaConv.getString("photo").replace(" ", "%20"));
+                    //Url = LaConv.getString("photo").replace(" ", "%20");
 
 
-                    pictureURL = null;
-
-                    try {
-                        pictureURL = new URL(Url);
-                    } catch (MalformedURLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-
-                    try {
-                        //bitmap = ModuleSmartcoder.getbitmap(Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-
-                        if(bitmap==null){
-                            bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
-                            //valeur.put("LOGO", bitmap);
-                            //File fichier = ModuleSmartcoder.savebitmap(bitmap,Url.replace("http://www.smartcoder-dev.fr/ZENAPP/webservice/imgprofil/",""));
-                        }
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                    valeur.put("photo", bitmap);
 
 
 
@@ -469,7 +448,7 @@ public class Conversation extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 WebService WS = new WebService(getBaseContext());
-                WS.SetStatutConversation(idconv,0);
+                WS.SetStatutConversation(idconv,2);
                 btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
                 btJeVeux.setImageResource(R.drawable.btvoudrais);
                 imPopUpMessages.setVisibility(View.GONE);
@@ -481,7 +460,7 @@ public class Conversation extends AppCompatActivity {
             public void onClick(View view) {
                 WebService WS = new WebService(getBaseContext());
                 WS.SetStatutConversation(idconv,1);
-                Toast.makeText(getBaseContext(),"Vous êtes bloqué, vous pourrez continuer si elle autorise la localisation",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getBaseContext(),"Vous êtes bloqué, vous pourrez continuer si elle autorise de nouveau la conversation",Toast.LENGTH_SHORT).show();
                 btVeuxPas.setImageResource(R.drawable.btveuxpasselect);
                 btJeVeux.setImageResource(R.drawable.btvoudraisselect);
             }
@@ -531,7 +510,7 @@ public class Conversation extends AppCompatActivity {
         btLocaliser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(localiser==1 || User.sexe==1){
+                if(localiser==1 || User.sexe==1 || amis==1){
                     try {
                         if(UserKiffs.getInt("derniereposition")<6)
                         {
@@ -632,13 +611,66 @@ public class Conversation extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if(statut.equals("1")){
-                    txResteMessage.setVisibility(View.VISIBLE);
-                    btEnvoyerKo.setVisibility(View.VISIBLE);
-                    edtSendMessage.setVisibility(View.INVISIBLE);
+                    //txResteMessage.setVisibility(View.VISIBLE);
+                    //btEnvoyerKo.setVisibility(View.VISIBLE);
+                    //edtSendMessage.setVisibility(View.INVISIBLE);
                     btVeuxPas.setImageResource(R.drawable.btveuxpasselect);
                     btJeVeux.setImageResource(R.drawable.btvoudraisselect);
-                    txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
-                    try {
+
+                    if(User.sexe==1){
+                        txResteMessage.setVisibility(View.VISIBLE);
+                        btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
+                        btJeVeux.setImageResource(R.drawable.btvoudraisselect);
+                        //btEnvoyerKo.setVisibility(View.INVISIBLE);
+                        //edtSendMessage.setVisibility(View.VISIBLE);
+                        //txResteMessage.setVisibility(View.INVISIBLE);
+                        try {
+                            if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                                if(bmessageMax==false){
+                                    imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
+                                    imPopUpMessages.setVisibility(View.VISIBLE);
+                                    edtSendMessage.setVisibility(View.INVISIBLE);
+                                    //edtSendMessage.setEnabled(false);
+                                    btEnvoyerKo.setVisibility(View.VISIBLE);
+                                    //btEnvoyerKo.setImageResource(R.drawable.btenvoyerko);
+                                    txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
+                                    bmessageMax=true;
+                                }
+                            }else{
+                                int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                                txResteMessage.setText("Vous pouvez envoyer " + nbMess +  " messages");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        if(statut.equals("0")){
+                            txResteMessage.setVisibility(View.VISIBLE);
+
+
+                            try {
+                                if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                                    if(bmessageMax==false){
+                                        edtSendMessage.setVisibility(View.INVISIBLE);
+                                        edtSendMessage.setEnabled(false);
+                                        btEnvoyerKo.setVisibility(View.VISIBLE);
+                                        btEnvoyerKo.setImageResource(R.drawable.btenvoyerko);
+                                        txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
+                                        Toast.makeText(getBaseContext(),"Vous êtes bloqué, vous pourrez continuer si elle autorise de nouveau la conversation",Toast.LENGTH_SHORT).show();
+                                        bmessageMax=true;
+                                    }
+                                }else{
+                                    int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                                    txResteMessage.setText("Vous pouvez envoyer " + nbMess +  " messages");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                    //txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
+                    /*try {
                         if(User.sexe==1 && resultList.getJSONObject(0).getInt("nbMess")>5){
                             if(bmessageMax==false){
                                 imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
@@ -649,13 +681,68 @@ public class Conversation extends AppCompatActivity {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    }
-                }else{
+                    }*/
+                }else if(statut.equals("2")){
                     btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
                     btJeVeux.setImageResource(R.drawable.btvoudrais);
                     btEnvoyerKo.setVisibility(View.INVISIBLE);
                     edtSendMessage.setVisibility(View.VISIBLE);
+                    edtSendMessage.setEnabled(true);
                     txResteMessage.setVisibility(View.INVISIBLE);
+                }else{
+
+                    if(User.sexe==1){
+                        txResteMessage.setVisibility(View.VISIBLE);
+                        btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
+                        btJeVeux.setImageResource(R.drawable.btvoudraisselect);
+                        //btEnvoyerKo.setVisibility(View.INVISIBLE);
+                        //edtSendMessage.setVisibility(View.VISIBLE);
+                        //txResteMessage.setVisibility(View.INVISIBLE);
+                        try {
+                            if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                                if(bmessageMax==false){
+                                    imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
+                                    imPopUpMessages.setVisibility(View.VISIBLE);
+                                    edtSendMessage.setVisibility(View.INVISIBLE);
+                                    //edtSendMessage.setEnabled(false);
+                                    btEnvoyerKo.setVisibility(View.VISIBLE);
+                                    //btEnvoyerKo.setImageResource(R.drawable.btenvoyerko);
+                                    txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
+                                    bmessageMax=true;
+                                }
+                            }else{
+                                int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                                txResteMessage.setText("Vous pouvez envoyer " + nbMess +  " messages");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        if(statut.equals("0")){
+                            txResteMessage.setVisibility(View.VISIBLE);
+
+
+                            try {
+                                if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                                    if(bmessageMax==false){
+                                        edtSendMessage.setVisibility(View.INVISIBLE);
+                                        edtSendMessage.setEnabled(false);
+                                        btEnvoyerKo.setVisibility(View.VISIBLE);
+                                        btEnvoyerKo.setImageResource(R.drawable.btenvoyerko);
+                                        txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
+                                        Toast.makeText(getBaseContext(),"Vous êtes bloqué, vous pourrez continuer si elle autorise de nouveau la conversation",Toast.LENGTH_SHORT).show();
+                                        bmessageMax=true;
+                                    }
+                                }else{
+                                    int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                                    txResteMessage.setText("Vous pouvez envoyer " + nbMess +  " messages");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
                 }
             }
 
@@ -750,22 +837,9 @@ public class Conversation extends AppCompatActivity {
                         }
 
                         publishProgress(0);
-                        //detailconv.clear();
-                        //detailconv.addAll(detailconvtemp);
 
-                        //DetailConversationArray = new AdapterDetailConversation(getBaseContext(), detailconvtemp, R.layout.lignechatview, new String[]{"texte", "photo"}, new int[]{R.id.txTexteChat, R.id.imPhotoChat},User);
-
-                        //Thread.sleep(1000);
-                        //DetailConversationArray = new AdapterDetailConversation(getBaseContext(), detailconv, R.layout.lignechatview, new String[]{"texte", "photo"}, new int[]{R.id.txTexteChat, R.id.imPhotoChat},User);
-                        //DetailConversationArray.notifyDataSetChanged();
-                        //mSchedule.setViewBinder(new MyViewBinder());
-                        //lstChat.setAdapter(DetailConversationArray);
                     }
-                    //DetailConversationArray = new AdapterDetailConversation(getBaseContext(), detailconv, R.layout.lignechatview, new String[]{"texte", "photo"}, new int[]{R.id.txTexteChat, R.id.imPhotoChat},User);
-                    //lstChat.setAdapter(DetailConversationArray);
-                    //DetailConversationArray.notifyDataSetChanged();
-                    //publishProgress(0);
-                    //return null;
+
                     publishProgress(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

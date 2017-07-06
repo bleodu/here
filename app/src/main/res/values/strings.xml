@@ -1,11 +1,80 @@
 <resources>
     <string name="app_name">Easer</string>
 
+    <!--  PAGE PARAMETRAGE -->
+    <string name="param_modifuser">modifier nom d\'utilisateur</string>
+    <string name="param_notification">activation des notifications</string>
+    <string name="param_cachersaufkiff">cacher mon profil à tous sauf à mes kiffs</string>
+    <string name="param_cacheramis">cacher ma position à mes amis</string>
+    <string name="param_cachertous">cacher ma position à tous</string>
+    <string name="param_inclurefb">ne pas inclure mes amis fb dans les profils proposés</string>
+    <string name="param_suppcompte">supprimer mon compte</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Téléphone</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">valider</string>
+    <string name="enregistrer">s\'enregistrer</string>
     <string name="deconnect">déconnexion</string>
+    <string name="homo">homo</string>
+    <string name="bi">bi</string>
+    <string name="hetero">hetero</string>
+    <string name="jesuisplutot">Je suis plutôt</string>
+    <string name="selectionne">Selectionne ce qui t\'intéresse</string>
+    <string name="oublie">oublié ?</string>
+    <string name="param_langue">langue</string>
+    <string name="param_verifprofil">faire verifier mon profil</string>
+
+    <string name="prenom">Prénom</string>
+    <string name="encliquant">En cliquant sur valider vous acceptez les conditions générales d\'utilisation et la politique de confidentialité</string>
+    <string name="coderecu">Saisir le code reçu par sms</string>
+    <string name="sendcode">Renvoyer le code</string>
+    <string name="libsms">Votre mot de passe vous sera envoyé par sms</string>
+    <string name="plutot">plutôt</string>
+    <string name="fetard">fétard</string>
+    <string name="calme">calme</string>
+    <string name="amis">amis</string>
+    <string name="amour">amour</string>
+    <string name="photo">photos</string>
+    <string name="pres">présentation</string>
+    <string name="jesuis">je suis …</string>
+    <string name="ajoutamis">Ajouter un nouvel ami</string>
+    <string name="ajoutrep">à partir du téléphone</string>
+    <string name="ajouttel">n° de téléphone</string>
+    <string name="montel">mon téléphone</string>
+    <string name="rep">mon répertoire</string>
+    <string name="apartir">à partir de</string>
+    <string name="newconv">Nouvelle conversation</string>
+    <string name="nomconv">Nom de la conversation</string>
+    <string name="ajoutami">ajouter des amis</string>
+    <string name="annuler">Annuler</string>
+    <string name="tapmes">Taper un message</string>
+    <string name="send">Envoyer</string>
+    <string name="refuser">Refuser</string>
+    <string name="accept">Accepter</string>
+    <string name="kiffs">Mes kiffs</string>
+    <string name="mesamis">Mes amis</string>
+    <string name="inconnus">Mes inconnus</string>
+    <string name="restemes">Vous pouvez envoyer 6 messages</string>
+    <string name="jevoudrais">Je voudrais le rencontrer</string>
+    <string name="jeveuxpas">je ne veux pas</string>
+    <string name="map">Map</string>
+    <string name="appuielong">Appuie longtemps sur soirée</string>
+    <string name="attentionkiff">Attention, ne kiffes pas trop, la jauge va te bloquer</string>
+    <string name="continueclic">Pour continuer, cliquez ici</string>
+    <string name="soiree">Soirée</string>
+    <string name="fetes">Fêtes</string>
+    <string name="date">Date</string>
+    <string name="horaire">Horaire</string>
+    <string name="concert">Concert</string>
+    <string name="bar">Bar</string>
+    <string name="barnuit">Bar de nuit</string>
+    <string name="boitenuit">Boite de nuit</string>
+    <string name="debit">Débit d\'alcool</string>
+    <string name="autre">autres</string>
+    <string name="newuser">nouveau nom utilisateur</string>
+
+
     <string name="conditionbouton">En cliquant sur valider vous acceptez les &lt;u>conditions générales d\'utilisation&lt;/u> et la &lt;u>politique de confidentialité&lt;/u>.</string>
     <string name="parametre">Paramètres</string>
     <string name="valider">valider</string>
@@ -17,7 +86,7 @@
     <string name="error_incorrect_password">Votre mot de passe est incorrect</string>
     <string name="error_field_required">Ce champ est requis</string>
     <string name="renvoiecode"><u>Renvoyer le code</u></string>
-    <string name="facebook_app_id">1812222652346767</string>
+    <string name="facebook_app_id">1330559460347061</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -58,36 +127,5 @@
         <item>-1</item>
     </string-array>
 
-    <!-- Example settings for Data & Sync -->
-    <!-- <string name="pref_header_data_sync">Data &amp; sync</string>
 
-     <string name="pref_title_sync_frequency">Sync frequency</string>
-     <string-array name="pref_sync_frequency_titles">
-         <item>15 minutes</item>
-         <item>30 minutes</item>
-         <item>1 hour</item>
-         <item>3 hours</item>
-         <item>6 hours</item>
-         <item>Never</item>
-     </string-array>
-     <string-array name="pref_sync_frequency_values">
-         <item>15</item>
-         <item>30</item>
-         <item>60</item>
-         <item>180</item>
-         <item>360</item>
-         <item>-1</item>
-     </string-array>-->
-
-    <!--<string name="pref_title_system_sync_settings">System sync settings</string>-->
-
-    <!-- Example settings for Notifications -->
-    <!-- <string name="pref_header_notifications">Notifications</string>
-
-     <string name="pref_title_new_message_notifications">New message notifications</string>
-
-     <string name="pref_title_ringtone">Ringtone</string>
-     <string name="pref_ringtone_silent">Silent</string>
-
-     <string name="pref_title_vibrate">Vibrate</string>-->
 </resources>

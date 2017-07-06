@@ -61,17 +61,17 @@
             android:layout_marginEnd="7dp" />
 
         <TextView
+            android:id="@+id/txNewConversation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="nouvelle conversation"
-            android:textSize="11pt"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:text="@string/newconv"
             android:textColor="#fff"
             android:textColorLink="#fff"
-            android:ems="10"
-            android:id="@+id/txNewConversation"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textSize="11pt" />
     </RelativeLayout>
 
         </LinearLayout>

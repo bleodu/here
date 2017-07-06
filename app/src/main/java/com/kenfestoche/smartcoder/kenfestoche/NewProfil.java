@@ -357,7 +357,8 @@ public class NewProfil extends AppCompatActivity {
 
                     WebService WS = new WebService(getBaseContext());
 
-                    User = WS.SaveUser(User);
+                    User = WS.CreateUser(User);
+                    User.activnotif=1;
 
                     //JSONObject User;
                     // User = Retour.getJSONObject(0);

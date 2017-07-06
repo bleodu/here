@@ -68,14 +68,14 @@
             android:id="@+id/btLocaliser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="11dp"
-            android:layout_marginRight="11dp"
-            app:srcCompat="@drawable/btlocaliser"
+            android:layout_alignBottom="@+id/imFlecheGaucheConversation"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_alignBottom="@+id/imFlecheGaucheConversation"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_marginEnd="11dp"
+            android:layout_marginRight="11dp"
+            app:srcCompat="@drawable/btlocaliser" />
 
         <TextView
             android:id="@+id/txNomConversation"
@@ -142,7 +142,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:divider="@null"
-                    android:dividerHeight="0dp" />
+                    android:dividerHeight="0dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
                 <ImageView
                     android:id="@+id/imPopUpMessages"
@@ -225,7 +228,7 @@
                 android:layout_toLeftOf="@+id/edtSendMessage"
                 android:layout_toStartOf="@+id/edtSendMessage"
                 android:ems="10"
-                android:hint="Taper un message..."
+                android:hint="@string/tapmes"
                 android:inputType="textPersonName"
                 android:textColor="#fff"
                 android:textColorHighlight="#fff"

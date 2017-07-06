@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +15,18 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.kenfestoche.smartcoder.kenfestoche.AddConversation;
 import com.kenfestoche.smartcoder.kenfestoche.Conversation;
+import com.kenfestoche.smartcoder.kenfestoche.ProfilsActivity;
 import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.Tag;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,22 +74,22 @@ public class AdapterAmis extends SimpleAdapter {
 
 
     @Override
-    public View getView(int position, final View convertView, final ViewGroup parent) {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
-        ImageView imPhotoKiffs=(ImageView) view.findViewById(R.id.imgPhotoKiffs);
+        final ImageView imPhotoKiffs=(ImageView) view.findViewById(R.id.imgPhotoKiffs);
         imAjoutAmis=(ImageView) view.findViewById(R.id.imbtajoutamis);
         imRefuseAmis=(ImageView) view.findViewById(R.id.imbtrefuseramis);
         imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
         imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
         ImageView imWaitAmis=(ImageView) view.findViewById(R.id.imsablier);
         ImageView imLocaliser=(ImageView) view.findViewById(R.id.imlocaliser);
-        TextView txPseudo= (TextView) view.findViewById(R.id.txPseudoLigne);
+        final TextView txPseudo= (TextView) view.findViewById(R.id.txPseudoLigne);
         RelativeLayout ligneContact = (RelativeLayout) view.findViewById(R.id.ligneContact);
 
         txPseudo.setTypeface(face);
 
         ami = arrayList.get(position);
-        Bitmap photo;
+
 
         imAjoutAmis.setTag(String.valueOf(position));
         imRefuseAmis.setTag(String.valueOf(position));
@@ -95,10 +100,39 @@ public class AdapterAmis extends SimpleAdapter {
         imAjoutAmis.setVisibility(View.INVISIBLE);
 
         //photo = (Bitmap)  ami.get("photo");
+
+        //new ImageDownloaderTask(imPhotoKiffs).execute((String) ami.get("url"));
         String urlPhoto = (String) ami.get("url");
-        Picasso.with(context).load(urlPhoto).into(imPhotoKiffs);
+        Picasso.with(context).load(urlPhoto).resize(200,200).into(imPhotoKiffs);
+        //new MyAsyncTask(position,imPhotoKiffs).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
+        /*new AsyncTask<Void, Void, Void>() {
+            int pos;
+            JSONArray ListMessages=null;
+            String urlPhoto="";
+            @Override
+            protected Void doInBackground( Void... voids ) {
 
+                urlPhoto = (String) ami.get("url");
+                return null;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                ami = arrayList.get(position);
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+
+                Picasso.with(context).load(urlPhoto).resize(200,200).into(imPhotoKiffs);
+
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
+
+        //Glide.with(context).load(urlPhoto).into(imPhotoKiffs);
 
         final Utilisateur User = (Utilisateur) ami.get("user");
 
@@ -136,10 +170,40 @@ public class AdapterAmis extends SimpleAdapter {
 
         if(ami.containsKey("id_kiff")){
 
-            WebService WS = new WebService(context,false);
-            JSONArray ListMessages =  WS.GetMessageNonLu(User.id_user, (String) ami.get("id_kiff"),"1");
+            new AsyncTask<Void, Void, Void>() {
 
-            if(ListMessages!=null){
+                JSONArray ListMessages=null;
+                @Override
+                protected Void doInBackground( Void... voids ) {
+
+                    WebService WS = new WebService(context,false);
+                    ListMessages =  WS.GetMessageNonLu(User.id_user, (String) ami.get("id_kiff"),"1");
+
+                    return null;
+                }
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+
+
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    if(ListMessages!=null){
+                        txPseudo.setTypeface(face,Typeface.BOLD);
+                    }
+
+                }
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
+
+
+
+            if((int) ami.get("vu")==0){
                 txPseudo.setTypeface(face,Typeface.BOLD);
             }
 
@@ -148,8 +212,8 @@ public class AdapterAmis extends SimpleAdapter {
                 public void onClick(View view) {
                     int pos=Integer.parseInt(view.getTag().toString());
                     ami = arrayList.get(pos);
-
-
+                    WebService WS = new WebService(context,false);
+                    WS.SetKiffOpen(User,(String) ami.get("id_kiff"));
 
                     Intent i = new Intent(view.getContext(), Conversation.class);
                     Utilisateur User = (Utilisateur) ami.get("user");
@@ -218,6 +282,14 @@ public class AdapterAmis extends SimpleAdapter {
             });
         }else{
             if(ami.containsKey("id_ami")){
+
+                WebService WS = new WebService(context,false);
+                JSONArray ListMessages =  WS.GetMessageNonLu(User.id_user, (String) ami.get("id_ami"),"1");
+
+                if(ListMessages!=null){
+                    txPseudo.setTypeface(face,Typeface.BOLD);
+                }
+
                 ligneContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -281,7 +353,7 @@ public class AdapterAmis extends SimpleAdapter {
                         //imRefuseAmis = (ImageView) ligne.findViewById(R.id.imbtrefuseramis);
                         ami = arrayList.get(pos);
                         final Utilisateur User = (Utilisateur) ami.get("user");
-
+                        ami.put("statut","2");
                         String id_ami = (String) ami.get("id_ami");
 
                         WebService WS = new WebService(context,false);
@@ -313,6 +385,7 @@ public class AdapterAmis extends SimpleAdapter {
 
                 WebService WS = new WebService(context,false);
                 WS.AcceptRefuseFriend(User,id_ami,"3");
+                ami.put("statut","3");
                 imRefuseAmis = (ImageView) view;
                 Toast.makeText(view.getContext(),"Invitation refusée",Toast.LENGTH_SHORT).show();
 
@@ -337,5 +410,41 @@ public class AdapterAmis extends SimpleAdapter {
         return count;//returns the total count to adapter
     }
 
+
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        int position;
+        String urlPhoto;
+        ImageView imPhotoKiffs;
+        @Override
+        protected Void doInBackground( Void... voids ) {
+
+            urlPhoto = (String) ami.get("url");
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ami = arrayList.get(position);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            Picasso.with(context).load(urlPhoto).resize(200,200).into(imPhotoKiffs);
+
+        }
+        public MyAsyncTask(int pos, ImageView imPhotoKif) {
+            super();
+            position=pos;
+            imPhotoKiffs=imPhotoKif;
+            // do stuff
+        }
+
+
+        // doInBackground() et al.
+    }
 
 }

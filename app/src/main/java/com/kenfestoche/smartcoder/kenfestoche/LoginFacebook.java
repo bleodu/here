@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ButtonBarLayout;
@@ -189,79 +190,94 @@ public class LoginFacebook extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken();
                 Profile profile = Profile.getCurrentProfile();
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                StringBuilder builder = new StringBuilder();
+                GraphRequest request = new  GraphRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/me?fields=email,gender,picture,last_name,first_name,name,cover,birthday,albums",
+                        null,
+                        HttpMethod.GET
+                );
 
-                GraphRequest request = GraphRequest.newMeRequest(
-                        accessToken,
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(
-                                    JSONObject object,
-                                    GraphResponse response) {
-                                // Application code
-                                WebService WS = new WebService(getBaseContext());
-                                Utilisateur Uti = null;
-                                try {
-                                    Uti = WS.GetUserFacebook(object.getString("id"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                if(Uti == null)
-                                {
-
-                                    user=new Utilisateur();
-                                }else{
-                                    user=Uti;
-                                }
-                                try {
-                                    if(object.has("last_name")){
-                                        user.login=object.getString("last_name");
-                                    }
-
-                                    user.email=object.getString("email");
-                                    user.id_facebook=object.getString("id");
-                                    if(object.has("gender")){
-                                        switch (object.getString("gender"))
-                                        {
-                                            case "male" /*Argument*/:
-                                                user.sexe=0;
-                                                break;
-                                            default:user.sexe=1;
-
-                                        }
-                                    }
-
-                                    if(object.has("birthday")){
-                                        SimpleDateFormat simpleDateformat=new SimpleDateFormat("yyyy");
-                                        DateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
-                                        Date date2=null;
-                                        try {
-                                            date2 = dateformat.parse(object.getString("birthday"));
-                                        } catch (ParseException e) {
-                                            e.printStackTrace();
-                                        }
-                                        int Age= Integer.parseInt(simpleDateformat.format(new Date()))- Integer.parseInt(simpleDateformat.format(date2));
-                                        user.age=Age;
-                                    }
-
-                                    user.tendancesexe=tendancesexe;
-                                    user.save();
-
-                                    editor = preferences.edit();
-                                    editor.putLong("UserId", user.getId());
-                                    editor.commit();
-
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
+                /* make the API call */
+                new GraphRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/"+accessToken.getUserId()+"+/user_photos",
+                        null,
+                        HttpMethod.GET,
+                        new GraphRequest.Callback() {
+                            public void onCompleted(GraphResponse response) {
+            /* handle the result */
                             }
-                        });
+                        }
+                ).executeAsync();
+
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,email,birthday,last_name,first_name,name,gender,cover");
+                parameters.putString("fields", "id,email,birthday,last_name,first_name,name,gender,cover,albums");
                 request.setParameters(parameters);
-                request.executeAsync();
+                JSONObject object = request.executeAndWait().getJSONObject();
+
+
+                WebService WS = new WebService(getBaseContext());
+                Utilisateur Uti = null;
+                try {
+                    Uti = WS.GetUserFacebook(object.getString("id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(Uti == null)
+                {
+
+                    user=new Utilisateur();
+                }else{
+                    user=Uti;
+                }
+                try {
+                    if(object.has("last_name")){
+                        user.login=object.getString("last_name");
+                    }
+
+                    user.email=object.getString("email");
+                    user.id_facebook=object.getString("id");
+                    if(object.has("gender")){
+                        switch (object.getString("gender"))
+                        {
+                            case "male" /*Argument*/:
+                                user.sexe=0;
+                                break;
+                            default:user.sexe=1;
+
+                        }
+                    }
+
+                    if(object.has("birthday")){
+                        SimpleDateFormat simpleDateformat=new SimpleDateFormat("yyyy");
+                        DateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+                        Date date2=null;
+                        try {
+                            date2 = dateformat.parse(object.getString("birthday"));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        int Age= Integer.parseInt(simpleDateformat.format(new Date()))- Integer.parseInt(simpleDateformat.format(date2));
+                        user.age=Age;
+                    }
+
+                    user.tendancesexe=tendancesexe;
+                    user.save();
+
+                    editor = preferences.edit();
+                    editor.putLong("UserId", user.getId());
+                    editor.commit();
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
                 finish();
                 startActivity(new Intent(getApplicationContext(),FragmentsSliderActivity.class));
 

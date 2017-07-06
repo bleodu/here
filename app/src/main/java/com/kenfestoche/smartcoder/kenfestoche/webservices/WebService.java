@@ -129,7 +129,9 @@ public class WebService {
                         user.activnotif=Uti.getInt("activnotif");
                         user.inclusfb=Uti.getInt("inclusfb");
                         user.profilsaufkiffs=Uti.getInt("profilsaufkiffs");
-
+                        user.popupmessage=Uti.getInt("popupmessage");
+                        user.popupmap=Uti.getInt("popupmap");
+                        user.popupprofils=Uti.getInt("popuprofils");
 
                         user.save();
 
@@ -305,6 +307,274 @@ public class WebService {
                             User.activnotif=Uti.getInt("activnotif");
                             User.inclusfb=Uti.getInt("inclusfb");
                             User.profilsaufkiffs=Uti.getInt("profilsaufkiffs");
+                            User.popupmessage=Uti.getInt("popupmessage");
+                            User.popupmap=Uti.getInt("popupmap");
+                            User.popupprofils=Uti.getInt("popuprofils");
+
+                            User.connecte=true;
+                        }else{
+
+                            User.errormess=new String(Uti.getString("message").getBytes("ISO-8859-1"), "UTF-8");
+                            User.id_user=0;
+                        }
+
+
+                        //User.save();
+
+
+
+                    }
+
+                } catch (IOException e){
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return User;
+        }else{
+            return new Utilisateur();
+        }
+
+    }
+
+    public JSONArray SetKiffOpen(Utilisateur User,String idKiffs) {
+        if(isOnline()){
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            StringBuilder builder = new StringBuilder();
+            JSONArray Messages = null;
+            //Utilisateur user=null;
+            try{
+                URL url = new URL(URL_ZENAPP+"WS_SetKiffOpen.php");
+                HttpURLConnection client = null;
+                try {
+                    client = (HttpURLConnection) url.openConnection();
+                    client.setRequestMethod("POST");
+
+                    String urlParameters =  "id_user="+User.id_user+"&id_kiff="+idKiffs;
+
+
+                    // Send post request
+                    client.setDoOutput(true);
+                    DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                    wr.writeBytes(urlParameters);
+                    wr.flush();
+                    wr.close();
+                    int status = client.getResponseCode();
+
+                    switch (status) {
+                        case 200:
+                        case 201:
+                            BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                            //StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                builder.append(line+"\n");
+                            }
+                            //builder.close();
+
+                    }
+                    //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                    Messages = new JSONArray(builder.toString());
+
+
+                } catch (IOException e){
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return Messages;
+        }else{
+            return new JSONArray();
+        }
+
+    }
+
+    public Utilisateur SaveUserPopUp(Utilisateur User) {
+        if(isOnline()){
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            StringBuilder builder = new StringBuilder();
+            JSONArray Messages = null;
+            //Utilisateur user=null;
+            try{
+                URL url = new URL(URL_ZENAPP+"WS_SaveUser.php");
+                HttpURLConnection client = null;
+                try {
+                    client = (HttpURLConnection) url.openConnection();
+                    client.setRequestMethod("POST");
+
+                    String urlParameters =  "popupmessage="+User.popupmessage+"&popupmap="+User.popupmap+"&popupprofil="+User.popupprofils+"&profilsaufkiffs="+User.profilsaufkiffs+"&inclusfb="+User.inclusfb+"&activnotif="+User.activnotif+"&localiser="+User.positiontous+"&localiseramis="+User.positionamis+"&tokenFirebase="+User.tokenFirebase+"&id="+User.id_user+"&calme="+User.calme+"&affinity="+User.affinity+"&qqmots="+User.description+"&statut="+User.statut+"&email="+User.email+"&idfacebook="+User.id_facebook+"&login="+User.login+"&phone="+User.phone+"&password="+User.password+"&age="+User.age+"&sexe="+User.sexe+"&tendancesexe="+User.tendancesexe+"&latitude="+User.latitude+"&longitude="+User.longitude;
+
+                    // Send post request
+                    client.setDoOutput(true);
+                    DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                    wr.writeBytes(urlParameters);
+                    wr.flush();
+                    wr.close();
+                    int status = client.getResponseCode();
+
+                    switch (status) {
+                        case 200:
+                        case 201:
+                            BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                            //StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                builder.append(line+"\n");
+                            }
+                            //builder.close();
+
+                    }
+                    //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                    Messages = new JSONArray(builder.toString());
+
+                    if(Messages.length()>0){
+                        //Utilisateur.deleteAll(Utilisateur.class);
+
+                        JSONObject Uti=Messages.getJSONObject(0);
+
+
+                        //Utilisateur.deleteAll(Utilisateur.class);
+                        //user= new Utilisateur();
+                        if(Uti.has("pseudo")){
+                            User.login=Uti.getString("pseudo");
+                            User.password=Uti.getString("password");
+                            User.email=Uti.getString("email");
+                            User.sexe=Uti.getInt("sexe");
+                            User.tendancesexe=Uti.getInt("id_tendance");
+                            User.age=Uti.getInt("age");
+                            User.phone=Uti.getString("phone");
+                            User.description=Uti.getString("description");
+                            User.calme=Uti.getInt("calme");
+                            User.affinity=Uti.getInt("affinity");
+                            User.id_user=Uti.getInt("iduser");
+                            User.statut=Uti.getInt("statut");
+                            User.id_facebook=Uti.getString("idfacebook");
+                            User.errormess=Uti.getString("message");
+                            User.positiontous=Uti.getInt("localiser");
+                            User.positionamis=Uti.getInt("localiseramis");
+                            User.activnotif=Uti.getInt("activnotif");
+                            User.inclusfb=Uti.getInt("inclusfb");
+                            User.profilsaufkiffs=Uti.getInt("profilsaufkiffs");
+
+                            User.connecte=true;
+                        }else{
+
+                            User.errormess=new String(Uti.getString("message").getBytes("ISO-8859-1"), "UTF-8");
+                            User.id_user=0;
+                        }
+
+
+                        //User.save();
+
+
+
+                    }
+
+                } catch (IOException e){
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return User;
+        }else{
+            return new Utilisateur();
+        }
+
+    }
+
+    public Utilisateur CreateUser(Utilisateur User) {
+        if(isOnline()){
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            StringBuilder builder = new StringBuilder();
+            JSONArray Messages = null;
+            //Utilisateur user=null;
+            try{
+                URL url = new URL(URL_ZENAPP+"WS_CreateUser.php");
+                HttpURLConnection client = null;
+                try {
+                    client = (HttpURLConnection) url.openConnection();
+                    client.setRequestMethod("POST");
+
+                    String urlParameters =  "popupmessage="+User.popupmessage+"&popupmap="+User.popupmap+"&popupprofil="+User.popupprofils+"&profilsaufkiffs="+User.profilsaufkiffs+"&inclusfb="+User.inclusfb+"&activnotif="+User.activnotif+"&localiser="+User.positiontous+"&localiseramis="+User.positionamis+"&tokenFirebase="+User.tokenFirebase+"&id="+User.id_user+"&calme="+User.calme+"&affinity="+User.affinity+"&qqmots="+User.description+"&statut="+User.statut+"&email="+User.email+"&idfacebook="+User.id_facebook+"&login="+User.login+"&phone="+User.phone+"&password="+User.password+"&age="+User.age+"&sexe="+User.sexe+"&tendancesexe="+User.tendancesexe+"&latitude="+User.latitude+"&longitude="+User.longitude;
+
+                    // Send post request
+                    client.setDoOutput(true);
+                    DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                    wr.writeBytes(urlParameters);
+                    wr.flush();
+                    wr.close();
+                    int status = client.getResponseCode();
+
+                    switch (status) {
+                        case 200:
+                        case 201:
+                            BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                            //StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                builder.append(line+"\n");
+                            }
+                            //builder.close();
+
+                    }
+                    //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                    Messages = new JSONArray(builder.toString());
+
+                    if(Messages.length()>0){
+                        //Utilisateur.deleteAll(Utilisateur.class);
+
+                        JSONObject Uti=Messages.getJSONObject(0);
+
+
+                        //Utilisateur.deleteAll(Utilisateur.class);
+                        //user= new Utilisateur();
+                        if(Uti.has("pseudo")){
+                            User.login=Uti.getString("pseudo");
+                            User.password=Uti.getString("password");
+                            User.email=Uti.getString("email");
+                            User.sexe=Uti.getInt("sexe");
+                            User.tendancesexe=Uti.getInt("id_tendance");
+                            User.age=Uti.getInt("age");
+                            User.phone=Uti.getString("phone");
+                            User.description=Uti.getString("description");
+                            User.calme=Uti.getInt("calme");
+                            User.affinity=Uti.getInt("affinity");
+                            User.id_user=Uti.getInt("iduser");
+                            User.statut=Uti.getInt("statut");
+                            User.id_facebook=Uti.getString("idfacebook");
+                            User.errormess=Uti.getString("message");
+                            User.positiontous=Uti.getInt("localiser");
+                            User.positionamis=Uti.getInt("localiseramis");
+                            User.activnotif=Uti.getInt("activnotif");
+                            User.inclusfb=Uti.getInt("inclusfb");
+                            User.profilsaufkiffs=Uti.getInt("profilsaufkiffs");
 
                             User.connecte=true;
                         }else{
@@ -380,6 +650,7 @@ public class WebService {
                     Messages = new JSONArray(builder.toString());
 
                     User.delete();
+                    Utilisateur.deleteAll(Utilisateur.class);
 
 
                 } catch (IOException e){
@@ -864,7 +1135,7 @@ public class WebService {
                 try {
                     client = (HttpURLConnection) url.openConnection();
                     client.setRequestMethod("POST");
-                    String urlParameters = "id_user="+idUser+"&id_kiffs="+idkiffs+"&prive="+prive;
+                    String urlParameters = "id_user="+idUser+"&id_kiff="+idkiffs+"&prive="+prive;
 
 
                     // Send post request
@@ -1187,15 +1458,22 @@ public class WebService {
 
     public boolean isOnline() {
 
-        ConnectivityManager cm =
-                (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        try{
+            ConnectivityManager cm =
+                    (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
 
-        if(netInfo==null && Mess){
-            Toast.makeText(ctx,"Pas de connexion internet disponible",Toast.LENGTH_LONG).show();
+            if(netInfo==null && Mess){
+                Toast.makeText(ctx,"Pas de connexion internet disponible",Toast.LENGTH_LONG).show();
+            }
+
+            return netInfo != null && netInfo.isConnectedOrConnecting();
+
+        }catch (Exception ex){
+            return false;
         }
 
-        return netInfo != null && netInfo.isConnectedOrConnecting();
+
     }
 
     public JSONArray GetLastPositionUserMatch(Utilisateur User) {
@@ -1382,6 +1660,8 @@ public class WebService {
         }
 
     }
+
+
 
     public JSONArray SetLastPosition(Utilisateur User) {
 

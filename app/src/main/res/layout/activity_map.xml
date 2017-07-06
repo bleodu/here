@@ -134,7 +134,8 @@
             android:layout_height="300dip"
             android:layout_centerHorizontal="true"
             android:background="#fff"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible">
 
 
             <TextView
@@ -147,11 +148,11 @@
 
             <TextView
                 android:id="@+id/txTypeSoiree"
-                android:textColor="#2c2954"
-                android:padding="5dip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:padding="5dip"
+                android:text="TextView"
+                android:textColor="#2c2954" />
 
             <TextView
                 android:id="@+id/txDescriptif"
@@ -190,10 +191,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dip"
-                android:visibility="invisible"
                 android:paddingTop="10dip"
                 android:text="TextView"
-                android:textColor="#2c2954" />
+                android:textColor="#2c2954"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/btValidDetail"
@@ -203,7 +204,9 @@
                 android:layout_margin="10dip"
                 android:background="#2c2954"
                 android:text="@string/action_sign_in"
-                android:textColor="@color/text_color" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/text_color"
+                android:textSize="18dip" />
         </LinearLayout>
 
         <LinearLayout
@@ -218,7 +221,7 @@
             android:layout_marginTop="15dip"
             android:background="#fff"
             android:orientation="horizontal"
-            android:visibility="invisible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -233,7 +236,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="Sélectionne ce qui t'intéresse !"
+                    android:text="@string/selectionne"
                     android:textColor="#2c2954"
                     android:textSize="10pt" />
 
@@ -269,7 +272,7 @@
                     android:layout_marginLeft="55dip"
                     android:layout_marginTop="10dip"
                     android:layout_weight="1"
-                    android:text="date"
+                    android:text="@string/date"
                     android:textColor="#2c2954"
                     android:textSize="9pt" />
 
@@ -279,7 +282,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="55dip"
                     android:layout_weight="1"
-                    android:text="horaire"
+                    android:text="@string/horaire"
                     android:textColor="#2c2954"
                     android:textSize="9pt" />
 
@@ -303,7 +306,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="concert"
+                        android:text="@string/concert"
                         android:textColor="#2c2954"
                         android:textSize="8pt" />
 
@@ -330,7 +333,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="bar"
+                        android:text="@string/bar"
                         android:textColor="#2c2954"
                         android:textSize="8pt" />
 
@@ -356,7 +359,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="boîte de nuit"
+                        android:text="@string/boitenuit"
                         android:textColor="#2c2954"
                         android:textSize="8pt" />
 
@@ -382,7 +385,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="bar de nuit"
+                        android:text="@string/barnuit"
                         android:textColor="#2c2954"
                         android:textSize="8pt" />
 
@@ -408,7 +411,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="autres"
+                        android:text="@string/autre"
                         android:textColor="#2c2954"
                         android:textSize="8pt" />
 
@@ -434,7 +437,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Débit d'alcool"
+                        android:text="@string/debit"
                         android:textColor="#2c2954"
                         android:textSize="10pt" />
 
@@ -448,7 +451,7 @@
                     android:layout_marginLeft="55dip"
                     android:layout_marginTop="10dip"
                     android:layout_weight="1"
-                    android:text="date"
+                    android:text="@string/date"
                     android:textColor="#2c2954"
                     android:textSize="9pt" />
 
@@ -458,7 +461,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="55dip"
                     android:layout_weight="1"
-                    android:text="horaire"
+                    android:text="@string/horaire"
                     android:textColor="#2c2954"
                     android:textSize="9pt" />
 
@@ -470,7 +473,9 @@
                     android:layout_margin="10dip"
                     android:background="#2c2954"
                     android:text="@string/action_sign_in"
-                    android:textColor="@color/text_color" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="@color/text_color"
+                    android:textSize="18dip" />
 
             </LinearLayout>
 

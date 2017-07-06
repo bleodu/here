@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondeaser"
+    android:background="@drawable/contactnewfond"
     android:orientation="vertical"
     tools:context="com.kenfestoche.smartcoder.kenfestoche.ContactActivity">
     <RelativeLayout
@@ -73,7 +73,7 @@
                     android:layout_weight="1"
                     android:textColor="#fff"
                     android:textSize="11pt"
-                    tools:text="mes kiffs" />
+                    tools:text="@string/kiffs" />
 
                 <ImageView
                     android:id="@+id/imFlecheHaut"
@@ -109,15 +109,15 @@
                     android:background="#2c2954"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/txAmis"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dip"
-                        android:layout_weight="1"
-                        android:textColor="#fff"
-                        android:textSize="11pt"
-                        tools:text="mes amis" />
+                <TextView
+                    android:id="@+id/txAmis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:layout_weight="1"
+                    android:textColor="#fff"
+                    android:textSize="11pt"
+                    tools:text="@string/mesamis" />
 
                 <ImageView
                     android:id="@+id/imPlusAmis"

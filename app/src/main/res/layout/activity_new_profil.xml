@@ -34,161 +34,152 @@
 
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_margin="20dip"
         android:id="@+id/createuser_form"
-        android:layout_height="match_parent">
-
-
-
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/edtPseudo"
-        android:inputType="text"
-        android:textSize="11.33pt"
-        android:backgroundTint="#2c2954"
-        android:textColor="#2c2954"
-        android:textColorHint="#2c2954"
-        android:layout_weight="1"
-        android:hint="prénom" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_margin="20dip"
+        android:orientation="vertical">
+
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/edtPseudo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/edtPhone"
-                android:digits="1234567890"
-                android:backgroundTint="#2c2954"
-                android:textColor="#2c2954"
-                android:textSize="11.33pt"
-                android:textColorHint="#2c2954"
-                android:maxLength="10"
-                android:inputType="phone"
                 android:layout_weight="1"
-                android:hint="téléphone" />
+                android:backgroundTint="#2c2954"
+                android:ems="10"
+                android:hint="@string/prenom"
+                android:inputType="text"
+                android:textColor="#2c2954"
+                android:textColorHint="#2c2954"
+                android:textSize="11.33pt" />
         </LinearLayout>
 
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:backgroundTint="#2c2954"
-        android:textColor="#2c2954"
-        android:textColorHint="#2c2954"
-        android:textSize="11.33pt"
-        android:id="@+id/edtPass"
-        android:layout_weight="1"
-        android:hint="mot de passe" />
-</LinearLayout>
+            android:orientation="horizontal">
 
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#2c2954"
+                android:digits="1234567890"
+                android:ems="10"
+                android:hint="@string/ajouttel"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:textColor="#2c2954"
+                android:textColorHint="#2c2954"
+                android:textSize="11.33pt" />
+        </LinearLayout>
 
-    android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/edtAge"
-        android:backgroundTint="#2c2954"
-        android:textColor="#2c2954"
-        android:textColorHint="#2c2954"
-        android:digits="1234567890"
-        android:textSize="11.33pt"
-        android:maxLength="10"
-        android:inputType="number"
-        android:layout_weight="1"
-        android:hint="âge" />
-</LinearLayout>
+            <EditText
+                android:id="@+id/edtPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#2c2954"
+                android:ems="10"
+                android:hint="@string/prompt_password"
+                android:inputType="textPassword"
+                android:textColor="#2c2954"
+                android:textColorHint="#2c2954"
+                android:textSize="11.33pt" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#2c2954"
+                android:digits="1234567890"
+                android:ems="10"
+                android:hint="âge"
+                android:inputType="number"
+                android:maxLength="10"
+                android:textColor="#2c2954"
+                android:textColorHint="#2c2954"
+                android:textSize="11.33pt" />
+        </LinearLayout>
 
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_marginTop="20dip"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal">
-
-
-
+            android:layout_marginTop="20dip"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
 
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/viewMale"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.21"
-                android:id="@+id/viewMale"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
 
                 <ImageButton
+                    android:id="@+id/radioMale"
                     android:layout_width="80px"
                     android:layout_height="80px"
-                    android:id="@+id/radioMale"
-                    android:background="#d2d2db"
-                    />
+                    android:background="#d2d2db" />
 
                 <ImageView
+                    android:id="@+id/imrdMale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="homo"
                     android:layout_marginLeft="20dip"
                     android:src="@drawable/homme"
-                    android:id="@+id/imrdMale"
-                    android:textColor="#3a375f"
-                   />
+                    android:text="homo"
+                    android:textColor="#3a375f" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/viewFemale"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:id="@+id/viewFemale"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
 
                 <ImageButton
+                    android:id="@+id/radioFemale"
                     android:layout_width="80px"
                     android:layout_height="80px"
-                    android:id="@+id/radioFemale"
-                    android:background="#d2d2db"
-                    />
+                    android:background="#d2d2db" />
 
                 <ImageView
+                    android:id="@+id/imrdFemale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dip"
-                    android:id="@+id/imrdFemale"
                     android:src="@drawable/femme"
-                    android:textColor="#3a375f"
-                    />
+                    android:textColor="#3a375f" />
 
             </LinearLayout>
 
@@ -196,104 +187,94 @@
         </LinearLayout>
 
 
-
-
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dip"
-            android:layout_height="wrap_content"
             android:id="@+id/viewnewHomo"
-            android:gravity="center_vertical|center_horizontal">
-
-
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
 
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
 
                 <ImageButton
-                    android:layout_width="80px"
-                    android:layout_height="80px"
                     android:id="@+id/imnewHomo"
-                    android:background="#d2d2db"
-                    />
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:background="#d2d2db" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:textSize="11.33pt"
-                    android:text="homo"
-                    android:textColor="#3a375f"
                     android:id="@+id/txnewHomo"
-                    android:layout_weight="1.3" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_weight="1"
+                    android:text="@string/homo"
+                    android:textColor="#3a375f"
+                    android:textSize="15dipp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:id="@+id/viewnewHete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
 
                 <ImageButton
+                    android:id="@+id/imnewhete"
                     android:layout_width="80px"
                     android:layout_height="80px"
-                    android:id="@+id/imnewhete"
-                    android:background="#d2d2db"
-                    />
+                    android:background="#d2d2db" />
 
                 <TextView
+                    android:id="@+id/txnewhetero"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
-                    android:textSize="11.33pt"
-                    android:text="hétéro"
-                    android:id="@+id/txnewhetero"
+                    android:layout_weight="1"
+                    android:text="@string/hetero"
                     android:textColor="#3a375f"
-                    android:layout_weight="1" />
+                    android:textSize="15dip" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/viewnewBi"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/viewnewBi"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
 
                 <ImageButton
+                    android:id="@+id/imnewBi"
                     android:layout_width="80px"
                     android:layout_height="80px"
-                    android:id="@+id/imnewBi"
-                    android:background="#d2d2db"
-                    />
+                    android:background="#d2d2db" />
 
                 <TextView
+                    android:id="@+id/txnewBi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
-                    android:textSize="11.33pt"
+                    android:layout_weight="1"
+                    android:text="@string/bi"
                     android:textColor="#3a375f"
-                    android:text="bi"
-                    android:id="@+id/txnewBi"
-                    android:layout_weight="1" />
+                    android:textSize="15dip" />
 
             </LinearLayout>
-
-
 
 
         </LinearLayout>
@@ -302,45 +283,44 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dip"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dip">
 
             <Button
-        android:id="@+id/btValidCompte"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/action_sign_in"
-        android:textColor="@color/text_color"
-                android:textSize="18dip"
+                android:id="@+id/btValidCompte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_horizontal"
+                android:background="#2c2954"
+                android:text="@string/action_sign_in"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:background="#2c2954"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-
+                android:textColor="@color/text_color"
+                android:textSize="18dip" />
 
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/txCondition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#2c2954"
-                android:textSize="5pt"
-                android:layout_marginTop="10dip"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="En cliquant sur valider vous acceptez les conditions générales d&apos;utilisation et la politique de confidentialité."
-                android:id="@+id/txCondition"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="10dip"
                 android:linksClickable="false"
                 android:longClickable="false"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true" />
+                android:text="@string/encliquant"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#2c2954"
+                android:textSize="5pt" />
         </RelativeLayout>
     </LinearLayout>
 

@@ -43,15 +43,15 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
+        WebService WS = new WebService(getBaseContext());
 
         pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
         editor = pref.edit();
 
-        //User = new Utilisateur();
-        //User.save();
-
         User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+
+
 
         if(isOnline()==false){
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
                 if(User.connecte==true && (User.statut>1 || User.id_facebook!="")){
                     //WebService WS = new WebService(getBaseContext());
                     //User=WS.SaveUser(User);
+                    User=WS.Connect(User.phone,User.password);
+                    User.save();
                     editor = pref.edit();
                     editor.putLong("UserId", User.getId());
                     editor.commit();

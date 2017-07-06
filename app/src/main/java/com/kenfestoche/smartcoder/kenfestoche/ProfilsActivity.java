@@ -33,6 +33,7 @@ import com.eftimoff.viewpagertransformers.DrawFromBackTransformer;
 import com.eftimoff.viewpagertransformers.RotateDownTransformer;
 import com.eftimoff.viewpagertransformers.RotateUpTransformer;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.kenfestoche.smartcoder.kenfestoche.model.ImageDownloaderTask;
 import com.kenfestoche.smartcoder.kenfestoche.model.ImagesProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.SlidingImgProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
@@ -141,8 +142,10 @@ public class ProfilsActivity extends Fragment {
         KiffValid=false;
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        if(refreshedToken!=null){
+            User.tokenFirebase=refreshedToken;
+        }
 
-        User.tokenFirebase=refreshedToken;
         WebService WS = new WebService(getContext());
         WS.SaveUser(User);
 
@@ -629,9 +632,9 @@ public class ProfilsActivity extends Fragment {
                     }
 
 
-                    if(User.nbKiffs>9){
+                    if(User.nbKiffs==9){
                         int nbKiffsRestant=10 - User.nbKiffs;
-                        Toast.makeText(getContext(),"Il vous reste un seul kiffe; beurkez plus !",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Il vous reste un seul kiffe, beurkez plus !",Toast.LENGTH_SHORT).show();
                         if(nbKiffsRestant<=0){
                             boutonKiffe.setImageResource(R.drawable.kiffgrise);
                             boutonKiffe.setEnabled(false);
@@ -1413,9 +1416,10 @@ public class ProfilsActivity extends Fragment {
             }
 
 
-            Picasso.with(context).load(profilsList.get(position).get("Url").toString()).into(viewHolder.cardImage);
+            //new ImageDownloaderTask(viewHolder.cardImage).execute((String) profilsList.get(position).get("Url").toString());
+            //Picasso.with(context).load(profilsList.get(position).get("Url").toString()).into(viewHolder.cardImage);
 
-            //Glide.with(ProfilsActivity.this).load(pictureURL).into(viewHolder.cardImage);
+            Glide.with(ProfilsActivity.this).load(profilsList.get(position).get("Url").toString()).into(viewHolder.cardImage);
 
             return rowView;
         }

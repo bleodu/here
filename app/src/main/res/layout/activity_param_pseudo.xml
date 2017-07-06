@@ -32,7 +32,7 @@
             android:id="@+id/txSaisieCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="nouveau nom d'utilisateur"
+            android:text="@string/newuser"
             android:textColor="#2c2954"
             android:textSize="11.33pt" />
 
@@ -68,7 +68,8 @@
 
             <Button
                 android:id="@+id/btValidPseudo"
-                style="?android:textAppearanceSmall"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="18dip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

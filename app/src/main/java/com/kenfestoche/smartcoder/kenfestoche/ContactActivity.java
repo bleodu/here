@@ -309,6 +309,7 @@ public class ContactActivity extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        LoadContacts();
         lstKiffs.setAdapter(KiffsArray);
         setListViewHeightBasedOnChildren(lstKiffs);
         setListViewHeightBasedOnChildren(lstAmis);
@@ -358,6 +359,7 @@ public class ContactActivity extends Fragment {
                         LeKiff = ListKiffs.getJSONObject(i);
                         valeur.put("pseudo", LeKiff.getString("pseudo"));
                         valeur.put("id_kiff", LeKiff.getString("id_user_kiff"));
+                        valeur.put("vu", LeKiff.getInt("vu"));
                         valeur.put("user", User);
                         Url = LeKiff.getString("photo").replace(" ","%20");
                         valeur.put("url",Url);
@@ -460,6 +462,7 @@ public class ContactActivity extends Fragment {
                     LeKiff = ListKiffs.getJSONObject(i);
                     valeur.put("pseudo", LeKiff.getString("pseudo"));
                     valeur.put("id_kiff", LeKiff.getString("id_user_kiff"));
+                    valeur.put("vu", LeKiff.getInt("vu"));
                     valeur.put("user", User);
                     Url = LeKiff.getString("photo").replace(" ","%20");
                     valeur.put("url",Url);

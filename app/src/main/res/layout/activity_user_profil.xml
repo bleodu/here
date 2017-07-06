@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.kenfestoche.smartcoder.kenfestoche.UserProfil"
+    android:background="@drawable/newfondprofil"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -33,15 +34,15 @@
             android:layout_centerHorizontal="true" />
 
         <ImageButton
+            android:id="@+id/imParam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:id="@+id/imParam"
-            android:layout_marginRight="10dip"
-            android:src="@drawable/boutonparam"
-            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@android:color/transparent"
+            android:src="@drawable/btparamnew" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -59,369 +60,366 @@
 
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:padding="10dip"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></LinearLayout>
-
-            <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Je suis plutôt"
-            android:textColor="#2c2954"
-            android:id="@+id/txPlutot"
-            android:textSize="11pt"
-            android:autoText="false"
-            android:textAlignment="center" />
+            android:orientation="vertical"
+            android:padding="10dip">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txPlutot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoText="false"
+                    android:text="@string/jesuisplutot"
+                    android:textAlignment="center"
+                    android:textColor="#2c2954"
+                    android:textSize="11pt" />
 
                 <ImageView
+                    android:id="@+id/imLignePLutot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imLignePLutot"
                     app:srcCompat="@drawable/ligne" />
 
             </LinearLayout>
 
             <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_vertical|fill_horizontal"
-                android:gravity="center_vertical|center_horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|fill_horizontal"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_height="wrap_content"
-                    android:text="calme"
-                    android:layout_width="wrap_content"
                     android:id="@+id/txcalme"
-                    android:textColor="#2c2954"
-                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:autoText="false"
-                    android:textAlignment="center" />
+                    android:text="@string/calme"
+                    android:textAlignment="center"
+                    android:textColor="#2c2954"
+                    android:textSize="12dp" />
 
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <ImageButton
-                    android:background="#d2d2db"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    <ImageButton
+                        android:id="@+id/rdcalme1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
 
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                    android:id="@+id/rdcalme1" />
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_weight="1"
+                        android:background="#d2d2db" />
 
-                <ImageButton
-                    android:background="#d2d2db"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                    android:id="@+id/rdcalme2" />
+                    <ImageButton
+                        android:id="@+id/rdcalme2"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_weight="1"
+                        android:background="#d2d2db" />
 
-                <ImageButton
-                    android:background="#d2d2db"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                    android:id="@+id/rdcalme3" />
+                    <ImageButton
+                        android:id="@+id/rdcalme3"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_weight="1"
+                        android:background="#d2d2db" />
 
-                <ImageButton
-                    android:background="#d2d2db"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                android:id="@+id/rdcalme4" />
+                    <ImageButton
+                        android:id="@+id/rdcalme4"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_weight="1"
+                        android:background="#d2d2db" />
 
-                <ImageButton
-                    android:background="#d2d2db"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:layout_weight="1"
-                android:id="@+id/rdcalme5" />
+                    <ImageButton
+                        android:id="@+id/rdcalme5"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_weight="1"
+                        android:background="#d2d2db" />
 
-                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|center_horizontal">
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
 
                     <TextView
-                android:layout_height="wrap_content"
-                android:text="fêtard"
-                android:id="@+id/txfetard"
-                android:layout_width="wrap_content"
-                android:textColor="#2c2954"
-                        android:textSize="18dp"
-                android:autoText="false"
-                android:textAlignment="center" />
-
-                    <ImageView
+                        android:id="@+id/txfetard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/bouteille"
-                        android:id="@+id/imageView12" />
+                        android:autoText="false"
+                        android:text="@string/fetard"
+                        android:textAlignment="center"
+                        android:textColor="#2c2954"
+                        android:textSize="12dp" />
+
+                    <ImageView
+                        android:id="@+id/imageView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/bouteille" />
                 </LinearLayout>
 
             </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical|center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#2c2954"
-            android:textSize="18sp"
-            android:text="amis"
-            android:id="@+id/txverre"
-            android:textAlignment="center" />
-
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_horizontal">
-
-        <ImageButton
-            android:background="#d2d2db"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_weight="1"
-            android:id="@+id/rdverre1" />
-
-            <ImageButton
-                android:background="#d2d2db"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
-                android:layout_weight="1"
-                android:id="@+id/rdverre2" />
-
-            <ImageButton
-            android:background="#d2d2db"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
-            android:layout_weight="1"
-            android:id="@+id/rdverre3" />
-
-        <ImageButton
-            android:background="#d2d2db"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_weight="1"
-            android:id="@+id/rdverre4" />
-
-        <ImageButton
-            android:background="#d2d2db"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_weight="1"
-            android:id="@+id/rdverre5" />
-
-            </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal">
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textColor="#2c2954"
-            android:textSize="18sp"
-            android:text="amour"
-            android:id="@+id/txaffinite"
-            android:textAlignment="center" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/coeur"
-                android:id="@+id/imCoeur" />
-
-            </LinearLayout>
-
-    </LinearLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imAdd" />
-
             <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical">
-
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:textColor="#2c2954"
-            android:textSize="11.33pt"
-            android:layout_height="wrap_content"
-            android:text="photos"
-            android:id="@+id/txPhotos"
-            android:textAlignment="center" />
-
-    </LinearLayout>
-
-            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ligne"
-                android:layout_marginBottom="10dip"
-                android:id="@+id/imLignePhoto" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_vertical">
-
-        <com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto
-            android:layout_width="match_parent"
-            android:numColumns="3"
-            android:verticalSpacing="10dp"
-            android:horizontalSpacing="10dp"
-            android:id="@+id/gridphotos"
-            android:stretchMode="columnWidth"
-            android:layout_height="wrap_content">
-
-
-        </com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto>
-    </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
                 android:layout_marginTop="20dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txverre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/amis"
+                    android:textAlignment="center"
+                    android:textColor="#2c2954"
+                    android:textSize="12dp" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/rdverre1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_weight="1"
+                        android:background="#d2d2db" />
+
+                    <ImageButton
+                        android:id="@+id/rdverre2"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_weight="1"
+                        android:background="#d2d2db" />
+
+                    <ImageButton
+                        android:id="@+id/rdverre3"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_weight="1"
+                        android:background="#d2d2db" />
+
+                    <ImageButton
+                        android:id="@+id/rdverre4"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_weight="1"
+                        android:background="#d2d2db" />
+
+                    <ImageButton
+                        android:id="@+id/rdverre5"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip"
+                        android:layout_weight="1"
+                        android:background="#d2d2db" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txaffinite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/amour"
+                        android:textAlignment="center"
+                        android:textColor="#2c2954"
+                        android:textSize="12dp" />
+
+                    <ImageView
+                        android:id="@+id/imCoeur"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/coeur" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
-
-
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
 
                 <TextView
+                    android:id="@+id/txPhotos"
                     android:layout_width="wrap_content"
-                    android:textColor="#2c2954"
-                    android:textSize="11.33pt"
                     android:layout_height="wrap_content"
-                    android:text="présentation"
-                    android:id="@+id/txPresentation"
-                    android:textAlignment="center" />
+                    android:text="@string/photo"
+                    android:textAlignment="center"
+                    android:textColor="#2c2954"
+                    android:textSize="11.33pt" />
 
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/imLignePhoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ligne"
                 android:layout_marginBottom="10dip"
-                android:id="@+id/imLignePres" />
+                app:srcCompat="@drawable/ligne" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto
+                    android:id="@+id/gridphotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:horizontalSpacing="10dp"
+                    android:numColumns="3"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="10dp">
+
+
+                </com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/txPresentation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pres"
+                    android:textAlignment="center"
+                    android:textColor="#2c2954"
+                    android:textSize="11.33pt" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imLignePres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                app:srcCompat="@drawable/ligne" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:background="#2c2954"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="#2c2954">
 
                 <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
+                    android:id="@+id/edtqqmot"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#2c2954"
+                    android:ems="10"
+                    android:hint="@string/jesuis"
+                    android:inputType="textMultiLine"
+                    android:maxLength="150"
                     android:textColor="#fff"
                     android:textColorHint="#fff"
-                    android:textSize="11.33pt"
-                    android:backgroundTint="#2c2954"
-            android:id="@+id/edtqqmot"
-            android:hint="Je suis ..."
-            android:maxLength="150" />
+                    android:textSize="11.33pt" />
 
                 <TextView
+                    android:id="@+id/txNbCaract"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:id="@+id/txNbCaract"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="5dip"
                     android:text="150"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="#fff"
                     android:textColorHint="#fff"
-                    android:textSize="8pt"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="5dip"
-                    android:layout_alignParentBottom="true" />
+                    android:textSize="8pt" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="10dip"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dip">
 
                 <TextView
-            android:id="@+id/btDeconnect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/deconnect"
-                    android:textSize="11.33pt"
-            android:textColor="#2c2954"
-            android:layout_gravity="center_horizontal" />
+                    android:id="@+id/btDeconnect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/deconnect"
+                    android:textColor="#2c2954"
+                    android:textSize="11.33pt" />
 
                 <Button
                     android:id="@+id/btValidProfil"
@@ -432,11 +430,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center_horizontal"
                     android:background="#2c2954"
-                    android:textColor="#fff"
                     android:padding="6dip"
-                    android:textSize="18dip"
                     android:text="@string/action_sign_in"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#fff"
+                    android:textSize="18dip" />
 
 
             </RelativeLayout>

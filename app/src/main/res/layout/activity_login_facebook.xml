@@ -14,12 +14,12 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/txEnregistrer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="S'enregistrer"
+            android:text="@string/enregistrer"
             android:textColor="#2c2954"
-            android:textSize="12pt"
-            android:id="@+id/txEnregistrer" />
+            android:textSize="12pt" />
 
 
 
@@ -58,14 +58,14 @@
                          />
 
                     <TextView
+                        android:id="@+id/txHomo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dip"
-                        android:textSize="25sp"
-                        android:text="homo"
+                        android:layout_weight="1.3"
+                        android:text="@string/homo"
                         android:textColor="#3a375f"
-                        android:id="@+id/txHomo"
-                        android:layout_weight="1.3" />
+                        android:textSize="25sp" />
 
                 </LinearLayout>
 
@@ -86,14 +86,13 @@
                         />
 
                     <TextView
+                        android:id="@+id/txBi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dip"
-                        android:textSize="25sp"
+                        android:text="@string/bi"
                         android:textColor="#3a375f"
-                        android:text="bi"
-                        android:id="@+id/txBi"
-                         />
+                        android:textSize="25sp" />
 
                 </LinearLayout>
 
@@ -113,15 +112,15 @@
                         android:background="#d2d2db"/>
 
                     <TextView
+                        android:id="@+id/txhetero"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="25sp"
                         android:layout_marginLeft="10dip"
-                        android:text="hétéro"
-                        android:id="@+id/txhetero"
+                        android:gravity="right"
+                        android:text="@string/hetero"
                         android:textColor="#3a375f"
 
-                        android:gravity="right" />
+                        android:textSize="25sp" />
 
                 </LinearLayout>
 

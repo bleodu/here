@@ -62,7 +62,7 @@ public class VerifSmsCode extends AppCompatActivity {
 
 
         Bundle extras = getIntent().getExtras();
-        User = FragmentsSliderActivity.User;
+        User = Utilisateur.findById(Utilisateur.class,preferences.getLong("UserId", 0));
 
 
         final WebService WS = new WebService(getBaseContext());
@@ -107,6 +107,7 @@ public class VerifSmsCode extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     if(Code.getString("codesms").toString().equals(CodeSms.getText().toString())){
+                        User.activnotif=1;
                         User.statut=2;
                         User.save();
                         WebService WS = new WebService(getBaseContext());
@@ -115,6 +116,7 @@ public class VerifSmsCode extends AppCompatActivity {
                         editor.putLong("UserId",User.getId());
                         editor.commit();
                         Intent i = new Intent(getApplicationContext(), FragmentsSliderActivity.class);
+                        i.putExtra("newuser",1);
                         finish();
                         startActivity(i);
 

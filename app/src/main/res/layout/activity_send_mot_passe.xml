@@ -27,30 +27,30 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/txNumTel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dip"
+            android:text="@string/libsms"
             android:textColor="#2c2954"
-            android:text="votre mot de passe vous sera envoyé par sms :"
-            android:textSize="15sp"
-            android:id="@+id/txNumTel" />
+            android:textSize="15sp" />
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_marginTop="20dip"
-            android:layout_height="wrap_content"
-            android:ems="10"
             android:id="@+id/edtPhoneSms"
-            android:background="#2c2954"
-            android:textColorHint="#fff"
-            android:textColor="#fff"
-            android:padding="10dip"
-            android:digits="1234567890"
-            android:maxLength="10"
-            android:textSize="25sp"
-            android:inputType="phone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:hint="téléphone" />
+            android:layout_marginTop="20dip"
+            android:background="#2c2954"
+            android:digits="1234567890"
+            android:ems="10"
+            android:hint="@string/ajouttel"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:padding="10dip"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="25sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -61,16 +61,15 @@
                 android:id="@+id/btVerifCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dip"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:text="valider"
-                android:background="#2c2954"
-                android:textColor="#ffffff"
-                android:padding="10dip"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                />
+                android:layout_alignParentRight="true"
+                android:background="#2c2954"
+                android:padding="10dip"
+                android:text="@string/valider"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#ffffff"
+                android:textSize="18dip" />
         </RelativeLayout>
     </LinearLayout>
 

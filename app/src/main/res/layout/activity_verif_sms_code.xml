@@ -29,12 +29,12 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/txSaisieCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11.33pt"
+            android:text="@string/coderecu"
             android:textColor="#2c2954"
-            android:text="saisir le code reçu par sms"
-            android:id="@+id/txSaisieCode" />
+            android:textSize="11.33pt" />
 
         <TextView
             android:layout_width="match_parent"

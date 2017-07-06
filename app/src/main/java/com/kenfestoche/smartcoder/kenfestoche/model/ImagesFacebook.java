@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
 import com.kenfestoche.smartcoder.kenfestoche.R;
@@ -69,6 +71,18 @@ public class ImagesFacebook extends BaseAdapter {
         StrictMode.setThreadPolicy(policy);
         token = AccessToken.getCurrentAccessToken();
 
+        /* make the API call */
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/"+token.getUserId()+"+/user_photos",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+            /* handle the result */
+                    }
+                }
+        ).executeAsync();
 
         /* make the API call */
         GraphRequest request =  new GraphRequest(
@@ -78,6 +92,9 @@ public class ImagesFacebook extends BaseAdapter {
                 HttpMethod.GET);
 
         try {
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,email,birthday,picture,last_name,first_name,name,gender,cover,albums");
+            request.setParameters(parameters);
             JSONArray data = request.executeAndWait().getJSONObject().getJSONArray("data");
             for(int i=0; i<data.length(); i++){
                 JSONObject Album = data.getJSONObject(i);

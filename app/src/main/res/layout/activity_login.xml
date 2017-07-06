@@ -17,13 +17,14 @@
             >
 
             <ImageView
+                android:id="@+id/imlogin"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/imlogin"
+                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:adjustViewBounds="false"
-                android:background="@drawable/logoaccueil"
-                android:layout_alignParentTop="true" />
+                android:background="@drawable/easernewlogin"
+                android:visibility="visible" />
 
 
 
@@ -50,17 +51,17 @@
                     android:text="" />
 
                 <TextView
+                    android:id="@+id/btNewUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="nouvel utilisateur "
-                    android:layout_marginRight="10dip"
-                    android:textColor="@color/cardview_light_background"
-                    android:id="@+id/btNewUser"
-                    android:layout_centerVertical="true"
-                    android:textSize="8pt"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:text="@string/action_newuser"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="8pt" />
 
             </RelativeLayout>
 
@@ -91,17 +92,17 @@
                     android:text="" />
 
                 <TextView
+                    android:id="@+id/txPasseOublie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="oublié ? "
-                    android:layout_marginRight="10dip"
-                    android:textColor="@color/cardview_light_background"
-                    android:id="@+id/txPasseOublie"
-                    android:textSize="8pt"
-                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:text="@string/oublie"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="8pt" />
 
             </RelativeLayout>
 
@@ -149,13 +150,13 @@
                             android:id="@+id/btconnexion"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="connexion"
-                            android:textSize="11.33pt"
-                            android:background="@android:color/transparent"
-                            android:textColor="@color/text_color"
                             android:layout_alignParentBottom="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true" />
+                            android:background="@android:color/transparent"
+                            android:text="@string/action_connexion"
+                            android:textColor="@color/text_color"
+                            android:textSize="11.33pt" />
                     </RelativeLayout>
 
 

@@ -31,31 +31,29 @@
         android:layout_height="wrap_content">
 
 
-
-
         <EditText
+            android:id="@+id/edtnonconversation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Nom de la conversation"
-            android:layout_marginRight="10dip"
             android:layout_marginLeft="10dip"
-            android:textColor="#fff"
-            android:textColorHint="#fff"
+            android:layout_marginRight="10dip"
             android:ems="10"
-            android:id="@+id/edtnonconversation" />
+            android:hint="@string/nomconv"
+            android:inputType="textPersonName"
+            android:textColor="#fff"
+            android:textColorHint="#fff" />
 
         <EditText
+            android:id="@+id/edtpersonnes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:ems="10"
+            android:hint="@string/ajoutami"
             android:inputType="textPersonName"
             android:textColor="#fff"
-            android:layout_marginRight="10dip"
-            android:layout_marginLeft="10dip"
-            android:textColorHint="#fff"
-            android:hint="Ajouter des amis"
-            android:ems="10"
-            android:id="@+id/edtpersonnes" />
+            android:textColorHint="#fff" />
 
         <com.plumillonforge.android.chipview.ChipView
             android:id="@+id/chipview"

@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dip"
-            android:text="nouvel ami"
+            android:text="@string/ajoutami"
             android:textColor="#2c2954"
             android:textSize="11.33pt" />
 
@@ -93,7 +93,7 @@
                     android:layout_marginStart="40dp"
                     android:ems="10"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="mon répertoire"
+                    android:text="@string/montel"
                     android:textColor="#fff"
                     android:textColorLink="#fff"
                     android:textSize="6pt" />
@@ -132,7 +132,7 @@
                     android:ems="10"
                     android:gravity="center_vertical|center_horizontal"
                     android:inputType="textPersonName"
-                    android:text="n° de téléphone"
+                    android:text="@string/ajouttel"
                     android:textColor="#fff"
                     android:textColorLink="#fff"
                     android:textSize="6pt" />

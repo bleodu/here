@@ -1,12 +1,16 @@
 package com.kenfestoche.smartcoder.kenfestoche.webservices;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +24,8 @@ import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.VerifSmsCode;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 
+import java.util.Locale;
+
 public class ParamActivity extends Activity {
 
     ImageView rdActivnotif;
@@ -31,6 +37,7 @@ public class ParamActivity extends Activity {
     ImageView imNomUtilisateur;
 
     ImageView imFleche;
+    ImageView imNewLangue;
     ImageView imVerifProfil;
 
     TextView SuppCompte;
@@ -43,6 +50,7 @@ public class ParamActivity extends Activity {
     TextView txCacherPosAmis;
     TextView txCacherPosTous;
     TextView txInclusFB;
+    TextView txNewLangue;
 
     LinearLayout lstVerifProfil;
 
@@ -84,6 +92,7 @@ public class ParamActivity extends Activity {
         txCacherPosAmis = (TextView) findViewById(R.id.txpositionamis);
         txCacherPosTous = (TextView) findViewById(R.id.txpositiontous);
         txInclusFB = (TextView) findViewById(R.id.txamisfb);
+        txNewLangue = (TextView) findViewById(R.id.txLangue);
 
         txModifUser.setTypeface(face);
         txVerifProfil.setTypeface(face);
@@ -95,6 +104,7 @@ public class ParamActivity extends Activity {
 
         imNomUtilisateur = (ImageView) findViewById(R.id.imNewPseudo);
         imVerifProfil= (ImageView) findViewById(R.id.imflecheprofil);
+        imNewLangue = (ImageView) findViewById(R.id.imNewLangue);
 
 
         imFleche = (ImageView) findViewById(R.id.imFlecheGauche);
@@ -106,6 +116,20 @@ public class ParamActivity extends Activity {
         Politique.setTypeface(face);
         Condition.setTypeface(face);
 
+
+        imNewLangue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectLangue();
+            }
+        });
+
+        txNewLangue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectLangue();
+            }
+        });
 
         imVerifProfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -374,6 +398,8 @@ public class ParamActivity extends Activity {
             public void onClick(View view) {
                 WebService WS = new WebService(getBaseContext());
                 WS.DeleteUser(User);
+                editor.putLong("UserId", 0);
+                editor.commit();
                 Intent i = new Intent(ParamActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
@@ -382,6 +408,78 @@ public class ParamActivity extends Activity {
 
 
 
+    }
+
+    private void selectLangue() {
+
+        final CharSequence[] items = { "Français", "Anglais", "Breton" };
+
+        TextView title = new TextView(ParamActivity.this.getApplicationContext());
+        title.setText("Sélectionner une langue");
+        title.setBackgroundColor(Color.WHITE);
+        title.setPadding(10, 15, 15, 10);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTextSize(22);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                ParamActivity.this);
+
+
+
+        builder.setCustomTitle(title);
+
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Français")) {
+
+                    editor.putString("Langue","Français");
+                    editor.commit();
+                    txNewLangue.setText("Langue : Français");
+                    setLanguageForApp("fr");
+                    dialog.dismiss();
+
+                }else if (items[item].equals("Breton")) {
+                    editor.putString("Langue","Breton");
+                    txNewLangue.setText("Langue : Breton");
+                    setLanguageForApp("br");
+                    editor.commit();
+
+                    dialog.dismiss();
+                }
+                else {
+
+                    editor.putString("Langue","Anglais");
+                    txNewLangue.setText("Langue : Anglais");
+                    setLanguageForApp("en");
+                    editor.commit();
+
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+
+
+
+
+    }
+    private void setLanguageForApp(String languageToLoad){
+        Locale locale;
+        if(languageToLoad.equals("not-set")){ //use any value for default
+            locale = Locale.getDefault();
+        }
+        else {
+            locale = new Locale(languageToLoad);
+        }
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
     }
 
     @Override

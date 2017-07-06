@@ -26,6 +26,7 @@ public class FragmentsSliderActivity extends FragmentActivity {
     public static boolean Localiser=false;
     public static String latitude;
     public static String longitude;
+    int newuser=0;
     ViewPager pager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class FragmentsSliderActivity extends FragmentActivity {
             Localiser = getIntent().getExtras().getBoolean("Localiser",false);
             latitude = getIntent().getExtras().getString("Latitude");
             longitude  = getIntent().getExtras().getString("Longitude");
+            newuser  = getIntent().getExtras().getInt("newuser",0);
         }
 
 
@@ -64,6 +66,9 @@ public class FragmentsSliderActivity extends FragmentActivity {
 
         if(Localiser){
             pager.setCurrentItem(0);
+        }else if (newuser==1)
+        {
+            pager.setCurrentItem(3);
         }else{
             pager.setCurrentItem(1);
         }

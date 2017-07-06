@@ -66,7 +66,7 @@
                     android:layout_marginStart="40dp"
                     android:ems="10"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="mon répertoire"
+                    android:text="@string/rep"
                     android:textColor="#fff"
                     android:textColorLink="#fff"
                     android:textSize="6pt" />
@@ -105,7 +105,7 @@
                     android:ems="10"
                     android:gravity="center_vertical|center_horizontal"
                     android:inputType="textPersonName"
-                    android:text="n° de téléphone"
+                    android:text="@string/ajouttel"
                     android:textColor="#fff"
                     android:textColorLink="#fff"
                     android:textSize="6pt" />
@@ -136,18 +136,18 @@
             >
 
             <EditText
+                android:id="@+id/edttelrech"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:digits="1234567890"
-                android:hint="téléphone"
-                android:textColorHint="#fff"
                 android:backgroundTint="#fff"
+                android:digits="1234567890"
+                android:hint="@string/ajouttel"
+                android:inputType="phone"
                 android:maxLength="10"
-                android:textSize="8pt"
                 android:textColor="#fff"
+                android:textColorHint="#fff"
                 android:textColorLink="#fff"
-                android:id="@+id/edttelrech" />
+                android:textSize="8pt" />
 
             <ImageView
                 android:layout_width="wrap_content"

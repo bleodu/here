@@ -12,6 +12,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.kenfestoche.smartcoder.kenfestoche.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,8 +87,9 @@ public class AdapterDetailConversation extends SimpleAdapter {
                         imPointeGrise.setImageResource(R.drawable.pointegrisemess);
                         txDateRight.setText(valeur.get("date_create").toString());
                         txChat.setText(valeur.get("texte").toString());
-                        Bitmap photo = (Bitmap) valeur.get("photo");
-                        imPhotoKiffs.setImageBitmap(photo);
+                        //Bitmap photo = (Bitmap) valeur.get("photo");
+                        Picasso.with(context).load((String) valeur.get("url")).resize(300,300).into(imPhotoKiffs);
+                        //imPhotoKiffs.setImageBitmap(photo);
                         txChat.setTypeface(face);
                         txDateRight.setTypeface(face);
                     }

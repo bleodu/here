@@ -265,7 +265,7 @@ public class UserProfil extends Fragment {
         Bundle extras = getActivity().getIntent().getExtras();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        Bundle params = new Bundle();
+        final Bundle params = new Bundle();
         params.putString("fields", "id,email,birthday,user_photos,last_name,first_name,name,gender,cover,picture.type(large)");
         token = AccessToken.getCurrentAccessToken();
 
@@ -489,6 +489,7 @@ public class UserProfil extends Fragment {
                 WebService WS = new WebService(getContext());
                 WS.SaveUser(User);
                 Toast.makeText(getActivity().getApplicationContext(),"Profil enregistré",Toast.LENGTH_LONG).show();
+                pager.setCurrentItem(1);
             }
         });
 
@@ -510,8 +511,8 @@ public class UserProfil extends Fragment {
                 editor.putLong("UserId", 0);
                 editor.commit();
                 Intent i = new Intent(getActivity().getApplicationContext(),MainActivity.class);
-                getActivity().finish();
                 startActivity(i);
+                getActivity().finish();
             }
         });
 
