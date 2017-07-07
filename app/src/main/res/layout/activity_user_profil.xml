@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.kenfestoche.smartcoder.kenfestoche.UserProfil"
-    android:background="@drawable/newfondprofil"
+
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -56,12 +56,14 @@
     <ScrollView
         android:id="@+id/userprofil_form"
         android:layout_width="match_parent"
+
         android:layout_height="match_parent">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/newfondprofil"
             android:orientation="vertical"
             android:padding="10dip">
 
@@ -110,7 +112,7 @@
                     android:text="@string/calme"
                     android:textAlignment="center"
                     android:textColor="#2c2954"
-                    android:textSize="12dp" />
+                    android:textSize="18sp" />
 
 
                 <LinearLayout
@@ -119,6 +121,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -184,7 +187,7 @@
                         android:text="@string/fetard"
                         android:textAlignment="center"
                         android:textColor="#2c2954"
-                        android:textSize="12dp" />
+                        android:textSize="18sp" />
 
                     <ImageView
                         android:id="@+id/imageView12"
@@ -210,7 +213,7 @@
                     android:text="@string/amis"
                     android:textAlignment="center"
                     android:textColor="#2c2954"
-                    android:textSize="12dp" />
+                    android:textSize="18sp" />
 
 
                 <LinearLayout
@@ -282,7 +285,7 @@
                         android:text="@string/amour"
                         android:textAlignment="center"
                         android:textColor="#2c2954"
-                        android:textSize="12dp" />
+                        android:textSize="18sp" />
 
                     <ImageView
                         android:id="@+id/imCoeur"

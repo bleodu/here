@@ -7,8 +7,8 @@
     <string name="param_modifuser">cheñch va anv</string>
     <string name="param_notification">aktivañ an c\'hemennoù</string>
     <string name="param_cachersaufkiff">kuzhaat va frofil d\'an holl nemet va c\'hiff-ed</string>
-    <string name="param_cacheramis">kuzhat va lerc\'hiadur d'am mignoned</string>
-    <string name="param_cachertous">kuzhat va lerc\'hiadur d'an holl</string>
+    <string name="param_cacheramis">kuzhat va lerc\'hiadur d\'am mignoned</string>
+    <string name="param_cachertous">kuzhat va lerc\'hiadur d\'an holl</string>
     <string name="param_inclurefb">n\'om pas kinnig din kiffañ va mignoned fb</string>
     <string name="param_suppcompte">dilemel va c\'hont</string>
     <string name="param_langue">yezh</string>
@@ -44,7 +44,7 @@
     <string name="pres">Emginnig</string>
     <string name="jesuis">Bez’on …</string>
     <string name="jesuisplutot">Bez’on kentoc’h</string>
-
+    <string name="apartir">à partir de</string>
 
     <string name="ajoutamis">Ouzhpennañ ur mignon</string>
     <string name="ajoutrep">nevez adalek ar</string>

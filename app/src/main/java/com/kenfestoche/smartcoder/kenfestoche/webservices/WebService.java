@@ -599,8 +599,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return User;
@@ -661,8 +659,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -746,8 +742,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return user;
@@ -813,8 +807,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -873,8 +865,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -929,8 +919,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -990,8 +978,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -1049,8 +1035,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -1110,8 +1094,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -1169,8 +1151,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -1230,8 +1210,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -1289,8 +1267,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -1382,8 +1358,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -1525,8 +1499,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -1584,8 +1556,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -1650,8 +1620,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -1713,8 +1681,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -1775,8 +1741,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -1835,8 +1799,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -2450,8 +2412,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -2510,8 +2470,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -2574,8 +2532,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -2636,8 +2592,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -2696,8 +2650,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -2759,8 +2711,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -2821,8 +2771,6 @@ public class WebService {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return Messages;
@@ -2882,8 +2830,6 @@ public class WebService {
 
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 

@@ -195,8 +195,8 @@ public class ContactActivity extends Fragment {
         txAmis.setTypeface(face);
         //txPseudoLigne.setTypeface(face);
 
-        txMesKiffs.setText("mes kiffs");
-        txAmis.setText("mes amis");
+        //txMesKiffs.setText("mes kiffs");
+        //txAmis.setText("mes amis");
 
 
         imFlecheDroite.setOnClickListener(new View.OnClickListener() {

@@ -94,6 +94,7 @@ public class ParamActivity extends Activity {
         txInclusFB = (TextView) findViewById(R.id.txamisfb);
         txNewLangue = (TextView) findViewById(R.id.txLangue);
 
+        txNewLangue.setTypeface(face);
         txModifUser.setTypeface(face);
         txVerifProfil.setTypeface(face);
         txActivNotif.setTypeface(face);
@@ -438,13 +439,13 @@ public class ParamActivity extends Activity {
 
                     editor.putString("Langue","Français");
                     editor.commit();
-                    txNewLangue.setText("Langue : Français");
+                    //txNewLangue.setText("Langue : Français");
                     setLanguageForApp("fr");
                     dialog.dismiss();
 
                 }else if (items[item].equals("Breton")) {
                     editor.putString("Langue","Breton");
-                    txNewLangue.setText("Langue : Breton");
+                    //txNewLangue.setText("Langue : Breton");
                     setLanguageForApp("br");
                     editor.commit();
 
@@ -453,7 +454,7 @@ public class ParamActivity extends Activity {
                 else {
 
                     editor.putString("Langue","Anglais");
-                    txNewLangue.setText("Langue : Anglais");
+                    //txNewLangue.setText("Langue : Anglais");
                     setLanguageForApp("en");
                     editor.commit();
 
