@@ -2030,7 +2030,10 @@ public class WebService {
 
                     }
                     //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
-                    Messages = new JSONArray(builder.toString());
+                    if(builder!=null){
+                        Messages = new JSONArray(builder.toString());
+                    }
+
 
                 } catch (IOException e){
 

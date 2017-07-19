@@ -10,12 +10,14 @@
     <string name="param_inclurefb">ne pas inclure mes amis fb dans les profils proposés</string>
     <string name="param_suppcompte">supprimer mon compte</string>
 
+    <string name="contact_popupnomesssage">Vous êtes bloqué, vous pourrez continuer si elle autorise de nouveau la conversation</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Téléphone</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">valider</string>
     <string name="enregistrer">s\'enregistrer</string>
     <string name="deconnect">déconnexion</string>
+    <string name="contact_nomesssage">Vous ne pouvez plus envoyer de messages</string>
     <string name="homo">homo</string>
     <string name="bi">bi</string>
     <string name="hetero">hetero</string>
@@ -24,6 +26,11 @@
     <string name="oublie">oublié ?</string>
     <string name="param_langue">langue</string>
     <string name="param_verifprofil">faire verifier mon profil</string>
+    <string name="contact_localiser">Localiser</string>
+    <string name="contact_luine">Lui ne pourra vous localiser que si vous l\'autorisez</string>
+    <string name="contact_nbmessage">Vous pouvez envoyer </string>
+    <string name="contact_lelocaliser">Vous pouvez le localiser </string>
+    <string name="contact_message">messages</string>
 
     <string name="prenom">Prénom</string>
     <string name="encliquant">En cliquant sur valider vous acceptez les conditions générales d\'utilisation et la politique de confidentialité</string>

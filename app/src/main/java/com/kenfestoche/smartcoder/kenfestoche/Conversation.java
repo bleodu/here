@@ -61,10 +61,10 @@ public class Conversation extends AppCompatActivity {
     TextView nomConversation;
     ImageView imPhotoConversation;
     ListConversation listconv;
-    ImageView btEnvoyerKo;
-    ImageView btLocaliser;
-    ImageView btJeVeux;
-    ImageView btVeuxPas;
+    TextView btEnvoyerKo;
+    TextView btLocaliser;
+    TextView btJeVeux;
+    TextView btVeuxPas;
     JSONObject UserKiffs;
     TextView txResteMessage;
     Bitmap bitmap;
@@ -74,8 +74,8 @@ public class Conversation extends AppCompatActivity {
     int id_user;
     int localiser;
     GridView gridPhotos;
-    ImageView imPopUpLocaliser;
-    ImageView imPopUpMessages;
+    RelativeLayout imPopUpLocaliser;
+    RelativeLayout imPopUpMessages;
     LinearLayout rootView;
     Boolean bmessageMax;
     LinearLayout lnRoot;
@@ -89,19 +89,19 @@ public class Conversation extends AppCompatActivity {
 
         lstChat = (ListView) findViewById(R.id.lstChat);
         detailconv =  new ArrayList<HashMap<String,Object>>();
-        edtSendMessage = (TextView) findViewById(R.id.edtSendMessage);
+        edtSendMessage = (TextView) findViewById(R.id.txSend);
         edtMessage = (EditText) findViewById(R.id.edtMessage);
         imFlecheGauche = (ImageView) findViewById(R.id.imFlecheGaucheConversation);
         nomConversation = (TextView) findViewById(R.id.txNomConversation);
         imPhotoConversation = (ImageView) findViewById(R.id.imPhotoConversation);
-        btEnvoyerKo = (ImageView) findViewById(R.id.btenvoyerko);
-        btLocaliser = (ImageView) findViewById(R.id.btLocaliser);
-        btJeVeux = (ImageView) findViewById(R.id.btvoudrais);
-        btVeuxPas = (ImageView) findViewById(R.id.btvoudraispas);
+        //btEnvoyerKo = (TextView) findViewById(R.id.txSend);
+        btLocaliser = (TextView) findViewById(R.id.txlocaliser);
+        btJeVeux = (TextView) findViewById(R.id.txJeVeux);
+        btVeuxPas = (TextView) findViewById(R.id.txVeuxPas);
         txResteMessage = (TextView) findViewById(R.id.txVousReste);
         gridPhotos = (GridView) findViewById(R.id.gridPhotoConversation);
-        imPopUpLocaliser = (ImageView) findViewById(R.id.imPopUpLocaliser);
-        imPopUpMessages = (ImageView) findViewById(R.id.imPopUpMessages);
+        imPopUpLocaliser = (RelativeLayout) findViewById(R.id.rlvUpLocaliser);
+        imPopUpMessages = (RelativeLayout) findViewById(R.id.rlvpopupmessage);
         rootView = (LinearLayout) findViewById(R.id.activity_chat_view_conversation);
         lnRoot = (LinearLayout) findViewById(R.id.lnroot);
         lnparent = (LinearLayout) findViewById(R.id.lnParent);
@@ -110,8 +110,8 @@ public class Conversation extends AppCompatActivity {
 
         WebService WS = new WebService(getBaseContext());
         WS.SetStatutConversation(idconv,1);
-        btVeuxPas.setImageResource(R.drawable.btveuxpasselect);
-        btJeVeux.setImageResource(R.drawable.btvoudraisselect);
+        //btVeuxPas.setImageResource(R.drawable.btveuxpasselect);
+        //btJeVeux.setImageResource(R.drawable.btvoudraisselect);
 
 
         txResteMessage.setVisibility(View.INVISIBLE);
@@ -156,7 +156,8 @@ public class Conversation extends AppCompatActivity {
                         localiser = UserKiffs.getInt("localiser");
 
                         if(localiser==0 && User.sexe==0){
-                            btLocaliser.setImageResource(R.drawable.localisernok);
+                            btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
+                            btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
                         }
 
                         if(User.popupmessage==0 && User.sexe==1){
@@ -199,7 +200,8 @@ public class Conversation extends AppCompatActivity {
                 btVeuxPas.setVisibility(View.INVISIBLE);
                 btLocaliser.setVisibility(View.VISIBLE);
                 btLocaliser.setEnabled(true);
-                btLocaliser.setImageResource(R.drawable.btlocaliser);
+                btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
+                btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
             }
 
 
@@ -449,8 +451,15 @@ public class Conversation extends AppCompatActivity {
             public void onClick(View view) {
                 WebService WS = new WebService(getBaseContext());
                 WS.SetStatutConversation(idconv,2);
-                btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
-                btJeVeux.setImageResource(R.drawable.btvoudrais);
+                edtSendMessage.setVisibility(View.VISIBLE);
+                edtSendMessage.setBackgroundResource(R.drawable.my_bordersend);
+                edtSendMessage.setTextColor(getResources().getColor(R.color.blanc));
+                edtSendMessage.setVisibility(View.VISIBLE);
+                edtSendMessage.setEnabled(true);
+                //btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
+                btVeuxPas.setBackgroundResource(R.color.rosedeselect);
+                btJeVeux.setBackgroundResource(R.color.bleueaser);
+                //btJeVeux.setImageResource(R.drawable.btvoudrais);
                 imPopUpMessages.setVisibility(View.GONE);
             }
         });
@@ -461,8 +470,12 @@ public class Conversation extends AppCompatActivity {
                 WebService WS = new WebService(getBaseContext());
                 WS.SetStatutConversation(idconv,1);
                 //Toast.makeText(getBaseContext(),"Vous êtes bloqué, vous pourrez continuer si elle autorise de nouveau la conversation",Toast.LENGTH_SHORT).show();
-                btVeuxPas.setImageResource(R.drawable.btveuxpasselect);
-                btJeVeux.setImageResource(R.drawable.btvoudraisselect);
+                btVeuxPas.setBackgroundResource(R.color.roseselect);
+                btJeVeux.setBackgroundResource(R.color.bleudeselect);
+                edtSendMessage.setEnabled(false);
+                edtSendMessage.setVisibility(View.VISIBLE);
+                edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
+                edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
             }
         });
 
@@ -566,6 +579,7 @@ public class Conversation extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
         listconv.cancel(true);
     }
 
@@ -614,31 +628,34 @@ public class Conversation extends AppCompatActivity {
                     //txResteMessage.setVisibility(View.VISIBLE);
                     //btEnvoyerKo.setVisibility(View.VISIBLE);
                     //edtSendMessage.setVisibility(View.INVISIBLE);
-                    btVeuxPas.setImageResource(R.drawable.btveuxpasselect);
-                    btJeVeux.setImageResource(R.drawable.btvoudraisselect);
+                    btVeuxPas.setBackgroundResource(R.color.roseselect);
+                    btJeVeux.setBackgroundResource(R.color.bleudeselect);
 
                     if(User.sexe==1){
                         txResteMessage.setVisibility(View.VISIBLE);
-                        btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
-                        btJeVeux.setImageResource(R.drawable.btvoudraisselect);
+                        //btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
+                        //btJeVeux.setImageResource(R.drawable.btvoudraisselect);
                         //btEnvoyerKo.setVisibility(View.INVISIBLE);
                         //edtSendMessage.setVisibility(View.VISIBLE);
                         //txResteMessage.setVisibility(View.INVISIBLE);
                         try {
                             if(resultList.getJSONObject(0).getInt("nbMess")>5){
                                 if(bmessageMax==false){
-                                    imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
+                                    //imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
                                     imPopUpMessages.setVisibility(View.VISIBLE);
-                                    edtSendMessage.setVisibility(View.INVISIBLE);
+                                    //edtSendMessage.setVisibility(View.INVISIBLE);
+                                    edtSendMessage.setEnabled(false);
                                     //edtSendMessage.setEnabled(false);
-                                    btEnvoyerKo.setVisibility(View.VISIBLE);
+                                    edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
+                                    edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
+                                    //btEnvoyerKo.setVisibility(View.VISIBLE);
                                     //btEnvoyerKo.setImageResource(R.drawable.btenvoyerko);
-                                    txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
+                                    txResteMessage.setText(getResources().getString(R.string.contact_nomesssage));
                                     bmessageMax=true;
                                 }
                             }else{
                                 int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
-                                txResteMessage.setText("Vous pouvez envoyer " + nbMess +  " messages");
+                                txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " +  getResources().getString(R.string.contact_message));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -651,17 +668,18 @@ public class Conversation extends AppCompatActivity {
                             try {
                                 if(resultList.getJSONObject(0).getInt("nbMess")>5){
                                     if(bmessageMax==false){
-                                        edtSendMessage.setVisibility(View.INVISIBLE);
+                                        //edtSendMessage.setVisibility(View.INVISIBLE);
                                         edtSendMessage.setEnabled(false);
-                                        btEnvoyerKo.setVisibility(View.VISIBLE);
-                                        btEnvoyerKo.setImageResource(R.drawable.btenvoyerko);
-                                        txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
-                                        Toast.makeText(getBaseContext(),"Vous êtes bloqué, vous pourrez continuer si elle autorise de nouveau la conversation",Toast.LENGTH_SHORT).show();
+                                        edtSendMessage.setVisibility(View.VISIBLE);
+                                        edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
+                                        edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
+                                        txResteMessage.setText(getResources().getString(R.string.contact_nomesssage));
+                                        Toast.makeText(getBaseContext(),getResources().getString(R.string.contact_popupnomesssage),Toast.LENGTH_SHORT).show();
                                         bmessageMax=true;
                                     }
                                 }else{
                                     int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
-                                    txResteMessage.setText("Vous pouvez envoyer " + nbMess +  " messages");
+                                    txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " + getResources().getString(R.string.contact_message));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -683,9 +701,12 @@ public class Conversation extends AppCompatActivity {
                         e.printStackTrace();
                     }*/
                 }else if(statut.equals("2")){
-                    btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
-                    btJeVeux.setImageResource(R.drawable.btvoudrais);
-                    btEnvoyerKo.setVisibility(View.INVISIBLE);
+                    btVeuxPas.setBackgroundResource(R.color.rosedeselect);
+                    btJeVeux.setBackgroundResource(R.color.bleueaser);
+
+                    edtSendMessage.setVisibility(View.VISIBLE);
+                    edtSendMessage.setBackgroundResource(R.drawable.my_bordersend);
+                    edtSendMessage.setTextColor(getResources().getColor(R.color.blanc));
                     edtSendMessage.setVisibility(View.VISIBLE);
                     edtSendMessage.setEnabled(true);
                     txResteMessage.setVisibility(View.INVISIBLE);
@@ -693,54 +714,56 @@ public class Conversation extends AppCompatActivity {
 
                     if(User.sexe==1){
                         txResteMessage.setVisibility(View.VISIBLE);
-                        btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
-                        btJeVeux.setImageResource(R.drawable.btvoudraisselect);
+                        btVeuxPas.setBackgroundResource(R.color.rosedeselect);
+                        btJeVeux.setBackgroundResource(R.color.bleudeselect);
                         //btEnvoyerKo.setVisibility(View.INVISIBLE);
                         //edtSendMessage.setVisibility(View.VISIBLE);
                         //txResteMessage.setVisibility(View.INVISIBLE);
                         try {
                             if(resultList.getJSONObject(0).getInt("nbMess")>5){
                                 if(bmessageMax==false){
-                                    imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
+                                    //imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
                                     imPopUpMessages.setVisibility(View.VISIBLE);
-                                    edtSendMessage.setVisibility(View.INVISIBLE);
                                     //edtSendMessage.setEnabled(false);
-                                    btEnvoyerKo.setVisibility(View.VISIBLE);
-                                    //btEnvoyerKo.setImageResource(R.drawable.btenvoyerko);
-                                    txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
+                                    edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
+                                    edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
+                                    edtSendMessage.setVisibility(View.VISIBLE);
+                                    edtSendMessage.setEnabled(false);
+                                    txResteMessage.setText(getResources().getString(R.string.contact_nomesssage));
                                     bmessageMax=true;
                                 }
                             }else{
                                 int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
-                                txResteMessage.setText("Vous pouvez envoyer " + nbMess +  " messages");
+                                txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " +  getResources().getString(R.string.contact_message));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }else{
-                        if(statut.equals("0")){
+                        //if(statut.equals("0")){
                             txResteMessage.setVisibility(View.VISIBLE);
 
 
                             try {
                                 if(resultList.getJSONObject(0).getInt("nbMess")>5){
                                     if(bmessageMax==false){
-                                        edtSendMessage.setVisibility(View.INVISIBLE);
                                         edtSendMessage.setEnabled(false);
-                                        btEnvoyerKo.setVisibility(View.VISIBLE);
-                                        btEnvoyerKo.setImageResource(R.drawable.btenvoyerko);
-                                        txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
-                                        Toast.makeText(getBaseContext(),"Vous êtes bloqué, vous pourrez continuer si elle autorise de nouveau la conversation",Toast.LENGTH_SHORT).show();
+                                        edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
+                                        edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
+                                        edtSendMessage.setVisibility(View.VISIBLE);
+                                        edtSendMessage.setEnabled(false);
+                                        txResteMessage.setText(getResources().getString(R.string.contact_nomesssage));
+                                        Toast.makeText(getBaseContext(),getResources().getString(R.string.contact_popupnomesssage),Toast.LENGTH_SHORT).show();
                                         bmessageMax=true;
                                     }
                                 }else{
                                     int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
-                                    txResteMessage.setText("Vous pouvez envoyer " + nbMess +  " messages");
+                                    txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " + getResources().getString(R.string.contact_message));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        }
+                       // }
 
                     }
                 }
@@ -756,15 +779,19 @@ public class Conversation extends AppCompatActivity {
                 }
 
                 if(localiser==0 && User.sexe==0){
-                    btLocaliser.setImageResource(R.drawable.localisernok);
+                    btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
+                    btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
+
                     btLocaliser.setEnabled(false);
                 }else{
                     btLocaliser.setEnabled(true);
-                    btLocaliser.setImageResource(R.drawable.btlocaliser);
+                    btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
+                    btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
                 }
             }else{
                 btLocaliser.setEnabled(true);
-                btLocaliser.setImageResource(R.drawable.btlocaliser);
+                btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
+                btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
             }
 
 
@@ -775,6 +802,12 @@ public class Conversation extends AppCompatActivity {
             int boucle=1;
             while(boucle==1) {
                 try {
+
+                    if(this.isCancelled())
+                    {
+                        boucle=999;
+                    }
+
 
                     Thread.sleep(1000);
                     WebService WS = new WebService(getBaseContext());

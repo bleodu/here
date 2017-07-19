@@ -12,9 +12,14 @@
     <string name="param_inclurefb">n\'om pas kinnig din kiffañ va mignoned fb</string>
     <string name="param_suppcompte">dilemel va c\'hont</string>
     <string name="param_langue">yezh</string>
+    <string name="contact_nomesssage">You can not send messages</string>
+    <string name="contact_popupnomesssage">Vous êtes bloqué, vous pourrez continuer si elle autorise de nouveau la conversation</string>
     <string name="param_verifprofil">gwiriekat va frofil</string>
 
-
+    <string name="contact_localiser">lec’hiañ</string>
+    <string name="contact_nbmessage">tu zo deoc’h kas </string>
+    <string name="contact_lelocaliser">tu zo deoc’h lec’hiañ anezhañ</string>
+    <string name="contact_message">kemenadenn</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">niv. bellgomz</string>
@@ -29,6 +34,8 @@
     <string name="montel">niv. bellgomz</string>
     <string name="rep">roll-pellgomz</string>
     <string name="newuser">anv nevez</string>
+
+    <string name="contact_luine">Ne c’hello lec’hiañ ac’hanoc’h nemet ma asantit.</string>
 
     <string name="prenom">Anv-bihan</string>
     <string name="encliquant">En ur klikañ war kadarnaat e asantoc’h ar reolennoù hollek ha penndiviz an diaz-titouroù.</string>

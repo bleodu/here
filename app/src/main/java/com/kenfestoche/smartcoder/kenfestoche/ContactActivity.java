@@ -332,7 +332,10 @@ public class ContactActivity extends Fragment {
         protected void onProgressUpdate(Integer... values){
             super.onProgressUpdate(values);
             // Mise à jour de la ProgressBar
-
+            Amisrray.notifyDataSetChanged();
+            KiffsArray.notifyDataSetChanged();
+            setListViewHeightBasedOnChildren(lstKiffs);
+            setListViewHeightBasedOnChildren(lstAmis);
 
         }
 
@@ -439,15 +442,15 @@ public class ContactActivity extends Fragment {
 
         WebService WS = new WebService(getContext());
 
-        //kiffs.clear();
+        kiffs.clear();
         //KiffsArray = new AdapterAmis(getActivity().getBaseContext(), kiffs, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
         //lstKiffs.setAdapter(KiffsArray);
         //lstKiffs.setVisibility(View.VISIBLE);
 
-        //amis.clear();
+        amis.clear();
 
-        JSONArray ListKiffs = WS.GetListKiffs(User,kiffsStringId);
-        JSONArray ListAmis = WS.GetListAmis(User,amisStringId);
+        JSONArray ListKiffs = WS.GetListKiffs(User,"");
+        JSONArray ListAmis = WS.GetListAmis(User,"");
 
         if(ListKiffs != null && ListKiffs.length()>0)
         {
@@ -476,6 +479,8 @@ public class ContactActivity extends Fragment {
 
                 kiffs.add(valeur);
                 kiffssauv.add(valeur);
+
+                KiffsArray.notifyDataSetChanged();
             }
         }
 
@@ -509,14 +514,13 @@ public class ContactActivity extends Fragment {
                 }
 
                 amis.add(valeur);
-
+                Amisrray.notifyDataSetChanged();
 
 
             }
         }
 
-        Amisrray.notifyDataSetChanged();
-        KiffsArray.notifyDataSetChanged();
+
         //setListViewHeightBasedOnChildren(lstKiffs);
         //setListViewHeightBasedOnChildren(lstAmis);
 

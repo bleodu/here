@@ -74,9 +74,13 @@
     <string name="boitenuit">nightclub</string>
     <string name="debit">liquor shops</string>
     <string name="autre">other</string>
-
-
-
+    <string name="contact_localiser">locate</string>
+    <string name="contact_nbmessage">You can send </string>
+    <string name="contact_popupnomesssage">You are blocked, you can continue if it allows the conversation again</string>
+    <string name="contact_message">messages</string>
+    <string name="contact_nomesssage">You can not send messages</string>
+    <string name="contact_lelocaliser">You can locate him</string>
+    <string name="contact_luine">He will only be able to locate you if you allow it</string>
     <string name="apartir">à partir de</string>
 
     <string name="enregistrer">register</string>

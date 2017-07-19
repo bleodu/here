@@ -3,7 +3,11 @@
     <color name="colorPrimary">#6bad59</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="rosedeselect">#e891b9</color>
+    <color name="roseselect">#cc0c63</color>
+    <color name="bleudeselect">#a6a6bc</color>
     <color name="gris">#d2d2db</color>
+    <color name="blanc">#fff</color>
     <color name="bleueaser">#2c2954</color>
 
 
