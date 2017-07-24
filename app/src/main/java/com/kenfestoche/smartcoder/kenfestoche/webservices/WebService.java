@@ -345,6 +345,68 @@ public class WebService {
 
     }
 
+    public JSONArray SavepopUp(Utilisateur User) {
+        if(isOnline()){
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            StringBuilder builder = new StringBuilder();
+            JSONArray Messages = null;
+            //Utilisateur user=null;
+            try{
+                URL url = new URL(URL_ZENAPP+"WS_SavePopUp.php");
+                HttpURLConnection client = null;
+                try {
+                    client = (HttpURLConnection) url.openConnection();
+                    client.setRequestMethod("POST");
+
+                    String urlParameters =  "popupmessage="+User.popupmessage+"&id="+User.id_user;
+
+                    // Send post request
+                    client.setDoOutput(true);
+                    DataOutputStream wr = new DataOutputStream(client.getOutputStream());
+                    wr.writeBytes(urlParameters);
+                    wr.flush();
+                    wr.close();
+                    int status = client.getResponseCode();
+
+                    switch (status) {
+                        case 200:
+                        case 201:
+                            BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                            //StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                builder.append(line+"\n");
+                            }
+                            //builder.close();
+
+                    }
+                    //OutputStream outputPost = new BufferedOutputStream(client.getOutputStream());
+                    Messages = new JSONArray(builder.toString());
+
+
+
+
+                } catch (IOException e){
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return Messages;
+        }else{
+            return new JSONArray();
+        }
+
+    }
+
     public JSONArray SetKiffOpen(Utilisateur User,String idKiffs) {
         if(isOnline()){
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

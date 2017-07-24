@@ -438,6 +438,7 @@ public class ParamActivity extends Activity {
                 if (items[item].equals("Français")) {
 
                     editor.putString("Langue","Français");
+                    editor.putString("codeLangue","fr");
                     editor.commit();
                     //txNewLangue.setText("Langue : Français");
                     setLanguageForApp("fr");
@@ -445,6 +446,7 @@ public class ParamActivity extends Activity {
 
                 }else if (items[item].equals("Breton")) {
                     editor.putString("Langue","Breton");
+                    editor.putString("codeLangue","br");
                     //txNewLangue.setText("Langue : Breton");
                     setLanguageForApp("br");
                     editor.commit();
@@ -454,6 +456,7 @@ public class ParamActivity extends Activity {
                 else {
 
                     editor.putString("Langue","Anglais");
+                    editor.putString("codeLangue","en");
                     //txNewLangue.setText("Langue : Anglais");
                     setLanguageForApp("en");
                     editor.commit();

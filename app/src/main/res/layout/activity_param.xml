@@ -14,29 +14,29 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <RelativeLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="#2c2954"
-                android:layout_height="wrap_content">
+                android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/imageView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/parametre"
-                    android:id="@+id/imageView3" />
+                    android:src="@drawable/parametre" />
 
                 <ImageView
+                    android:id="@+id/imFlecheGauche"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imFlecheGauche"
-                    android:src="@drawable/fleche"
+                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dip"
-                    android:layout_alignParentLeft="true" />
+                    android:src="@drawable/fleche" />
 
             </RelativeLayout>
 
@@ -145,12 +145,12 @@
                         android:textSize="10pt" />
 
                     <ImageButton
-                        android:background="#d2d2db"
+                        android:id="@+id/rdnotif"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="25dip"
                         android:layout_marginRight="25dip"
-                        android:id="@+id/rdnotif" />
+                        android:background="#d2d2db" />
 
 
                 </LinearLayout>
@@ -224,7 +224,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dip"
                         android:layout_weight="1"
-                        android:text="@string/param_inclurefb"
+                        android:text="@string/pref_title_gps_tous"
                         android:textColor="#2c2954"
                         android:textSize="10pt" />
 
@@ -295,8 +295,8 @@
                             android:id="@+id/txPolitique"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:linksClickable="false"
                             android:gravity="right"
+                            android:linksClickable="false"
                             android:longClickable="false"
                             android:text="politique de confidentialité."
                             android:textColor="#2c2954"
@@ -319,15 +319,11 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
         </LinearLayout>
 
 
-
-
     </ScrollView>
-
 
 
 </LinearLayout>

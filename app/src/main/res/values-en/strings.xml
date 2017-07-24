@@ -60,6 +60,7 @@
     <string name="restemes">You can send 6 messages</string>
     <string name="jevoudrais">I\'d like to meet him</string>
     <string name="jeveuxpas">I dont want to meet him</string>
+    <string name="nom">Name</string>
     <string name="map">map</string>
     <string name="appuielong">press for a long time on party</string>
     <string name="attentionkiff">Be careful, don’t like too much, the gauge will block your</string>
@@ -69,6 +70,7 @@
     <string name="date">date</string>
     <string name="horaire">time</string>
     <string name="concert">concert</string>
+    <string name="ajout">Add</string>
     <string name="bar">bar</string>
     <string name="barnuit">night bar</string>
     <string name="boitenuit">nightclub</string>
@@ -82,6 +84,15 @@
     <string name="contact_lelocaliser">You can locate him</string>
     <string name="contact_luine">He will only be able to locate you if you allow it</string>
     <string name="apartir">à partir de</string>
+
+    <string name="kiffes">liked</string>
+    <string name="fois">times</string>
+    <string name="à">at</string>
+    <string name="metres">meters</string>
+    <string name="nouveau">New</string>
+    <string name="kiff">like</string>
+    <string name="fetessoiree">party party</string>
+    <string name="ilvousreste">You only have one like left, you should eww more</string>
 
     <string name="enregistrer">register</string>
     <string name="conditionbouton">En cliquant sur valider vous acceptez les &lt;u>conditions générales d\'utilisation&lt;/u> et la &lt;u>politique de confidentialité&lt;/u>.</string>

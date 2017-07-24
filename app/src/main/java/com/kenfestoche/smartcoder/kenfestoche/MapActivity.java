@@ -118,6 +118,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
     TextView txDateFermeture;
     TextView txAdresse;
     TextView txLienSite;
+    TextView txPopUpMessage;
     TextView txTypeSoiree;
     Marker marker;
 
@@ -126,7 +127,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
     private Calendar myCalendar;
 
-    ImageView impopupmap;
+    RelativeLayout impopupmap;
 
     Button Valider;
     Button ValiderDetail;
@@ -185,7 +186,8 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         btautres = (ImageButton) rootView.findViewById(R.id.rdAutre);
         Valider = (Button) rootView.findViewById(R.id.btValidSoiree);
         ValiderDetail = (Button) rootView.findViewById(R.id.btValidDetail);
-        impopupmap = (ImageView) rootView.findViewById(R.id.impopupmap);
+        impopupmap = (RelativeLayout) rootView.findViewById(R.id.rlvpopuppmap);
+        txPopUpMessage = (TextView) rootView.findViewById(R.id.txPopupMessages);
         lnDetailSoiree = (LinearLayout) rootView.findViewById(R.id.lndetailsoiree);
 
         lnDetailSoiree.setVisibility(View.GONE);
@@ -216,6 +218,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         txHoraireDebit = (TextView) rootView.findViewById(R.id.txhorairedebit);
 
         txFetes.setTypeface(face);
+        txPopUpMessage.setTypeface(face);
         txDate.setTypeface(face);
         txHoraire.setTypeface(face);
         txConcert.setTypeface(face);
@@ -269,12 +272,12 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
         User = FragmentsSliderActivity.User;
 
-        txDateDebit.setText("date : " + day + "/" + month + "/" + year);
-        txDate.setText("date : " + day + "/" + month + "/" + year);
+        txDateDebit.setText(getResources().getString(R.string.date) +  " : " + day + "/" + month + "/" + year);
+        txDate.setText(getResources().getString(R.string.date) +  " : " + day + "/" + month + "/" + year);
         User.datedebit=year + "-" + month + "-" + day;
         User.date=year + "-" + month + "-" + day;
-        txHoraire.setText("horaire : " + hour + ":" + minute);
-        txHoraireDebit.setText("horaire : " + hour + ":" + minute);
+        txHoraire.setText(getResources().getString(R.string.horaire) +  " : " + hour + ":" + minute);
+        txHoraireDebit.setText(getResources().getString(R.string.horaire) +  " : " + hour + ":" + minute);
         User.horaire=hour + ":" + minute;
         User.horairedebit=hour + ":" + minute;
         User.save();
@@ -322,7 +325,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
 
-                                txHoraire.setText("horaire : " + hourOfDay + ":" + minute);
+                                txHoraire.setText(getResources().getString(R.string.horaire) + " : " + hourOfDay + ":" + minute);
                                 User.horaire=hourOfDay + ":" + minute;
                                 User.save();
                             }
@@ -348,7 +351,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
 
-                                txHoraireDebit.setText("horaire : " + hourOfDay + ":" + minute);
+                                txHoraireDebit.setText(getResources().getString(R.string.horaire) + " : " + hourOfDay + ":" + minute);
                                 User.horairedebit=hourOfDay + ":" + minute;
                                 User.save();
                             }
@@ -372,7 +375,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                 DatePickerDialog datePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        txDate.setText("date : " + i2 + "/" + i1 + "/" + i);
+                        txDate.setText(getResources().getString(R.string.date) + " : " + i2 + "/" + i1 + "/" + i);
                         User.date= i + "-" + i1 + "-" + i2;
                         User.save();
                     }
@@ -395,7 +398,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                 DatePickerDialog datePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        txDateDebit.setText("date : " + i2 + "/" + i1 + "/" + i);
+                        txDateDebit.setText(getResources().getString(R.string.date) + " : " + i2 + "/" + i1 + "/" + i);
                         User.datedebit=i + "-" + i1 + "-" + i2;
                         User.save();
                     }
@@ -1305,14 +1308,14 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                             if(Soiree!=null && Soiree.length()>0){
 
                                 try {
-                                    txNomSoiree.setText("Nom : " + Soiree.getJSONObject(0).getString("nomsoiree"));
+                                    txNomSoiree.setText(getResources().getString(R.string.nom) + " : " + Soiree.getJSONObject(0).getString("nomsoiree"));
                                     txAdresse.setText(Soiree.getJSONObject(0).getString("adresse"));
                                     txHoraireSoiree.setText("Horaire d'ouverture : De " + Soiree.getJSONObject(0).getString("horairedebut") + " à " + Soiree.getJSONObject(0).getString("horairefin"));
                                     txDescriptif.setText(Soiree.getJSONObject(0).getString("descriptif"));
                                     txLienSite.setText("Lien du site : " + Soiree.getJSONObject(0).getString("liensite"));
 
                                     if(Soiree.getJSONObject(0).getString("typedebit").equals("1")){
-                                        txLienSite.setText("Choix de débit : " + Soiree.getJSONObject(0).getString("choixdebit"));
+                                        txLienSite.setText(getResources().getString(R.string.debit) + " : " + Soiree.getJSONObject(0).getString("choixdebit"));
                                         txTypeSoiree.setVisibility(View.GONE);
                                     }else{
                                         switch (Soiree.getJSONObject(0).getString("typesoiree")) {

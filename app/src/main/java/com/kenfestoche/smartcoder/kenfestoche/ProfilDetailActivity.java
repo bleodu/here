@@ -123,6 +123,7 @@ public class ProfilDetailActivity extends AppCompatActivity {
             boutonKiffe.setVisibility(View.INVISIBLE);
         }
 
+
         Typeface face=Typeface.createFromAsset(this.getAssets(),"fonts/weblysleekuil.ttf");
 
         rbcalme1 = (ImageButton) findViewById(R.id.rdcoeur1);
@@ -146,8 +147,15 @@ public class ProfilDetailActivity extends AppCompatActivity {
         txNom.setTypeface(face);
         txDescription.setTypeface(face);
 
-        boutonBeurk.setImageResource(R.drawable.beurk);
-        boutonKiffe.setImageResource(R.drawable.kiffe);
+
+        if(pref.getString("Langue","").equals("Breton")){
+            boutonBeurk.setImageResource(R.drawable.btbeurken);
+            boutonKiffe.setImageResource(R.drawable.btlikeen);
+        }else{
+            boutonBeurk.setImageResource(R.drawable.beurk);
+            boutonKiffe.setImageResource(R.drawable.kiffe);
+        }
+
 
         imSignalement.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -438,59 +446,6 @@ public class ProfilDetailActivity extends AppCompatActivity {
     }
 
 
-    class RefreshTask extends AsyncTask {
 
-        Context context;
-        public RefreshTask(Context c) {
-            super();
-            context=c;
-
-            // do stuff
-        }
-
-        @Override
-        protected void onProgressUpdate(Object... values) {
-            super.onProgressUpdate(values);
-
-
-        }
-
-        @Override
-        protected Void doInBackground(Object... params) {
-            while(someCondition) {
-                try {
-
-                    // check if GPS enabled
-                    if(gps.canGetLocation()){
-                        if(User!=null){
-                            User.latitude = gps.getLatitude();
-                            User.longitude = gps.getLongitude();
-
-
-
-                            WebService WS = new WebService(getBaseContext());
-                            WS.SetLastPosition(User);
-                        }
-
-
-
-                    }else{
-                        // can't get location
-                        // GPS or Network is not enabled
-                        // Ask user to enable GPS/network in settings
-                        //gps.showSettingsAlert();
-                    }
-                    Thread.sleep(60000);
-                    //and update textview in ui thread
-                    publishProgress();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-
-                };
-
-            }
-            return null;
-        }
-    }
 }
 

@@ -82,12 +82,32 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="20dip"
                         app:rotation_degrees="20.5" />
-                    <ImageView
-                        android:id="@+id/imPopUpKiffs"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:src="@drawable/popupkiffpastrop" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlvpopupKiffs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/txPopupMessages"
+                            android:layout_width="250dip"
+                            android:layout_height="120dip"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginEnd="46dp"
+                            android:layout_marginRight="46dp"
+                            android:background="@drawable/bullevierge"
+                            android:paddingLeft="45dip"
+                            android:paddingTop="15dip"
+                            android:text="@string/attentionkiff"
+                            android:textColor="#fff"
+                            android:textSize="20dp"
+                            android:visibility="visible" />
+
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
@@ -162,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
                     android:gravity="center_horizontal"
-                    android:text="Nouveau"
+                    android:text="@string/nouveau"
                     android:textColor="#cb0d63"
                     android:textSize="16pt" />
 
@@ -171,7 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="kiff"
+                    android:text="@string/kiff"
                     android:textColor="#cb0d63"
                     android:textSize="16pt" />
 

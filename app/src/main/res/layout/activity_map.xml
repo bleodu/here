@@ -42,18 +42,46 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ImageView
-            android:id="@+id/impopupmap"
-            android:layout_width="match_parent"
-            android:layout_height="100dip"
-            android:layout_alignBottom="@+id/linearLayout2"
-            android:layout_alignLeft="@+id/rlvSoiree"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignStart="@+id/rlvSoiree"
-            android:layout_marginBottom="106dp"
-            android:visibility="invisible"
-            android:src="@drawable/popuplongmap" />
+        <RelativeLayout
+            android:id="@+id/rlvpopuppmap"
+            android:layout_width="wrap_content"
+            android:layout_height="120dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/linearLayout2"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/txPopupMessages"
+                android:layout_width="250dip"
+                android:layout_height="100dip"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="46dp"
+                android:layout_marginRight="46dp"
+                android:background="@drawable/bullevierge"
+                android:paddingLeft="45dip"
+                android:paddingTop="15dip"
+                android:text="@string/appuielong"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/imEmoticone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/txPopupMessages"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/txPopupMessages"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="23dp"
+                android:layout_marginRight="23dp"
+                android:src="@drawable/emoticonesoiree"
+                android:visibility="visible" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -221,7 +249,7 @@
             android:layout_marginTop="15dip"
             android:background="#fff"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="invisible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -258,7 +286,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Fêtes et soirées"
+                        android:text="@string/fetessoiree"
                         android:textColor="#2c2954"
                         android:textSize="10pt" />
 

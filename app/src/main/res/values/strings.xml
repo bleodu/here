@@ -53,12 +53,14 @@
     <string name="apartir">à partir de</string>
     <string name="newconv">Nouvelle conversation</string>
     <string name="nomconv">Nom de la conversation</string>
+    <string name="nom">Nom</string>
     <string name="ajoutami">ajouter des amis</string>
     <string name="annuler">Annuler</string>
     <string name="tapmes">Taper un message</string>
     <string name="send">Envoyer</string>
     <string name="refuser">Refuser</string>
     <string name="accept">Accepter</string>
+    <string name="ajout">Ajouter</string>
     <string name="kiffs">Mes kiffs</string>
     <string name="mesamis">Mes amis</string>
     <string name="inconnus">Mes inconnus</string>
@@ -81,6 +83,14 @@
     <string name="autre">autres</string>
     <string name="newuser">nouveau nom utilisateur</string>
 
+    <string name="kiffes">kiffé(e)s</string>
+    <string name="fois">fois</string>
+    <string name="à">à</string>
+    <string name="metres">mètres</string>
+    <string name="nouveau">Nouveau</string>
+    <string name="kiff">kiff</string>
+    <string name="fetessoiree">Fêtes et soirées</string>
+    <string name="ilvousreste">Il vous reste un seul kiffe, beurkez plus</string>
 
     <string name="conditionbouton">En cliquant sur valider vous acceptez les &lt;u>conditions générales d\'utilisation&lt;/u> et la &lt;u>politique de confidentialité&lt;/u>.</string>
     <string name="parametre">Paramètres</string>

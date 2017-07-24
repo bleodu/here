@@ -15,11 +15,20 @@
     <string name="contact_nomesssage">You can not send messages</string>
     <string name="contact_popupnomesssage">Vous êtes bloqué, vous pourrez continuer si elle autorise de nouveau la conversation</string>
     <string name="param_verifprofil">gwiriekat va frofil</string>
-
+    <string name="nom">anv</string>
     <string name="contact_localiser">lec’hiañ</string>
     <string name="contact_nbmessage">tu zo deoc’h kas </string>
     <string name="contact_lelocaliser">tu zo deoc’h lec’hiañ anezhañ</string>
     <string name="contact_message">kemenadenn</string>
+
+    <string name="kiffes">kiff-ed</string>
+    <string name="fois">gwech</string>
+    <string name="à">da</string>
+    <string name="metres">metrad</string>
+    <string name="nouveau">nevez</string>
+    <string name="ajout">Ajouter</string>
+    <string name="kiff">Kiff</string>
+    <string name="fetessoiree">gouelioù ha nozvezhioù</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">niv. bellgomz</string>
@@ -34,6 +43,8 @@
     <string name="montel">niv. bellgomz</string>
     <string name="rep">roll-pellgomz</string>
     <string name="newuser">anv nevez</string>
+
+    <string name="ilvousreste">Ne chom dit nemet ur c\'hiff, ret eo beurkañ muioc\'h</string>
 
     <string name="contact_luine">Ne c’hello lec’hiañ ac’hanoc’h nemet ma asantit.</string>
 

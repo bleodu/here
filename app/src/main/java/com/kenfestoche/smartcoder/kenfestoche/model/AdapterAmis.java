@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +44,9 @@ public class AdapterAmis extends SimpleAdapter {
     Context context;
     ArrayList<HashMap<String, Object>> arrayList;
     Typeface face;
-    ImageView imAjoutAmis;
-    ImageView imRefuseAmis;
+    Typeface facebold;
+    TextView imAjoutAmis;
+    TextView imRefuseAmis;
     ImageView imSignaler;
     ImageView imSuppKiffs;
 
@@ -59,6 +61,7 @@ public class AdapterAmis extends SimpleAdapter {
         inflater.from(context);
 
         face=Typeface.createFromAsset(context.getAssets(),"fonts/weblysleekuil.ttf");
+        facebold=Typeface.createFromAsset(context.getAssets(),"weblysleekuisb.ttf");
         gestionAjout=GestionAjout;
 
     }
@@ -76,12 +79,15 @@ public class AdapterAmis extends SimpleAdapter {
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
 
-        View view = super.getView(position, convertView, parent);
+            View view = super.getView(position, convertView, parent);
+
+
+            Log.e("LOGGDS", String.valueOf(position));
 
         //if(view==null){
             final ImageView imPhotoKiffs=(ImageView) view.findViewById(R.id.imgPhotoKiffs);
-            imAjoutAmis=(ImageView) view.findViewById(R.id.imbtajoutamis);
-            imRefuseAmis=(ImageView) view.findViewById(R.id.imbtrefuseramis);
+            imAjoutAmis= (TextView) view.findViewById(R.id.txAccepter);
+            imRefuseAmis= (TextView) view.findViewById(R.id.txRefuser);
             imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
             imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
             ImageView imWaitAmis=(ImageView) view.findViewById(R.id.imsablier);
@@ -144,9 +150,10 @@ public class AdapterAmis extends SimpleAdapter {
                 //imAjoutAmis.setVisibility(View.INVISIBLE);
                 if(ami.get("statut")=="0"){
                     imAjoutAmis.setVisibility(View.VISIBLE);
-                    imAjoutAmis.setImageResource(R.drawable.btajouter);
+
+                    //imAjoutAmis.setImageResource(R.drawable.btajouter);
                     imRefuseAmis.setVisibility(View.VISIBLE);
-                    imRefuseAmis.setImageResource(R.drawable.btrefuser);
+                    //imRefuseAmis.setImageResource(R.drawable.btrefuser);
                 }else if(ami.get("statut")=="1"){
                     imWaitAmis.setImageResource(R.drawable.sablier);
                     imWaitAmis.setVisibility(View.VISIBLE);
@@ -158,14 +165,15 @@ public class AdapterAmis extends SimpleAdapter {
                         }
                     }else{
                         if(!ami.containsKey("id_kiff")){
-                            imAjoutAmis.setImageResource(R.drawable.btajout);
+                            imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
                             imAjoutAmis.setVisibility(View.VISIBLE);
                         }
 
                     }
                 }
             }else{
-                imAjoutAmis.setImageResource(R.drawable.btajout);
+                //imAjoutAmis.setImageResource(R.drawable.btajout);
+                imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
                 imAjoutAmis.setVisibility(View.VISIBLE);
             }
 
@@ -196,9 +204,9 @@ public class AdapterAmis extends SimpleAdapter {
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);
                         if(ListMessages!=null){
-                            txPseudo.setTypeface(face,Typeface.BOLD);
+                            txPseudo.setTypeface(facebold);
                         }else{
-                            txPseudo.setTypeface(face,Typeface.NORMAL);
+                            txPseudo.setTypeface(face);
                         }
 
 
@@ -212,9 +220,9 @@ public class AdapterAmis extends SimpleAdapter {
 
 
         if((int) ami.get("vu")==0){
-            txPseudo.setTypeface(face,Typeface.BOLD);
+            txPseudo.setTypeface(facebold);
         }else{
-            txPseudo.setTypeface(face,Typeface.NORMAL);
+            txPseudo.setTypeface(face);
         }
 
                 ligneContact.setOnClickListener(new View.OnClickListener() {
@@ -222,16 +230,20 @@ public class AdapterAmis extends SimpleAdapter {
                     public void onClick(View view) {
                         int pos=Integer.parseInt(view.getTag().toString());
                         ami = arrayList.get(pos);
+                        txPseudo.setTypeface(face);
                         WebService WS = new WebService(context,false);
                         WS.SetKiffOpen(User,(String) ami.get("id_kiff"));
 
-                        Intent i = new Intent(view.getContext(), Conversation.class);
-                        Utilisateur User = (Utilisateur) ami.get("user");
-                        i.putExtra("id_kiffs",(String) ami.get("id_kiff"));
-                        i.putExtra("id_user",User.id_user);
-                        i.putExtra("prive",1);
-                        i.putExtra("amis",0);
-                        view.getContext().startActivity(i);
+
+                            Intent i = new Intent(view.getContext(), Conversation.class);
+                            Utilisateur User = (Utilisateur) ami.get("user");
+                            i.putExtra("id_kiffs",(String) ami.get("id_kiff"));
+                            i.putExtra("id_user",User.id_user);
+                            i.putExtra("prive",1);
+                            i.putExtra("amis",0);
+                            view.getContext().startActivity(i);
+
+
                     }
                 });
 
@@ -316,9 +328,9 @@ public class AdapterAmis extends SimpleAdapter {
                         protected void onPostExecute(Void aVoid) {
                             super.onPostExecute(aVoid);
                             if(ListMessages!=null){
-                                txPseudo.setTypeface(face,Typeface.BOLD);
+                                txPseudo.setTypeface(facebold);
                             }else{
-                                txPseudo.setTypeface(face,Typeface.NORMAL);
+                                txPseudo.setTypeface(face);
                             }
 
                         }
@@ -331,16 +343,20 @@ public class AdapterAmis extends SimpleAdapter {
                         public void onClick(View view) {
                             int pos=Integer.parseInt(view.getTag().toString());
                             ami = arrayList.get(pos);
+                            txPseudo.setTypeface(face);
+
+                            //Si le statut est accepté entre deux amis
+                            if(ami.get("statut")=="2"){
+                                Intent i = new Intent(view.getContext(), Conversation.class);
+                                Utilisateur User = (Utilisateur) ami.get("user");
+                                i.putExtra("id_kiffs",(String) ami.get("id_ami"));
+                                i.putExtra("id_user",User.id_user);
+                                i.putExtra("prive",1);
+                                i.putExtra("amis",1);
+                                view.getContext().startActivity(i);
+                            }
 
 
-
-                            Intent i = new Intent(view.getContext(), Conversation.class);
-                            Utilisateur User = (Utilisateur) ami.get("user");
-                            i.putExtra("id_kiffs",(String) ami.get("id_ami"));
-                            i.putExtra("id_user",User.id_user);
-                            i.putExtra("prive",1);
-                            i.putExtra("amis",1);
-                            view.getContext().startActivity(i);
                         }
                     });
                 }
@@ -353,8 +369,8 @@ public class AdapterAmis extends SimpleAdapter {
                 public void onClick(View view) {
                     int pos=Integer.parseInt(view.getTag().toString());
                     View viewLigne = parent.getChildAt(pos);
-                    imAjoutAmis=(ImageView) viewLigne.findViewById(R.id.imbtajoutamis);
-                    imRefuseAmis=(ImageView) viewLigne.findViewById(R.id.imbtrefuseramis);
+                    imAjoutAmis= (TextView) viewLigne.findViewById(R.id.txAccepter);
+                    imRefuseAmis= (TextView) viewLigne.findViewById(R.id.txRefuser);
 
                     if(ami.containsKey("id_useramis")){
 
@@ -384,7 +400,7 @@ public class AdapterAmis extends SimpleAdapter {
                         }else{
                             // int pos=Integer.parseInt(view.getTag().toString());
 
-                            imAjoutAmis = (ImageView) view;
+                            imAjoutAmis = (TextView) view;
                             //View ligne = getView(pos,convertView,parent);
                             //imRefuseAmis = (ImageView) ligne.findViewById(R.id.imbtrefuseramis);
                             ami = arrayList.get(pos);
@@ -414,7 +430,7 @@ public class AdapterAmis extends SimpleAdapter {
                     final Utilisateur User = (Utilisateur) ami.get("user");
                     int pos=Integer.parseInt(view.getTag().toString());
                     View viewLigne = parent.getChildAt(pos);
-                    imAjoutAmis=(ImageView) viewLigne.findViewById(R.id.imbtajoutamis);
+                    imAjoutAmis= (TextView) viewLigne.findViewById(R.id.txAccepter);
                     ami = arrayList.get(pos);
 
                     String id_ami = (String) ami.get("id_ami");
@@ -422,7 +438,7 @@ public class AdapterAmis extends SimpleAdapter {
                     WebService WS = new WebService(context,false);
                     WS.AcceptRefuseFriend(User,id_ami,"3");
                     ami.put("statut","3");
-                    imRefuseAmis = (ImageView) view;
+                    imRefuseAmis = (TextView) view;
                     Toast.makeText(view.getContext(),"Invitation refusée",Toast.LENGTH_SHORT).show();
 
                     imAjoutAmis.setVisibility(View.INVISIBLE);
@@ -449,40 +465,5 @@ public class AdapterAmis extends SimpleAdapter {
     }
 
 
-    private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        int position;
-        String urlPhoto;
-        ImageView imPhotoKiffs;
-        @Override
-        protected Void doInBackground( Void... voids ) {
-
-            urlPhoto = (String) ami.get("url");
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            ami = arrayList.get(position);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            Picasso.with(context).load(urlPhoto).resize(200,200).into(imPhotoKiffs);
-
-        }
-        public MyAsyncTask(int pos, ImageView imPhotoKif) {
-            super();
-            position=pos;
-            imPhotoKiffs=imPhotoKif;
-            // do stuff
-        }
-
-
-        // doInBackground() et al.
-    }
 
 }

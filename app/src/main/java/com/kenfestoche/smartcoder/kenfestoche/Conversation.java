@@ -73,6 +73,8 @@ public class Conversation extends AppCompatActivity {
     int amis;
     int id_user;
     int localiser;
+    int localiseramis;
+    int localiserkiffs;
     GridView gridPhotos;
     RelativeLayout imPopUpLocaliser;
     RelativeLayout imPopUpMessages;
@@ -296,7 +298,7 @@ public class Conversation extends AppCompatActivity {
                     User.popupmessage=1;
                     User.save();
                     WebService WS = new WebService(getBaseContext());
-                    WS.SaveUser(User);
+                    WS.SavepopUp(User);
                     FragmentsSliderActivity.User=User;
                 }
 
@@ -317,7 +319,7 @@ public class Conversation extends AppCompatActivity {
                     User.popupmessage=1;
                     User.save();
                     WebService WS = new WebService(getBaseContext());
-                    WS.SaveUser(User);
+                    WS.SavepopUp(User);
                     FragmentsSliderActivity.User=User;
                 }
 
@@ -338,7 +340,7 @@ public class Conversation extends AppCompatActivity {
                     User.popupmessage=1;
                     User.save();
                     WebService WS = new WebService(getBaseContext());
-                    WS.SaveUser(User);
+                    WS.SavepopUp(User);
                     FragmentsSliderActivity.User=User;
                 }
 
@@ -359,7 +361,7 @@ public class Conversation extends AppCompatActivity {
                     User.popupmessage=1;
                     User.save();
                     WebService WS = new WebService(getBaseContext());
-                    WS.SaveUser(User);
+                    WS.SavepopUp(User);
                     FragmentsSliderActivity.User=User;
                 }
 
@@ -472,10 +474,10 @@ public class Conversation extends AppCompatActivity {
                 //Toast.makeText(getBaseContext(),"Vous êtes bloqué, vous pourrez continuer si elle autorise de nouveau la conversation",Toast.LENGTH_SHORT).show();
                 btVeuxPas.setBackgroundResource(R.color.roseselect);
                 btJeVeux.setBackgroundResource(R.color.bleudeselect);
-                edtSendMessage.setEnabled(false);
+                /*edtSendMessage.setEnabled(false);
                 edtSendMessage.setVisibility(View.VISIBLE);
                 edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
-                edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
+                edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));*/
             }
         });
 
@@ -496,8 +498,6 @@ public class Conversation extends AppCompatActivity {
                 DetailConversationArray.notifyDataSetChanged();
                 edtMessage.setText("");
 
-                //InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                //imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 lstChat.setSelection(DetailConversationArray.getCount() - 1);
                 lstChat.smoothScrollToPosition(DetailConversationArray.getCount() - 1);
 
@@ -642,7 +642,10 @@ public class Conversation extends AppCompatActivity {
                             if(resultList.getJSONObject(0).getInt("nbMess")>5){
                                 if(bmessageMax==false){
                                     //imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
-                                    imPopUpMessages.setVisibility(View.VISIBLE);
+                                    if(User.popupmessage==0){
+                                        imPopUpMessages.setVisibility(View.VISIBLE);
+                                    }
+
                                     //edtSendMessage.setVisibility(View.INVISIBLE);
                                     edtSendMessage.setEnabled(false);
                                     //edtSendMessage.setEnabled(false);
@@ -723,7 +726,9 @@ public class Conversation extends AppCompatActivity {
                             if(resultList.getJSONObject(0).getInt("nbMess")>5){
                                 if(bmessageMax==false){
                                     //imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
-                                    imPopUpMessages.setVisibility(View.VISIBLE);
+                                    if(User.popupmessage==0){
+                                        imPopUpMessages.setVisibility(View.VISIBLE);
+                                    }
                                     //edtSendMessage.setEnabled(false);
                                     edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
                                     edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
@@ -774,24 +779,35 @@ public class Conversation extends AppCompatActivity {
             if(Result!=null && amis==0){
                 try {
                     localiser = Result.getJSONObject(0).getInt("localiser");
+                    localiseramis = Result.getJSONObject(0).getInt("localiseramis");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if(localiser==0 && User.sexe==0){
+                if(localiser==1 && User.sexe==0){
                     btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
                     btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
-
                     btLocaliser.setEnabled(false);
+                }else if(User.sexe==1){
+                    btLocaliser.setEnabled(true);
+                    btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
+                    btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
                 }else{
                     btLocaliser.setEnabled(true);
                     btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
                     btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
                 }
             }else{
-                btLocaliser.setEnabled(true);
-                btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
-                btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
+                if(localiser==1 && localiseramis==1){
+                    btLocaliser.setEnabled(true);
+                    btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
+                    btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
+                }else if(localiseramis==1){
+                    btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
+                    btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
+                    btLocaliser.setEnabled(false);
+                }
+
             }
 
 

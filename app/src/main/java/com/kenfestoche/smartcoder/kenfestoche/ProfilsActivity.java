@@ -51,6 +51,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.kenfestoche.smartcoder.kenfestoche.R.id.imFlecheDroite;
@@ -77,7 +78,7 @@ public class ProfilsActivity extends Fragment {
     ImageView boutonBeurk;
     ImageView boutonKiffe;
     ImageView imKiffBeurk;
-    ImageView imPopupKiffs;
+    RelativeLayout imPopupKiffs;
     String idUserKiff;
     int positionprofil;
     RelativeLayout rltProfil;
@@ -87,6 +88,8 @@ public class ProfilsActivity extends Fragment {
     String IdUserKiffsPrecedent;
     TextView txNewKiff;
     TextView txKiff;
+    TextView txPopUpMessage;
+
     ProgressBar pgChargement;
     RelativeLayout rlvProfilAll;
 
@@ -104,6 +107,7 @@ public class ProfilsActivity extends Fragment {
     RelativeLayout rlvNewKiff;
     public static boolean KiffValid;
     public static boolean kiffvalue;
+    Locale locale;
 
     ArrayList<HashMap<String, Object>> profils;
     //private static ViewPager mPager;
@@ -127,6 +131,9 @@ public class ProfilsActivity extends Fragment {
 
 
         View v = inflater.inflate(R.layout.activity_profils, container, false);
+
+
+        locale=Locale.getDefault();
 
 
         profils =  new ArrayList<HashMap<String,Object>>();
@@ -153,7 +160,7 @@ public class ProfilsActivity extends Fragment {
         gps = new GPSTracker(v.getContext());
         pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
 
-        new RefreshTask(v.getContext()).execute();
+        new RefreshTask(v.getContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         BanniereContact = (ImageView) v.findViewById(R.id.imbanniereprofil);
         BanniereContact.setImageResource(R.drawable.banniereprofilkiff);
@@ -166,10 +173,11 @@ public class ProfilsActivity extends Fragment {
         pbKiffs =  (ImageView) v.findViewById(R.id.pbKiffe);
         txDistanceKiffs = (TextView) v.findViewById(R.id.txNbKiffs);
         txRechercheProche = (TextView) v.findViewById(R.id.txRechercheProfil);
+        txPopUpMessage = (TextView) v.findViewById(R.id.txPopupMessages);
         flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.frameProfil);
         rlvNewKiff = (RelativeLayout) v.findViewById(R.id.rlvNewKiff);
         rlvProfilAll = (RelativeLayout) v.findViewById(R.id.rlvprofilall);
-        imPopupKiffs = (ImageView) v.findViewById(R.id.imPopUpKiffs);
+        imPopupKiffs = (RelativeLayout) v.findViewById(R.id.rlvpopupKiffs);
 
         txNewKiff = (TextView) v.findViewById(R.id.txNewKiff);
         txKiff = (TextView) v.findViewById(R.id.txKiff);
@@ -243,11 +251,27 @@ public class ProfilsActivity extends Fragment {
         Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
 
         txRechercheProche.setTypeface(face);
+        txPopUpMessage.setTypeface(face);
         txNewKiff.setTypeface(face);
         txKiff.setTypeface(face);
         txDistanceKiffs.setTypeface(face);
-        boutonBeurk.setImageResource(R.drawable.beurk);
-        boutonKiffe.setImageResource(R.drawable.kiffe);
+
+        if(pref.getString("Langue","").equals("Breton")){
+            boutonBeurk.setImageResource(R.drawable.btbeurken);
+            boutonKiffe.setImageResource(R.drawable.btlikeen);
+            btIgnorer.setImageResource(R.drawable.btignorerbr);
+            btAllerVoir.setImageResource(R.drawable.btvoirbr);
+        }else if(pref.getString("Langue","").equals("Anglais")){
+            btIgnorer.setImageResource(R.drawable.btignoreren);
+            btAllerVoir.setImageResource(R.drawable.btvoiren);
+        }
+        else{
+            boutonBeurk.setImageResource(R.drawable.beurk);
+            boutonKiffe.setImageResource(R.drawable.kiffe);
+        }
+
+
+
 
         flingContainer.setVisibility(View.VISIBLE);
 
@@ -383,9 +407,6 @@ public class ProfilsActivity extends Fragment {
 
                 }
 
-
-
-                boutonKiffe.setImageResource(R.drawable.kiffe);
                 boutonKiffe.setEnabled(true);
 
             }
@@ -521,7 +542,7 @@ public class ProfilsActivity extends Fragment {
                         try {
                             JSONObject userobj = InfoUser.getJSONObject(0);
                             if(userobj!=null) {
-                                txDistanceKiffs.setText("kiffé " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
+                                txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
                                 //txNom.setText(userobj.getString("pseudo"));
                             }
                         } catch (JSONException e) {
@@ -530,7 +551,7 @@ public class ProfilsActivity extends Fragment {
                     }
                 }
 
-                boutonKiffe.setImageResource(R.drawable.kiffe);
+                //boutonKiffe.setImageResource(R.drawable.kiffe);
                 boutonKiffe.setEnabled(true);
 
                 if(profils.size()>0){
@@ -571,7 +592,7 @@ public class ProfilsActivity extends Fragment {
                     try {
                         JSONObject Retour=Rep.getJSONObject(0);
                         if(Retour.getString("NEWMATCH")=="1"){
-                            Toast.makeText(getApplicationContext(), "Vous avez un nouveau match", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(), "Vous avez un nouveau match", Toast.LENGTH_LONG).show();
                             rlvNewKiff.setVisibility(View.VISIBLE);
 
                         }
@@ -598,7 +619,7 @@ public class ProfilsActivity extends Fragment {
                             try {
                                 JSONObject userobj = InfoUser.getJSONObject(0);
                                 if(userobj!=null) {
-                                    txDistanceKiffs.setText("kiffé " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
+                                    txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
                                     //txNom.setText(userobj.getString("pseudo"));
                                 }
                             } catch (JSONException e) {
@@ -634,7 +655,7 @@ public class ProfilsActivity extends Fragment {
 
                     if(User.nbKiffs==9){
                         int nbKiffsRestant=10 - User.nbKiffs;
-                        Toast.makeText(getContext(),"Il vous reste un seul kiffe, beurkez plus !",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),getResources().getString(R.string.ilvousreste),Toast.LENGTH_SHORT).show();
                         if(nbKiffsRestant<=0){
                             boutonKiffe.setImageResource(R.drawable.kiffgrise);
                             boutonKiffe.setEnabled(false);
@@ -841,7 +862,7 @@ public class ProfilsActivity extends Fragment {
                     try {
                         JSONObject userobj = InfoUser.getJSONObject(0);
                         if(userobj!=null) {
-                            txDistanceKiffs.setText("kiffé " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
+                            txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
                             //txNom.setText(userobj.getString("pseudo"));
                         }
                     } catch (JSONException e) {
@@ -961,7 +982,7 @@ public class ProfilsActivity extends Fragment {
                 try {
                     JSONObject userobj = InfoUser.getJSONObject(0);
                     if(userobj!=null) {
-                        txDistanceKiffs.setText("kiffé " + userobj.getString("nbkiffs") + " fois \n" + "à " + userobj.getString("distance"));
+                        txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
                         //txNom.setText(userobj.getString("pseudo"));
                     }
                 } catch (JSONException e) {
@@ -1031,7 +1052,12 @@ public class ProfilsActivity extends Fragment {
             super.onPostExecute(o);
 
             imKiffBeurk.setVisibility(View.VISIBLE);
-            imKiffBeurk.setImageResource(R.drawable.kiffegros);
+            if(pref.getString("Langue","").equals("Breton")){
+                imKiffBeurk.setImageResource(R.drawable.btlikeengros);
+            }else{
+                imKiffBeurk.setImageResource(R.drawable.kiffegros);
+            }
+
         }
     }
 
@@ -1058,7 +1084,12 @@ public class ProfilsActivity extends Fragment {
             super.onPostExecute(o);
 
             imKiffBeurk.setVisibility(View.VISIBLE);
-            imKiffBeurk.setImageResource(R.drawable.beurkgros);
+            if(pref.getString("Langue","").equals("Breton")){
+                imKiffBeurk.setImageResource(R.drawable.btbeurkengros);
+            }else{
+                imKiffBeurk.setImageResource(R.drawable.beurkgros);
+            }
+
         }
     }
 

@@ -195,8 +195,8 @@ public class ContactActivity extends Fragment {
         txAmis.setTypeface(face);
         //txPseudoLigne.setTypeface(face);
 
-        //txMesKiffs.setText("mes kiffs");
-        //txAmis.setText("mes amis");
+        txMesKiffs.setText(getResources().getString(R.string.kiffs));
+        txAmis.setText(getResources().getString(R.string.mesamis));
 
 
         imFlecheDroite.setOnClickListener(new View.OnClickListener() {
@@ -309,10 +309,10 @@ public class ContactActivity extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        LoadContacts();
-        lstKiffs.setAdapter(KiffsArray);
-        setListViewHeightBasedOnChildren(lstKiffs);
-        setListViewHeightBasedOnChildren(lstAmis);
+        //LoadContacts();
+        //lstKiffs.setAdapter(KiffsArray);
+        //setListViewHeightBasedOnChildren(lstKiffs);
+        //setListViewHeightBasedOnChildren(lstAmis);
 
     }
 
@@ -325,17 +325,23 @@ public class ContactActivity extends Fragment {
         protected void onPreExecute() {
 
             super.onPreExecute();
-
+            kiffs.clear();
+            amis.clear();
+            Amisrray.notifyDataSetChanged();
+            KiffsArray.notifyDataSetChanged();
+            setListViewHeightBasedOnChildren(lstKiffs);
+            setListViewHeightBasedOnChildren(lstAmis);
         }
 
         @Override
         protected void onProgressUpdate(Integer... values){
             super.onProgressUpdate(values);
             // Mise à jour de la ProgressBar
-            Amisrray.notifyDataSetChanged();
-            KiffsArray.notifyDataSetChanged();
-            setListViewHeightBasedOnChildren(lstKiffs);
-            setListViewHeightBasedOnChildren(lstAmis);
+
+
+
+            //setListViewHeightBasedOnChildren(lstKiffs);
+            //setListViewHeightBasedOnChildren(lstAmis);
 
         }
 
@@ -343,11 +349,10 @@ public class ContactActivity extends Fragment {
         protected Void doInBackground(Void... arg0) {
             WebService WS = new WebService(getContext(),false);
 
-            //kiffs.clear();
-            //amis.clear();
 
-            JSONArray ListKiffs = WS.GetListKiffs(User,kiffsStringId);
-            JSONArray ListAmis = WS.GetListAmis(User,amisStringId);
+
+            JSONArray ListKiffs = WS.GetListKiffs(User,"");
+            JSONArray ListAmis = WS.GetListAmis(User,"");
 
             if(ListKiffs != null && ListKiffs.length()>0)
             {
@@ -355,6 +360,11 @@ public class ContactActivity extends Fragment {
                 String Url=null;
 
                 for (int i = 0; i < ListKiffs.length(); i++) {
+                    if(this.isCancelled())
+                    {
+                        break;
+                    }
+
                     JSONObject LeKiff=null;
 
                     HashMap<String, Object> valeur = new HashMap<String, Object>();
@@ -377,7 +387,9 @@ public class ContactActivity extends Fragment {
 
                     kiffs.add(valeur);
                     kiffssauv.add(valeur);
-                    publishProgress(0);
+                    //publishProgress(0);
+
+
 
                 }
             }
@@ -388,6 +400,11 @@ public class ContactActivity extends Fragment {
                 String Url=null;
 
                 for (int i = 0; i < ListAmis.length(); i++) {
+                    if(this.isCancelled())
+                    {
+                        break;
+                    }
+
                     JSONObject Amis=null;
 
                     HashMap<String, Object> valeur = new HashMap<String, Object>();
@@ -413,7 +430,9 @@ public class ContactActivity extends Fragment {
 
                     amis.add(valeur);
 
-                    publishProgress(0);
+                    //publishProgress(1);
+
+
 
 
                 }
@@ -427,8 +446,10 @@ public class ContactActivity extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
-            Amisrray.notifyDataSetChanged();
+            //Amisrray.notifyDataSetChanged();
+            //KiffsArray.notifyDataSetChanged();
             KiffsArray.notifyDataSetChanged();
+            Amisrray.notifyDataSetChanged();
             setListViewHeightBasedOnChildren(lstKiffs);
             setListViewHeightBasedOnChildren(lstAmis);
 
@@ -533,29 +554,13 @@ public class ContactActivity extends Fragment {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
 
-            /*MonActivity.runOnUiThread(new Runnable() {
 
-                @Override
-                public void run() {
-                    pgLoad.setVisibility(View.VISIBLE);
-
-                }
-            });
-*/
-
-            MonActivity.runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    LoadContacts();
-                    setListViewHeightBasedOnChildren(lstKiffs);
-                    setListViewHeightBasedOnChildren(lstAmis);
-                }
-            });
-
-            //mLoadContact =new GetListContacts();
-
-            //mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            mLoadContact =new GetListContacts();
+            mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else{
+            if(mLoadContact!=null){
+                mLoadContact.cancel(true);
+            }
         }
     }
 
@@ -572,9 +577,9 @@ public class ContactActivity extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        /*if(mLoadContact != null){
+        if(mLoadContact != null){
             mLoadContact.cancel(true);
-        }*/
+        }
 
     }
 
