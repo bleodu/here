@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ public class AjoutAmis extends AppCompatActivity {
     TextView txNewAmi;
     TextView txAPartir;
     RelativeLayout RelRep;
+    ImageView imFlecheGauche;
     RelativeLayout RelPhone;
     TextView txTel;
 
@@ -30,11 +32,19 @@ public class AjoutAmis extends AppCompatActivity {
         txNewAmi = (TextView) findViewById(R.id.txnewAmi);
         txAPartir = (TextView) findViewById(R.id.txAPartir);
         txTel = (TextView) findViewById(R.id.txTel);
+        imFlecheGauche = (ImageView) findViewById(R.id.imFlecheGaucheListAmis);
         RelPhone = (RelativeLayout) findViewById(R.id.RelLayPhone);
         RelRep = (RelativeLayout) findViewById(R.id.RelLayRep);
 
         txNewAmi.setTypeface(face);
         txAPartir.setTypeface(face);
+
+        imFlecheGauche.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         RelPhone.setOnClickListener(new View.OnClickListener() {
             @Override

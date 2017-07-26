@@ -32,41 +32,56 @@
 
 
     <TextView
-        android:text="TextView"
+        android:id="@+id/txPseudoLigne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10pt"
-        android:textColor="#2c2954"
-        android:id="@+id/txPseudoLigne"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/imgPhotoKiffs"
-        android:layout_toEndOf="@+id/imgPhotoKiffs"
         android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp" />
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/imgPhotoKiffs"
+        android:layout_toRightOf="@+id/imgPhotoKiffs"
+        android:text="M9"
+        android:textColor="#2c2954"
+        android:textSize="10pt" />
 
     <ImageView
+        android:id="@+id/imlocaliser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/localiser"
-        android:id="@+id/imlocaliser"
-        android:visibility="invisible"
-        android:layout_centerVertical="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/txPseudoLigne"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        android:src="@drawable/localiser"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imsablier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:visibility="invisible"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="gone"
         app:srcCompat="@drawable/sablier" />
 
     <ImageView
         android:id="@+id/imSuppKiffs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:visibility="invisible"
-        app:srcCompat="@drawable/supprimerkiff" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/imsablier"
+        android:layout_centerHorizontal="false"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        android:src="@drawable/supprimerkiff"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imSignalerKiffs"
@@ -75,7 +90,7 @@
         android:layout_alignRight="@+id/imSuppKiffs"
         android:layout_centerVertical="true"
         android:layout_marginRight="40dip"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:srcCompat="@drawable/signaler" />
 
     <TextView
@@ -86,30 +101,29 @@
         android:layout_alignBottom="@+id/txAccepter"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dip"
-        android:layout_toEndOf="@+id/txPseudoLigne"
+        android:layout_marginRight="5dip"
+        android:layout_toLeftOf="@+id/txAccepter"
         android:layout_toRightOf="@+id/txPseudoLigne"
+        android:layout_toStartOf="@+id/txAccepter"
         android:background="#e16da1"
         android:padding="5dip"
         android:text="@string/refuser"
         android:textColor="#fff"
         android:textSize="16dip"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/txAccepter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_toEndOf="@+id/txRefuser"
-        android:layout_toRightOf="@+id/txRefuser"
         android:background="#807f98"
         android:padding="5dip"
         android:text="@string/accept"
         android:textColor="#fff"
         android:textSize="16dip"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
 </RelativeLayout>

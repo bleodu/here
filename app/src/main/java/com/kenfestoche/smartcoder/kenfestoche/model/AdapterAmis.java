@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.kenfestoche.smartcoder.kenfestoche.AddConversation;
 import com.kenfestoche.smartcoder.kenfestoche.Conversation;
+import com.kenfestoche.smartcoder.kenfestoche.FragmentsSliderActivity;
 import com.kenfestoche.smartcoder.kenfestoche.ProfilsActivity;
 import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.Tag;
@@ -53,12 +55,99 @@ public class AdapterAmis extends SimpleAdapter {
     boolean gestionAjout;
     HashMap<String, Object> ami;
 
-    public AdapterAmis(Context context, ArrayList<HashMap<String, Object>> data, int resource, String[] from, int[] to, boolean GestionAjout) {
+    public AdapterAmis(Context context, ArrayList<HashMap<String, Object>> data, int resource, String[] from, int[] to, boolean GestionAjout,boolean amis,boolean datatransmis) {
         super(context, data, resource, from, to);
-        this.context=context;
-        this.arrayList=data;
 
+        //this.arrayList=data;
+        this.context=context;
         inflater.from(context);
+
+        if(datatransmis){
+            this.arrayList=data;
+        }else{
+            WebService WS = new WebService(context);
+
+            arrayList =  new ArrayList<HashMap<String,Object>>();
+            //this.arrayList.clear();
+
+            JSONArray ListKiffs = WS.GetListKiffs(FragmentsSliderActivity.User,"");
+            JSONArray ListAmis = WS.GetListAmis(FragmentsSliderActivity.User,"");
+
+            if(amis){
+                if(ListAmis != null && ListAmis.length()>0)
+                {
+
+                    String Url=null;
+
+                    for (int i = 0; i < ListAmis.length(); i++) {
+                        JSONObject Amis=null;
+
+                        HashMap<String, Object> valeur = new HashMap<String, Object>();
+                        try {
+                            Amis = ListAmis.getJSONObject(i);
+                            valeur.put("pseudo", Amis.getString("pseudo"));
+                            valeur.put("statut", Amis.getString("statut"));
+                            valeur.put("id_ami", Amis.getString("id_useramis"));
+                            valeur.put("localiser", Amis.getString("localiser"));
+                            valeur.put("nbMess", Amis.getInt("nbMess"));
+                            valeur.put("user", FragmentsSliderActivity.User);
+
+                            //amisStringId = amisStringId + Amis.getString("id_useramis") + ",";
+                            Url = Amis.getString("photo").replace(" ","%20");
+                            valeur.put("url",Url);
+
+
+
+
+                        } catch (JSONException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+
+                        arrayList.add(valeur);
+                        //Amisrray.notifyDataSetChanged();
+
+
+                    }
+                }
+            }else{
+                if(ListKiffs != null && ListKiffs.length()>0)
+                {
+
+                    String Url=null;
+
+                    for (int i = 0; i < ListKiffs.length(); i++) {
+                        JSONObject LeKiff=null;
+
+                        HashMap<String, Object> valeur = new HashMap<String, Object>();
+                        try {
+                            LeKiff = ListKiffs.getJSONObject(i);
+                            valeur.put("pseudo", LeKiff.getString("pseudo"));
+                            valeur.put("id_kiff", LeKiff.getString("id_user_kiff"));
+                            valeur.put("vu", LeKiff.getInt("vu"));
+                            valeur.put("nbMess", LeKiff.getInt("nbMess"));
+                            valeur.put("user", FragmentsSliderActivity.User);
+                            Url = LeKiff.getString("photo").replace(" ","%20");
+                            valeur.put("url",Url);
+
+                            //kiffsStringId = kiffsStringId + LeKiff.getString("id_user_kiff") + ",";
+
+
+                        } catch (JSONException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+
+                        arrayList.add(valeur);
+                    }
+                }
+            }
+        }
+
+
+        //this.notifyDataSetChanged();
+
+
 
         face=Typeface.createFromAsset(context.getAssets(),"fonts/weblysleekuil.ttf");
         facebold=Typeface.createFromAsset(context.getAssets(),"weblysleekuisb.ttf");
@@ -78,13 +167,14 @@ public class AdapterAmis extends SimpleAdapter {
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
+        //View view=null;
+            View view = super.getView(position,convertView,parent);
 
-            View view = super.getView(position, convertView, parent);
-
-
+            inflater =LayoutInflater.from(context);
+            view = inflater.inflate(R.layout.compositionlignecontact, parent, false);
             Log.e("LOGGDS", String.valueOf(position));
 
-        //if(view==null){
+            //if(view==null){
             final ImageView imPhotoKiffs=(ImageView) view.findViewById(R.id.imgPhotoKiffs);
             imAjoutAmis= (TextView) view.findViewById(R.id.txAccepter);
             imRefuseAmis= (TextView) view.findViewById(R.id.txRefuser);
@@ -105,8 +195,8 @@ public class AdapterAmis extends SimpleAdapter {
             imSuppKiffs.setTag(String.valueOf(position));
             imSignaler.setTag(String.valueOf(position));
             ligneContact.setTag(String.valueOf(position));
-            imRefuseAmis.setVisibility(View.INVISIBLE);
-            imAjoutAmis.setVisibility(View.INVISIBLE);
+            imRefuseAmis.setVisibility(View.GONE);
+            imAjoutAmis.setVisibility(View.GONE);
 
             //photo = (Bitmap)  ami.get("photo");
 
@@ -173,7 +263,7 @@ public class AdapterAmis extends SimpleAdapter {
                 }
             }else{
                 //imAjoutAmis.setImageResource(R.drawable.btajout);
-                imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
+                //imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
                 imAjoutAmis.setVisibility(View.VISIBLE);
             }
 
@@ -181,6 +271,7 @@ public class AdapterAmis extends SimpleAdapter {
 
             if(ami.containsKey("id_kiff")){
 
+                /*
                 new AsyncTask<Void, Void, Void>() {
 
                     JSONArray ListMessages=null;
@@ -212,18 +303,26 @@ public class AdapterAmis extends SimpleAdapter {
 
 
                     }
-                }.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+                }.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);*/
+                if(ami.containsKey("nbMess")){
+                    if((int)(ami.get("nbMess"))>0){
+                        txPseudo.setTypeface(facebold);
+                    }else{
+                        txPseudo.setTypeface(face);
+                    }
+                }
 
 
 
 
 
 
-        if((int) ami.get("vu")==0){
-            txPseudo.setTypeface(facebold);
-        }else{
-            txPseudo.setTypeface(face);
-        }
+
+                if((int) ami.get("vu")==0){
+                    txPseudo.setTypeface(facebold);
+                }else{
+                    txPseudo.setTypeface(face);
+                }
 
                 ligneContact.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -235,13 +334,13 @@ public class AdapterAmis extends SimpleAdapter {
                         WS.SetKiffOpen(User,(String) ami.get("id_kiff"));
 
 
-                            Intent i = new Intent(view.getContext(), Conversation.class);
-                            Utilisateur User = (Utilisateur) ami.get("user");
-                            i.putExtra("id_kiffs",(String) ami.get("id_kiff"));
-                            i.putExtra("id_user",User.id_user);
-                            i.putExtra("prive",1);
-                            i.putExtra("amis",0);
-                            view.getContext().startActivity(i);
+                        Intent i = new Intent(view.getContext(), Conversation.class);
+                        Utilisateur User = (Utilisateur) ami.get("user");
+                        i.putExtra("id_kiffs",(String) ami.get("id_kiff"));
+                        i.putExtra("id_user",User.id_user);
+                        i.putExtra("prive",1);
+                        i.putExtra("amis",0);
+                        view.getContext().startActivity(i);
 
 
                     }
@@ -256,7 +355,7 @@ public class AdapterAmis extends SimpleAdapter {
                         imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
                         imSignaler.setImageResource(R.drawable.signaler);
                         imSignaler.setVisibility(View.VISIBLE);
-                        imSuppKiffs.setImageResource(R.drawable.supprimerkiff);
+                        //imSuppKiffs.setImageResource(R.drawable.supprimerkiff);
                         imSuppKiffs.setVisibility(View.VISIBLE);
 
                         imSuppKiffs.setOnClickListener(new View.OnClickListener() {
@@ -272,8 +371,8 @@ public class AdapterAmis extends SimpleAdapter {
                                 Toast.makeText(view.getContext(),"Kiff supprimé",Toast.LENGTH_SHORT).show();
                                 WS.DeleteKiffs(User,id_ami);
                                 arrayList.remove(ami);
-                                imSignaler.setVisibility(View.INVISIBLE);
-                                imSuppKiffs.setVisibility(View.INVISIBLE);
+                                imSignaler.setVisibility(View.GONE);
+                                imSuppKiffs.setVisibility(View.GONE);
 
                                 notifyDataSetChanged();
                             }
@@ -292,8 +391,8 @@ public class AdapterAmis extends SimpleAdapter {
 
                                 WS.SignalerKiffs(User,id_ami);
                                 Toast.makeText(view.getContext(),"Signalement envoyé",Toast.LENGTH_SHORT).show();
-                                imSignaler.setVisibility(View.INVISIBLE);
-                                imSuppKiffs.setVisibility(View.INVISIBLE);
+                                imSignaler.setVisibility(View.GONE);
+                                imSuppKiffs.setVisibility(View.GONE);
 
                             }
                         });
@@ -305,7 +404,15 @@ public class AdapterAmis extends SimpleAdapter {
             }else{
                 if(ami.containsKey("id_ami")){
 
-                    new AsyncTask<Void, Void, Void>() {
+                    if(ami.containsKey("nbMess")){
+                        if((int)(ami.get("nbMess"))>0){
+                            txPseudo.setTypeface(facebold);
+                        }else{
+                            txPseudo.setTypeface(face);
+                        }
+                    }
+
+                    /*new AsyncTask<Void, Void, Void>() {
 
                         JSONArray ListMessages=null;
                         @Override
@@ -334,7 +441,7 @@ public class AdapterAmis extends SimpleAdapter {
                             }
 
                         }
-                    }.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+                    }.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);*/
 
 
 
@@ -392,8 +499,8 @@ public class AdapterAmis extends SimpleAdapter {
 
                             WebService WS = new WebService(context,false);
                             WS.SetNewFriend(User,id_ami);
-                            imAjoutAmis.setVisibility(View.INVISIBLE);
-                            imRefuseAmis.setVisibility(View.INVISIBLE);
+                            imAjoutAmis.setVisibility(View.GONE);
+                            imRefuseAmis.setVisibility(View.GONE);
                             arrayList.remove(ami);
                             notifyDataSetChanged();
                             Toast.makeText(view.getContext(),"Invitation envoyée",Toast.LENGTH_SHORT).show();
@@ -411,8 +518,8 @@ public class AdapterAmis extends SimpleAdapter {
                             WebService WS = new WebService(context,false);
                             WS.AcceptRefuseFriend(User,id_ami,"2");
 
-                            imAjoutAmis.setVisibility(View.INVISIBLE);
-                            imRefuseAmis.setVisibility(View.INVISIBLE);
+                            imAjoutAmis.setVisibility(View.GONE);
+                            imRefuseAmis.setVisibility(View.GONE);
 
                             Toast.makeText(view.getContext(),"Invitation accepté",Toast.LENGTH_SHORT).show();
                         }
@@ -441,8 +548,8 @@ public class AdapterAmis extends SimpleAdapter {
                     imRefuseAmis = (TextView) view;
                     Toast.makeText(view.getContext(),"Invitation refusée",Toast.LENGTH_SHORT).show();
 
-                    imAjoutAmis.setVisibility(View.INVISIBLE);
-                    imRefuseAmis.setVisibility(View.INVISIBLE);
+                    imAjoutAmis.setVisibility(View.GONE);
+                    imRefuseAmis.setVisibility(View.GONE);
 
                     arrayList.remove(pos);
                     notifyDataSetChanged();
@@ -450,7 +557,7 @@ public class AdapterAmis extends SimpleAdapter {
 
                 }
             });
-       // }
+            // }
 
 
         return view;
@@ -464,6 +571,15 @@ public class AdapterAmis extends SimpleAdapter {
         return count;//returns the total count to adapter
     }
 
+    @Override
+    public Object getItem(int i) {
+        return arrayList.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
 
 
 }

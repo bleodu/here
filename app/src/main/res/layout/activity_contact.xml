@@ -13,11 +13,17 @@
         android:background="#2c2954"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/txHeader"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imBanniereContact"
-            app:srcCompat="@drawable/bannierecontact" />
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/header_contact"
+            android:textColor="#fff"
+            android:textSize="40dip" />
+
+
 
         <ImageView
             android:layout_width="wrap_content"

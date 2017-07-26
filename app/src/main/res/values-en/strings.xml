@@ -85,6 +85,24 @@
     <string name="contact_luine">He will only be able to locate you if you allow it</string>
     <string name="apartir">à partir de</string>
 
+    <string name="annulfb">you cancelled the Facebook connection</string>
+    <string name="erreurfb">Facebook authentication failed</string>
+    <string name="tendance">Say your sexual orientation</string>
+    <string name="telobligatoire">your phone number must be entered</string>
+    <string name="logincorrect">password or login incorrect</string>
+
+    <string name="main_tel">With Phone Number</string>
+    <string name="main_fb">with Facebook</string>
+
+    <string name="header_contact">Contacts</string>
+
+    <string name="typesoiree">type of party</string>
+    <string name="liensite">website</string>
+    <string name="horaireouverture">Opening time</string>
+    <string name="recherchefille">Looking for girls nearby</string>
+    <string name="recherchehomme">Looking for men nearby</string>
+    <string name="recherchehommefille">Looking for men and women nearby</string>
+
     <string name="kiffes">liked</string>
     <string name="fois">times</string>
     <string name="à">at</string>

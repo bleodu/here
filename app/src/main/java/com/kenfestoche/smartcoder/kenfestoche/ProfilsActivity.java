@@ -197,18 +197,18 @@ public class ProfilsActivity extends Fragment {
         }
 
         if(User.sexe==0 && User.tendancesexe==1) {
-            txRechercheProche.setText("Recherche de filles proches...");
+            txRechercheProche.setText(getResources().getString(R.string.recherchefille));
         }else if(User.sexe==1 && User.tendancesexe==1){
-            txRechercheProche.setText("Recherche d'hommes proches...");
+            txRechercheProche.setText(getResources().getString(R.string.recherchehomme));
         }
         else if(User.sexe==1 && User.tendancesexe==2){
-            txRechercheProche.setText("Recherche de filles proches...");
+            txRechercheProche.setText(getResources().getString(R.string.recherchefille));
         }
         else if(User.sexe==0 && User.tendancesexe==2){
-            txRechercheProche.setText("Recherche d'hommes proches...");
+            txRechercheProche.setText(getResources().getString(R.string.recherchehomme));
         }
         else if(User.tendancesexe==0){
-            txRechercheProche.setText("Recherche d'hommes et de femmes proches...");
+            txRechercheProche.setText(getResources().getString(R.string.recherchehommefille));
         }
 
 

@@ -9,27 +9,40 @@
     tools:context="com.kenfestoche.smartcoder.kenfestoche.AjoutAmis">
 
     <RelativeLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#2c2954"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/banniereajoutamis"
-            android:id="@+id/imageView3" />
-
-        <ImageView
+            android:id="@+id/imageView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imFlecheDroiteMap"
-            android:src="@drawable/fleche"
+            android:layout_marginLeft="10dip"
+            app:srcCompat="@drawable/bouteilleblanche" />
+
+        <TextView
+            android:id="@+id/txHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ajout"
+            android:textColor="#fff"
+            android:textSize="40dip"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView9"
+            android:layout_toEndOf="@+id/imageView9" />
+
+        <ImageView
+            android:id="@+id/imFlecheGaucheListAmis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dip"
-            android:layout_alignParentRight="true" />
+            android:src="@drawable/fleche" />
 
     </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

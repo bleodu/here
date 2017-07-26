@@ -51,6 +51,7 @@ public class ParamActivity extends Activity {
     TextView txCacherPosTous;
     TextView txInclusFB;
     TextView txNewLangue;
+    TextView txHeader;
 
     LinearLayout lstVerifProfil;
 
@@ -71,7 +72,7 @@ public class ParamActivity extends Activity {
         User = FragmentsSliderActivity.User;
 
         Typeface face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
-
+        Typeface faceGenerica=Typeface.createFromAsset(getAssets(),"Generica.otf");
 
         rdActivnotif = (ImageView) findViewById(R.id.rdnotif);
         rdProfilSaufKiff = (ImageView) findViewById(R.id.rdsaufkiffs);
@@ -93,6 +94,7 @@ public class ParamActivity extends Activity {
         txCacherPosTous = (TextView) findViewById(R.id.txpositiontous);
         txInclusFB = (TextView) findViewById(R.id.txamisfb);
         txNewLangue = (TextView) findViewById(R.id.txLangue);
+        txHeader = (TextView) findViewById(R.id.txHeader);
 
         txNewLangue.setTypeface(face);
         txModifUser.setTypeface(face);
@@ -116,7 +118,7 @@ public class ParamActivity extends Activity {
         SuppCompte.setTypeface(face);
         Politique.setTypeface(face);
         Condition.setTypeface(face);
-
+        txHeader.setTypeface(faceGenerica);
 
         imNewLangue.setOnClickListener(new View.OnClickListener() {
             @Override

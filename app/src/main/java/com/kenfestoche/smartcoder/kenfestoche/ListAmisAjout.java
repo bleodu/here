@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.kenfestoche.smartcoder.kenfestoche.model.AdapterAmis;
 import com.kenfestoche.smartcoder.kenfestoche.model.ImagesProfil;
@@ -46,6 +48,9 @@ public class ListAmisAjout extends AppCompatActivity {
     RelativeLayout RlvRechTel;
     int TypeRecherche;
     AdapterAmis AmisArray;
+    TextView txHeader;
+    Typeface face;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,12 @@ public class ListAmisAjout extends AppCompatActivity {
         edtPhone = (EditText) findViewById(R.id.edttelrech);
         RlvMonRep = (RelativeLayout) findViewById(R.id.rlvMonRep);
         RlvMonPhone = (RelativeLayout) findViewById(R.id.rlvTelPhone);
-        RlvRechTel= (RelativeLayout) findViewById(R.id.rlvRechTel);
+        RlvRechTel = (RelativeLayout) findViewById(R.id.rlvRechTel);
+        txHeader= (TextView) findViewById(R.id.txHeader);
+
+        face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
+
+        txHeader.setTypeface(face);
 
         amis =  new ArrayList<HashMap<String,Object>>();
 
@@ -182,7 +192,7 @@ public class ListAmisAjout extends AppCompatActivity {
                                 }
                             }
 
-                             AmisArray = new AdapterAmis(getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},true);
+                             AmisArray = new AdapterAmis(getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},true,true,true);
 
 
                             //mSchedule.setViewBinder(new MyViewBinder());
@@ -283,7 +293,7 @@ public class ListAmisAjout extends AppCompatActivity {
         }
         phones.close();
 
-        AmisArray = new AdapterAmis(getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},true);
+        AmisArray = new AdapterAmis(getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},true,true,true);
 
 
         //mSchedule.setViewBinder(new MyViewBinder());

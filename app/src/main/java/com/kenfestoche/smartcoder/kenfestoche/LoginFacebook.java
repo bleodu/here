@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,12 +53,14 @@ public class LoginFacebook extends AppCompatActivity {
     private TextView info;
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
+    TextView txFacebook;
+
     ImageButton imHomo;
     ImageButton imHetero;
     ImageButton imBi;
     int tendancesexe=-1;
     Utilisateur user;
-    ImageView btfacebook;
+    RelativeLayout btfacebook;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     LinearLayout viewBi;
@@ -84,7 +87,7 @@ public class LoginFacebook extends AppCompatActivity {
         TextView txBi = (TextView) findViewById(R.id.txBi);
         TextView txHomo = (TextView) findViewById(R.id.txHomo);
         TextView txHetero = (TextView) findViewById(R.id.txhetero);
-
+        txFacebook = (TextView) findViewById(R.id.txFacebook);
         viewBi = (LinearLayout) findViewById(R.id.viewbi);
         viewHomo = (LinearLayout) findViewById(R.id.viewhomo);
         viewHete = (LinearLayout) findViewById(R.id.viewhete);
@@ -93,11 +96,12 @@ public class LoginFacebook extends AppCompatActivity {
         txHomo.setTypeface(face);
         txHetero.setTypeface(face);
         txEnregistrer.setTypeface(face);
+        txFacebook.setTypeface(face);
 
         imBi = (ImageButton) findViewById(R.id.imBi);
         imHetero = (ImageButton) findViewById(R.id.imhete);
         imHomo = (ImageButton) findViewById(R.id.imHomo);
-        btfacebook = (ImageView) findViewById(R.id.btconnextfacebook);
+        btfacebook = (RelativeLayout) findViewById(R.id.btconnextfacebook);
         List<String> permissionNeeds= Arrays.asList("user_photos", "friends_photos", "email", "user_birthday", "user_friends");
 
         btfacebook.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +110,7 @@ public class LoginFacebook extends AppCompatActivity {
                 if(tendancesexe>=0) {
                     LoginManager.getInstance().logInWithReadPermissions(LoginFacebook.this, Arrays.asList("public_profile", "email","user_photos"));
                 }else{
-                    Toast.makeText(getApplicationContext(),"Merci de renseigner votre tendance sexuelle.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.tendance),Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -294,13 +298,13 @@ public class LoginFacebook extends AppCompatActivity {
             @Override
             public void onCancel() {
 
-                Toast.makeText(getApplicationContext(),"Vous avez annulé l'authentification par facebook",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.annulfb),Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onError(FacebookException e) {
-                Toast.makeText(getApplicationContext(),"Erreur lors de l'authentification facebook",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.erreurfb),Toast.LENGTH_LONG).show();
             }
         });
     }

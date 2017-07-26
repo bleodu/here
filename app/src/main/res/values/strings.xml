@@ -31,6 +31,17 @@
     <string name="contact_nbmessage">Vous pouvez envoyer </string>
     <string name="contact_lelocaliser">Vous pouvez le localiser </string>
     <string name="contact_message">messages</string>
+    <string name="header_contact">Contacts</string>
+
+    <string name="main_tel">Avec un n° de téléphone</string>
+    <string name="main_fb">avec Facebook</string>
+
+    <string name="typesoiree">Type soirée</string>
+    <string name="liensite">Lien du site</string>
+    <string name="horaireouverture">Horaire d’ouverture</string>
+    <string name="recherchefille">Recherche de filles proches...</string>
+    <string name="recherchehomme"> Recherche d\'hommes proches...</string>
+    <string name="recherchehommefille"> Recherche d\'hommes et de femmes proches...</string>
 
     <string name="prenom">Prénom</string>
     <string name="encliquant">En cliquant sur valider vous acceptez les conditions générales d\'utilisation et la politique de confidentialité</string>
@@ -91,6 +102,12 @@
     <string name="kiff">kiff</string>
     <string name="fetessoiree">Fêtes et soirées</string>
     <string name="ilvousreste">Il vous reste un seul kiffe, beurkez plus</string>
+
+    <string name="annulfb">Vous avez annulé l\'authentification par facebook</string>
+    <string name="erreurfb">Erreur lors de l\'authentification facebook</string>
+    <string name="tendance">Merci de renseigner votre tendance sexuelle</string>
+    <string name="telobligatoire">Le téléphone est obligatoire.</string>
+    <string name="logincorrect">Login ou mot de passe incorrect</string>
 
     <string name="conditionbouton">En cliquant sur valider vous acceptez les &lt;u>conditions générales d\'utilisation&lt;/u> et la &lt;u>politique de confidentialité&lt;/u>.</string>
     <string name="parametre">Paramètres</string>

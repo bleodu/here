@@ -28,7 +28,19 @@
     <string name="nouveau">nevez</string>
     <string name="ajout">Ajouter</string>
     <string name="kiff">Kiff</string>
+    <string name="main_fb">avec Facebook</string>
     <string name="fetessoiree">gouelioù ha nozvezhioù</string>
+
+    <string name="main_tel">Avec un n° de téléphone</string>
+
+    <string name="header_contact">darempredoù</string>
+
+    <string name="typesoiree">seurt nozhvez</string>
+    <string name="liensite">lerc\'hienn</string>
+    <string name="horaireouverture">Eurioù digeriñ</string>
+    <string name="recherchefille">O klask merc\'hed nebell</string>
+    <string name="recherchehomme">O klask paotred nebell</string>
+    <string name="recherchehommefille">O klask merc\'hed ha paotred nebell</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">niv. bellgomz</string>
@@ -95,6 +107,12 @@
     <string name="boitenuit">boest-noz</string>
     <string name="autre">hag all</string>
     <string name="debit">prenañ alkool</string>
+
+    <string name="annulfb">nullet ho peus ar gevreadenn gant facebook</string>
+    <string name="erreurfb">ur gudenn zo bet gant ar gevreadenn gant Facebook</string>
+    <string name="tendance"> lavar  ma\'z out heñvelreizh pe div pe arall</string>
+    <string name="telobligatoire">ret eo reiñ ho niverenn pellgomz</string>
+    <string name="logincorrect">ger-kuzh pe niverenn dianv</string>
 
     <string name="deconnect">digevreañ.</string>
     <string name="conditionbouton">En cliquant sur valider vous acceptez les &lt;u>conditions générales d\'utilisation&lt;/u> et la &lt;u>politique de confidentialité&lt;/u>.</string>

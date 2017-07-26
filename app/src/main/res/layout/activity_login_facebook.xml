@@ -137,14 +137,38 @@
             facebook:com_facebook_logout_text=" avec Facebook"
             android:layout_marginBottom="30dp" />-->
 
-        <ImageButton
+        <RelativeLayout
+            android:layout_height="40dip"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
             android:layout_marginTop="20dp"
             android:background="#3a579d"
             android:id="@+id/btconnextfacebook"
-            android:src="@drawable/boutonfacebook"
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginRight="20dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dip"
+                android:gravity="center_vertical"
+                android:text="@string/main_fb"
+                android:textColor="#fff"
+                android:textSize="25dip"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/txFacebook" />
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/facebook"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/txFacebook"
+                android:layout_toStartOf="@+id/txFacebook" />
+
+        </RelativeLayout>
+
+
     </LinearLayout>
 
     <LinearLayout

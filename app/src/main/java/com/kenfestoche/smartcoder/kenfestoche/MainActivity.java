@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +16,8 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -30,8 +33,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton bttel;
-    ImageButton btfacebook;
+    TextView bttel;
+    RelativeLayout btfacebook;
+    TextView txFacebook;
     private CallbackManager callbackManager;
     SharedPreferences.Editor editor;
     SharedPreferences pref;
@@ -46,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
         WebService WS = new WebService(getBaseContext());
+
+
+        Typeface face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
 
         pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
@@ -98,8 +105,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         //LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
-        bttel= (ImageButton) findViewById(R.id.BtimTel);
-        btfacebook= (ImageButton) findViewById(R.id.btimFacebook);
+        bttel= (TextView) findViewById(R.id.BtimTel);
+        txFacebook= (TextView) findViewById(R.id.txFacebook);
+        btfacebook= (RelativeLayout) findViewById(R.id.btimFacebook);
+
+        bttel.setTypeface(face);
+        txFacebook.setTypeface(face);
+
 
 
         bttel.setOnClickListener(new View.OnClickListener() {

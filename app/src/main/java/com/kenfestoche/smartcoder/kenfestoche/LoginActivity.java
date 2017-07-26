@@ -276,7 +276,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Check for a valid email address.
         if (TextUtils.isEmpty(email) ) {
             //mEmailView.setError(getString(R.string.error_field_required));
-            Toast.makeText(getApplicationContext(),"Le téléphone est obligatoire.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.telobligatoire),Toast.LENGTH_LONG).show();
             focusView = mEmailView;
             cancel = true;
         }
@@ -336,7 +336,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     startActivity(i);
                     //return false;
                 }else{
-                    Toast.makeText(getBaseContext(),"Login ou mot de passe incorrect",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),getResources().getString(R.string.logincorrect),Toast.LENGTH_LONG).show();
                 }
             }
 

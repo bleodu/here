@@ -84,7 +84,7 @@ public class ContactActivity extends Fragment {
     String amisStringId="";
 
     AdapterAmis Amisrray;
-
+    TextView txHeader;
     GetListContacts mLoadContact;
     LinearLayout panelKiffs;
     RelativeLayout panelAmis;
@@ -110,8 +110,7 @@ public class ContactActivity extends Fragment {
         kiffssauv =  new ArrayList<HashMap<String,Object>>();
         amis =  new ArrayList<HashMap<String,Object>>();
 
-        KiffsArray = new AdapterAmis(this.MonActivity.getBaseContext(), kiffs, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
-        Amisrray = new AdapterAmis(this.MonActivity.getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
+
 
         /*MonActivity.runOnUiThread(new Runnable() {
 
@@ -148,13 +147,14 @@ public class ContactActivity extends Fragment {
         editor = pref.edit();
 
         Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
+        Typeface faceGenerica=Typeface.createFromAsset(getActivity().getAssets(),"Generica.otf");
 
         txMesKiffs = (TextView) v.findViewById(R.id.txMesKiffs);
         txAmis = (TextView) v.findViewById(R.id.txAmis);
         //txPseudoLigne = (TextView) v.findViewById(R.id.txPseudoLigne);
 
-        BanniereContact = (ImageView) v.findViewById(R.id.imBanniereContact);
-        BanniereContact.setImageResource(R.drawable.bannierecontact);
+        //BanniereContact = (ImageView) v.findViewById(R.id.imBanniereContact);
+        //BanniereContact.setImageResource(R.drawable.bannierecontact);
         imPlusAmis = (ImageView) v.findViewById(R.id.imPlusAmis);
         imPlusAmis.setImageResource(R.drawable.plus);
         pgLoad = (ProgressBar) v.findViewById(R.id.pgLoad);
@@ -165,6 +165,8 @@ public class ContactActivity extends Fragment {
 
         panelAmis = (RelativeLayout) v.findViewById(R.id.panelamis);
         panelKiffs = (LinearLayout) v.findViewById(R.id.panelkiffs);
+
+        txHeader = (TextView) v.findViewById(R.id.txHeader);
 
         imBulle = (ImageView) v.findViewById(R.id.imBulle);
         imBulle.setImageResource(R.drawable.bulle);
@@ -193,7 +195,7 @@ public class ContactActivity extends Fragment {
 
         txMesKiffs.setTypeface(face);
         txAmis.setTypeface(face);
-        //txPseudoLigne.setTypeface(face);
+        txHeader.setTypeface(faceGenerica);
 
         txMesKiffs.setText(getResources().getString(R.string.kiffs));
         txAmis.setText(getResources().getString(R.string.mesamis));
@@ -309,6 +311,8 @@ public class ContactActivity extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        /*mLoadContact =new GetListContacts();
+        mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
         //LoadContacts();
         //lstKiffs.setAdapter(KiffsArray);
         //setListViewHeightBasedOnChildren(lstKiffs);
@@ -320,15 +324,14 @@ public class ContactActivity extends Fragment {
     {
 
         Boolean NewMess=false;
+        JSONArray ListKiffs;
+        JSONArray ListAmis;
 
         @Override
         protected void onPreExecute() {
 
             super.onPreExecute();
-            kiffs.clear();
-            amis.clear();
-            Amisrray.notifyDataSetChanged();
-            KiffsArray.notifyDataSetChanged();
+
             setListViewHeightBasedOnChildren(lstKiffs);
             setListViewHeightBasedOnChildren(lstAmis);
         }
@@ -347,12 +350,14 @@ public class ContactActivity extends Fragment {
 
         @Override
         protected Void doInBackground(Void... arg0) {
+
             WebService WS = new WebService(getContext(),false);
+            ListKiffs = WS.GetListKiffs(User,"");
+            ListAmis = WS.GetListAmis(User,"");
 
 
-
-            JSONArray ListKiffs = WS.GetListKiffs(User,"");
-            JSONArray ListAmis = WS.GetListAmis(User,"");
+            kiffs.clear();
+            amis.clear();
 
             if(ListKiffs != null && ListKiffs.length()>0)
             {
@@ -373,6 +378,7 @@ public class ContactActivity extends Fragment {
                         valeur.put("pseudo", LeKiff.getString("pseudo"));
                         valeur.put("id_kiff", LeKiff.getString("id_user_kiff"));
                         valeur.put("vu", LeKiff.getInt("vu"));
+                        valeur.put("nbMess", LeKiff.getInt("nbMess"));
                         valeur.put("user", User);
                         Url = LeKiff.getString("photo").replace(" ","%20");
                         valeur.put("url",Url);
@@ -414,6 +420,7 @@ public class ContactActivity extends Fragment {
                         valeur.put("statut", Amis.getString("statut"));
                         valeur.put("id_ami", Amis.getString("id_useramis"));
                         valeur.put("localiser", Amis.getString("localiser"));
+                        valeur.put("nbMess", Amis.getInt("nbMess"));
                         valeur.put("user", User);
 
                         amisStringId = amisStringId + Amis.getString("id_useramis") + ",";
@@ -487,9 +494,11 @@ public class ContactActivity extends Fragment {
                     valeur.put("pseudo", LeKiff.getString("pseudo"));
                     valeur.put("id_kiff", LeKiff.getString("id_user_kiff"));
                     valeur.put("vu", LeKiff.getInt("vu"));
+                    valeur.put("nbMess", LeKiff.getInt("nbMess"));
                     valeur.put("user", User);
                     Url = LeKiff.getString("photo").replace(" ","%20");
                     valeur.put("url",Url);
+
                     kiffsStringId = kiffsStringId + LeKiff.getString("id_user_kiff") + ",";
 
 
@@ -520,9 +529,10 @@ public class ContactActivity extends Fragment {
                     valeur.put("statut", Amis.getString("statut"));
                     valeur.put("id_ami", Amis.getString("id_useramis"));
                     valeur.put("localiser", Amis.getString("localiser"));
+                    valeur.put("nbMess", Amis.getInt("nbMess"));
                     valeur.put("user", User);
-                    amisStringId = amisStringId + Amis.getString("id_useramis") + ",";
 
+                    amisStringId = amisStringId + Amis.getString("id_useramis") + ",";
                     Url = Amis.getString("photo").replace(" ","%20");
                     valeur.put("url",Url);
 
@@ -554,9 +564,16 @@ public class ContactActivity extends Fragment {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
 
+            MonActivity.runOnUiThread(new Runnable() {
 
-            mLoadContact =new GetListContacts();
-            mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            @Override
+            public void run() {
+                LoadContacts();
+            }
+            });
+
+            /*mLoadContact =new GetListContacts();
+            mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
         }else{
             if(mLoadContact!=null){
                 mLoadContact.cancel(true);
@@ -567,8 +584,7 @@ public class ContactActivity extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        lstAmis.setAdapter(Amisrray);
-        lstKiffs.setAdapter(KiffsArray);
+
 
 
 
