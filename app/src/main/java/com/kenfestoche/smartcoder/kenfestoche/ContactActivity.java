@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -110,6 +111,9 @@ public class ContactActivity extends Fragment {
         kiffssauv =  new ArrayList<HashMap<String,Object>>();
         amis =  new ArrayList<HashMap<String,Object>>();
 
+        KiffsArray = new AdapterAmis(getActivity().getBaseContext(), kiffs, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false,true,false);
+
+        Amisrray = new AdapterAmis(getActivity().getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false,true,false);
 
 
         /*MonActivity.runOnUiThread(new Runnable() {
@@ -175,6 +179,8 @@ public class ContactActivity extends Fragment {
         lstAmis = (ListView)  v.findViewById(R.id.lstamis);
 
 
+        lstKiffs.setAdapter(KiffsArray);
+        lstAmis.setAdapter(Amisrray);
 
 
         txNbMessage = (TextView) v.findViewById(R.id.txNbMessages);
@@ -302,7 +308,6 @@ public class ContactActivity extends Fragment {
         pgLoad.setVisibility(View.GONE);
 
 
-
     }
 
 
@@ -341,7 +346,11 @@ public class ContactActivity extends Fragment {
             super.onProgressUpdate(values);
             // Mise à jour de la ProgressBar
 
-
+            if(values[0]==0){
+                Amisrray.notifyDataSetChanged();
+            }else{
+                KiffsArray.notifyDataSetChanged();
+            }
 
             //setListViewHeightBasedOnChildren(lstKiffs);
             //setListViewHeightBasedOnChildren(lstAmis);
@@ -352,12 +361,12 @@ public class ContactActivity extends Fragment {
         protected Void doInBackground(Void... arg0) {
 
             WebService WS = new WebService(getContext(),false);
-            ListKiffs = WS.GetListKiffs(User,"");
-            ListAmis = WS.GetListAmis(User,"");
+            ListKiffs = WS.GetListKiffs(User,kiffsStringId);
+            ListAmis = WS.GetListAmis(User,amisStringId);
 
 
-            kiffs.clear();
-            amis.clear();
+            //kiffs.clear();
+            //amis.clear();
 
             if(ListKiffs != null && ListKiffs.length()>0)
             {
@@ -367,6 +376,7 @@ public class ContactActivity extends Fragment {
                 for (int i = 0; i < ListKiffs.length(); i++) {
                     if(this.isCancelled())
                     {
+                        Log.v("LOGGDS", "Chargement kiffs annulé");
                         break;
                     }
 
@@ -408,6 +418,7 @@ public class ContactActivity extends Fragment {
                 for (int i = 0; i < ListAmis.length(); i++) {
                     if(this.isCancelled())
                     {
+                        Log.v("LOGGDS", "Chargement amis annulé");
                         break;
                     }
 
@@ -445,6 +456,13 @@ public class ContactActivity extends Fragment {
                 }
             }
 
+            if(ListAmis!=null && ListAmis.length()>0){
+                publishProgress(0);
+            }
+
+            if(ListKiffs!=null && ListKiffs.length()>0){
+                publishProgress(1);
+            }
 
 
             return null;
@@ -453,10 +471,7 @@ public class ContactActivity extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
-            //Amisrray.notifyDataSetChanged();
-            //KiffsArray.notifyDataSetChanged();
-            KiffsArray.notifyDataSetChanged();
-            Amisrray.notifyDataSetChanged();
+
             setListViewHeightBasedOnChildren(lstKiffs);
             setListViewHeightBasedOnChildren(lstAmis);
 
@@ -471,14 +486,10 @@ public class ContactActivity extends Fragment {
         WebService WS = new WebService(getContext());
 
         kiffs.clear();
-        //KiffsArray = new AdapterAmis(getActivity().getBaseContext(), kiffs, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false);
-        //lstKiffs.setAdapter(KiffsArray);
-        //lstKiffs.setVisibility(View.VISIBLE);
-
         amis.clear();
 
-        JSONArray ListKiffs = WS.GetListKiffs(User,"");
-        JSONArray ListAmis = WS.GetListAmis(User,"");
+        JSONArray ListKiffs = WS.GetListKiffs(User,kiffsStringId);
+        JSONArray ListAmis = WS.GetListAmis(User,amisStringId);
 
         if(ListKiffs != null && ListKiffs.length()>0)
         {
@@ -564,18 +575,19 @@ public class ContactActivity extends Fragment {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
 
-            MonActivity.runOnUiThread(new Runnable() {
+           /* MonActivity.runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
                 LoadContacts();
             }
-            });
+            });*/
 
-            /*mLoadContact =new GetListContacts();
-            mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
+            mLoadContact =new GetListContacts();
+            mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }else{
             if(mLoadContact!=null){
+                Log.v("LOGGDS", "Chargement contact annulé");
                 mLoadContact.cancel(true);
             }
         }

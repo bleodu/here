@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -213,6 +215,9 @@ public class ProfilsActivity extends Fragment {
 
 
 
+
+
+
         switch (nbKiffs){
             case 1 :
                 pbKiffs.setImageResource(R.drawable.barrepos1);
@@ -300,6 +305,12 @@ public class ProfilsActivity extends Fragment {
             idUserKiff= (String) profil.get("id_user");
         }else{
             txRechercheProche.setVisibility(View.VISIBLE);
+            Animation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(100); //You can manage the time of the blink with this parameter
+            anim.setStartOffset(1000);
+            anim.setRepeatMode(Animation.REVERSE);
+            anim.setRepeatCount(Animation.INFINITE);
+            txRechercheProche.startAnimation(anim);
         }
 
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
@@ -354,6 +365,12 @@ public class ProfilsActivity extends Fragment {
 
                 }else{
                     txRechercheProche.setVisibility(View.VISIBLE);
+                    Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                    anim.setDuration(100); //You can manage the time of the blink with this parameter
+                    anim.setStartOffset(1000);
+                    anim.setRepeatMode(Animation.REVERSE);
+                    anim.setRepeatCount(Animation.INFINITE);
+                    txRechercheProche.startAnimation(anim);
                     //mPager.setVisibility(View.INVISIBLE);
                     txDistanceKiffs.setVisibility(View.INVISIBLE);
                 }
@@ -563,6 +580,12 @@ public class ProfilsActivity extends Fragment {
                 }else{
                     //mPager.setVisibility(View.INVISIBLE);
                     txRechercheProche.setVisibility(View.VISIBLE);
+                    Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                    anim.setDuration(100); //You can manage the time of the blink with this parameter
+                    anim.setStartOffset(1000);
+                    anim.setRepeatMode(Animation.REVERSE);
+                    anim.setRepeatCount(Animation.INFINITE);
+                    txRechercheProche.startAnimation(anim);
                     txDistanceKiffs.setVisibility(View.INVISIBLE);
                     boutonBeurk.setVisibility(View.INVISIBLE);
                     boutonKiffe.setVisibility(View.INVISIBLE);
@@ -704,6 +727,12 @@ public class ProfilsActivity extends Fragment {
                     }else{
                         //mPager.setVisibility(View.INVISIBLE);
                         txRechercheProche.setVisibility(View.VISIBLE);
+                        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                        anim.setDuration(100); //You can manage the time of the blink with this parameter
+                        anim.setStartOffset(1000);
+                        anim.setRepeatMode(Animation.REVERSE);
+                        anim.setRepeatCount(Animation.INFINITE);
+                        txRechercheProche.startAnimation(anim);
                         txDistanceKiffs.setVisibility(View.INVISIBLE);
                         boutonBeurk.setVisibility(View.INVISIBLE);
                         boutonKiffe.setVisibility(View.INVISIBLE);

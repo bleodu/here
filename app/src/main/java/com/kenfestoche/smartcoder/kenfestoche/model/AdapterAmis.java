@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,11 +59,11 @@ public class AdapterAmis extends SimpleAdapter {
     public AdapterAmis(Context context, ArrayList<HashMap<String, Object>> data, int resource, String[] from, int[] to, boolean GestionAjout,boolean amis,boolean datatransmis) {
         super(context, data, resource, from, to);
 
-        //this.arrayList=data;
+        this.arrayList=data;
         this.context=context;
         inflater.from(context);
 
-        if(datatransmis){
+        /*if(datatransmis){
             this.arrayList=data;
         }else{
             WebService WS = new WebService(context);
@@ -142,11 +143,7 @@ public class AdapterAmis extends SimpleAdapter {
                     }
                 }
             }
-        }
-
-
-        //this.notifyDataSetChanged();
-
+        }*/
 
 
         face=Typeface.createFromAsset(context.getAssets(),"fonts/weblysleekuil.ttf");
@@ -171,255 +168,89 @@ public class AdapterAmis extends SimpleAdapter {
             View view = super.getView(position,convertView,parent);
 
             inflater =LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.compositionlignecontact, parent, false);
+            ami = arrayList.get(position);
             Log.e("LOGGDS", String.valueOf(position));
 
             //if(view==null){
-            final ImageView imPhotoKiffs=(ImageView) view.findViewById(R.id.imgPhotoKiffs);
-            imAjoutAmis= (TextView) view.findViewById(R.id.txAccepter);
-            imRefuseAmis= (TextView) view.findViewById(R.id.txRefuser);
-            imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
-            imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
-            ImageView imWaitAmis=(ImageView) view.findViewById(R.id.imsablier);
-            ImageView imLocaliser=(ImageView) view.findViewById(R.id.imlocaliser);
-            final TextView txPseudo= (TextView) view.findViewById(R.id.txPseudoLigne);
-            RelativeLayout ligneContact = (RelativeLayout) view.findViewById(R.id.ligneContact);
+                final ImageView imPhotoKiffs=(ImageView) view.findViewById(R.id.imgPhotoKiffs);
+                imAjoutAmis= (TextView) view.findViewById(R.id.txAccepter);
+                imRefuseAmis= (TextView) view.findViewById(R.id.txRefuser);
+                imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
+                imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
+                ImageView imWaitAmis=(ImageView) view.findViewById(R.id.imsablier);
+                ImageView imLocaliser=(ImageView) view.findViewById(R.id.imlocaliser);
+                final TextView txPseudo= (TextView) view.findViewById(R.id.txPseudoLigne);
+                RelativeLayout ligneContact = (RelativeLayout) view.findViewById(R.id.ligneContact);
 
-            txPseudo.setTypeface(face);
-
-            ami = arrayList.get(position);
+                txPseudo.setTypeface(face);
 
 
-            imAjoutAmis.setTag(String.valueOf(position));
-            imRefuseAmis.setTag(String.valueOf(position));
-            imSuppKiffs.setTag(String.valueOf(position));
-            imSignaler.setTag(String.valueOf(position));
-            ligneContact.setTag(String.valueOf(position));
-            imRefuseAmis.setVisibility(View.GONE);
-            imAjoutAmis.setVisibility(View.GONE);
 
-            //photo = (Bitmap)  ami.get("photo");
 
-            //new ImageDownloaderTask(imPhotoKiffs).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,(String) ami.get("url"));
-            String urlPhoto = (String) ami.get("url");
-            Picasso.with(context).load(urlPhoto).resize(200,200).into(imPhotoKiffs);
-            //new MyAsyncTask(position,imPhotoKiffs).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                imAjoutAmis.setTag(String.valueOf(position));
+                imRefuseAmis.setTag(String.valueOf(position));
+                imSuppKiffs.setTag(String.valueOf(position));
+                imSignaler.setTag(String.valueOf(position));
+                ligneContact.setTag(String.valueOf(position));
+                imRefuseAmis.setVisibility(View.GONE);
+                imAjoutAmis.setVisibility(View.GONE);
 
-        /*new AsyncTask<Void, Void, Void>() {
-            int pos;
-            JSONArray ListMessages=null;
-            String urlPhoto="";
-            @Override
-            protected Void doInBackground( Void... voids ) {
+                //photo = (Bitmap)  ami.get("photo");
 
-                urlPhoto = (String) ami.get("url");
-                return null;
-            }
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                ami = arrayList.get(position);
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-
+                //new ImageDownloaderTask(imPhotoKiffs).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,(String) ami.get("url"));
+                String urlPhoto = (String) ami.get("url");
                 Picasso.with(context).load(urlPhoto).resize(200,200).into(imPhotoKiffs);
-
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
-
-            //Glide.with(context).load(urlPhoto).into(imPhotoKiffs);
-
-            final Utilisateur User = (Utilisateur) ami.get("user");
+                //new MyAsyncTask(position,imPhotoKiffs).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
-            if(gestionAjout==false){
-                //imAjoutAmis.setVisibility(View.INVISIBLE);
-                if(ami.get("statut")=="0"){
+
+                final Utilisateur User = (Utilisateur) ami.get("user");
+
+
+                if(gestionAjout==false){
+                    //imAjoutAmis.setVisibility(View.INVISIBLE);
+                    if(ami.get("statut")=="0"){
+                        imAjoutAmis.setVisibility(View.VISIBLE);
+
+                        //imAjoutAmis.setImageResource(R.drawable.btajouter);
+                        imRefuseAmis.setVisibility(View.VISIBLE);
+                        //imRefuseAmis.setImageResource(R.drawable.btrefuser);
+                    }else if(ami.get("statut")=="1"){
+                        imWaitAmis.setImageResource(R.drawable.sablier);
+                        imWaitAmis.setVisibility(View.VISIBLE);
+                    }else{
+                        if(ami.containsKey("localiser")) {
+                            if (ami.get("localiser") == "0") {
+                                imLocaliser.setImageResource(R.drawable.localiser);
+                                imLocaliser.setVisibility(View.VISIBLE);
+                            }
+                        }else{
+                            if(!ami.containsKey("id_kiff")){
+                                imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
+                                imAjoutAmis.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                    }
+                }else{
+                    //imAjoutAmis.setImageResource(R.drawable.btajout);
+                    //imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
                     imAjoutAmis.setVisibility(View.VISIBLE);
-
-                    //imAjoutAmis.setImageResource(R.drawable.btajouter);
-                    imRefuseAmis.setVisibility(View.VISIBLE);
-                    //imRefuseAmis.setImageResource(R.drawable.btrefuser);
-                }else if(ami.get("statut")=="1"){
-                    imWaitAmis.setImageResource(R.drawable.sablier);
-                    imWaitAmis.setVisibility(View.VISIBLE);
-                }else{
-                    if(ami.containsKey("localiser")) {
-                        if (ami.get("localiser") == "1") {
-                            imLocaliser.setImageResource(R.drawable.localiser);
-                            imLocaliser.setVisibility(View.VISIBLE);
-                        }
-                    }else{
-                        if(!ami.containsKey("id_kiff")){
-                            imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
-                            imAjoutAmis.setVisibility(View.VISIBLE);
-                        }
-
-                    }
-                }
-            }else{
-                //imAjoutAmis.setImageResource(R.drawable.btajout);
-                //imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
-                imAjoutAmis.setVisibility(View.VISIBLE);
-            }
-
-            //imPhotoKiffs.setImageBitmap(photo);
-
-            if(ami.containsKey("id_kiff")){
-
-                /*
-                new AsyncTask<Void, Void, Void>() {
-
-                    JSONArray ListMessages=null;
-                    @Override
-                    protected Void doInBackground( Void... voids ) {
-
-                        WebService WS = new WebService(context,false);
-                        ListMessages =  WS.GetMessageNonLu(User.id_user, (String) ami.get("id_kiff"),"1");
-
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
-
-
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        super.onPostExecute(aVoid);
-                        if(ListMessages!=null){
-                            txPseudo.setTypeface(facebold);
-                        }else{
-                            txPseudo.setTypeface(face);
-                        }
-
-
-
-                    }
-                }.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);*/
-                if(ami.containsKey("nbMess")){
-                    if((int)(ami.get("nbMess"))>0){
-                        txPseudo.setTypeface(facebold);
-                    }else{
-                        txPseudo.setTypeface(face);
-                    }
                 }
 
+                //imPhotoKiffs.setImageBitmap(photo);
 
+                if(ami.containsKey("id_kiff")){
 
-
-
-
-
-                if((int) ami.get("vu")==0){
-                    txPseudo.setTypeface(facebold);
-                }else{
-                    txPseudo.setTypeface(face);
-                }
-
-                ligneContact.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int pos=Integer.parseInt(view.getTag().toString());
-                        ami = arrayList.get(pos);
-                        txPseudo.setTypeface(face);
-                        WebService WS = new WebService(context,false);
-                        WS.SetKiffOpen(User,(String) ami.get("id_kiff"));
-
-
-                        Intent i = new Intent(view.getContext(), Conversation.class);
-                        Utilisateur User = (Utilisateur) ami.get("user");
-                        i.putExtra("id_kiffs",(String) ami.get("id_kiff"));
-                        i.putExtra("id_user",User.id_user);
-                        i.putExtra("prive",1);
-                        i.putExtra("amis",0);
-                        view.getContext().startActivity(i);
-
-
-                    }
-                });
-
-                ligneContact.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-
-
-                        imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
-                        imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
-                        imSignaler.setImageResource(R.drawable.signaler);
-                        imSignaler.setVisibility(View.VISIBLE);
-                        //imSuppKiffs.setImageResource(R.drawable.supprimerkiff);
-                        imSuppKiffs.setVisibility(View.VISIBLE);
-
-                        imSuppKiffs.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                int pos=Integer.parseInt(view.getTag().toString());
-                                ami = arrayList.get(pos);
-                                //imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
-                                //imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
-                                WebService WS = new WebService(context,false);
-                                final Utilisateur User = (Utilisateur) ami.get("user");
-                                String id_ami = (String) ami.get("id_kiff");
-                                Toast.makeText(view.getContext(),"Kiff supprimé",Toast.LENGTH_SHORT).show();
-                                WS.DeleteKiffs(User,id_ami);
-                                arrayList.remove(ami);
-                                imSignaler.setVisibility(View.GONE);
-                                imSuppKiffs.setVisibility(View.GONE);
-
-                                notifyDataSetChanged();
-                            }
-                        });
-
-                        imSignaler.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                int pos=Integer.parseInt(view.getTag().toString());
-                                ami = arrayList.get(pos);
-                                //imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
-                                //imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
-                                WebService WS = new WebService(context,false);
-                                final Utilisateur User = (Utilisateur) ami.get("user");
-                                String id_ami = (String) ami.get("id_kiff");
-
-                                WS.SignalerKiffs(User,id_ami);
-                                Toast.makeText(view.getContext(),"Signalement envoyé",Toast.LENGTH_SHORT).show();
-                                imSignaler.setVisibility(View.GONE);
-                                imSuppKiffs.setVisibility(View.GONE);
-
-                            }
-                        });
-
-
-                        return true;
-                    }
-                });
-            }else{
-                if(ami.containsKey("id_ami")){
-
-                    if(ami.containsKey("nbMess")){
-                        if((int)(ami.get("nbMess"))>0){
-                            txPseudo.setTypeface(facebold);
-                        }else{
-                            txPseudo.setTypeface(face);
-                        }
-                    }
-
-                    /*new AsyncTask<Void, Void, Void>() {
+                    /*
+                    new AsyncTask<Void, Void, Void>() {
 
                         JSONArray ListMessages=null;
                         @Override
                         protected Void doInBackground( Void... voids ) {
 
                             WebService WS = new WebService(context,false);
-                            ListMessages =  WS.GetMessageNonLu(User.id_user, (String) ami.get("id_ami"),"1");
+                            ListMessages =  WS.GetMessageNonLu(User.id_user, (String) ami.get("id_kiff"),"1");
 
                             return null;
                         }
@@ -440,10 +271,21 @@ public class AdapterAmis extends SimpleAdapter {
                                 txPseudo.setTypeface(face);
                             }
 
+
+
                         }
                     }.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);*/
 
+                    if(ami.containsKey("nbMess")){
+                        if((int)(ami.get("nbMess"))>0){
+                            txPseudo.setTypeface(facebold);
+                        }
+                    }
 
+
+                    if((int) ami.get("vu")==0){
+                        txPseudo.setTypeface(facebold);
+                    }
 
                     ligneContact.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -451,113 +293,266 @@ public class AdapterAmis extends SimpleAdapter {
                             int pos=Integer.parseInt(view.getTag().toString());
                             ami = arrayList.get(pos);
                             txPseudo.setTypeface(face);
+                            WebService WS = new WebService(context,false);
+                            WS.SetKiffOpen(User,(String) ami.get("id_kiff"));
 
-                            //Si le statut est accepté entre deux amis
-                            if(ami.get("statut")=="2"){
-                                Intent i = new Intent(view.getContext(), Conversation.class);
-                                Utilisateur User = (Utilisateur) ami.get("user");
-                                i.putExtra("id_kiffs",(String) ami.get("id_ami"));
-                                i.putExtra("id_user",User.id_user);
-                                i.putExtra("prive",1);
-                                i.putExtra("amis",1);
-                                view.getContext().startActivity(i);
-                            }
+                            ami.put("vu",1);
+                            ami.put("nbMess",0);
+
+                            Intent i = new Intent(view.getContext(), Conversation.class);
+                            Utilisateur User = (Utilisateur) ami.get("user");
+                            i.putExtra("id_kiffs",(String) ami.get("id_kiff"));
+                            i.putExtra("id_user",User.id_user);
+                            i.putExtra("prive",1);
+                            i.putExtra("amis",0);
+                            view.getContext().startActivity(i);
 
 
                         }
                     });
-                }
 
-            }
+                    ligneContact.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
 
 
-            imAjoutAmis.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos=Integer.parseInt(view.getTag().toString());
-                    View viewLigne = parent.getChildAt(pos);
-                    imAjoutAmis= (TextView) viewLigne.findViewById(R.id.txAccepter);
-                    imRefuseAmis= (TextView) viewLigne.findViewById(R.id.txRefuser);
+                            imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
+                            imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
+                            imSignaler.setImageResource(R.drawable.signaler);
+                            imSignaler.setVisibility(View.VISIBLE);
+                            //imSuppKiffs.setImageResource(R.drawable.supprimerkiff);
+                            imSuppKiffs.setVisibility(View.VISIBLE);
 
-                    if(ami.containsKey("id_useramis")){
+                            imSuppKiffs.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    int pos=Integer.parseInt(view.getTag().toString());
+                                    ami = arrayList.get(pos);
+                                    //imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
+                                    //imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
+                                    WebService WS = new WebService(context,false);
+                                    final Utilisateur User = (Utilisateur) ami.get("user");
+                                    String id_ami = (String) ami.get("id_kiff");
+                                    Toast.makeText(view.getContext(),"Kiff supprimé",Toast.LENGTH_SHORT).show();
+                                    WS.DeleteKiffs(User,id_ami);
+                                    arrayList.remove(ami);
+                                    imSignaler.setVisibility(View.GONE);
+                                    imSuppKiffs.setVisibility(View.GONE);
 
-                        ami = arrayList.get(pos);
-                        AddConversation.listusers=AddConversation.listusers+";"+ami.get("id_useramis");
-                        AddConversation.chipList.add(new Tag((String) ami.get("pseudo")));
-                        AddConversation.chipDefault.setChipList(AddConversation.chipList);
-                        AddConversation.edtAmis.setText("");
-                        Toast.makeText(view.getContext(),ami.get("pseudo")+" ajouté",Toast.LENGTH_SHORT).show();
-                        arrayList.remove(ami);
-                        notifyDataSetChanged();
-                    }else{
-                        if(gestionAjout){
-                            // int pos=Integer.parseInt(view.getTag().toString());
-                            ami = arrayList.get(pos);
-                            final Utilisateur User = (Utilisateur) ami.get("user");
+                                    notifyDataSetChanged();
+                                }
+                            });
 
-                            String id_ami = (String) ami.get("id_ami");
+                            imSignaler.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    int pos=Integer.parseInt(view.getTag().toString());
+                                    ami = arrayList.get(pos);
+                                    //imSuppKiffs=(ImageView) view.findViewById(R.id.imSuppKiffs);
+                                    //imSignaler=(ImageView) view.findViewById(R.id.imSignalerKiffs);
+                                    WebService WS = new WebService(context,false);
+                                    final Utilisateur User = (Utilisateur) ami.get("user");
+                                    String id_ami = (String) ami.get("id_kiff");
 
-                            WebService WS = new WebService(context,false);
-                            WS.SetNewFriend(User,id_ami);
-                            imAjoutAmis.setVisibility(View.GONE);
-                            imRefuseAmis.setVisibility(View.GONE);
-                            arrayList.remove(ami);
-                            notifyDataSetChanged();
-                            Toast.makeText(view.getContext(),"Invitation envoyée",Toast.LENGTH_SHORT).show();
-                        }else{
-                            // int pos=Integer.parseInt(view.getTag().toString());
+                                    WS.SignalerKiffs(User,id_ami);
+                                    Toast.makeText(view.getContext(),"Signalement envoyé",Toast.LENGTH_SHORT).show();
+                                    imSignaler.setVisibility(View.GONE);
+                                    imSuppKiffs.setVisibility(View.GONE);
 
-                            imAjoutAmis = (TextView) view;
-                            //View ligne = getView(pos,convertView,parent);
-                            //imRefuseAmis = (ImageView) ligne.findViewById(R.id.imbtrefuseramis);
-                            ami = arrayList.get(pos);
-                            final Utilisateur User = (Utilisateur) ami.get("user");
-                            ami.put("statut","2");
-                            String id_ami = (String) ami.get("id_ami");
+                                }
+                            });
 
-                            WebService WS = new WebService(context,false);
-                            WS.AcceptRefuseFriend(User,id_ami,"2");
 
-                            imAjoutAmis.setVisibility(View.GONE);
-                            imRefuseAmis.setVisibility(View.GONE);
-
-                            Toast.makeText(view.getContext(),"Invitation accepté",Toast.LENGTH_SHORT).show();
+                            return true;
                         }
+                    });
+                }else{
+                    if(ami.containsKey("id_ami")){
+
+                        if(ami.containsKey("nbMess")){
+                            if((int)(ami.get("nbMess"))>0){
+                                txPseudo.setTypeface(facebold);
+                            }
+                        }
+
+                        /*new AsyncTask<Void, Void, Void>() {
+
+                            JSONArray ListMessages=null;
+                            @Override
+                            protected Void doInBackground( Void... voids ) {
+
+                                WebService WS = new WebService(context,false);
+                                ListMessages =  WS.GetMessageNonLu(User.id_user, (String) ami.get("id_ami"),"1");
+
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPreExecute() {
+                                super.onPreExecute();
+
+
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                super.onPostExecute(aVoid);
+                                if(ListMessages!=null){
+                                    txPseudo.setTypeface(facebold);
+                                }else{
+                                    txPseudo.setTypeface(face);
+                                }
+
+                            }
+                        }.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);*/
+
+
+
+                        ligneContact.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                int pos=Integer.parseInt(view.getTag().toString());
+                                ami = arrayList.get(pos);
+                                txPseudo.setTypeface(face);
+
+                                //Si le statut est accepté entre deux amis
+                                if(ami.get("statut")=="2"){
+                                    Intent i = new Intent(view.getContext(), Conversation.class);
+                                    Utilisateur User = (Utilisateur) ami.get("user");
+                                    i.putExtra("id_kiffs",(String) ami.get("id_ami"));
+                                    i.putExtra("id_user",User.id_user);
+                                    i.putExtra("prive",1);
+                                    i.putExtra("amis",1);
+                                    view.getContext().startActivity(i);
+                                }
+
+
+                            }
+                        });
                     }
 
-
                 }
-            });
-
-            imRefuseAmis.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
 
-                    final Utilisateur User = (Utilisateur) ami.get("user");
-                    int pos=Integer.parseInt(view.getTag().toString());
-                    View viewLigne = parent.getChildAt(pos);
-                    imAjoutAmis= (TextView) viewLigne.findViewById(R.id.txAccepter);
-                    ami = arrayList.get(pos);
+                imAjoutAmis.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int pos=Integer.parseInt(view.getTag().toString());
+                        View viewLigne = parent.getChildAt(pos);
+                        imAjoutAmis= (TextView) viewLigne.findViewById(R.id.txAccepter);
+                        imRefuseAmis= (TextView) viewLigne.findViewById(R.id.txRefuser);
 
-                    String id_ami = (String) ami.get("id_ami");
+                        if(ami.containsKey("id_useramis")){
 
-                    WebService WS = new WebService(context,false);
-                    WS.AcceptRefuseFriend(User,id_ami,"3");
-                    ami.put("statut","3");
-                    imRefuseAmis = (TextView) view;
-                    Toast.makeText(view.getContext(),"Invitation refusée",Toast.LENGTH_SHORT).show();
+                            ami = arrayList.get(pos);
+                            AddConversation.listusers=AddConversation.listusers+";"+ami.get("id_useramis");
+                            AddConversation.chipList.add(new Tag((String) ami.get("pseudo")));
+                            AddConversation.chipDefault.setChipList(AddConversation.chipList);
+                            AddConversation.edtAmis.setText("");
+                            Toast.makeText(view.getContext(),ami.get("pseudo")+" ajouté",Toast.LENGTH_SHORT).show();
+                            arrayList.remove(ami);
+                            notifyDataSetChanged();
+                        }else{
+                            if(gestionAjout){
+                                // int pos=Integer.parseInt(view.getTag().toString());
+                                ami = arrayList.get(pos);
+                                final Utilisateur User = (Utilisateur) ami.get("user");
 
-                    imAjoutAmis.setVisibility(View.GONE);
-                    imRefuseAmis.setVisibility(View.GONE);
+                                String id_ami = (String) ami.get("id_ami");
 
-                    arrayList.remove(pos);
-                    notifyDataSetChanged();
+                                WebService WS = new WebService(context,false);
+                                WS.SetNewFriend(User,id_ami);
+                                imAjoutAmis.setVisibility(View.GONE);
+                                imRefuseAmis.setVisibility(View.GONE);
+                                arrayList.remove(ami);
+                                notifyDataSetChanged();
+                                Toast.makeText(view.getContext(),"Invitation envoyée",Toast.LENGTH_SHORT).show();
+                            }else{
+                                // int pos=Integer.parseInt(view.getTag().toString());
+
+                                imAjoutAmis = (TextView) view;
+                                //View ligne = getView(pos,convertView,parent);
+                                //imRefuseAmis = (ImageView) ligne.findViewById(R.id.imbtrefuseramis);
+                                ami = arrayList.get(pos);
+                                final Utilisateur User = (Utilisateur) ami.get("user");
+                                ami.put("statut","2");
+                                String id_ami = (String) ami.get("id_ami");
+
+                                WebService WS = new WebService(context,false);
+                                WS.AcceptRefuseFriend(User,id_ami,"2");
+
+                                imAjoutAmis.setVisibility(View.GONE);
+                                imRefuseAmis.setVisibility(View.GONE);
+
+                                Toast.makeText(view.getContext(),"Invitation accepté",Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
 
-                }
-            });
-            // }
+                    }
+                });
+
+                imRefuseAmis.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+
+                        final Utilisateur User = (Utilisateur) ami.get("user");
+                        int pos=Integer.parseInt(view.getTag().toString());
+                        View viewLigne = parent.getChildAt(pos);
+                        imAjoutAmis= (TextView) viewLigne.findViewById(R.id.txAccepter);
+                        ami = arrayList.get(pos);
+
+                        String id_ami = (String) ami.get("id_ami");
+
+                        WebService WS = new WebService(context,false);
+                        WS.AcceptRefuseFriend(User,id_ami,"3");
+                        ami.put("statut","3");
+                        imRefuseAmis = (TextView) view;
+                        Toast.makeText(view.getContext(),"Invitation refusée",Toast.LENGTH_SHORT).show();
+
+                        imAjoutAmis.setVisibility(View.GONE);
+                        imRefuseAmis.setVisibility(View.GONE);
+
+                        arrayList.remove(pos);
+                        notifyDataSetChanged();
+
+
+                    }
+                });
+           /* }else{
+                final TextView txPseudo= (TextView) view.findViewById(R.id.txPseudoLigne);
+                new AsyncTask<Void, Void, Void>() {
+
+                    JSONArray ListMessages=null;
+                    @Override
+                    protected Void doInBackground( Void... voids ) {
+
+                        WebService WS = new WebService(context,false);
+                        ListMessages =  WS.GetMessageNonLu(FragmentsSliderActivity.User.id_user, (String) ami.get("id_kiff"),"1");
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+
+
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        if(ListMessages!=null){
+                            txPseudo.setTypeface(facebold);
+                        }
+
+
+
+                    }
+                }.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+            }*/
 
 
         return view;
