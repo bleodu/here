@@ -55,10 +55,10 @@ public class ParamActivity extends Activity {
 
     LinearLayout lstVerifProfil;
 
-
+    Typeface faceGenerica;
     SharedPreferences.Editor editor;
     SharedPreferences pref;
-
+    Typeface face;
     Utilisateur User;
 
     @Override
@@ -71,8 +71,126 @@ public class ParamActivity extends Activity {
         editor = pref.edit();
         User = FragmentsSliderActivity.User;
 
-        Typeface face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
-        Typeface faceGenerica=Typeface.createFromAsset(getAssets(),"Generica.otf");
+        face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
+        faceGenerica=Typeface.createFromAsset(getAssets(),"Generica.otf");
+
+        /*rdActivnotif = (ImageView) findViewById(R.id.rdnotif);
+        rdProfilSaufKiff = (ImageView) findViewById(R.id.rdsaufkiffs);
+        rdPositionAmis = (ImageView) findViewById(R.id.rdposamis);
+        rdPositionTous = (ImageView) findViewById(R.id.rdpostous);
+        rdInclusFb = (ImageView) findViewById(R.id.rdamisfb);
+
+        lstVerifProfil = (LinearLayout) findViewById(R.id.lstVerifProfil);
+
+        if(User.statut>1){
+            lstVerifProfil.setVisibility(View.GONE);
+        }
+
+        txModifUser = (TextView) findViewById(R.id.txPseudo);
+        txVerifProfil = (TextView) findViewById(R.id.txprofil);
+        txActivNotif = (TextView) findViewById(R.id.txactivnotif);
+        txCacherProfilKiffs = (TextView) findViewById(R.id.txsaufkiffs);
+        txCacherPosAmis = (TextView) findViewById(R.id.txpositionamis);
+        txCacherPosTous = (TextView) findViewById(R.id.txpositiontous);
+        txInclusFB = (TextView) findViewById(R.id.txamisfb);
+        txNewLangue = (TextView) findViewById(R.id.txLangue);
+        txHeader = (TextView) findViewById(R.id.txHeader);
+
+        txNewLangue.setTypeface(face);
+        txModifUser.setTypeface(face);
+        txVerifProfil.setTypeface(face);
+        txActivNotif.setTypeface(face);
+        txCacherProfilKiffs.setTypeface(face);
+        txCacherPosAmis.setTypeface(face);
+        txCacherPosTous.setTypeface(face);
+        txInclusFB.setTypeface(face);
+
+        imNomUtilisateur = (ImageView) findViewById(R.id.imNewPseudo);
+        imVerifProfil= (ImageView) findViewById(R.id.imflecheprofil);
+        imNewLangue = (ImageView) findViewById(R.id.imNewLangue);
+
+
+        imFleche = (ImageView) findViewById(R.id.imFlecheGauche);
+        Politique = (TextView) findViewById(R.id.txPolitique);
+        Condition = (TextView) findViewById(R.id.txCondition);
+        SuppCompte = (TextView) findViewById(R.id.btSupprimeCompte);
+
+        SuppCompte.setTypeface(face);
+        Politique.setTypeface(face);
+        Condition.setTypeface(face);
+        txHeader.setTypeface(faceGenerica);*/
+
+        RefrechView();
+
+
+
+    }
+
+    private void selectLangue() {
+
+        final CharSequence[] items = { "Français", "Anglais", "Breton" };
+
+        TextView title = new TextView(ParamActivity.this.getApplicationContext());
+        title.setText("Sélectionner une langue");
+        title.setBackgroundColor(Color.WHITE);
+        title.setPadding(10, 15, 15, 10);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTextSize(22);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                ParamActivity.this);
+
+
+
+        builder.setCustomTitle(title);
+
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Français")) {
+
+                    editor.putString("Langue","Français");
+                    editor.putString("codeLangue","fr");
+                    editor.commit();
+                    //txNewLangue.setText("Langue : Français");
+                    setLanguageForApp("fr");
+                    dialog.dismiss();
+                    RefrechView();
+
+                }else if (items[item].equals("Breton")) {
+                    editor.putString("Langue","Breton");
+                    editor.putString("codeLangue","br");
+                    //txNewLangue.setText("Langue : Breton");
+                    setLanguageForApp("br");
+                    editor.commit();
+
+                    dialog.dismiss();
+                    RefrechView();
+                }
+                else {
+
+                    editor.putString("Langue","Anglais");
+                    editor.putString("codeLangue","en");
+                    //txNewLangue.setText("Langue : Anglais");
+                    setLanguageForApp("en");
+                    editor.commit();
+
+                    dialog.dismiss();
+                    RefrechView();
+                }
+            }
+        });
+        builder.show();
+
+    }
+
+    public void RefrechView(){
+
+        setContentView(R.layout.activity_param);
+
 
         rdActivnotif = (ImageView) findViewById(R.id.rdnotif);
         rdProfilSaufKiff = (ImageView) findViewById(R.id.rdsaufkiffs);
@@ -119,6 +237,7 @@ public class ParamActivity extends Activity {
         Politique.setTypeface(face);
         Condition.setTypeface(face);
         txHeader.setTypeface(faceGenerica);
+
 
         imNewLangue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -410,69 +529,8 @@ public class ParamActivity extends Activity {
         });
 
 
-
     }
 
-    private void selectLangue() {
-
-        final CharSequence[] items = { "Français", "Anglais", "Breton" };
-
-        TextView title = new TextView(ParamActivity.this.getApplicationContext());
-        title.setText("Sélectionner une langue");
-        title.setBackgroundColor(Color.WHITE);
-        title.setPadding(10, 15, 15, 10);
-        title.setGravity(Gravity.CENTER);
-        title.setTextColor(Color.BLACK);
-        title.setTextSize(22);
-
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-                ParamActivity.this);
-
-
-
-        builder.setCustomTitle(title);
-
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Français")) {
-
-                    editor.putString("Langue","Français");
-                    editor.putString("codeLangue","fr");
-                    editor.commit();
-                    //txNewLangue.setText("Langue : Français");
-                    setLanguageForApp("fr");
-                    dialog.dismiss();
-
-                }else if (items[item].equals("Breton")) {
-                    editor.putString("Langue","Breton");
-                    editor.putString("codeLangue","br");
-                    //txNewLangue.setText("Langue : Breton");
-                    setLanguageForApp("br");
-                    editor.commit();
-
-                    dialog.dismiss();
-                }
-                else {
-
-                    editor.putString("Langue","Anglais");
-                    editor.putString("codeLangue","en");
-                    //txNewLangue.setText("Langue : Anglais");
-                    setLanguageForApp("en");
-                    editor.commit();
-
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-
-
-
-
-    }
     private void setLanguageForApp(String languageToLoad){
         Locale locale;
         if(languageToLoad.equals("not-set")){ //use any value for default

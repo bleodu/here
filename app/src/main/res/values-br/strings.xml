@@ -26,14 +26,14 @@
     <string name="à">da</string>
     <string name="metres">metrad</string>
     <string name="nouveau">nevez</string>
-    <string name="ajout">Ajouter</string>
+    <string name="ajout">Ouzhpennañ</string>
     <string name="kiff">Kiff</string>
     <string name="main_fb">avec Facebook</string>
     <string name="fetessoiree">gouelioù ha nozvezhioù</string>
 
     <string name="main_tel">Avec un n° de téléphone</string>
 
-    <string name="header_contact">darempredoù</string>
+    <string name="header_contact">DAREMPREDOU</string>
 
     <string name="typesoiree">seurt nozhvez</string>
     <string name="liensite">lerc\'hienn</string>
@@ -51,7 +51,7 @@
     <string name="bi">Div</string>
     <string name="hetero">Arall</string>
     <string name="selectionne">choaz ar pezh a zedenn ac’hanout</string>
-    <string name="oublie">oublié ?</string>
+    <string name="oublie">disoñjet ?</string>
     <string name="montel">niv. bellgomz</string>
     <string name="rep">roll-pellgomz</string>
     <string name="newuser">anv nevez</string>
@@ -74,7 +74,7 @@
     <string name="pres">Emginnig</string>
     <string name="jesuis">Bez’on …</string>
     <string name="jesuisplutot">Bez’on kentoc’h</string>
-    <string name="apartir">à partir de</string>
+    <string name="apartir">adalek</string>
 
     <string name="ajoutamis">Ouzhpennañ ur mignon</string>
     <string name="ajoutrep">nevez adalek ar</string>
@@ -116,7 +116,7 @@
 
     <string name="deconnect">digevreañ.</string>
     <string name="conditionbouton">En cliquant sur valider vous acceptez les &lt;u>conditions générales d\'utilisation&lt;/u> et la &lt;u>politique de confidentialité&lt;/u>.</string>
-    <string name="parametre">Paramètres</string>
+    <string name="parametre">arventennoú</string>
     <string name="valider">kadarnaat</string>
     <string name="action_connexion">kevreañ</string>
     <string name="action_sign_in_short">kadarnaat</string>
@@ -156,10 +156,11 @@
 
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string name="mesinconnus">mes inconnus</string>
-    <string name="mesmatch">mes matchs</string>
-    <string name="mesamisleg">mes amis</string>
-    <string name="soireemap">soirée</string>
+    <string name="mesinconnus">va dianv</string>
+    <string name="mesmatch">va c’hiff-ed</string>
+    <string name="mesamisleg">va mignoned</string>
+    <string name="soireemap">nozvezh</string>
+    <string name="Profil">PROFIL</string>
     <string-array name="pref_example_list_titles">
         <item>Always</item>
         <item>When possible</item>
@@ -170,5 +171,9 @@
         <item>0</item>
         <item>-1</item>
     </string-array>
+    <string name="MAP">MAP</string>
+    <string name="EASER">EASER</string>
+    <string name="politique">penndiviz an diaz-titouroù</string>
+    <string name="conditiongenerale">reolennoù hollek</string>
 
 </resources>

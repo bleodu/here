@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="@string/ajout"
             android:textColor="#fff"
-            android:textSize="40dip"
+            android:textSize="43dip"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/imageView9"
             android:layout_toEndOf="@+id/imageView9" />

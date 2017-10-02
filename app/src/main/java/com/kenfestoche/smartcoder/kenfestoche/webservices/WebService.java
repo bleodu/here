@@ -131,7 +131,7 @@ public class WebService {
                         user.profilsaufkiffs=Uti.getInt("profilsaufkiffs");
                         user.popupmessage=Uti.getInt("popupmessage");
                         user.popupmap=Uti.getInt("popupmap");
-                        user.popupprofils=Uti.getInt("popuprofils");
+                        user.popupprofils=Uti.getInt("popuprofil");
 
                         user.save();
 
@@ -309,7 +309,7 @@ public class WebService {
                             User.profilsaufkiffs=Uti.getInt("profilsaufkiffs");
                             User.popupmessage=Uti.getInt("popupmessage");
                             User.popupmap=Uti.getInt("popupmap");
-                            User.popupprofils=Uti.getInt("popuprofils");
+                            User.popupprofils=Uti.getInt("popuprofil");
 
                             User.connecte=true;
                         }else{

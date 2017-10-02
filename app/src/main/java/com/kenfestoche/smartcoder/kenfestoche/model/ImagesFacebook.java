@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -23,8 +24,11 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
+import com.kenfestoche.smartcoder.kenfestoche.FragmentsSliderActivity;
 import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -164,7 +168,7 @@ public class ImagesFacebook extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ImageView imageView = null;
+        ImageView finalImageView = null;
 
 
         View rowView;
@@ -176,33 +180,14 @@ public class ImagesFacebook extends BaseAdapter {
 
         holder.imgdelete=(ImageView) rowView.findViewById(R.id.imdeletephoto);
         holder.txID = (TextView) rowView.findViewById(R.id.txID);
-
-        holder.imgdelete.setVisibility(View.INVISIBLE);
-
-        //JSONObject photo = null;
         String photo = ListPhotos.get(i);
+        holder.imgdelete.setVisibility(View.INVISIBLE);
+        Picasso.with(mContext)
+                .load(photo)
+                .into(holder.img);
+                        //JSONObject photo = null;
+        holder.img.setTag(photo);
         //holder.txID.setText( photo.getString("ID"));
-
-        URL url = null;
-        try {
-            url = new URL(photo);
-            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            holder.img.setImageBitmap(image);
-            // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-            Uri tempUri = getImageUri(mContext, image);
-
-            // CALL THIS METHOD TO GET THE ACTUAL PATH
-            File finalFile = new File(getRealPathFromURI(tempUri));
-            //mImageCaptureUri= (Uri) data.getExtras().get("URI");
-            String picturePath = finalFile.getPath();
-            //String picturePath = mImageCaptureUri.getPath();
-            holder.img.setTag(picturePath);
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-        e.printStackTrace();
-        }
 
 
 
@@ -210,9 +195,26 @@ public class ImagesFacebook extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 ImageView img = (ImageView) view;
-
+                URL url = null;
+                try {
+                    url = new URL(img.getTag().toString());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                Bitmap image = null;
+                try {
+                    image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Uri tempUri = getImageUri(mContext, image);
+                //Uri tempUri = Uri.parse("android.resource://com.kenfestoche.smartcoder.kenfestoche/" + R.drawable.your_image_id);
+                // CALL THIS METHOD TO GET THE ACTUAL PATH
+                File finalFile = new File(getRealPathFromURI(tempUri));
+                //mImageCaptureUri= (Uri) data.getExtras().get("URI");
+                String picturePath = finalFile.getPath();
                 WebService WS = new WebService(mContext,false);
-                WS.UploadImage(img.getTag().toString(),User);
+                WS.UploadImage(picturePath, FragmentsSliderActivity.User);
                 ((Activity)mContext).finish();
             }
         });

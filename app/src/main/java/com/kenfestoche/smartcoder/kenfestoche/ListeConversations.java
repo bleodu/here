@@ -49,8 +49,7 @@ public class ListeConversations extends AppCompatActivity {
     AdapterConversation ConversationsArray;
     ImageView imFleche;
     JSONArray ListConversations;
-    AdapterGridPhotos listPhotos;
-    GetListConversation mLoadConv;
+    TextView txHeader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,16 +62,20 @@ public class ListeConversations extends AppCompatActivity {
         pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
         editor = pref.edit();
-        User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+        User = FragmentsSliderActivity.User;
 
         Typeface face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
+        Typeface faceGenerica=Typeface.createFromAsset(getAssets(),"Generica.otf");
+
 
         txNewConversation = (TextView) findViewById(R.id.txNewConversation);
+        txHeader = (TextView) findViewById(R.id.txHeader);
         rlvNewConversation = (RelativeLayout) findViewById(R.id.rlvNewConversation);
         imFleche = (ImageView) findViewById(R.id.imFlecheGaucheListConversations);
 
 
         txNewConversation.setTypeface(face);
+        txHeader.setTypeface(faceGenerica);
 
 
         rlvNewConversation.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +110,7 @@ public class ListeConversations extends AppCompatActivity {
                         LaConv = ListConversations.getJSONObject(i);
                         valeur.put("id", LaConv.getString("id"));
                         valeur.put("conversation", LaConv.getString("conversation"));
+                        valeur.put("nbMess", LaConv.getInt("nbMess"));
                         JSONArray JsonArrayPhotos = WS.GetUsersConversation(LaConv.getString("id"));
                         ArrayList<String> photos = new ArrayList<String>();
 
@@ -190,7 +194,7 @@ public class ListeConversations extends AppCompatActivity {
                         LaConv = ListConversations.getJSONObject(i);
                         valeur.put("id", LaConv.getString("id"));
                         valeur.put("conversation", LaConv.getString("conversation"));
-
+                        valeur.put("nbMess", LaConv.getInt("nbMess"));
                         JSONArray JsonArrayPhotos = WS.GetUsersConversation(LaConv.getString("id"));
                         ArrayList<String> photos = new ArrayList<String>();
 

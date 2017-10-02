@@ -21,7 +21,7 @@ public class GridViewFacebook extends AppCompatActivity {
         pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
         editor = pref.edit();
-        Utilisateur User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+        Utilisateur User = FragmentsSliderActivity.User;
 
         GridView gridview = (GridView) findViewById(R.id.gdfacebook);
         gridview.setAdapter(new ImagesFacebook(this,1,User,getContentResolver()));

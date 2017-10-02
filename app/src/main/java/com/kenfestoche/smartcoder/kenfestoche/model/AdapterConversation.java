@@ -79,7 +79,7 @@ public class AdapterConversation extends SimpleAdapter {
         //valeur = new HashMap<String, Object>();
         //valeur=arrayList.get(position);
 
-
+        Typeface facebold=Typeface.createFromAsset(context.getAssets(),"weblysleekuisb.ttf");
         TextView txPseudo= (TextView) view.findViewById(R.id.txPseudoLigne);
         ImageView imPhotoKiffs=(ImageView) view.findViewById(R.id.imgPhotoKiffs);
         GridView gridPhotos = (GridView) view.findViewById(R.id.gridimgkiff);
@@ -96,12 +96,18 @@ public class AdapterConversation extends SimpleAdapter {
             gridPhotos.setVisibility(View.VISIBLE);
             gridPhotos.setAdapter(listPhotos);
         }
-
+        txPseudo.setTypeface(face);
 
         //imPhotoKiffs.setImageResource(R.drawable.ajoutphoto);
         imPhotoKiffs.setVisibility(View.INVISIBLE);
         RelativeLayout ligneContact = (RelativeLayout) view.findViewById(R.id.ligneContact);
         ligneContact.setTag(String.valueOf(position));
+
+        if(valeur.containsKey("nbMess")){
+            if((int)(valeur.get("nbMess"))>0){
+                txPseudo.setTypeface(facebold);
+            }
+        }
 
         ligneContact.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +124,7 @@ public class AdapterConversation extends SimpleAdapter {
             }
         });
 
-        txPseudo.setTypeface(face);
+
 
         return view;
 

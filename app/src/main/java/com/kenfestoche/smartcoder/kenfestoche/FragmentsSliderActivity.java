@@ -26,6 +26,10 @@ public class FragmentsSliderActivity extends FragmentActivity {
     public static boolean Localiser=false;
     public static String latitude;
     public static String longitude;
+    public static boolean ClicAmis=false;
+    public static boolean ClicInconnu=false;
+    public static boolean ClicMatch=false;
+    public static boolean ClicSoiree=false;
     int newuser=0;
     ViewPager pager;
     @Override
@@ -48,6 +52,7 @@ public class FragmentsSliderActivity extends FragmentActivity {
         User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
         // Création de la liste de Fragments que fera défiler le PagerAdapter
         List fragments = new Vector();
+
 
         // Ajout des Fragments dans la liste
         fragments.add(Fragment.instantiate(this,MapActivity.class.getName()));

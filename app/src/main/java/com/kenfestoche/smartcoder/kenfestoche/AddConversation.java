@@ -56,9 +56,9 @@ public class AddConversation extends AppCompatActivity {
     Utilisateur User;
     EditText edtNomConversation;
     public static EditText edtAmis;
-    ImageView btAnnuler;
-    ImageView btValider;
-    ImageView imFleche;
+    TextView btAnnuler;
+    TextView btValider;
+    TextView txHeader;
     public static ChipView chipDefault =null;
 
     public static String listusers="";
@@ -70,8 +70,9 @@ public class AddConversation extends AppCompatActivity {
         setContentView(R.layout.activity_add_conversation);
         chipList= new ArrayList<>();
         lstAmis = (ListView) findViewById(R.id.lstContactsConversation);
-        btAnnuler = (ImageView) findViewById(R.id.imAnnulerContact);
-        btValider = (ImageView) findViewById(R.id.imValiderContact);
+        btAnnuler = (TextView) findViewById(R.id.imAnnulerContact);
+        btValider = (TextView) findViewById(R.id.imValiderContact);
+        txHeader = (TextView) findViewById(R.id.txHeader);
         amisconversations =  new ArrayList<HashMap<String,Object>>();
         amisconversationssauv =  new ArrayList<HashMap<String,Object>>();
         listusers="";
@@ -79,14 +80,16 @@ public class AddConversation extends AppCompatActivity {
         pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
         editor = pref.edit();
-        User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+        User = FragmentsSliderActivity.User;
 
         Typeface face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
+        Typeface faceGenerica=Typeface.createFromAsset(getAssets(),"Generica.otf");
 
         edtNomConversation = (EditText) findViewById(R.id.edtnonconversation);
         edtAmis = (EditText) findViewById(R.id.edtpersonnes);
 
         edtAmis.setTypeface(face);
+        txHeader.setTypeface(faceGenerica);
         edtNomConversation.setTypeface(face);
 
         chipDefault = (ChipView) findViewById(R.id.chipview);

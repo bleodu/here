@@ -103,7 +103,7 @@ public class ProfilDetailActivity extends AppCompatActivity {
         pref = this.getSharedPreferences("EASER", this.MODE_PRIVATE);
 
         editor = pref.edit();
-        User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+        User = FragmentsSliderActivity.User;
         if(User!=null){
             User.tokenFirebase = refreshedToken;
             WebService WS = new WebService(getBaseContext());
@@ -149,12 +149,20 @@ public class ProfilDetailActivity extends AppCompatActivity {
 
 
         if(pref.getString("Langue","").equals("Breton")){
+            boutonBeurk.setImageResource(R.drawable.beurk);
+            boutonKiffe.setImageResource(R.drawable.kiffe);
+
+        }else if(pref.getString("Langue","").equals("Anglais")){
+
             boutonBeurk.setImageResource(R.drawable.btbeurken);
             boutonKiffe.setImageResource(R.drawable.btlikeen);
-        }else{
+        }
+        else{
             boutonBeurk.setImageResource(R.drawable.beurk);
             boutonKiffe.setImageResource(R.drawable.kiffe);
         }
+
+
 
 
         imSignalement.setOnClickListener(new View.OnClickListener() {

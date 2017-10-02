@@ -122,6 +122,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
     TextView txLienSite;
     TextView txPopUpMessage;
     TextView txTypeSoiree;
+    TextView txHeader;
     Marker marker;
 
 
@@ -137,6 +138,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
     LinearLayout rlvFetesSoiree;
 
     LinearLayout lnDetailSoiree;
+    Boolean imSoireeLongClic;
 
     RelativeLayout rlvMap;
 
@@ -167,11 +169,13 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                              Bundle savedInstanceState) {
 
 
-        clicAmis=false;
-        clicInconnu=false;
-        clicKiff=false;
-        cliclsoiree=false;
+        clicAmis=FragmentsSliderActivity.ClicAmis;
+        clicInconnu=FragmentsSliderActivity.ClicInconnu;
+        clicKiff=FragmentsSliderActivity.ClicMatch;
+        cliclsoiree=FragmentsSliderActivity.ClicSoiree;
         pager = (ViewPager) container;
+
+
 
 
 
@@ -189,6 +193,23 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         txLegMatch = (TextView) rootView.findViewById(R.id.txMatch);
         txLegInconnu = (TextView) rootView.findViewById(R.id.txInconnus);
         txLegSoiree = (TextView) rootView.findViewById(R.id.txSoiree);
+
+        imSoireeLongClic=false;
+        if(clicAmis){
+            txLegAmis.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+
+        if(clicInconnu){
+            txLegInconnu.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+
+        if(clicKiff){
+            txLegMatch.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+
+        if(cliclsoiree){
+            txLegSoiree.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
 
         Typeface facegras=Typeface.createFromAsset(getActivity().getAssets(),"weblysleekuisb.ttf");
 
@@ -210,6 +231,11 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         impopupmap = (RelativeLayout) rootView.findViewById(R.id.rlvpopuppmap);
         txPopUpMessage = (TextView) rootView.findViewById(R.id.txPopupMessages);
         lnDetailSoiree = (LinearLayout) rootView.findViewById(R.id.lndetailsoiree);
+
+        Typeface faceGenerica=Typeface.createFromAsset(getActivity().getAssets(),"Generica.otf");
+
+        txHeader = (TextView) rootView.findViewById(R.id.txHeader);
+        txHeader.setTypeface(faceGenerica);
 
         lnDetailSoiree.setVisibility(View.GONE);
 
@@ -450,6 +476,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                 WebService WS = new WebService(getContext());
                 WS.SaveUser(User);
                 cliclsoiree=true;
+                imSoireeLongClic=true;
                 return false;
             }
         });
@@ -457,14 +484,58 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         imSoiree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(cliclsoiree){
-                    cliclsoiree=false;
+                if(imSoireeLongClic==false){
+                    if(cliclsoiree){
+                        cliclsoiree=false;
+                        FragmentsSliderActivity.ClicSoiree=false;
+                        txLegSoiree.setPaintFlags(txLegSoiree.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
+                        //imSoiree.setImageResource(R.drawable.boutonsoiree);
+                        if(User!=null) {
+                            double latitude = gps.getLatitude();
+                            double longitude = gps.getLongitude();
+                            // For dropping a marker at a point on the Map
+                            LatLng moi = new LatLng(latitude, longitude);
 
-                    txLegSoiree.setPaintFlags(txLegSoiree.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
-                    //imSoiree.setImageResource(R.drawable.boutonsoiree);
-                    if(User!=null) {
+                            MaPosition = new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi));
+
+
+                            googleMap.addMarker(MaPosition);
+                            WebService WS = new WebService(getContext());
+                            JSONArray ListPositions;
+
+                            ListPositions = WS.GetSoirees(User);
+
+                            for (int i = 0; i < ListPositions.length(); i++) {
+                                JSONObject Position = null;
+
+                                try {
+                                    Position = ListPositions.getJSONObject(i);
+
+                                    latitude = Position.getDouble("latitude");
+                                    longitude = Position.getDouble("longitude");
+
+                                    LatLng user = new LatLng(latitude, longitude);
+
+                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
+                                    marker.setTag(Position.getString("id"));
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                        }
+                    }else{
+                        cliclsoiree=true;
+                        FragmentsSliderActivity.ClicSoiree=true;
+                        //imSoiree.setImageResource(R.drawable.soireebarre);
+                        txLegSoiree.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+                        googleMap.clear();
                         double latitude = gps.getLatitude();
                         double longitude = gps.getLongitude();
+
                         // For dropping a marker at a point on the Map
                         LatLng moi = new LatLng(latitude, longitude);
 
@@ -472,128 +543,90 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
 
                         googleMap.addMarker(MaPosition);
-                        WebService WS = new WebService(getContext());
-                        JSONArray ListPositions;
 
-                        ListPositions = WS.GetSoirees(User);
+                        if(User!=null) {
+                            WebService WS = new WebService(getContext());
+                            JSONArray ListPositions;
+                            if (clicInconnu == false) {
+                                ListPositions = WS.GetLastPositionUserInconnu(User);
 
-                        for (int i = 0; i < ListPositions.length(); i++) {
-                            JSONObject Position = null;
+                                for (int i = 0; i < ListPositions.length(); i++) {
+                                    JSONObject Position = null;
 
-                            try {
-                                Position = ListPositions.getJSONObject(i);
+                                    try {
+                                        Position = ListPositions.getJSONObject(i);
 
-                                latitude = Position.getDouble("latitude");
-                                longitude = Position.getDouble("longitude");
+                                        latitude = Position.getDouble("latitude");
+                                        longitude = Position.getDouble("longitude");
 
-                                LatLng user = new LatLng(latitude, longitude);
+                                        LatLng user = new LatLng(latitude, longitude);
 
-                                marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
-                                marker.setTag(Position.getString("id"));
+                                        marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
+                                        marker.setTag("0");
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
                             }
 
-                        }
+                            if (clicKiff == false) {
+                                ListPositions = WS.GetLastPositionUserMatch(User);
 
+                                for (int i = 0; i < ListPositions.length(); i++) {
+                                    JSONObject Position = null;
+
+                                    try {
+                                        Position = ListPositions.getJSONObject(i);
+
+                                        latitude = Position.getDouble("latitude");
+                                        longitude = Position.getDouble("longitude");
+
+                                        LatLng user = new LatLng(latitude, longitude);
+
+                                        marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+                                        marker.setTag(Position.getString("id_user"));
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+
+                            }
+
+                            if (clicAmis == false) {
+                                ListPositions = WS.GetLastPositionUserAmis(User);
+
+                                for (int i = 0; i < ListPositions.length(); i++) {
+                                    JSONObject Position = null;
+
+                                    try {
+                                        Position = ListPositions.getJSONObject(i);
+
+                                        latitude = Position.getDouble("latitude");
+                                        longitude = Position.getDouble("longitude");
+
+                                        LatLng user = new LatLng(latitude, longitude);
+
+                                        marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
+                                        marker.setTag(Position.getString("id_user"));
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+
+                            }
+                        }
                     }
                 }else{
-                    cliclsoiree=true;
-                    //imSoiree.setImageResource(R.drawable.soireebarre);
-                    txLegSoiree.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-
-                    googleMap.clear();
-                    double latitude = gps.getLatitude();
-                    double longitude = gps.getLongitude();
-
-                    // For dropping a marker at a point on the Map
-                    LatLng moi = new LatLng(latitude, longitude);
-
-                    MaPosition = new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi));
-
-
-                    googleMap.addMarker(MaPosition);
-
-                    if(User!=null) {
-                        WebService WS = new WebService(getContext());
-                        JSONArray ListPositions;
-                        if (clicInconnu == false) {
-                            ListPositions = WS.GetLastPositionUserInconnu(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
-                                    marker.setTag("0");
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }
-
-                        if (clicKiff == false) {
-                            ListPositions = WS.GetLastPositionUserMatch(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
-                                    marker.setTag(Position.getString("id_user"));
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-
-                        }
-
-                        if (clicAmis == false) {
-                            ListPositions = WS.GetLastPositionUserAmis(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
-                                    marker.setTag(Position.getString("id_user"));
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-
-                        }
-                    }
+                    imSoireeLongClic=false;
                 }
+
             }
         });
 
@@ -769,6 +802,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                     //imLegAmis.setImageResource(R.drawable.amisgrasligne);
                     txLegAmis.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     clicAmis = true;
+                    FragmentsSliderActivity.ClicAmis=true;
 
                     googleMap.clear();
                     double latitude = gps.getLatitude();
@@ -864,6 +898,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                     txLegAmis.setPaintFlags(txLegAmis.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
                     //txLegAmis.setPaintFlags(Paint);
                     clicAmis = false;
+                    FragmentsSliderActivity.ClicAmis=false;
                     double latitude;
                     double longitude;
                     WebService WS = new WebService(getContext());
@@ -898,6 +933,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                 if(clicKiff==false){
                     //imLegKiffs.setImageResource(R.drawable.matchgrasligne);
                     clicKiff=true;
+                    FragmentsSliderActivity.ClicMatch=true;
                     txLegMatch.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
                     googleMap.clear();
@@ -994,7 +1030,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                     //imLegKiffs.setImageResource(R.drawable.matchgras);
                     txLegMatch.setPaintFlags(txLegMatch.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
                     clicKiff=false;
-
+                    FragmentsSliderActivity.ClicMatch=false;
                     double latitude;
                     double longitude;
                     WebService WS = new WebService(getContext());
@@ -1034,7 +1070,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                     //imLegInconnu.setImageResource(R.drawable.inconnugrasligne);
                     txLegInconnu.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     clicInconnu=true;
-
+                    FragmentsSliderActivity.ClicInconnu=true;
 
                     googleMap.clear();
                     double latitude = gps.getLatitude();
@@ -1130,6 +1166,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                     //imLegInconnu.setImageResource(R.drawable.inconnugras);
                     txLegInconnu.setPaintFlags(txLegInconnu.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
                     clicInconnu=false;
+                    FragmentsSliderActivity.ClicInconnu=false;
 
                     double latitude;
                     double longitude;

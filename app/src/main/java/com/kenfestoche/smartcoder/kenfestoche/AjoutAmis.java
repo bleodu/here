@@ -18,6 +18,7 @@ public class AjoutAmis extends AppCompatActivity {
     ImageView imFlecheGauche;
     RelativeLayout RelPhone;
     TextView txTel;
+    TextView txHeader;
 
 
 
@@ -28,9 +29,11 @@ public class AjoutAmis extends AppCompatActivity {
         setContentView(R.layout.activity_ajout_amis);
 
         Typeface face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
+        Typeface faceGenerica=Typeface.createFromAsset(getAssets(),"Generica.otf");
 
         txNewAmi = (TextView) findViewById(R.id.txnewAmi);
         txAPartir = (TextView) findViewById(R.id.txAPartir);
+        txHeader = (TextView) findViewById(R.id.txHeader);
         txTel = (TextView) findViewById(R.id.txTel);
         imFlecheGauche = (ImageView) findViewById(R.id.imFlecheGaucheListAmis);
         RelPhone = (RelativeLayout) findViewById(R.id.RelLayPhone);
@@ -38,6 +41,7 @@ public class AjoutAmis extends AppCompatActivity {
 
         txNewAmi.setTypeface(face);
         txAPartir.setTypeface(face);
+        txHeader.setTypeface(faceGenerica);
 
         imFlecheGauche.setOnClickListener(new View.OnClickListener() {
             @Override

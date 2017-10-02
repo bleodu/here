@@ -3,8 +3,6 @@ package com.kenfestoche.smartcoder.kenfestoche;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -17,9 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.Adapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,39 +26,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.eftimoff.viewpagertransformers.AccordionTransformer;
-import com.eftimoff.viewpagertransformers.DrawFromBackTransformer;
-import com.eftimoff.viewpagertransformers.RotateDownTransformer;
-import com.eftimoff.viewpagertransformers.RotateUpTransformer;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.kenfestoche.smartcoder.kenfestoche.model.ImageDownloaderTask;
-import com.kenfestoche.smartcoder.kenfestoche.model.ImagesProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.SlidingImgProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
-import static com.kenfestoche.smartcoder.kenfestoche.R.id.imFlecheDroite;
-import static com.kenfestoche.smartcoder.kenfestoche.R.id.imFlecheGauche;
-import static com.kenfestoche.smartcoder.kenfestoche.R.id.pagerProfil;
-import static com.kenfestoche.smartcoder.kenfestoche.R.id.txAge;
-import static com.kenfestoche.smartcoder.kenfestoche.R.id.txNbKiffs;
-import static com.kenfestoche.smartcoder.kenfestoche.R.id.txPseudo;
-import static com.kenfestoche.smartcoder.kenfestoche.R.id.vertical;
 
 public class ProfilsActivity extends Fragment {
 
@@ -105,6 +83,7 @@ public class ProfilsActivity extends Fragment {
     GetListProfils mLoadProfils;
     SlidingImgProfil ArrayProfils;
     public static ViewHolder viewHolder;
+    TextView txHeader;
 
     RelativeLayout rlvNewKiff;
     public static boolean KiffValid;
@@ -127,23 +106,19 @@ public class ProfilsActivity extends Fragment {
 
 
     }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
 
-
-        View v = inflater.inflate(R.layout.activity_profils, container, false);
-
+    public void RefreshView(){
 
         locale=Locale.getDefault();
 
+        getActivity().setContentView(R.layout.activity_profils);
 
         profils =  new ArrayList<HashMap<String,Object>>();
 
-        pager = (ViewPager) container;
+        //pager = (ViewPager) container;
         nbKiffs=1;
-        imKiffBeurk = (ImageView) v.findViewById(R.id.imBeurkKiff);
-        pgChargement = (ProgressBar) v.findViewById(R.id.pgChargement);
+        imKiffBeurk = (ImageView) getActivity().findViewById(R.id.imBeurkKiff);
+        pgChargement = (ProgressBar) getActivity().findViewById(R.id.pgChargement);
         pgChargement.setVisibility(View.INVISIBLE);
         imKiffBeurk.setVisibility(View.INVISIBLE);
 
@@ -159,30 +134,32 @@ public class ProfilsActivity extends Fragment {
         WS.SaveUser(User);
 
         //sleep for 1s in background...
-        gps = new GPSTracker(v.getContext());
+        gps = new GPSTracker(getActivity().getBaseContext());
         pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
+        Typeface faceGenerica=Typeface.createFromAsset(getActivity().getAssets(),"Generica.otf");
 
-        new RefreshTask(v.getContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new RefreshTask(getActivity().getBaseContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-        BanniereContact = (ImageView) v.findViewById(R.id.imbanniereprofil);
-        BanniereContact.setImageResource(R.drawable.banniereprofilkiff);
-        imFlecheGauche = (ImageView) v.findViewById(R.id.imFlecheGauche);
-        imFlecheDroite = (ImageView) v.findViewById(R.id.imFlecheDroite);
-        boutonBeurk =  (ImageView) v.findViewById(R.id.imBeurk);
-        boutonKiffe =  (ImageView) v.findViewById(R.id.imKiffe);
-        btAllerVoir = (ImageView) v.findViewById(R.id.imAllerVoir);
-        btIgnorer = (ImageView) v.findViewById(R.id.imIgnorer);
-        pbKiffs =  (ImageView) v.findViewById(R.id.pbKiffe);
-        txDistanceKiffs = (TextView) v.findViewById(R.id.txNbKiffs);
-        txRechercheProche = (TextView) v.findViewById(R.id.txRechercheProfil);
-        txPopUpMessage = (TextView) v.findViewById(R.id.txPopupMessages);
-        flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.frameProfil);
-        rlvNewKiff = (RelativeLayout) v.findViewById(R.id.rlvNewKiff);
-        rlvProfilAll = (RelativeLayout) v.findViewById(R.id.rlvprofilall);
-        imPopupKiffs = (RelativeLayout) v.findViewById(R.id.rlvpopupKiffs);
+        //BanniereContact = (ImageView) v.findViewById(R.id.imbanniereprofil);
+        //BanniereContact.setImageResource(R.drawable.banniereprofilkiff);
+        imFlecheGauche = (ImageView) getActivity().findViewById(R.id.imFlecheGauche);
+        imFlecheDroite = (ImageView) getActivity().findViewById(R.id.imFlecheDroite);
+        boutonBeurk =  (ImageView) getActivity().findViewById(R.id.imBeurk);
+        boutonKiffe =  (ImageView) getActivity().findViewById(R.id.imKiffe);
+        btAllerVoir = (ImageView) getActivity().findViewById(R.id.imAllerVoir);
+        btIgnorer = (ImageView) getActivity().findViewById(R.id.imIgnorer);
+        pbKiffs =  (ImageView) getActivity().findViewById(R.id.pbKiffe);
+        txDistanceKiffs = (TextView) getActivity().findViewById(R.id.txNbKiffs);
+        txRechercheProche = (TextView) getActivity().findViewById(R.id.txRechercheProfil);
+        txHeader = (TextView) getActivity().findViewById(R.id.txHeader);
+        txPopUpMessage = (TextView) getActivity().findViewById(R.id.txPopupMessages);
+        flingContainer = (SwipeFlingAdapterView) getActivity().findViewById(R.id.frameProfil);
+        rlvNewKiff = (RelativeLayout) getActivity().findViewById(R.id.rlvNewKiff);
+        rlvProfilAll = (RelativeLayout) getActivity().findViewById(R.id.rlvprofilall);
+        imPopupKiffs = (RelativeLayout) getActivity().findViewById(R.id.rlvpopupKiffs);
 
-        txNewKiff = (TextView) v.findViewById(R.id.txNewKiff);
-        txKiff = (TextView) v.findViewById(R.id.txKiff);
+        txNewKiff = (TextView) getActivity().findViewById(R.id.txNewKiff);
+        txKiff = (TextView) getActivity().findViewById(R.id.txKiff);
 
         imPopupKiffs.setVisibility(View.INVISIBLE);
 
@@ -251,24 +228,29 @@ public class ProfilsActivity extends Fragment {
                 break;
         }
 
-        rltProfil = (RelativeLayout) v.findViewById(R.id.rltProfil);
+        rltProfil = (RelativeLayout) getActivity().findViewById(R.id.rltProfil);
 
         Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
 
+        txHeader.setTypeface(faceGenerica);
+
         txRechercheProche.setTypeface(face);
+        txRechercheProche.setVisibility(View.INVISIBLE);
         txPopUpMessage.setTypeface(face);
         txNewKiff.setTypeface(face);
         txKiff.setTypeface(face);
         txDistanceKiffs.setTypeface(face);
 
         if(pref.getString("Langue","").equals("Breton")){
-            boutonBeurk.setImageResource(R.drawable.btbeurken);
-            boutonKiffe.setImageResource(R.drawable.btlikeen);
+            boutonBeurk.setImageResource(R.drawable.beurk);
+            boutonKiffe.setImageResource(R.drawable.kiffe);
             btIgnorer.setImageResource(R.drawable.btignorerbr);
             btAllerVoir.setImageResource(R.drawable.btvoirbr);
         }else if(pref.getString("Langue","").equals("Anglais")){
             btIgnorer.setImageResource(R.drawable.btignoreren);
             btAllerVoir.setImageResource(R.drawable.btvoiren);
+            boutonBeurk.setImageResource(R.drawable.btbeurken);
+            boutonKiffe.setImageResource(R.drawable.btlikeen);
         }
         else{
             boutonBeurk.setImageResource(R.drawable.beurk);
@@ -300,7 +282,7 @@ public class ProfilsActivity extends Fragment {
 
 
 
-        if(profils.size()>0){
+        /*if(profils.size()>0){
             final HashMap<String, Object> profil = profils.get(0);
             idUserKiff= (String) profil.get("id_user");
         }else{
@@ -311,7 +293,7 @@ public class ProfilsActivity extends Fragment {
             anim.setRepeatMode(Animation.REVERSE);
             anim.setRepeatCount(Animation.INFINITE);
             txRechercheProche.startAnimation(anim);
-        }
+        }*/
 
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
@@ -510,6 +492,9 @@ public class ProfilsActivity extends Fragment {
 
                 User.save();
 
+                boutonKiffe.setImageResource(R.drawable.kiffe);
+                boutonKiffe.setEnabled(true);
+
                 if(User.nbKiffs<0){
                     User.nbKiffs=0;
                     User.save();
@@ -642,7 +627,7 @@ public class ProfilsActivity extends Fragment {
                             try {
                                 JSONObject userobj = InfoUser.getJSONObject(0);
                                 if(userobj!=null) {
-                                    txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
+                                    txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + " " +  userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
                                     //txNom.setText(userobj.getString("pseudo"));
                                 }
                             } catch (JSONException e) {
@@ -653,20 +638,694 @@ public class ProfilsActivity extends Fragment {
 
 
 
-                    if(User.nbKiffs<10){
-                        User.nbKiffs= User.nbKiffs+1;
-                        User.save();
-                        if(User.nbKiffs>10){
-                            boutonKiffe.setImageResource(R.drawable.kiffgrise);
-                            boutonKiffe.setEnabled(false);
-                        }
-                        //User.nbKiffs=nbKiffs;
-                    }else{
+                    //if(User.nbKiffs<10){
+
+                    User.nbKiffs= User.nbKiffs+1;
+                    User.save();
+                    if(User.nbKiffs>=10){
+                        boutonKiffe.setImageResource(R.drawable.kiffgrise);
+                        boutonKiffe.setEnabled(false);
+                    }
+
+                    //User.nbKiffs=nbKiffs;
+                    /*}else{
                         boutonKiffe.setImageResource(R.drawable.kiffgrise);
                         boutonKiffe.setEnabled(false);
                         //boutonBeurk.setVisibility(View.INVISIBLE);
 
+                    }*/
+
+                    if(User.nbKiffs==2 && User.popupprofils==0){
+                        imPopupKiffs.setVisibility(View.VISIBLE);
+                        User.popupprofils=1;
+                        User.save();
+                        WS.SaveUser(User);
                     }
+
+
+                    if(User.nbKiffs==9){
+                        int nbKiffsRestant=10 - User.nbKiffs;
+                        Toast.makeText(getContext(),getResources().getString(R.string.ilvousreste),Toast.LENGTH_SHORT).show();
+                        if(nbKiffsRestant<=0){
+                            boutonKiffe.setImageResource(R.drawable.kiffgrise);
+                            boutonKiffe.setEnabled(false);
+                        }
+                    }
+
+                    switch (User.nbKiffs){
+                        case 1 :
+                            pbKiffs.setImageResource(R.drawable.barrepos1);
+                            break;
+                        case 2 :
+                            pbKiffs.setImageResource(R.drawable.barrepos2);
+                            break;
+                        case 3 :
+                            pbKiffs.setImageResource(R.drawable.barrepos3);
+                            break;
+                        case 4 :
+                            pbKiffs.setImageResource(R.drawable.barrepos4);
+                            break;
+                        case 5 :
+                            pbKiffs.setImageResource(R.drawable.barrepos5);
+                            break;
+                        case 6 :
+                            pbKiffs.setImageResource(R.drawable.barrepos6);
+                            break;
+                        case 7 :
+                            pbKiffs.setImageResource(R.drawable.barrepos7);
+                            break;
+                        case 8 :
+                            pbKiffs.setImageResource(R.drawable.barrepos8);
+                            break;
+                        case 9 :
+                            pbKiffs.setImageResource(R.drawable.barrepos9);
+                            break;
+                        case 10 :
+                            pbKiffs.setImageResource(R.drawable.barrepos10);
+                            break;
+                    }
+
+                    if(profils.size()>0){
+                        txRechercheProche.setVisibility(View.INVISIBLE);
+                        //mPager.setVisibility(View.VISIBLE);
+                        txDistanceKiffs.setVisibility(View.VISIBLE);
+                        boutonBeurk.setVisibility(View.VISIBLE);
+                        boutonKiffe.setVisibility(View.VISIBLE);
+                    }else{
+                        //mPager.setVisibility(View.INVISIBLE);
+                        txRechercheProche.setVisibility(View.VISIBLE);
+                        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                        anim.setDuration(100); //You can manage the time of the blink with this parameter
+                        anim.setStartOffset(1000);
+                        anim.setRepeatMode(Animation.REVERSE);
+                        anim.setRepeatCount(Animation.INFINITE);
+                        txRechercheProche.startAnimation(anim);
+                        txDistanceKiffs.setVisibility(View.INVISIBLE);
+                        boutonBeurk.setVisibility(View.INVISIBLE);
+                        boutonKiffe.setVisibility(View.INVISIBLE);
+                    }
+
+                    ShowKiffs show = new ShowKiffs();
+                    show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                    HideKiffsAndBeurk hide = new HideKiffsAndBeurk();
+                    hide.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                }else{
+                    boutonKiffe.setImageResource(R.drawable.kiffgrise);
+                    boutonKiffe.setEnabled(false);
+                    //Toast.makeText(getContext(),"Attention, vous ne pouvez plus kiffés.",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onAdapterAboutToEmpty(int itemsInAdapter) {
+
+            }
+
+            @Override
+            public void onScroll(float scrollProgressPercent) {
+
+
+                if(scrollProgressPercent>-0.30 && scrollProgressPercent<0.30){
+                    HideKiffsBeurk hide = new HideKiffsBeurk();
+                    hide.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                }else{
+                    if(scrollProgressPercent<0){
+                        ShowBeurk show = new ShowBeurk();
+                        show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                    }else{
+                        ShowKiffs show = new ShowKiffs();
+                        show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    }
+                }
+                View view = flingContainer.getSelectedView();
+                TextView txPseudo = (TextView) view.findViewById(R.id.txNomProfil);
+                txPseudo.setText(profils.get(0).get("pseudo").toString());
+                TextView txAge = (TextView) view.findViewById(R.id.txAge);
+                txAge.setText(profils.get(0).get("age").toString());
+
+            }
+        });
+
+        getActivity().runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                LoadProfils();
+
+            }
+        });
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+
+        View v = inflater.inflate(R.layout.activity_profils, container, false);
+
+
+        locale=Locale.getDefault();
+
+
+        profils =  new ArrayList<HashMap<String,Object>>();
+
+        pager = (ViewPager) container;
+        nbKiffs=1;
+        imKiffBeurk = (ImageView) v.findViewById(R.id.imBeurkKiff);
+        pgChargement = (ProgressBar) v.findViewById(R.id.pgChargement);
+        pgChargement.setVisibility(View.INVISIBLE);
+        imKiffBeurk.setVisibility(View.INVISIBLE);
+
+        kiffvalue=false;
+        KiffValid=false;
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        if(refreshedToken!=null){
+            User.tokenFirebase=refreshedToken;
+        }
+
+        WebService WS = new WebService(getContext());
+        WS.SaveUser(User);
+
+        //sleep for 1s in background...
+        gps = new GPSTracker(v.getContext());
+        pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
+        Typeface faceGenerica=Typeface.createFromAsset(getActivity().getAssets(),"Generica.otf");
+
+        new RefreshTask(v.getContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        //BanniereContact = (ImageView) v.findViewById(R.id.imbanniereprofil);
+        //BanniereContact.setImageResource(R.drawable.banniereprofilkiff);
+        imFlecheGauche = (ImageView) v.findViewById(R.id.imFlecheGauche);
+        imFlecheDroite = (ImageView) v.findViewById(R.id.imFlecheDroite);
+        boutonBeurk =  (ImageView) v.findViewById(R.id.imBeurk);
+        boutonKiffe =  (ImageView) v.findViewById(R.id.imKiffe);
+        btAllerVoir = (ImageView) v.findViewById(R.id.imAllerVoir);
+        btIgnorer = (ImageView) v.findViewById(R.id.imIgnorer);
+        pbKiffs =  (ImageView) v.findViewById(R.id.pbKiffe);
+        txDistanceKiffs = (TextView) v.findViewById(R.id.txNbKiffs);
+        txRechercheProche = (TextView) v.findViewById(R.id.txRechercheProfil);
+        txHeader = (TextView) v.findViewById(R.id.txHeader);
+        txPopUpMessage = (TextView) v.findViewById(R.id.txPopupMessages);
+        flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.frameProfil);
+        rlvNewKiff = (RelativeLayout) v.findViewById(R.id.rlvNewKiff);
+        rlvProfilAll = (RelativeLayout) v.findViewById(R.id.rlvprofilall);
+        imPopupKiffs = (RelativeLayout) v.findViewById(R.id.rlvpopupKiffs);
+
+        txNewKiff = (TextView) v.findViewById(R.id.txNewKiff);
+        txKiff = (TextView) v.findViewById(R.id.txKiff);
+
+        imPopupKiffs.setVisibility(View.INVISIBLE);
+
+
+
+        txDistanceKiffs.setVisibility(View.INVISIBLE);
+        boutonBeurk.setVisibility(View.INVISIBLE);
+        boutonKiffe.setVisibility(View.INVISIBLE);
+        rlvNewKiff.setVisibility(View.INVISIBLE);
+
+        if(User.nbKiffs>10){
+            boutonKiffe.setVisibility(View.INVISIBLE);
+            boutonBeurk.setVisibility(View.INVISIBLE);
+        }
+
+        if(User.sexe==0 && User.tendancesexe==1) {
+            txRechercheProche.setText(getResources().getString(R.string.recherchefille));
+        }else if(User.sexe==1 && User.tendancesexe==1){
+            txRechercheProche.setText(getResources().getString(R.string.recherchehomme));
+        }
+        else if(User.sexe==1 && User.tendancesexe==2){
+            txRechercheProche.setText(getResources().getString(R.string.recherchefille));
+        }
+        else if(User.sexe==0 && User.tendancesexe==2){
+            txRechercheProche.setText(getResources().getString(R.string.recherchehomme));
+        }
+        else if(User.tendancesexe==0){
+            txRechercheProche.setText(getResources().getString(R.string.recherchehommefille));
+        }
+
+
+
+
+
+
+        switch (nbKiffs){
+            case 1 :
+                pbKiffs.setImageResource(R.drawable.barrepos1);
+                break;
+            case 2 :
+                pbKiffs.setImageResource(R.drawable.barrepos2);
+                break;
+            case 3 :
+                pbKiffs.setImageResource(R.drawable.barrepos3);
+                break;
+            case 4 :
+                pbKiffs.setImageResource(R.drawable.barrepos4);
+                break;
+            case 5 :
+                pbKiffs.setImageResource(R.drawable.barrepos5);
+                break;
+            case 6 :
+                pbKiffs.setImageResource(R.drawable.barrepos6);
+                break;
+            case 7 :
+                pbKiffs.setImageResource(R.drawable.barrepos7);
+                break;
+            case 8 :
+                pbKiffs.setImageResource(R.drawable.barrepos8);
+                break;
+            case 9 :
+                pbKiffs.setImageResource(R.drawable.barrepos9);
+                break;
+            case 10 :
+                pbKiffs.setImageResource(R.drawable.barrepos10);
+                break;
+        }
+
+        rltProfil = (RelativeLayout) v.findViewById(R.id.rltProfil);
+
+        Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
+
+        txHeader.setTypeface(faceGenerica);
+
+        txRechercheProche.setTypeface(face);
+        txRechercheProche.setVisibility(View.INVISIBLE);
+        txPopUpMessage.setTypeface(face);
+        txNewKiff.setTypeface(face);
+        txKiff.setTypeface(face);
+        txDistanceKiffs.setTypeface(face);
+
+        if(pref.getString("Langue","").equals("Breton")){
+            boutonBeurk.setImageResource(R.drawable.beurk);
+            boutonKiffe.setImageResource(R.drawable.kiffe);
+            btIgnorer.setImageResource(R.drawable.btignorerbr);
+            btAllerVoir.setImageResource(R.drawable.btvoirbr);
+        }else if(pref.getString("Langue","").equals("Anglais")){
+            btIgnorer.setImageResource(R.drawable.btignoreren);
+            btAllerVoir.setImageResource(R.drawable.btvoiren);
+            boutonBeurk.setImageResource(R.drawable.btbeurken);
+            boutonKiffe.setImageResource(R.drawable.btlikeen);
+        }
+        else{
+            boutonBeurk.setImageResource(R.drawable.beurk);
+            boutonKiffe.setImageResource(R.drawable.kiffe);
+        }
+
+
+
+
+        flingContainer.setVisibility(View.VISIBLE);
+
+
+        imFlecheDroite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
+                pager.setCurrentItem(2);
+            }
+        });
+
+        imFlecheGauche.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
+                pager.setCurrentItem(0);
+            }
+        });
+
+
+
+
+
+        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClicked(int itemPosition, Object dataObject) {
+                if(profils.size()>0){
+                    Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
+                    idUserKiff= (String) profils.get(0).get("id_user");
+                    i.putExtra("id_user",idUserKiff);
+                    startActivity(i);
+                }
+            }
+
+
+        });
+
+        rltProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(profils.size()>0){
+                    Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
+                    i.putExtra("id_user",idUserKiff);
+                    startActivity(i);
+                }
+
+            }
+        });
+
+        btAllerVoir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
+                Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
+                rlvNewKiff.setVisibility(View.INVISIBLE);
+                i.putExtra("id_user",IdUserKiffsPrecedent);
+                i.putExtra("new_match",true);
+                startActivity(i);
+                pager.setCurrentItem(2);
+            }
+        });
+
+
+        boutonKiffe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
+                if(profils.size()>0){
+
+                    flingContainer.getTopCardListener().selectRight();
+
+
+
+                }else{
+                    txRechercheProche.setVisibility(View.VISIBLE);
+                    Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                    anim.setDuration(100); //You can manage the time of the blink with this parameter
+                    anim.setStartOffset(1000);
+                    anim.setRepeatMode(Animation.REVERSE);
+                    anim.setRepeatCount(Animation.INFINITE);
+                    txRechercheProche.startAnimation(anim);
+                    //mPager.setVisibility(View.INVISIBLE);
+                    txDistanceKiffs.setVisibility(View.INVISIBLE);
+                }
+
+
+
+
+                switch (User.nbKiffs){
+                    case 1 :
+                        pbKiffs.setImageResource(R.drawable.barrepos1);
+                        break;
+                    case 2 :
+                        pbKiffs.setImageResource(R.drawable.barrepos2);
+                        break;
+                    case 3 :
+                        pbKiffs.setImageResource(R.drawable.barrepos3);
+                        break;
+                    case 4 :
+                        pbKiffs.setImageResource(R.drawable.barrepos4);
+                        break;
+                    case 5 :
+                        pbKiffs.setImageResource(R.drawable.barrepos5);
+                        break;
+                    case 6 :
+                        pbKiffs.setImageResource(R.drawable.barrepos6);
+                        break;
+                    case 7 :
+                        pbKiffs.setImageResource(R.drawable.barrepos7);
+                        break;
+                    case 8 :
+                        pbKiffs.setImageResource(R.drawable.barrepos8);
+                        break;
+                    case 9 :
+                        pbKiffs.setImageResource(R.drawable.barrepos9);
+                        break;
+                    case 10 :
+                        pbKiffs.setImageResource(R.drawable.barrepos10);
+                        break;
+                }
+
+            }
+        });
+
+        boutonBeurk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
+                if(profils.size()>0){
+
+                    flingContainer.getTopCardListener().selectLeft();
+
+                }
+
+                boutonKiffe.setEnabled(true);
+
+            }
+        });
+
+
+        btIgnorer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rlvNewKiff.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+        switch (User.nbKiffs){
+            case 1 :
+                pbKiffs.setImageResource(R.drawable.barrepos1);
+                break;
+            case 2 :
+                pbKiffs.setImageResource(R.drawable.barrepos2);
+                break;
+            case 3 :
+                pbKiffs.setImageResource(R.drawable.barrepos3);
+                break;
+            case 4 :
+                pbKiffs.setImageResource(R.drawable.barrepos4);
+                break;
+            case 5 :
+                pbKiffs.setImageResource(R.drawable.barrepos5);
+                break;
+            case 6 :
+                pbKiffs.setImageResource(R.drawable.barrepos6);
+                break;
+            case 7 :
+                pbKiffs.setImageResource(R.drawable.barrepos7);
+                break;
+            case 8 :
+                pbKiffs.setImageResource(R.drawable.barrepos8);
+                break;
+            case 9 :
+                pbKiffs.setImageResource(R.drawable.barrepos9);
+                break;
+            case 10 :
+                pbKiffs.setImageResource(R.drawable.barrepos10);
+                break;
+        }
+
+
+        rlvProfilAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+
+        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+            @Override
+            public void removeFirstObjectInAdapter() {
+
+            }
+
+
+            @Override
+            public void onLeftCardExit(Object dataObject) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
+                imKiffBeurk.setVisibility(View.INVISIBLE);
+
+                if(mHideKiffs!=null){
+                    mHideKiffs.cancel(true);
+                }
+                rltProfil.setEnabled(true);
+                //mHideKiffs =new HideKiffsBeurk();
+                idUserKiff= (String) profils.get(0).get(("id_user"));
+                IdUserKiffsPrecedent = idUserKiff;
+                //mHideKiffs.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                WebService WS = new WebService(getContext());
+                WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"4");
+                User.nbKiffs= User.nbKiffs-1;
+                //User.nbKiffs=nbKiffs;
+
+                User.save();
+
+                boutonKiffe.setImageResource(R.drawable.kiffe);
+                boutonKiffe.setEnabled(true);
+
+                if(User.nbKiffs<0){
+                    User.nbKiffs=0;
+                    User.save();
+                }
+
+
+                switch (User.nbKiffs){
+                    case 1 :
+                        pbKiffs.setImageResource(R.drawable.barrepos1);
+                        break;
+                    case 2 :
+                        pbKiffs.setImageResource(R.drawable.barrepos2);
+                        break;
+                    case 3 :
+                        pbKiffs.setImageResource(R.drawable.barrepos3);
+                        break;
+                    case 4 :
+                        pbKiffs.setImageResource(R.drawable.barrepos4);
+                        break;
+                    case 5 :
+                        pbKiffs.setImageResource(R.drawable.barrepos5);
+                        break;
+                    case 6 :
+                        pbKiffs.setImageResource(R.drawable.barrepos6);
+                        break;
+                    case 7 :
+                        pbKiffs.setImageResource(R.drawable.barrepos7);
+                        break;
+                    case 8 :
+                        pbKiffs.setImageResource(R.drawable.barrepos8);
+                        break;
+                    case 9 :
+                        pbKiffs.setImageResource(R.drawable.barrepos9);
+                        break;
+                    case 10 :
+                        pbKiffs.setImageResource(R.drawable.barrepos10);
+                        break;
+                }
+
+
+                profils.remove(0);
+                myAppAdapter.notifyDataSetChanged();
+                if(profils.size()>0){
+                    JSONArray InfoUser = WS.GetinfoKiff((String) profils.get(0).get("id_user"),User.id_user);
+                    if(InfoUser!=null){
+                        idUserKiff= (String) profils.get(0).get("id_user");
+                        try {
+                            JSONObject userobj = InfoUser.getJSONObject(0);
+                            if(userobj!=null) {
+                                txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
+                                //txNom.setText(userobj.getString("pseudo"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                //boutonKiffe.setImageResource(R.drawable.kiffe);
+                boutonKiffe.setEnabled(true);
+
+                if(profils.size()>0){
+                    txRechercheProche.setVisibility(View.INVISIBLE);
+                    //mPager.setVisibility(View.VISIBLE);
+                    txDistanceKiffs.setVisibility(View.VISIBLE);
+                    boutonBeurk.setVisibility(View.VISIBLE);
+                    boutonKiffe.setVisibility(View.VISIBLE);
+                }else{
+                    //mPager.setVisibility(View.INVISIBLE);
+                    txRechercheProche.setVisibility(View.VISIBLE);
+                    Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                    anim.setDuration(100); //You can manage the time of the blink with this parameter
+                    anim.setStartOffset(1000);
+                    anim.setRepeatMode(Animation.REVERSE);
+                    anim.setRepeatCount(Animation.INFINITE);
+                    txRechercheProche.startAnimation(anim);
+                    txDistanceKiffs.setVisibility(View.INVISIBLE);
+                    boutonBeurk.setVisibility(View.INVISIBLE);
+                    boutonKiffe.setVisibility(View.INVISIBLE);
+                }
+
+                ShowBeurk show = new ShowBeurk();
+                show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                HideKiffsAndBeurk hide = new HideKiffsAndBeurk();
+                hide.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+            }
+
+
+            @Override
+            public void onRightCardExit(Object dataObject) {
+                imPopupKiffs.setVisibility(View.INVISIBLE);
+                if(User.nbKiffs<10){
+                    imKiffBeurk.setVisibility(View.INVISIBLE);
+                   /* ShowKiffs show = new ShowKiffs();
+                    show.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
+
+
+                    idUserKiff= (String) profils.get(0).get(("id_user"));
+                    IdUserKiffsPrecedent = idUserKiff;
+                    WebService WS = new WebService(getContext());
+                    JSONArray Rep = WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"1");
+                    try {
+                        JSONObject Retour=Rep.getJSONObject(0);
+                        if(Retour.getString("NEWMATCH")=="1"){
+                            //Toast.makeText(getApplicationContext(), "Vous avez un nouveau match", Toast.LENGTH_LONG).show();
+                            rlvNewKiff.setVisibility(View.VISIBLE);
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(User.nbKiffs<0){
+                        User.nbKiffs=0;
+                        User.save();
+                    }
+
+
+
+                    if(mHideKiffs!=null){
+                        mHideKiffs.cancel(true);
+                    }
+                    profils.remove(0);
+
+                    if(profils.size()>0){
+                        JSONArray InfoUser = WS.GetinfoKiff((String) profils.get(0).get("id_user"),User.id_user);
+                        if(InfoUser!=null){
+                            idUserKiff= (String) profils.get(0).get("id_user");
+                            try {
+                                JSONObject userobj = InfoUser.getJSONObject(0);
+                                if(userobj!=null) {
+                                    txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + " " +  userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
+                                    //txNom.setText(userobj.getString("pseudo"));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+
+
+                    //if(User.nbKiffs<10){
+
+                    User.nbKiffs= User.nbKiffs+1;
+                    User.save();
+                    if(User.nbKiffs>=10){
+                        boutonKiffe.setImageResource(R.drawable.kiffgrise);
+                        boutonKiffe.setEnabled(false);
+                        //rltProfil.setEnabled(false);
+                    }else{
+                        myAppAdapter.notifyDataSetChanged();
+                    }
+
+                    //User.nbKiffs=nbKiffs;
+                    /*}else{
+                        boutonKiffe.setImageResource(R.drawable.kiffgrise);
+                        boutonKiffe.setEnabled(false);
+                        //boutonBeurk.setVisibility(View.INVISIBLE);
+
+                    }*/
 
                     if(User.nbKiffs==2 && User.popupprofils==0){
                         imPopupKiffs.setVisibility(View.VISIBLE);
@@ -891,7 +1550,7 @@ public class ProfilsActivity extends Fragment {
                     try {
                         JSONObject userobj = InfoUser.getJSONObject(0);
                         if(userobj!=null) {
-                            txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
+                            txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + " " + userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
                             //txNom.setText(userobj.getString("pseudo"));
                         }
                     } catch (JSONException e) {
@@ -915,6 +1574,24 @@ public class ProfilsActivity extends Fragment {
     public void onResume() {
         super.onResume();
 
+        pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
+
+
+        if(pref.getString("Langue","").equals("Breton")){
+            boutonBeurk.setImageResource(R.drawable.beurk);
+            boutonKiffe.setImageResource(R.drawable.kiffe);
+            btIgnorer.setImageResource(R.drawable.btignorerbr);
+            btAllerVoir.setImageResource(R.drawable.btvoirbr);
+        }else if(pref.getString("Langue","").equals("Anglais")){
+            btIgnorer.setImageResource(R.drawable.btignoreren);
+            btAllerVoir.setImageResource(R.drawable.btvoiren);
+            boutonBeurk.setImageResource(R.drawable.btbeurken);
+            boutonKiffe.setImageResource(R.drawable.btlikeen);
+        }else{
+            boutonBeurk.setImageResource(R.drawable.beurk);
+            boutonKiffe.setImageResource(R.drawable.kiffe);
+        }
+
         if(KiffValid)
         {
             if(kiffvalue)
@@ -937,7 +1614,7 @@ public class ProfilsActivity extends Fragment {
     public void setUserVisibleHint(boolean visible) {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
-
+            //RefreshView();
             getActivity().runOnUiThread(new Runnable() {
 
                 @Override
@@ -991,6 +1668,8 @@ public class ProfilsActivity extends Fragment {
             }
         }
 
+
+
         myAppAdapter = new MyAppAdapter(profils, getActivity().getBaseContext());
 
 
@@ -1011,7 +1690,7 @@ public class ProfilsActivity extends Fragment {
                 try {
                     JSONObject userobj = InfoUser.getJSONObject(0);
                     if(userobj!=null) {
-                        txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
+                        txDistanceKiffs.setText(getResources().getString(R.string.kiffes) + " " + userobj.getString("nbkiffs") + " " + getResources().getString(R.string.fois) + "\n" + getResources().getString(R.string.à) +  " " + userobj.getString("distance"));
                         //txNom.setText(userobj.getString("pseudo"));
                     }
                 } catch (JSONException e) {
@@ -1020,6 +1699,13 @@ public class ProfilsActivity extends Fragment {
             }
         }else{
             //mPager.setVisibility(View.INVISIBLE);
+            txRechercheProche.setVisibility(View.VISIBLE);
+            Animation anim = new AlphaAnimation(0.0f, 1.0f);
+            anim.setDuration(100); //You can manage the time of the blink with this parameter
+            anim.setStartOffset(1000);
+            anim.setRepeatMode(Animation.REVERSE);
+            anim.setRepeatCount(Animation.INFINITE);
+            txRechercheProche.startAnimation(anim);
             txDistanceKiffs.setVisibility(View.INVISIBLE);
             boutonBeurk.setVisibility(View.INVISIBLE);
             boutonKiffe.setVisibility(View.INVISIBLE);
@@ -1081,7 +1767,7 @@ public class ProfilsActivity extends Fragment {
             super.onPostExecute(o);
 
             imKiffBeurk.setVisibility(View.VISIBLE);
-            if(pref.getString("Langue","").equals("Breton")){
+            if(pref.getString("Langue","").equals("Anglais")){
                 imKiffBeurk.setImageResource(R.drawable.btlikeengros);
             }else{
                 imKiffBeurk.setImageResource(R.drawable.kiffegros);
@@ -1113,7 +1799,7 @@ public class ProfilsActivity extends Fragment {
             super.onPostExecute(o);
 
             imKiffBeurk.setVisibility(View.VISIBLE);
-            if(pref.getString("Langue","").equals("Breton")){
+            if(pref.getString("Langue","").equals("Anglais")){
                 imKiffBeurk.setImageResource(R.drawable.btbeurkengros);
             }else{
                 imKiffBeurk.setImageResource(R.drawable.beurkgros);
@@ -1181,7 +1867,7 @@ public class ProfilsActivity extends Fragment {
             super();
             context=c;
 
-            // do stuff
+            // do stufffenable
         }
 
         @Override

@@ -475,10 +475,10 @@ public class Conversation extends AppCompatActivity {
                 btVeuxPas.setBackgroundResource(R.color.roseselect);
                 btJeVeux.setBackgroundResource(R.color.bleudeselect);
                 edtSendMessage.setVisibility(View.VISIBLE);
-                edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
-                edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
+                //edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
+                //edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
                 edtSendMessage.setVisibility(View.VISIBLE);
-                edtSendMessage.setEnabled(false);
+                //edtSendMessage.setEnabled(false);
                 /*edtSendMessage.setEnabled(false);
                 edtSendMessage.setVisibility(View.VISIBLE);
                 edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);

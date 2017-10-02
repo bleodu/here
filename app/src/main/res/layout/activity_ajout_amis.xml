@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dip"
-            android:text="à partir de"
+            android:text="@string/apartir"
             android:textColor="#2c2954"
             android:textSize="11.33pt" />
 

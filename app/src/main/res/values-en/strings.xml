@@ -30,7 +30,7 @@
     <string name="sendcode">Re send password</string>
     <string name="libsms">Your password will be sent by message</string>
     <string name="plutot">I am</string>
-    <string name="fetard">party animal</string>
+    <string name="fetard">party\nanimal</string>
     <string name="calme">calm</string>
     <string name="amis">friends</string>
     <string name="amour">love</string>
@@ -83,7 +83,7 @@
     <string name="contact_nomesssage">You can not send messages</string>
     <string name="contact_lelocaliser">You can locate him</string>
     <string name="contact_luine">He will only be able to locate you if you allow it</string>
-    <string name="apartir">à partir de</string>
+    <string name="apartir">from</string>
 
     <string name="annulfb">you cancelled the Facebook connection</string>
     <string name="erreurfb">Facebook authentication failed</string>
@@ -94,7 +94,7 @@
     <string name="main_tel">With Phone Number</string>
     <string name="main_fb">with Facebook</string>
 
-    <string name="header_contact">Contacts</string>
+    <string name="header_contact">CONTACTS</string>
 
     <string name="typesoiree">type of party</string>
     <string name="liensite">website</string>
@@ -114,8 +114,8 @@
 
     <string name="enregistrer">register</string>
     <string name="conditionbouton">En cliquant sur valider vous acceptez les &lt;u>conditions générales d\'utilisation&lt;/u> et la &lt;u>politique de confidentialité&lt;/u>.</string>
-    <string name="parametre">Paramètres</string>
-    <string name="valider">valider</string>
+    <string name="parametre">Parameters</string>
+    <string name="valider">save</string>
     <string name="action_connexion">log in</string>
     <string name="action_sign_in_short">save</string>
     <string name="coloreaser">#2c2954</string>
@@ -154,10 +154,11 @@
 
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string name="mesinconnus">mes inconnus</string>
-    <string name="mesmatch">mes matchs</string>
-    <string name="mesamisleg">mes amis</string>
-    <string name="soireemap">soirée</string>
+    <string name="mesinconnus">strangers</string>
+    <string name="mesmatch">my likes</string>
+    <string name="mesamisleg">my friends</string>
+    <string name="soireemap">party</string>
+    <string name="Profil">PROFIL</string>
     <string-array name="pref_example_list_titles">
         <item>Always</item>
         <item>When possible</item>
@@ -168,5 +169,9 @@
         <item>0</item>
         <item>-1</item>
     </string-array>
+    <string name="MAP">MAP</string>
+    <string name="EASER">EASER</string>
+    <string name="politique">terms of use</string>
+    <string name="conditiongenerale">the privacy policy</string>
 
 </resources>

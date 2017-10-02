@@ -232,7 +232,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dip"
                         android:layout_weight="1"
-                        android:text="@string/pref_title_gps_tous"
+                        android:text="@string/param_cachertous"
                         android:textColor="#2c2954"
                         android:textSize="10pt" />
 
@@ -306,7 +306,7 @@
                             android:gravity="right"
                             android:linksClickable="false"
                             android:longClickable="false"
-                            android:text="politique de confidentialité."
+                            android:text="@string/politique"
                             android:textColor="#2c2954"
                             android:textSize="5pt" />
 
@@ -317,7 +317,7 @@
                             android:gravity="right"
                             android:linksClickable="false"
                             android:longClickable="false"
-                            android:text="conditions d'utilisation."
+                            android:text="@string/conditiongenerale"
                             android:textColor="#2c2954"
                             android:textSize="5pt" />
 

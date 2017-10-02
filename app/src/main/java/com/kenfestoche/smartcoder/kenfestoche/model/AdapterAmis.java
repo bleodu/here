@@ -207,36 +207,7 @@ public class AdapterAmis extends SimpleAdapter {
                 final Utilisateur User = (Utilisateur) ami.get("user");
 
 
-                if(gestionAjout==false){
-                    //imAjoutAmis.setVisibility(View.INVISIBLE);
-                    if(ami.get("statut")=="0"){
-                        imAjoutAmis.setVisibility(View.VISIBLE);
 
-                        //imAjoutAmis.setImageResource(R.drawable.btajouter);
-                        imRefuseAmis.setVisibility(View.VISIBLE);
-                        //imRefuseAmis.setImageResource(R.drawable.btrefuser);
-                    }else if(ami.get("statut")=="1"){
-                        imWaitAmis.setImageResource(R.drawable.sablier);
-                        imWaitAmis.setVisibility(View.VISIBLE);
-                    }else{
-                        if(ami.containsKey("localiser")) {
-                            if (ami.get("localiser") == "0") {
-                                imLocaliser.setImageResource(R.drawable.localiser);
-                                imLocaliser.setVisibility(View.VISIBLE);
-                            }
-                        }else{
-                            if(!ami.containsKey("id_kiff")){
-                                imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
-                                imAjoutAmis.setVisibility(View.VISIBLE);
-                            }
-
-                        }
-                    }
-                }else{
-                    //imAjoutAmis.setImageResource(R.drawable.btajout);
-                    //imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
-                    imAjoutAmis.setVisibility(View.VISIBLE);
-                }
 
                 //imPhotoKiffs.setImageBitmap(photo);
 
@@ -369,6 +340,38 @@ public class AdapterAmis extends SimpleAdapter {
                 }else{
                     if(ami.containsKey("id_ami")){
 
+                        if(gestionAjout==false){
+                            //imAjoutAmis.setVisibility(View.INVISIBLE);
+                            if(ami.get("statut").equals("0")){
+                                imAjoutAmis.setVisibility(View.VISIBLE);
+
+                                //imAjoutAmis.setImageResource(R.drawable.btajouter);
+                                imRefuseAmis.setVisibility(View.VISIBLE);
+                                //imRefuseAmis.setImageResource(R.drawable.btrefuser);
+                            }else if(ami.get("statut").equals("1")){
+                                imWaitAmis.setImageResource(R.drawable.sablier);
+                                imWaitAmis.setVisibility(View.VISIBLE);
+                            }else{
+                                if(ami.containsKey("localiser")) {
+                                    if (ami.get("localiser") == "0") {
+                                        imLocaliser.setImageResource(R.drawable.localiser);
+                                        imLocaliser.setVisibility(View.VISIBLE);
+                                    }
+                                }else{
+                                    if(!ami.containsKey("id_kiff")){
+                                        imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
+                                        imAjoutAmis.setVisibility(View.VISIBLE);
+                                    }
+
+                                }
+                            }
+                        }else{
+                            //imAjoutAmis.setImageResource(R.drawable.btajout);
+                            //imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
+                            imAjoutAmis.setVisibility(View.VISIBLE);
+                            imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
+                        }
+
                         if(ami.containsKey("nbMess")){
                             if((int)(ami.get("nbMess"))>0){
                                 txPseudo.setTypeface(facebold);
@@ -416,7 +419,7 @@ public class AdapterAmis extends SimpleAdapter {
                                 txPseudo.setTypeface(face);
 
                                 //Si le statut est accepté entre deux amis
-                                if(ami.get("statut")=="2"){
+                                if(ami.get("statut").equals("2")){
                                     Intent i = new Intent(view.getContext(), Conversation.class);
                                     Utilisateur User = (Utilisateur) ami.get("user");
                                     i.putExtra("id_kiffs",(String) ami.get("id_ami"));
@@ -429,6 +432,11 @@ public class AdapterAmis extends SimpleAdapter {
 
                             }
                         });
+                    }else if(ami.containsKey("id_useramis")){
+                        imAjoutAmis.setVisibility(View.VISIBLE);
+                        imAjoutAmis.setText(view.getResources().getString(R.string.ajout));
+
+
                     }
 
                 }

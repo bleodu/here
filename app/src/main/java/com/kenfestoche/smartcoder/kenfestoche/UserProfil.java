@@ -91,6 +91,11 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static com.kenfestoche.smartcoder.kenfestoche.R.id.btDeconnect;
+import static com.kenfestoche.smartcoder.kenfestoche.R.id.edtqqmot;
+import static com.kenfestoche.smartcoder.kenfestoche.R.id.txHeader;
+import static com.kenfestoche.smartcoder.kenfestoche.R.id.txaffinite;
+import static com.kenfestoche.smartcoder.kenfestoche.R.id.txverre;
 
 
 public class UserProfil extends Fragment {
@@ -151,6 +156,10 @@ public class UserProfil extends Fragment {
     ImageView imLignePres;
     ViewPager pager;
     ImageView imFlecheGauche;
+    TextView txHeader;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -160,6 +169,7 @@ public class UserProfil extends Fragment {
 
         return inflater.inflate(R.layout.activity_user_profil, container, false);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -191,6 +201,11 @@ public class UserProfil extends Fragment {
         Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
 
         newUser=false;
+
+        Typeface faceGenerica=Typeface.createFromAsset(getActivity().getAssets(),"Generica.otf");
+
+        txHeader = (TextView) v.findViewById(R.id.txHeader);
+        txHeader.setTypeface(faceGenerica);
 
         rbcalme1 = (ImageButton) v.findViewById(R.id.rdcalme1);
         rbcalme2 = (ImageButton) v.findViewById(R.id.rdcalme2);
@@ -1079,7 +1094,16 @@ public class UserProfil extends Fragment {
         super.onResume();
 
         //mLoadImage =new LoadImage();
-
+        txAmis.setText(getResources().getString(R.string.amis));
+        txPlutot.setText(getResources().getString(R.string.jesuisplutot));
+        txCalme.setText(getResources().getString(R.string.calme));
+        txFetard.setText(getResources().getString(R.string.fetard));
+        txAmour.setText(getResources().getString(R.string.amour));
+        txPres.setText(getResources().getString(R.string.pres));
+        txPhotos.setText(getResources().getString(R.string.photo));
+        Edtqqmot.setHint(getResources().getString(R.string.photo));
+        txDeconnexion.setText(getResources().getString(R.string.deconnect));
+        Valider.setText(getResources().getString(R.string.action_sign_in));
         //mLoadImage.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 

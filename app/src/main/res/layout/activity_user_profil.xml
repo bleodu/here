@@ -25,13 +25,6 @@
         android:background="#2c2954"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView7"
-            android:src="@drawable/banniereprofil"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true" />
 
         <ImageButton
             android:id="@+id/imParam"
@@ -43,6 +36,25 @@
             android:layout_marginRight="10dip"
             android:background="@android:color/transparent"
             android:src="@drawable/btparamnew" />
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bouteilleblanche"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/txHeader"
+            android:layout_toStartOf="@+id/txHeader" />
+
+        <TextView
+            android:id="@+id/txHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/Profil"
+            android:textColor="#fff"
+            android:textSize="45dip" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -106,13 +118,13 @@
 
                 <TextView
                     android:id="@+id/txcalme"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dip"
                     android:layout_height="wrap_content"
                     android:autoText="false"
                     android:text="@string/calme"
                     android:textAlignment="center"
                     android:textColor="#2c2954"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
 
                 <LinearLayout
@@ -120,9 +132,9 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
 
-                    android:gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical|center_horizontal"
                     android:orientation="horizontal">
 
                     <ImageButton
@@ -174,20 +186,20 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dip"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical|center_horizontal"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txfetard"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:autoText="false"
                         android:text="@string/fetard"
                         android:textAlignment="center"
                         android:textColor="#2c2954"
-                        android:textSize="18sp" />
+                        android:textSize="12sp" />
 
                     <ImageView
                         android:id="@+id/imageView12"
@@ -208,12 +220,12 @@
 
                 <TextView
                     android:id="@+id/txverre"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dip"
                     android:layout_height="wrap_content"
                     android:text="@string/amis"
                     android:textAlignment="center"
                     android:textColor="#2c2954"
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
 
                 <LinearLayout
@@ -273,19 +285,19 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dip"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical|center_horizontal"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txaffinite"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/amour"
                         android:textAlignment="center"
                         android:textColor="#2c2954"
-                        android:textSize="18sp" />
+                        android:textSize="12sp" />
 
                     <ImageView
                         android:id="@+id/imCoeur"
@@ -419,10 +431,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
                     android:text="@string/deconnect"
                     android:textColor="#2c2954"
-                    android:textSize="11.33pt" />
+                    android:textSize="11.33pt"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
                 <Button
                     android:id="@+id/btValidProfil"

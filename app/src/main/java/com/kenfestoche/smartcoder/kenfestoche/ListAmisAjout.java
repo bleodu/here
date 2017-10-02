@@ -66,15 +66,16 @@ public class ListAmisAjout extends AppCompatActivity {
         txHeader= (TextView) findViewById(R.id.txHeader);
 
         face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
+        Typeface faceGenerica=Typeface.createFromAsset(getAssets(),"Generica.otf");
 
-        txHeader.setTypeface(face);
+        txHeader.setTypeface(faceGenerica);
 
         amis =  new ArrayList<HashMap<String,Object>>();
 
         pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
         editor = pref.edit();
-        User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+        User = FragmentsSliderActivity.User;
 
         TypeRecherche= getIntent().getExtras().getInt("TypeRech");
         WebService WS = new WebService(getBaseContext());
@@ -132,7 +133,7 @@ public class ListAmisAjout extends AppCompatActivity {
                         public void run() {
 
                             WebService WS = new WebService(getBaseContext());
-                            JSONArray ListUsers = WS.GetListUserByPhone(edtPhone.getText().toString(),User);
+                            JSONArray ListUsers = WS.GetListUserByPhone(edtPhone.getText().toString(),FragmentsSliderActivity.User);
 
                             if (ListUsers != null) {
 
@@ -216,7 +217,7 @@ public class ListAmisAjout extends AppCompatActivity {
     public void RechercherRepertoire(){
         WebService WS = new WebService(getBaseContext());
         Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-        JSONArray ListUsers = WS.GetListUserByPhones(User);
+        JSONArray ListUsers = WS.GetListUserByPhones(FragmentsSliderActivity.User);
         while (phones.moveToNext())
         {
             String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));

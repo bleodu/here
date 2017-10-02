@@ -67,7 +67,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:visibility="gone"
-        app:srcCompat="@drawable/sablier" />
+        android:src="@drawable/sablier" />
 
     <ImageView
         android:id="@+id/imSuppKiffs"

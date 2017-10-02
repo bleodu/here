@@ -65,13 +65,9 @@ public class ContactActivity extends Fragment {
     ArrayList<HashMap<String, Object>> kiffs;
     ArrayList<HashMap<String, Object>> kiffssauv;
     ArrayList<HashMap<String, Object>> amis;
-    SimpleAdapter mSchedule;
-    SimpleAdapter mScheduleAmis;
     TextView txMesKiffs;
     TextView txAmis;
     TextView txNbMessage;
-    TextView txPseudoLigne;
-    ImageView BanniereContact;
     ImageView imPlusAmis;
     ImageView imBulle;
     ImageView imflecheReduction;
@@ -89,7 +85,7 @@ public class ContactActivity extends Fragment {
     GetListContacts mLoadContact;
     LinearLayout panelKiffs;
     RelativeLayout panelAmis;
-
+    Typeface face;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -150,7 +146,7 @@ public class ContactActivity extends Fragment {
 
         editor = pref.edit();
 
-        Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
+        face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
         Typeface faceGenerica=Typeface.createFromAsset(getActivity().getAssets(),"Generica.otf");
 
         txMesKiffs = (TextView) v.findViewById(R.id.txMesKiffs);
@@ -190,14 +186,7 @@ public class ContactActivity extends Fragment {
         txNbMessage.setTypeface(face);
         txNbMessage.setVisibility(View.INVISIBLE);
 
-        WebService WS = new WebService(getContext());
-        JSONArray ListMessage = WS.GetMessageNonLu(User.id_user,"","0");
 
-        if(ListMessage!=null){
-            txNbMessage.setVisibility(View.VISIBLE);
-            txNbMessage.setText(String.valueOf(ListMessage.length()));
-            txNbMessage.setTypeface(face,Typeface.BOLD);
-        }
 
         txMesKiffs.setTypeface(face);
         txAmis.setTypeface(face);
@@ -223,7 +212,7 @@ public class ContactActivity extends Fragment {
 
         if(User!=null){
 
-            panelAmis.setOnClickListener(new View.OnClickListener() {
+            /*panelAmis.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(lstAmis.getVisibility()==View.VISIBLE)
@@ -237,7 +226,7 @@ public class ContactActivity extends Fragment {
                     setListViewHeightBasedOnChildren(lstAmis);
 
                 }
-            });
+            });*/
 
             panelKiffs.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -316,6 +305,23 @@ public class ContactActivity extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        txHeader.setText(getResources().getString(R.string.header_contact));
+        txMesKiffs.setText(getResources().getString(R.string.kiffs));
+        txAmis.setText(getResources().getString(R.string.mesamis));
+
+        WebService WS = new WebService(getContext());
+        JSONArray ListMessage = WS.GetMessageNonLu(User.id_user,"","0");
+
+        if(ListMessage!=null){
+            txNbMessage.setVisibility(View.VISIBLE);
+            txNbMessage.setText(String.valueOf(ListMessage.length()));
+            txNbMessage.setTypeface(face,Typeface.BOLD);
+        }
+
+        mLoadContact =new GetListContacts();
+        mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
         /*mLoadContact =new GetListContacts();
         mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
         //LoadContacts();
@@ -336,9 +342,11 @@ public class ContactActivity extends Fragment {
         protected void onPreExecute() {
 
             super.onPreExecute();
-
-            setListViewHeightBasedOnChildren(lstKiffs);
-            setListViewHeightBasedOnChildren(lstAmis);
+            pgLoad.setVisibility(View.VISIBLE);
+            //lstAmis.setVisibility(View.INVISIBLE);
+            NewMess=false;
+            //setListViewHeightBasedOnChildren(lstKiffs);
+            //setListViewHeightBasedOnChildren(lstAmis);
         }
 
         @Override
@@ -361,16 +369,18 @@ public class ContactActivity extends Fragment {
         protected Void doInBackground(Void... arg0) {
 
             WebService WS = new WebService(getContext(),false);
-            ListKiffs = WS.GetListKiffs(User,kiffsStringId);
-            ListAmis = WS.GetListAmis(User,amisStringId);
+            //ListKiffs = WS.GetListKiffs(User,kiffsStringId);
+            //ListAmis = WS.GetListAmis(User,amisStringId);
+            ListKiffs = WS.GetListKiffs(User,"");
+            ListAmis = WS.GetListAmis(User,"");
 
 
-            //kiffs.clear();
-            //amis.clear();
+            kiffs.clear();
+            amis.clear();
 
             if(ListKiffs != null && ListKiffs.length()>0)
             {
-
+                NewMess=true;
                 String Url=null;
 
                 for (int i = 0; i < ListKiffs.length(); i++) {
@@ -412,7 +422,7 @@ public class ContactActivity extends Fragment {
 
             if(ListAmis != null && ListAmis.length()>0)
             {
-
+                NewMess=true;
                 String Url=null;
 
                 for (int i = 0; i < ListAmis.length(); i++) {
@@ -471,9 +481,12 @@ public class ContactActivity extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
+            pgLoad.setVisibility(View.GONE);
+            if(NewMess){
+                setListViewHeightBasedOnChildren(lstKiffs);
+                setListViewHeightBasedOnChildren(lstAmis);
+            }
 
-            setListViewHeightBasedOnChildren(lstKiffs);
-            setListViewHeightBasedOnChildren(lstAmis);
 
         }
 
