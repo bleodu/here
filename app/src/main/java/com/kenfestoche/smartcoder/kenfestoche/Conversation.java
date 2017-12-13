@@ -283,6 +283,211 @@ public class Conversation extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        String statut= null;
+        if(convprive==1 && amis==0){
+            JSONArray resultList = WS.GetStatutConversation(idconv,id_user);
+
+
+            try {
+                statut = resultList.getJSONObject(0).getString("statut");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if(statut.equals("1")){
+                //txResteMessage.setVisibility(View.VISIBLE);
+                //btEnvoyerKo.setVisibility(View.VISIBLE);
+                //edtSendMessage.setVisibility(View.INVISIBLE);
+                btVeuxPas.setBackgroundResource(R.color.roseselect);
+                btJeVeux.setBackgroundResource(R.color.bleudeselect);
+
+                if(User.sexe==1){
+                    txResteMessage.setVisibility(View.VISIBLE);
+                    //btVeuxPas.setImageResource(R.drawable.btveuxpasdeselect);
+                    //btJeVeux.setImageResource(R.drawable.btvoudraisselect);
+                    //btEnvoyerKo.setVisibility(View.INVISIBLE);
+                    //edtSendMessage.setVisibility(View.VISIBLE);
+                    //txResteMessage.setVisibility(View.INVISIBLE);
+                    try {
+                        if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                            //if(bmessageMax==false){
+                            //imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
+                            if(User.popupmessage==0){
+                                imPopUpMessages.setVisibility(View.VISIBLE);
+                            }
+
+                            //edtSendMessage.setVisibility(View.INVISIBLE);
+                            edtSendMessage.setEnabled(false);
+                            edtSendMessage.setVisibility(View.VISIBLE);
+                            edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
+                            edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
+                            //btEnvoyerKo.setVisibility(View.VISIBLE);
+                            //btEnvoyerKo.setImageResource(R.drawable.btenvoyerko);
+                            txResteMessage.setText(getResources().getString(R.string.contact_nomesssage));
+                            //bmessageMax=true;
+                            //}
+                        }else{
+                            int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                            txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " +  getResources().getString(R.string.contact_message));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+
+                    txResteMessage.setVisibility(View.VISIBLE);
+
+
+                    try {
+                        if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                            //if(bmessageMax==false){
+                            //edtSendMessage.setVisibility(View.INVISIBLE);
+                            edtSendMessage.setEnabled(false);
+                            edtSendMessage.setVisibility(View.VISIBLE);
+                            edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
+                            edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
+                            txResteMessage.setText(getResources().getString(R.string.contact_nomesssage));
+                            //Toast.makeText(getBaseContext(),getResources().getString(R.string.contact_popupnomesssage),Toast.LENGTH_SHORT).show();
+                            //bmessageMax=true;
+                            //}
+                        }else{
+                            int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                            txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " + getResources().getString(R.string.contact_message));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+                //txResteMessage.setText("Vous ne pouvez plus envoyer de messages");
+                    /*try {
+                        if(User.sexe==1 && resultList.getJSONObject(0).getInt("nbMess")>5){
+                            if(bmessageMax==false){
+                                imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
+                                imPopUpMessages.setVisibility(View.VISIBLE);
+                                bmessageMax=true;
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }*/
+            }else if(statut.equals("2")){
+                btVeuxPas.setBackgroundResource(R.color.rosedeselect);
+                btJeVeux.setBackgroundResource(R.color.bleueaser);
+
+                edtSendMessage.setVisibility(View.VISIBLE);
+                edtSendMessage.setBackgroundResource(R.drawable.my_bordersend);
+                edtSendMessage.setTextColor(getResources().getColor(R.color.blanc));
+                edtSendMessage.setVisibility(View.VISIBLE);
+                edtSendMessage.setEnabled(true);
+                txResteMessage.setVisibility(View.INVISIBLE);
+            }else{
+
+                if(User.sexe==1){
+                    txResteMessage.setVisibility(View.VISIBLE);
+                    btVeuxPas.setBackgroundResource(R.color.rosedeselect);
+                    btJeVeux.setBackgroundResource(R.color.bleudeselect);
+                    //btEnvoyerKo.setVisibility(View.INVISIBLE);
+                    //edtSendMessage.setVisibility(View.VISIBLE);
+                    //txResteMessage.setVisibility(View.INVISIBLE);
+                    try {
+                        if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                            //if(bmessageMax==false){
+                            //imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
+                            if(User.popupmessage==0){
+                                imPopUpMessages.setVisibility(View.VISIBLE);
+                            }
+                            //edtSendMessage.setEnabled(false);
+                            edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
+                            edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
+                            edtSendMessage.setVisibility(View.VISIBLE);
+                            edtSendMessage.setEnabled(false);
+                            txResteMessage.setText(getResources().getString(R.string.contact_nomesssage));
+                            //bmessageMax=true;
+                            //}
+                        }else{
+                            int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                            txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " +  getResources().getString(R.string.contact_message));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    //if(statut.equals("0")){
+                    txResteMessage.setVisibility(View.VISIBLE);
+
+
+                    try {
+                        if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                            //if(bmessageMax==false){
+                            edtSendMessage.setEnabled(false);
+                            edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
+                            edtSendMessage.setTextColor(getResources().getColor(R.color.roseselect));
+                            edtSendMessage.setVisibility(View.VISIBLE);
+                            edtSendMessage.setEnabled(false);
+                            txResteMessage.setText(getResources().getString(R.string.contact_nomesssage));
+                            //Toast.makeText(getBaseContext(),getResources().getString(R.string.contact_popupnomesssage),Toast.LENGTH_SHORT).show();
+                            //bmessageMax=true;
+                            //}
+                        }else{
+                            int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                            txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " + getResources().getString(R.string.contact_message));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    // }
+
+                }
+            }
+        }
+
+        JSONArray Result = WS.GetinfoUser(id_kiffs);
+        try {
+            localiser = Result.getJSONObject(0).getInt("localiser");
+            localiseramis = Result.getJSONObject(0).getInt("localiseramis");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if(Result!=null && amis==0){ // EN MODE KIFF pour la localisation
+
+            if(localiser==1 && User.sexe==0 && statut.equals("2")){ // pour les hommes
+                btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
+                btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
+                btLocaliser.setEnabled(false);
+            }else if(statut.equals("1") && User.sexe==0){ // pour les hommes
+                btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
+                btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
+                btLocaliser.setEnabled(false);
+            }
+            else if(User.sexe==1){
+                btLocaliser.setEnabled(true);
+                btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
+                btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
+            }else{
+                btLocaliser.setEnabled(true);
+                btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
+                btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
+            }
+        }else{ //MODE AMIS
+            if(localiser==1 || localiseramis==1){
+                btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
+                btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
+                btLocaliser.setEnabled(false);
+            }else if(localiseramis==1){
+                btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
+                btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
+                btLocaliser.setEnabled(false);
+            }else{
+                btLocaliser.setEnabled(true);
+                btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
+                btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
+            }
+
+
+        }
 
 
         rootView.setOnClickListener(new View.OnClickListener() {
@@ -610,7 +815,7 @@ public class Conversation extends AppCompatActivity {
             //lstChat.setAdapter(DetailConversationArray);
             //mSchedule.setViewBinder(new MyViewBinder());
             DetailConversationArray.notifyDataSetChanged();
-
+            String statut= null;
 
             if(NewMess==true){
 
@@ -622,7 +827,7 @@ public class Conversation extends AppCompatActivity {
             if(convprive==1 && amis==0){
                 JSONArray resultList = WS.GetStatutConversation(idconv,id_user);
 
-                String statut= null;
+
                 try {
                     statut = resultList.getJSONObject(0).getString("statut");
 
@@ -788,11 +993,16 @@ public class Conversation extends AppCompatActivity {
             }
             if(Result!=null && amis==0){ // EN MODE KIFF pour la localisation
 
-                if(localiser==1 && User.sexe==0){ // pour les hommes
+                if(localiser==1 && User.sexe==0 && statut.equals("2")){ // pour les hommes
                     btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
                     btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
                     btLocaliser.setEnabled(false);
-                }else if(User.sexe==1){
+                }else if(statut.equals("1") && User.sexe==0){ // pour les hommes
+                    btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
+                    btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
+                    btLocaliser.setEnabled(false);
+                }
+                else if(User.sexe==1){
                     btLocaliser.setEnabled(true);
                     btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
                     btLocaliser.setTextColor(getResources().getColor(R.color.blanc));

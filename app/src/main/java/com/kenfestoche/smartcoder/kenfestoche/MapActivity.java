@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -67,7 +69,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 
-public class MapActivity extends Fragment implements LocationListener,GoogleApiClient.ConnectionCallbacks,
+public class MapActivity extends Fragment implements LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnInfoWindowClickListener,
         GoogleMap.OnMapLongClickListener,
@@ -155,7 +157,6 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
     MarkerOptions MaPosition;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,14 +170,11 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                              Bundle savedInstanceState) {
 
 
-        clicAmis=FragmentsSliderActivity.ClicAmis;
-        clicInconnu=FragmentsSliderActivity.ClicInconnu;
-        clicKiff=FragmentsSliderActivity.ClicMatch;
-        cliclsoiree=FragmentsSliderActivity.ClicSoiree;
+        clicAmis = FragmentsSliderActivity.ClicAmis;
+        clicInconnu = FragmentsSliderActivity.ClicInconnu;
+        clicKiff = FragmentsSliderActivity.ClicMatch;
+        cliclsoiree = FragmentsSliderActivity.ClicSoiree;
         pager = (ViewPager) container;
-
-
-
 
 
         View rootView = inflater.inflate(R.layout.activity_map, container, false);
@@ -194,24 +192,24 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         txLegInconnu = (TextView) rootView.findViewById(R.id.txInconnus);
         txLegSoiree = (TextView) rootView.findViewById(R.id.txSoiree);
 
-        imSoireeLongClic=false;
-        if(clicAmis){
+        imSoireeLongClic = false;
+        if (clicAmis) {
             txLegAmis.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
-        if(clicInconnu){
+        if (clicInconnu) {
             txLegInconnu.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
-        if(clicKiff){
+        if (clicKiff) {
             txLegMatch.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
-        if(cliclsoiree){
+        if (cliclsoiree) {
             txLegSoiree.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
-        Typeface facegras=Typeface.createFromAsset(getActivity().getAssets(),"weblysleekuisb.ttf");
+        Typeface facegras = Typeface.createFromAsset(getActivity().getAssets(), "weblysleekuisb.ttf");
 
 
         txLegAmis.setTypeface(facegras);
@@ -232,14 +230,14 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         txPopUpMessage = (TextView) rootView.findViewById(R.id.txPopupMessages);
         lnDetailSoiree = (LinearLayout) rootView.findViewById(R.id.lndetailsoiree);
 
-        Typeface faceGenerica=Typeface.createFromAsset(getActivity().getAssets(),"Generica.otf");
+        Typeface faceGenerica = Typeface.createFromAsset(getActivity().getAssets(), "Generica.otf");
 
         txHeader = (TextView) rootView.findViewById(R.id.txHeader);
         txHeader.setTypeface(faceGenerica);
 
         lnDetailSoiree.setVisibility(View.GONE);
 
-        Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weblysleekuil.ttf");
 
 
         txFetes = (TextView) rootView.findViewById(R.id.txfetes);
@@ -249,16 +247,16 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         txBar = (TextView) rootView.findViewById(R.id.txBar);
         txBarNuit = (TextView) rootView.findViewById(R.id.txBarNuit);
         txAutres = (TextView) rootView.findViewById(R.id.txAutre);
-        txBoiteNuit= (TextView) rootView.findViewById(R.id.txBoite);
+        txBoiteNuit = (TextView) rootView.findViewById(R.id.txBoite);
 
 
-        txNomSoiree= (TextView) rootView.findViewById(R.id.txNomSoiree);
-        txDescriptif= (TextView) rootView.findViewById(R.id.txDescriptif);
-        txHoraireSoiree= (TextView) rootView.findViewById(R.id.txHoraire);
-        txAdresse= (TextView) rootView.findViewById(R.id.txAdresse);
-        txDateFermeture= (TextView) rootView.findViewById(R.id.txFermetureExceptionnel);
-        txLienSite= (TextView) rootView.findViewById(R.id.txLienSite);
-        txTypeSoiree= (TextView) rootView.findViewById(R.id.txTypeSoiree);
+        txNomSoiree = (TextView) rootView.findViewById(R.id.txNomSoiree);
+        txDescriptif = (TextView) rootView.findViewById(R.id.txDescriptif);
+        txHoraireSoiree = (TextView) rootView.findViewById(R.id.txHoraire);
+        txAdresse = (TextView) rootView.findViewById(R.id.txAdresse);
+        txDateFermeture = (TextView) rootView.findViewById(R.id.txFermetureExceptionnel);
+        txLienSite = (TextView) rootView.findViewById(R.id.txLienSite);
+        txTypeSoiree = (TextView) rootView.findViewById(R.id.txTypeSoiree);
 
         txDebit = (TextView) rootView.findViewById(R.id.txdebitalcool);
         txDateDebit = (TextView) rootView.findViewById(R.id.txdatedebit);
@@ -295,7 +293,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
 
         rlvFetesSoiree = (LinearLayout) rootView.findViewById(R.id.rlvSoiree);
-        rlvMap= (RelativeLayout) rootView.findViewById(R.id.rlvMap);
+        rlvMap = (RelativeLayout) rootView.findViewById(R.id.rlvMap);
         //imLegAmis.setImageResource(R.drawable.amisgras);
         //imLegKiffs.setImageResource(R.drawable.matchgras);
         //imLegInconnu.setImageResource(R.drawable.inconnugras);
@@ -305,56 +303,52 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         myCalendar = Calendar.getInstance();
 
         int year = myCalendar.get(Calendar.YEAR);
-        int month = myCalendar.get(Calendar.MONTH)+1;
+        int month = myCalendar.get(Calendar.MONTH) + 1;
         int day = myCalendar.get(Calendar.DAY_OF_MONTH);
         int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
         int minute = myCalendar.get(Calendar.MINUTE);
-
-
-
-
 
 
         imPhotoMap.setVisibility(View.INVISIBLE);
 
         User = FragmentsSliderActivity.User;
 
-        txDateDebit.setText(getResources().getString(R.string.date) +  " : " + day + "/" + month + "/" + year);
-        txDate.setText(getResources().getString(R.string.date) +  " : " + day + "/" + month + "/" + year);
-        User.datedebit=year + "-" + month + "-" + day;
-        User.date=year + "-" + month + "-" + day;
-        txHoraire.setText(getResources().getString(R.string.horaire) +  " : " + hour + ":" + minute);
-        txHoraireDebit.setText(getResources().getString(R.string.horaire) +  " : " + hour + ":" + minute);
-        User.horaire=hour + ":" + minute;
-        User.horairedebit=hour + ":" + minute;
+        txDateDebit.setText(getResources().getString(R.string.date) + " : " + day + "/" + month + "/" + year);
+        txDate.setText(getResources().getString(R.string.date) + " : " + day + "/" + month + "/" + year);
+        User.datedebit = year + "-" + month + "-" + day;
+        User.date = year + "-" + month + "-" + day;
+        txHoraire.setText(getResources().getString(R.string.horaire) + " : " + hour + ":" + minute);
+        txHoraireDebit.setText(getResources().getString(R.string.horaire) + " : " + hour + ":" + minute);
+        User.horaire = hour + ":" + minute;
+        User.horairedebit = hour + ":" + minute;
         User.save();
 
 
-        if(User.bfetes){
+        if (User.bfetes) {
             btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
         }
 
-        if(User.bconcert){
+        if (User.bconcert) {
             btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
         }
 
-        if(User.bbarnuit){
+        if (User.bbarnuit) {
             btbarnuit.setBackgroundColor(Color.parseColor("#2c2954"));
         }
 
-        if(User.bbar){
+        if (User.bbar) {
             btbar.setBackgroundColor(Color.parseColor("#2c2954"));
         }
 
-        if(User.bboitenuit){
+        if (User.bboitenuit) {
             btboitenuit.setBackgroundColor(Color.parseColor("#2c2954"));
         }
 
-        if(User.bautre){
+        if (User.bautre) {
             btautres.setBackgroundColor(Color.parseColor("#2c2954"));
         }
 
-        if(User.bdebit){
+        if (User.bdebit) {
             btDebit.setBackgroundColor(Color.parseColor("#2c2954"));
         }
 
@@ -373,7 +367,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                                                   int minute) {
 
                                 txHoraire.setText(getResources().getString(R.string.horaire) + " : " + hourOfDay + ":" + minute);
-                                User.horaire=hourOfDay + ":" + minute;
+                                User.horaire = hourOfDay + ":" + minute;
                                 User.save();
                             }
                         }, hour, minute, true);
@@ -399,7 +393,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                                                   int minute) {
 
                                 txHoraireDebit.setText(getResources().getString(R.string.horaire) + " : " + hourOfDay + ":" + minute);
-                                User.horairedebit=hourOfDay + ":" + minute;
+                                User.horairedebit = hourOfDay + ":" + minute;
                                 User.save();
                             }
                         }, hour, minute, true);
@@ -417,16 +411,17 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                 myCalendar = Calendar.getInstance();
 
                 int year = myCalendar.get(Calendar.YEAR);
-                int month = myCalendar.get(Calendar.MONTH)+1;
+                int month = myCalendar.get(Calendar.MONTH);
                 int day = myCalendar.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        i1 = i1 + 1;
                         txDate.setText(getResources().getString(R.string.date) + " : " + i2 + "/" + i1 + "/" + i);
-                        User.date= i + "-" + i1 + "-" + i2;
+                        User.date = i + "-" + i1 + "-" + i2;
                         User.save();
                     }
-                },year,month,day);
+                }, year, month, day);
                 datePicker.show();
 
 
@@ -440,23 +435,23 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                 myCalendar = Calendar.getInstance();
 
                 int year = myCalendar.get(Calendar.YEAR);
-                int month = myCalendar.get(Calendar.MONTH)+1;
+                int month = myCalendar.get(Calendar.MONTH);
                 int day = myCalendar.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        i1 = i1 + 1;
+
                         txDateDebit.setText(getResources().getString(R.string.date) + " : " + i2 + "/" + i1 + "/" + i);
-                        User.datedebit=i + "-" + i1 + "-" + i2;
+                        User.datedebit = i + "-" + i1 + "-" + i2;
                         User.save();
                     }
-                },year,month,day);
+                }, year, month, day);
                 datePicker.show();
 
 
             }
         });
-
-
 
 
         ValiderDetail.setOnClickListener(new View.OnClickListener() {
@@ -471,12 +466,12 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
             public boolean onLongClick(View view) {
                 impopupmap.setVisibility(View.INVISIBLE);
                 rlvFetesSoiree.setVisibility(View.VISIBLE);
-                User.popupmap=1;
+                User.popupmap = 1;
                 User.save();
                 WebService WS = new WebService(getContext());
                 WS.SaveUser(User);
-                cliclsoiree=true;
-                imSoireeLongClic=true;
+                cliclsoiree = true;
+                imSoireeLongClic = true;
                 return false;
             }
         });
@@ -484,13 +479,13 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         imSoiree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(imSoireeLongClic==false){
-                    if(cliclsoiree){
-                        cliclsoiree=false;
-                        FragmentsSliderActivity.ClicSoiree=false;
+                if (imSoireeLongClic == false) {
+                    if (cliclsoiree) {
+                        cliclsoiree = false;
+                        FragmentsSliderActivity.ClicSoiree = false;
                         txLegSoiree.setPaintFlags(txLegSoiree.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
                         //imSoiree.setImageResource(R.drawable.boutonsoiree);
-                        if(User!=null) {
+                        if (User != null) {
                             double latitude = gps.getLatitude();
                             double longitude = gps.getLongitude();
                             // For dropping a marker at a point on the Map
@@ -526,9 +521,9 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                             }
 
                         }
-                    }else{
-                        cliclsoiree=true;
-                        FragmentsSliderActivity.ClicSoiree=true;
+                    } else {
+                        cliclsoiree = true;
+                        FragmentsSliderActivity.ClicSoiree = true;
                         //imSoiree.setImageResource(R.drawable.soireebarre);
                         txLegSoiree.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
@@ -544,7 +539,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
                         googleMap.addMarker(MaPosition);
 
-                        if(User!=null) {
+                        if (User != null) {
                             WebService WS = new WebService(getContext());
                             JSONArray ListPositions;
                             if (clicInconnu == false) {
@@ -623,8 +618,8 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                             }
                         }
                     }
-                }else{
-                    imSoireeLongClic=false;
+                } else {
+                    imSoireeLongClic = false;
                 }
 
             }
@@ -634,20 +629,30 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
             @Override
             public void onClick(View view) {
                 rlvFetesSoiree.setVisibility(View.INVISIBLE);
+                if(User.bfetes==true || User.bdebit==true){
+                    cliclsoiree=false;
+                }else if(User.bfetes==false || User.bdebit==false){
+                    cliclsoiree=true;
+                }
+
+                if (cliclsoiree) {
+                    txLegSoiree.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+
+
             }
         });
 
         btFetes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(User.bfetes)
-                {
+                if (User.bfetes) {
                     btFetes.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    User.bfetes=false;
+                    User.bfetes = false;
 
-                }else{
+                } else {
                     btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
-                    User.bfetes=true;
+                    User.bfetes = true;
                 }
 
                 User.save();
@@ -658,14 +663,13 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         btDebit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(User.bdebit)
-                {
+                if (User.bdebit) {
                     btDebit.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    User.bdebit=false;
+                    User.bdebit = false;
 
-                }else{
+                } else {
                     btDebit.setBackgroundColor(Color.parseColor("#2c2954"));
-                    User.bdebit=true;
+                    User.bdebit = true;
                 }
 
                 User.save();
@@ -675,14 +679,15 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         btconcert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(User.bconcert)
-                {
+                if (User.bconcert) {
                     btconcert.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    User.bconcert=false;
+                    User.bconcert = false;
 
-                }else{
+                } else {
                     btconcert.setBackgroundColor(Color.parseColor("#2c2954"));
-                    User.bconcert=true;
+                    User.bconcert = true;
+                    btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bfetes = true;
                 }
 
                 User.save();
@@ -692,14 +697,15 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         btbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(User.bbar)
-                {
+                if (User.bbar) {
                     btbar.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    User.bbar=false;
+                    User.bbar = false;
 
-                }else{
+                } else {
                     btbar.setBackgroundColor(Color.parseColor("#2c2954"));
-                    User.bbar=true;
+                    User.bbar = true;
+                    btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bfetes = true;
                 }
 
                 User.save();
@@ -709,14 +715,15 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         btboitenuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(User.bboitenuit)
-                {
+                if (User.bboitenuit) {
                     btboitenuit.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    User.bboitenuit=false;
+                    User.bboitenuit = false;
 
-                }else{
+                } else {
                     btboitenuit.setBackgroundColor(Color.parseColor("#2c2954"));
-                    User.bboitenuit=true;
+                    User.bboitenuit = true;
+                    btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bfetes = true;
                 }
 
                 User.save();
@@ -726,14 +733,15 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         btbarnuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(User.bbarnuit)
-                {
+                if (User.bbarnuit) {
                     btbarnuit.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    User.bbarnuit=false;
+                    User.bbarnuit = false;
 
-                }else{
+                } else {
                     btbarnuit.setBackgroundColor(Color.parseColor("#2c2954"));
-                    User.bbarnuit=true;
+                    User.bbarnuit = true;
+                    btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bfetes = true;
                 }
 
                 User.save();
@@ -743,14 +751,15 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         btautres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(User.bautre)
-                {
+                if (User.bautre) {
                     btautres.setBackgroundColor(Color.parseColor("#d2d2db"));
-                    User.bautre=false;
+                    User.bautre = false;
 
-                }else{
+                } else {
                     btautres.setBackgroundColor(Color.parseColor("#2c2954"));
-                    User.bautre=true;
+                    User.bautre = true;
+                    btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bfetes = true;
                 }
 
                 User.save();
@@ -761,7 +770,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
             @Override
             public void onClick(View view) {
                 // check if GPS enabled
-                if(gps.canGetLocation()) {
+                if (gps.canGetLocation()) {
 
                     double latitude = gps.getLatitude();
                     double longitude = gps.getLongitude();
@@ -777,7 +786,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                             .center(moi)
                             .radius(300)
                             .strokeWidth(2)
-                            .strokeColor(Color.rgb(41,41,84))
+                            .strokeColor(Color.rgb(41, 41, 84))
                             .fillColor(Color.TRANSPARENT));
 
 
@@ -802,7 +811,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                     //imLegAmis.setImageResource(R.drawable.amisgrasligne);
                     txLegAmis.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     clicAmis = true;
-                    FragmentsSliderActivity.ClicAmis=true;
+                    FragmentsSliderActivity.ClicAmis = true;
 
                     googleMap.clear();
                     double latitude = gps.getLatitude();
@@ -814,6 +823,43 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
 
                     googleMap.addMarker(MaPosition);
+
+                    if (User != null) {
+                        latitude = gps.getLatitude();
+                        longitude = gps.getLongitude();
+                        // For dropping a marker at a point on the Map
+                        moi = new LatLng(latitude, longitude);
+
+                        MaPosition = new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi));
+
+
+                        googleMap.addMarker(MaPosition);
+                        WebService WS = new WebService(getContext());
+                        JSONArray ListPositions;
+
+                        ListPositions = WS.GetSoirees(User);
+
+                        for (int i = 0; i < ListPositions.length(); i++) {
+                            JSONObject Position = null;
+
+                            try {
+                                Position = ListPositions.getJSONObject(i);
+
+                                latitude = Position.getDouble("latitude");
+                                longitude = Position.getDouble("longitude");
+
+                                LatLng user = new LatLng(latitude, longitude);
+
+                                marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
+                                marker.setTag(Position.getString("id"));
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }
 
                     if (User != null) {
                         WebService WS = new WebService(getContext());
@@ -898,7 +944,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                     txLegAmis.setPaintFlags(txLegAmis.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
                     //txLegAmis.setPaintFlags(Paint);
                     clicAmis = false;
-                    FragmentsSliderActivity.ClicAmis=false;
+                    FragmentsSliderActivity.ClicAmis = false;
                     double latitude;
                     double longitude;
                     WebService WS = new WebService(getContext());
@@ -930,10 +976,10 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         imLegKiffs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(clicKiff==false){
+                if (clicKiff == false) {
                     //imLegKiffs.setImageResource(R.drawable.matchgrasligne);
-                    clicKiff=true;
-                    FragmentsSliderActivity.ClicMatch=true;
+                    clicKiff = true;
+                    FragmentsSliderActivity.ClicMatch = true;
                     txLegMatch.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
                     googleMap.clear();
@@ -948,7 +994,44 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
                     googleMap.addMarker(MaPosition);
 
-                    if(User!=null) {
+                    if (User != null) {
+                        latitude = gps.getLatitude();
+                        longitude = gps.getLongitude();
+                        // For dropping a marker at a point on the Map
+                        moi = new LatLng(latitude, longitude);
+
+                        MaPosition = new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi));
+
+
+                        googleMap.addMarker(MaPosition);
+                        WebService WS = new WebService(getContext());
+                        JSONArray ListPositions;
+
+                        ListPositions = WS.GetSoirees(User);
+
+                        for (int i = 0; i < ListPositions.length(); i++) {
+                            JSONObject Position = null;
+
+                            try {
+                                Position = ListPositions.getJSONObject(i);
+
+                                latitude = Position.getDouble("latitude");
+                                longitude = Position.getDouble("longitude");
+
+                                LatLng user = new LatLng(latitude, longitude);
+
+                                marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
+                                marker.setTag(Position.getString("id"));
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }
+
+                    if (User != null) {
                         WebService WS = new WebService(getContext());
                         JSONArray ListPositions;
                         if (clicInconnu == false) {
@@ -1026,11 +1109,11 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                         }
 
                     }
-                }else{
+                } else {
                     //imLegKiffs.setImageResource(R.drawable.matchgras);
                     txLegMatch.setPaintFlags(txLegMatch.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
-                    clicKiff=false;
-                    FragmentsSliderActivity.ClicMatch=false;
+                    clicKiff = false;
+                    FragmentsSliderActivity.ClicMatch = false;
                     double latitude;
                     double longitude;
                     WebService WS = new WebService(getContext());
@@ -1062,15 +1145,14 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         });
 
 
-
         imLegInconnu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(clicInconnu==false){
+                if (clicInconnu == false) {
                     //imLegInconnu.setImageResource(R.drawable.inconnugrasligne);
                     txLegInconnu.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                    clicInconnu=true;
-                    FragmentsSliderActivity.ClicInconnu=true;
+                    clicInconnu = true;
+                    FragmentsSliderActivity.ClicInconnu = true;
 
                     googleMap.clear();
                     double latitude = gps.getLatitude();
@@ -1084,7 +1166,44 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
                     googleMap.addMarker(MaPosition);
 
-                    if(User!=null) {
+                    if (User != null) {
+                        latitude = gps.getLatitude();
+                        longitude = gps.getLongitude();
+                        // For dropping a marker at a point on the Map
+                        moi = new LatLng(latitude, longitude);
+
+                        MaPosition = new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi));
+
+
+                        googleMap.addMarker(MaPosition);
+                        WebService WS = new WebService(getContext());
+                        JSONArray ListPositions;
+
+                        ListPositions = WS.GetSoirees(User);
+
+                        for (int i = 0; i < ListPositions.length(); i++) {
+                            JSONObject Position = null;
+
+                            try {
+                                Position = ListPositions.getJSONObject(i);
+
+                                latitude = Position.getDouble("latitude");
+                                longitude = Position.getDouble("longitude");
+
+                                LatLng user = new LatLng(latitude, longitude);
+
+                                marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
+                                marker.setTag(Position.getString("id"));
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }
+
+                    if (User != null) {
                         WebService WS = new WebService(getContext());
                         JSONArray ListPositions;
                         if (clicInconnu == false) {
@@ -1162,11 +1281,11 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                         }
                     }
 
-                }else{
+                } else {
                     //imLegInconnu.setImageResource(R.drawable.inconnugras);
                     txLegInconnu.setPaintFlags(txLegInconnu.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
-                    clicInconnu=false;
-                    FragmentsSliderActivity.ClicInconnu=false;
+                    clicInconnu = false;
+                    FragmentsSliderActivity.ClicInconnu = false;
 
                     double latitude;
                     double longitude;
@@ -1199,11 +1318,10 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         });
 
 
-
         //sleep for 1s in background...
         gps = new GPSTracker(rootView.getContext());
 
-        if(gps.canGetLocation==false){
+        if (gps.canGetLocation == false) {
             gps.showSettingsAlert();
 
         }
@@ -1219,7 +1337,6 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         mMapView.onResume(); // needed to get the map to display immediately
 
 
-
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
@@ -1228,7 +1345,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                 //googleMap.setMyLocationEnabled(true);
 
                 // check if GPS enabled
-                if(gps.canGetLocation()) {
+                if (gps.canGetLocation()) {
 
                     double latitude = gps.getLatitude();
                     double longitude = gps.getLongitude();
@@ -1242,7 +1359,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
                     googleMap.addMarker(MaPosition);
 
-                    if(User!=null){
+                    if (User != null) {
                         WebService WS = new WebService(getContext());
 
 
@@ -1339,13 +1456,13 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
 
                     // For zooming automatically to the location of the marker
-                    if(FragmentsSliderActivity.Localiser){
+                    if (FragmentsSliderActivity.Localiser) {
                         // For dropping a marker at a point on the Map
-                        moi = new LatLng(Double.parseDouble(FragmentsSliderActivity.latitude),Double.parseDouble(FragmentsSliderActivity.longitude));
+                        moi = new LatLng(Double.parseDouble(FragmentsSliderActivity.latitude), Double.parseDouble(FragmentsSliderActivity.longitude));
                         CameraPosition cameraPosition = new CameraPosition.Builder().target(moi).zoom(15).build();
                         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                        FragmentsSliderActivity.Localiser=false;
-                    }else{
+                        FragmentsSliderActivity.Localiser = false;
+                    } else {
                         CameraPosition cameraPosition = new CameraPosition.Builder().target(moi).zoom(15).build();
                         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     }
@@ -1356,10 +1473,10 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                 imPhotoMap.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent i = new Intent(getContext(),Conversation.class);
-                        i.putExtra("id_kiffs",(String) imPhotoMap.getTag());
-                        i.putExtra("id_user",User.id_user);
-                        i.putExtra("prive",1);
+                        Intent i = new Intent(getContext(), Conversation.class);
+                        i.putExtra("id_kiffs", (String) imPhotoMap.getTag());
+                        i.putExtra("id_user", User.id_user);
+                        i.putExtra("prive", 1);
                         startActivity(i);
                     }
                 });
@@ -1368,13 +1485,13 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                     @Override
                     public boolean onMarkerClick(Marker marker) {
 
-                        if(marker.getTitle().toString().equals("soirée")){
+                        if (marker.getTitle().toString().equals("soirée")) {
                             WebService WS = new WebService(getContext());
 
                             JSONArray Soiree = WS.GetInfoSoiree(marker.getTag().toString());
 
-                            String photo ="";
-                            if(Soiree!=null && Soiree.length()>0){
+                            String photo = "";
+                            if (Soiree != null && Soiree.length() > 0) {
 
                                 try {
                                     txNomSoiree.setText(getResources().getString(R.string.nom) + " : " + Soiree.getJSONObject(0).getString("nomsoiree"));
@@ -1383,13 +1500,13 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                                     txDescriptif.setText(Soiree.getJSONObject(0).getString("descriptif"));
                                     txLienSite.setText(getResources().getString(R.string.liensite) + " : " + Soiree.getJSONObject(0).getString("liensite"));
 
-                                    if(Soiree.getJSONObject(0).getString("typedebit").equals("1")){
+                                    if (Soiree.getJSONObject(0).getString("typedebit").equals("1")) {
                                         txLienSite.setText(getResources().getString(R.string.debit) + " : " + Soiree.getJSONObject(0).getString("choixdebit"));
                                         txTypeSoiree.setVisibility(View.GONE);
-                                    }else{
+                                    } else {
                                         switch (Soiree.getJSONObject(0).getString("typesoiree")) {
                                             case "1":
-                                                txTypeSoiree.setText( getResources().getString(R.string.typesoiree) + " : " + getResources().getString(R.string.bar));
+                                                txTypeSoiree.setText(getResources().getString(R.string.typesoiree) + " : " + getResources().getString(R.string.bar));
                                                 break;
 
                                             case "2":
@@ -1414,21 +1531,21 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                                 }
 
                             }
-                        }else{
+                        } else {
                             WebService WS = new WebService(getContext());
 
-                            if(marker.getTag()!=null){
-                                try{
+                            if (marker.getTag() != null) {
+                                try {
                                     JSONArray UserList = WS.GetinfoUser(marker.getTag().toString());
 
-                                    String photo ="";
-                                    if(UserList!=null && UserList.length()>0){
+                                    String photo = "";
+                                    if (UserList != null && UserList.length() > 0) {
                                         try {
                                             photo = UserList.getJSONObject(0).getString("photo");
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
-                                        Picasso.with(getContext()).load(photo).resize(300,300).into(imPhotoMap);
+                                        Picasso.with(getContext()).load(photo).resize(300, 300).into(imPhotoMap);
                                         //imPhotoMap.setImageBitmap(bitmap);
                                         try {
                                             imPhotoMap.setTag(UserList.getJSONObject(0).getString("id"));
@@ -1436,10 +1553,10 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                                             e.printStackTrace();
                                         }
                                         imPhotoMap.setVisibility(View.VISIBLE);
-                                    }else{
+                                    } else {
                                         imPhotoMap.setVisibility(View.INVISIBLE);
                                     }
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -1451,7 +1568,6 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                 });
 
 
-
             }
         });
 
@@ -1461,12 +1577,6 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
 
 
         return rootView;
@@ -1481,13 +1591,13 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
             refreshMap = new RefreshMap();
             refreshMap.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-            User.nbaffichemap = User.nbaffichemap+1;
+            User.nbaffichemap = User.nbaffichemap + 1;
 
-            if(User.nbaffichemap==3 && User.popupmap==0){
+            if (User.nbaffichemap == 3 && User.popupmap == 0) {
                 impopupmap.setVisibility(View.VISIBLE);
             }
 
-            LocationManager locationManager = (LocationManager)getActivity().getSystemService(getActivity().getBaseContext().LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(getActivity().getBaseContext().LOCATION_SERVICE);
 
             LocationListener locationListener = new LocationListener() {
 
@@ -1495,7 +1605,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
                 public void onLocationChanged(Location location) {
                     //Toast.makeText(getActivity().getApplicationContext(),"Changement", Toast.LENGTH_SHORT).show();  //this never appear
                     // For dropping a marker at a point on the Map
-                    LatLng moi = new LatLng(location.getLatitude(),location.getLongitude());
+                    LatLng moi = new LatLng(location.getLatitude(), location.getLongitude());
 
                     googleMap.clear();
                     double latitude = 0;
@@ -1504,13 +1614,13 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
                     googleMap.addMarker(MaPosition);
 
-                    if(User!=null){
+                    if (User != null) {
                         WebService WS = new WebService(getContext());
                         JSONArray ListPositions;
 
                         if (cliclsoiree == false) {
                             ListPositions = WS.GetSoirees(User);
-                            if(ListPositions!=null){
+                            if (ListPositions != null) {
                                 for (int i = 0; i < ListPositions.length(); i++) {
                                     JSONObject Position = null;
 
@@ -1531,7 +1641,6 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
                                 }
                             }
-
 
 
                         }
@@ -1629,6 +1738,7 @@ public class MapActivity extends Fragment implements LocationListener,GoogleApiC
 
                 }
             };
+
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1.0f, locationListener);
 
 

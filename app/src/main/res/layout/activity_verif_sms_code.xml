@@ -70,19 +70,18 @@
             android:layout_gravity="center_horizontal">
 
             <Button
-                style="?android:textAppearanceSmall"
                 android:id="@+id/btValidSmsCode"
-                android:textSize="18dip"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                style="?android:textAppearanceSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/action_sign_in"
-                android:textColor="#ffffff"
-                android:background="#2c2954"
-                android:layout_gravity="center_horizontal"
                 android:layout_above="@+id/btSendNewSms"
                 android:layout_alignParentRight="true"
-                />
+                android:layout_gravity="center_horizontal"
+                android:background="#2c2954"
+                android:text="@string/action_sign_in"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#ffffff"
+                android:textSize="18dip" />
 
             <TextView
                 style="?android:textAppearanceSmall"

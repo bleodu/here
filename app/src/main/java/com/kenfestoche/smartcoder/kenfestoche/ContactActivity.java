@@ -317,10 +317,14 @@ public class ContactActivity extends Fragment {
             txNbMessage.setVisibility(View.VISIBLE);
             txNbMessage.setText(String.valueOf(ListMessage.length()));
             txNbMessage.setTypeface(face,Typeface.BOLD);
+        }else{
+            txNbMessage.setVisibility(View.INVISIBLE);
+            txNbMessage.setText("");
+            txNbMessage.setTypeface(face,Typeface.BOLD);
         }
 
-        mLoadContact =new GetListContacts();
-        mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+       /* mLoadContact =new GetListContacts();
+        mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
 
         /*mLoadContact =new GetListContacts();
         mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
@@ -501,8 +505,8 @@ public class ContactActivity extends Fragment {
         kiffs.clear();
         amis.clear();
 
-        JSONArray ListKiffs = WS.GetListKiffs(User,kiffsStringId);
-        JSONArray ListAmis = WS.GetListAmis(User,amisStringId);
+        JSONArray ListKiffs = WS.GetListKiffs(User,"");
+        JSONArray ListAmis = WS.GetListAmis(User,"");
 
         if(ListKiffs != null && ListKiffs.length()>0)
         {
@@ -576,8 +580,8 @@ public class ContactActivity extends Fragment {
         }
 
 
-        //setListViewHeightBasedOnChildren(lstKiffs);
-        //setListViewHeightBasedOnChildren(lstAmis);
+        setListViewHeightBasedOnChildren(lstKiffs);
+        setListViewHeightBasedOnChildren(lstAmis);
 
         //pgLoad.setVisibility(View.GONE);
 
@@ -588,16 +592,16 @@ public class ContactActivity extends Fragment {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
 
-           /* MonActivity.runOnUiThread(new Runnable() {
+            MonActivity.runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
                 LoadContacts();
             }
-            });*/
+            });
 
-            mLoadContact =new GetListContacts();
-            mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            //mLoadContact =new GetListContacts();
+            //mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }else{
             if(mLoadContact!=null){
                 Log.v("LOGGDS", "Chargement contact annulé");

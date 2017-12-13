@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.github.Plumillon:ChipView-1.2.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/ChipView-1.2.0.aar/cfdb0140cf4e576d5190d58b9093d487/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/ChipView-1.2.0.aar/cfdb0140cf4e576d5190d58b9093d487/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.Plumillon/ChipView/1.2.0/5955c3ef2259bb28570c94d322df4fef48af7755/ChipView-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

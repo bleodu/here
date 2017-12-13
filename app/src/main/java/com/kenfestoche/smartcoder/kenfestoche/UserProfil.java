@@ -64,6 +64,8 @@ import com.kenfestoche.smartcoder.kenfestoche.model.SwipeGestureDetector;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.ParamActivity;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 //import com.squareup.okhttp.OkHttpClient;
 
 
@@ -916,7 +918,7 @@ public class UserProfil extends Fragment {
             ///Uri tempUri = getImageUri(getActivity().getApplicationContext(), photo);
 
             // CALL THIS METHOD TO GET THE ACTUAL PATH
-            File finalFile = new File(getRealPathFromURI(tempUri));
+            /*File finalFile = new File(getRealPathFromURI(tempUri));
             //mImageCaptureUri= (Uri) data.getExtras().get("URI");
             picturePath = finalFile.getPath();
                     //String picturePath = mImageCaptureUri.getPath();
@@ -932,7 +934,13 @@ public class UserProfil extends Fragment {
                     //adapterPhoto.notifyDataSetChanged();
                     gridPhotos.setAdapter(adapterPhoto);
                 }
-            });
+            });*/
+
+            Intent i = new Intent(getActivity().getApplicationContext(),ActivityAdjustPhoto.class);
+
+            i.putExtra("urlPhoto",tempUri);
+
+            getActivity().startActivity(i);
 
         }else{
 
@@ -1104,6 +1112,14 @@ public class UserProfil extends Fragment {
         Edtqqmot.setHint(getResources().getString(R.string.photo));
         txDeconnexion.setText(getResources().getString(R.string.deconnect));
         Valider.setText(getResources().getString(R.string.action_sign_in));
+        MonActivity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                LoadProfils();
+
+            }
+        });
         //mLoadImage.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -1135,17 +1151,7 @@ public class UserProfil extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int item) {
                     if (items[item].equals("Prendre une photo")) {
-                        // Intent intent = new
-                        // Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                        /*Intent intent = new Intent(
-                                android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
-                        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
-                                mImageCaptureUri);
-
-                        // start the image capture Intent
-                        startActivityForResult(intent, 1);*/
 
                         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                         String imageFileName = timeStamp + ".jpg";
@@ -1157,6 +1163,9 @@ public class UserProfil extends Fragment {
                         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
                         startActivityForResult(cameraIntent, 1);
+
+
+
 
                     } else if (items[item].equals("Choisir dans la bibliothèque")) {
                         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
