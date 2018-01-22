@@ -103,13 +103,6 @@ public class ContactActivity extends Fragment {
 
 
 
-        kiffs =  new ArrayList<HashMap<String,Object>>();
-        kiffssauv =  new ArrayList<HashMap<String,Object>>();
-        amis =  new ArrayList<HashMap<String,Object>>();
-
-        KiffsArray = new AdapterAmis(getActivity().getBaseContext(), kiffs, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false,true,false);
-
-        Amisrray = new AdapterAmis(getActivity().getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false,true,false);
 
 
         /*MonActivity.runOnUiThread(new Runnable() {
@@ -129,6 +122,13 @@ public class ContactActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         pager = (ViewPager) container;
+        kiffs =  new ArrayList<HashMap<String,Object>>();
+        kiffssauv =  new ArrayList<HashMap<String,Object>>();
+        amis =  new ArrayList<HashMap<String,Object>>();
+
+        KiffsArray = new AdapterAmis(getActivity().getBaseContext(), kiffs, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false,true,false,pager);
+
+        Amisrray = new AdapterAmis(getActivity().getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false,true,false,pager);
 
 
         return inflater.inflate(R.layout.activity_contact, container, false);
@@ -444,6 +444,8 @@ public class ContactActivity extends Fragment {
                         valeur.put("pseudo", Amis.getString("pseudo"));
                         valeur.put("statut", Amis.getString("statut"));
                         valeur.put("id_ami", Amis.getString("id_useramis"));
+                        valeur.put("latitude", Amis.getString("latitude"));
+                        valeur.put("longitude", Amis.getString("longitude"));
                         valeur.put("localiser", Amis.getString("localiser"));
                         valeur.put("nbMess", Amis.getInt("nbMess"));
                         valeur.put("user", User);
@@ -557,6 +559,8 @@ public class ContactActivity extends Fragment {
                     valeur.put("statut", Amis.getString("statut"));
                     valeur.put("id_ami", Amis.getString("id_useramis"));
                     valeur.put("localiser", Amis.getString("localiser"));
+                    valeur.put("latitude", Amis.getString("latitude"));
+                    valeur.put("longitude", Amis.getString("longitude"));
                     valeur.put("nbMess", Amis.getInt("nbMess"));
                     valeur.put("user", User);
 

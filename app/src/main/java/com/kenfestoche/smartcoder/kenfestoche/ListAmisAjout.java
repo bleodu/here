@@ -1,11 +1,15 @@
 package com.kenfestoche.smartcoder.kenfestoche;
 
+import android.*;
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -76,6 +80,7 @@ public class ListAmisAjout extends AppCompatActivity {
 
         editor = pref.edit();
         User = FragmentsSliderActivity.User;
+        AmisArray = new AdapterAmis(getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},true,true,true,null);
 
         TypeRecherche= getIntent().getExtras().getInt("TypeRech");
         WebService WS = new WebService(getBaseContext());
@@ -84,11 +89,27 @@ public class ListAmisAjout extends AppCompatActivity {
         RlvMonRep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                amis.clear();
-                AmisArray.notifyDataSetChanged();
-                TypeRecherche=2;
-                RlvRechTel.setVisibility(View.INVISIBLE);
-                RechercherRepertoire();
+                int permission = ActivityCompat.checkSelfPermission(ListAmisAjout.this, Manifest.permission.READ_CONTACTS);
+
+                if (permission != PackageManager.PERMISSION_GRANTED) {
+
+
+                    if (permission != PackageManager.PERMISSION_GRANTED) {
+                        // We don't have permission so prompt the user
+                        ActivityCompat.requestPermissions(
+                                ListAmisAjout.this,
+                                new String[]{android.Manifest.permission.READ_CONTACTS},
+                                1
+                        );
+                    }
+                }else{
+                    amis.clear();
+                    AmisArray.notifyDataSetChanged();
+                    TypeRecherche=2;
+                    RlvRechTel.setVisibility(View.INVISIBLE);
+                    RechercherRepertoire();
+                }
+
             }
         });
 
@@ -104,8 +125,24 @@ public class ListAmisAjout extends AppCompatActivity {
 
 
         if(TypeRecherche==2){
-            RlvRechTel.setVisibility(View.INVISIBLE);
-            RechercherRepertoire();
+            int permission = ActivityCompat.checkSelfPermission(ListAmisAjout.this, Manifest.permission.READ_CONTACTS);
+
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+
+
+                if (permission != PackageManager.PERMISSION_GRANTED) {
+                    // We don't have permission so prompt the user
+                    ActivityCompat.requestPermissions(
+                            ListAmisAjout.this,
+                            new String[]{android.Manifest.permission.READ_CONTACTS},
+                            1
+                    );
+                }
+            }else{
+                RlvRechTel.setVisibility(View.INVISIBLE);
+                RechercherRepertoire();
+            }
+
         }else{
             RlvRechTel.setVisibility(View.VISIBLE);
         }
@@ -193,7 +230,7 @@ public class ListAmisAjout extends AppCompatActivity {
                                 }
                             }
 
-                             AmisArray = new AdapterAmis(getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},true,true,true);
+                             AmisArray = new AdapterAmis(getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},true,true,true,null);
 
 
                             //mSchedule.setViewBinder(new MyViewBinder());
@@ -294,7 +331,7 @@ public class ListAmisAjout extends AppCompatActivity {
         }
         phones.close();
 
-        AmisArray = new AdapterAmis(getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},true,true,true);
+        AmisArray = new AdapterAmis(getBaseContext(), amis, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},true,true,true,null);
 
 
         //mSchedule.setViewBinder(new MyViewBinder());

@@ -4,7 +4,7 @@
     <!--  PAGE PARAMETRAGE -->
     <string name="param_modifuser">modifier nom d\'utilisateur</string>
     <string name="param_notification">activation des notifications</string>
-    <string name="param_cachersaufkiff">param_cachersaufkiff</string>
+    <string name="param_cachersaufkiff">cacher ma position à tous sauf à mes kiffs</string>
     <string name="param_cacheramis">cacher ma position à mes amis</string>
     <string name="param_cachertous">cacher ma position à tous</string>
     <string name="param_inclurefb">ne pas inclure mes amis fb dans les profils proposés</string>

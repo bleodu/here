@@ -1,14 +1,18 @@
 package com.kenfestoche.smartcoder.kenfestoche;
 
+import android.*;
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,8 +29,10 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.SyncStateContract;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ShareCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -84,6 +90,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.acl.Permission;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -184,6 +191,9 @@ public class UserProfil extends Fragment {
         editor = pref.edit();
         User = FragmentsSliderActivity.User;
 
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
         gridPhotos = (MyGridPhoto) MonActivity.findViewById(R.id.gridphotos);
 
         //mLoadImage =new LoadImage();
@@ -199,6 +209,8 @@ public class UserProfil extends Fragment {
         super.onActivityCreated(savedInstanceState);
         View v = getView();
         MonActivity = getActivity();
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
 
@@ -883,8 +895,28 @@ public class UserProfil extends Fragment {
 
             SharedPreferences.Editor edt = pref.edit();
 
+            try {
+                //String picUri=\"your irl";
 
-            MonActivity.runOnUiThread(new Runnable() {
+                Intent myCropIntent = new Intent("com.android.camera.action.CROP");
+
+                myCropIntent.setDataAndType(selectedImage, "image/*");
+                myCropIntent.putExtra("crop", "true");
+                myCropIntent.putExtra("aspectX", 1);
+                myCropIntent.putExtra("aspectY", 1);
+                myCropIntent.putExtra("outputX", 300);
+                myCropIntent.putExtra("outputY", 300);
+                myCropIntent.putExtra("return-data", true);
+                startActivityForResult(myCropIntent, 3);
+            }
+
+            catch (ActivityNotFoundException e) {
+
+                String errorMessage = "No Activity found";
+            }
+
+
+           /* MonActivity.runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
@@ -896,7 +928,7 @@ public class UserProfil extends Fragment {
                     //adapterPhoto.notifyDataSetChanged();
                     gridPhotos.setAdapter(adapterPhoto);
                 }
-            });
+            });*/
 
 
 
@@ -936,11 +968,60 @@ public class UserProfil extends Fragment {
                 }
             });*/
 
-            Intent i = new Intent(getActivity().getApplicationContext(),ActivityAdjustPhoto.class);
+            try {
+                //String picUri=\"your irl";
+
+                Intent myCropIntent = new Intent("com.android.camera.action.CROP");
+
+                myCropIntent.setDataAndType(tempUri, "image/*");
+                myCropIntent.putExtra("crop", "true");
+                myCropIntent.putExtra("aspectX", 1);
+                myCropIntent.putExtra("aspectY", 1);
+                myCropIntent.putExtra("outputX", 300);
+                myCropIntent.putExtra("outputY", 300);
+                myCropIntent.putExtra("return-data", true);
+                startActivityForResult(myCropIntent, 3);
+            }
+
+            catch (ActivityNotFoundException e) {
+
+                String errorMessage = "No Activity found";
+            }
+
+           /* Intent i = new Intent(getActivity().getApplicationContext(),ActivityAdjustPhoto.class);
 
             i.putExtra("urlPhoto",tempUri);
 
-            getActivity().startActivity(i);
+            getActivity().startActivity(i);*/
+
+        }else if(requestCode == 3 || requestCode == -1) { //CROP IMAGE
+            Uri selectedImage = data.getData();
+            String[] filePath = { MediaStore.Images.Media.DATA };
+            Cursor c = getActivity().getContentResolver().query(
+                    selectedImage, filePath, null, null, null);
+            c.moveToFirst();
+            int columnIndex = c.getColumnIndex(filePath[0]);
+            picturePath = c.getString(columnIndex);
+            c.close();
+
+
+            SharedPreferences pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
+
+            SharedPreferences.Editor edt = pref.edit();
+
+            MonActivity.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    WebService WS = new WebService(getContext());
+                    WS.UploadImage(picturePath,User);
+                    //notifyDataSetChanged here or update your UI on different thread
+                    adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity);
+                    //adapterPhoto.notifyDataSetChanged();
+                    gridPhotos.setAdapter(adapterPhoto);
+                }
+            });
 
         }else{
 
@@ -1081,6 +1162,7 @@ public class UserProfil extends Fragment {
             });
 
 
+
         }
     }
 
@@ -1152,17 +1234,49 @@ public class UserProfil extends Fragment {
                 public void onClick(DialogInterface dialog, int item) {
                     if (items[item].equals("Prendre une photo")) {
 
+                        int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
 
-                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                        String imageFileName = timeStamp + ".jpg";
-                        File storageDir = Environment.getExternalStoragePublicDirectory(
-                                Environment.DIRECTORY_PICTURES);
-                        pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
-                        File file = new File(pictureImagePath);
-                        Uri outputFileUri = Uri.fromFile(file);
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                        startActivityForResult(cameraIntent, 1);
+                        if (permission != PackageManager.PERMISSION_GRANTED) {
+
+
+                            if (permission != PackageManager.PERMISSION_GRANTED) {
+                                // We don't have permission so prompt the user
+                                ActivityCompat.requestPermissions(
+                                        getActivity(),
+                                        new String[]{Manifest.permission.CAMERA},
+                                        1
+                                );
+                            }
+                        }else{
+
+                            permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                            if (permission != PackageManager.PERMISSION_GRANTED) {
+
+
+                                if (permission != PackageManager.PERMISSION_GRANTED) {
+                                    // We don't have permission so prompt the user
+                                    ActivityCompat.requestPermissions(
+                                            getActivity(),
+                                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            1
+                                    );
+                                }
+
+                            }else{
+                                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                                String imageFileName = timeStamp + ".jpg";
+                                File storageDir = Environment.getExternalStoragePublicDirectory(
+                                        Environment.DIRECTORY_PICTURES);
+                                pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+                                File file = new File(pictureImagePath);
+                                Uri outputFileUri = Uri.fromFile(file);
+                                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                                startActivityForResult(cameraIntent, 1);
+                            }
+
+                        }
+
 
 
 
@@ -1174,6 +1288,7 @@ public class UserProfil extends Fragment {
                     }else if (items[item].equals("Se connecter à facebook")) {
                             Intent facebook = new Intent(getActivity().getApplicationContext(),
                                     GridViewFacebook.class);
+
                             startActivityForResult(facebook , 2);
                     } else if (items[item].equals("Annuler")) {
                         dialog.dismiss();
@@ -1209,9 +1324,41 @@ public class UserProfil extends Fragment {
                     if (items[item].equals("Prendre une photo")) {
                         // Intent intent = new
                         // Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
 
-                        Intent intent = new Intent(
-                                android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (permission != PackageManager.PERMISSION_GRANTED) {
+
+
+                            if (permission != PackageManager.PERMISSION_GRANTED) {
+                                // We don't have permission so prompt the user
+                                ActivityCompat.requestPermissions(
+                                        getActivity(),
+                                        new String[]{Manifest.permission.CAMERA},
+                                        1
+                                );
+                            }
+
+                        }else{
+                            permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                            if (permission != PackageManager.PERMISSION_GRANTED) {
+
+
+                                if (permission != PackageManager.PERMISSION_GRANTED) {
+                                    // We don't have permission so prompt the user
+                                    ActivityCompat.requestPermissions(
+                                            getActivity(),
+                                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                            1
+                                    );
+                                }
+
+                            }else{
+                                Intent intent = new Intent(
+                                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(intent, 1);
+                            }
+
+                        }
                 /*
                  * File photo = new
                  * File(Environment.getExternalStorageDirectory(),
@@ -1227,7 +1374,6 @@ public class UserProfil extends Fragment {
                     intents.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);*/
 
                         // start the image capture Intent
-                        startActivityForResult(intent, 1);
 
                     } else if (items[item].equals("Choisir dans la bibliothèque")) {
                         Intent pickPhoto = new Intent(Intent.ACTION_PICK,

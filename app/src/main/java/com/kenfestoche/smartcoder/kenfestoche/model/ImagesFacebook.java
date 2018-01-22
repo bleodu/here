@@ -3,6 +3,7 @@ package com.kenfestoche.smartcoder.kenfestoche.model;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -194,6 +195,9 @@ public class ImagesFacebook extends BaseAdapter {
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
                 ImageView img = (ImageView) view;
                 URL url = null;
                 try {
@@ -208,14 +212,26 @@ public class ImagesFacebook extends BaseAdapter {
                     e.printStackTrace();
                 }
                 Uri tempUri = getImageUri(mContext, image);
+
+                Intent myCropIntent = new Intent("com.android.camera.action.CROP");
+
+                myCropIntent.setDataAndType(tempUri, "image/*");
+                myCropIntent.putExtra("crop", "true");
+                myCropIntent.putExtra("aspectX", 1);
+                myCropIntent.putExtra("aspectY", 1);
+                myCropIntent.putExtra("outputX", 300);
+                myCropIntent.putExtra("outputY", 300);
+                myCropIntent.putExtra("return-data", true);
+                ((Activity)mContext).startActivityForResult(myCropIntent, 4);
+                //((Activity)mContext).finish();
                 //Uri tempUri = Uri.parse("android.resource://com.kenfestoche.smartcoder.kenfestoche/" + R.drawable.your_image_id);
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
-                File finalFile = new File(getRealPathFromURI(tempUri));
+                /*File finalFile = new File(getRealPathFromURI(tempUri));
                 //mImageCaptureUri= (Uri) data.getExtras().get("URI");
                 String picturePath = finalFile.getPath();
                 WebService WS = new WebService(mContext,false);
                 WS.UploadImage(picturePath, FragmentsSliderActivity.User);
-                ((Activity)mContext).finish();
+               */
             }
         });
 
@@ -235,5 +251,7 @@ public class ImagesFacebook extends BaseAdapter {
         return cursor.getString(idx);
 
     }
+
+
 
 }

@@ -162,7 +162,7 @@ public class AddConversation extends AppCompatActivity {
         }
 
 
-        final AdapterAmis ConversationsAmisArray = new AdapterAmis(getBaseContext(), amisconversations, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false,true,true);
+        final AdapterAmis ConversationsAmisArray = new AdapterAmis(getBaseContext(), amisconversations, R.layout.compositionlignecontact, new String[]{"pseudo", "photo"}, new int[]{R.id.txPseudoLigne, R.id.imgPhotoKiffs},false,true,true,null);
 
 
         edtAmis.addTextChangedListener(new TextWatcher() {

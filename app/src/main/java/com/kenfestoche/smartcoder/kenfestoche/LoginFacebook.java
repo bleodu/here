@@ -81,7 +81,7 @@ public class LoginFacebook extends AppCompatActivity {
         preferences = getSharedPreferences("EASER", MODE_PRIVATE);
 
         editor = preferences.edit();
-
+        user = Utilisateur.findById(Utilisateur.class,preferences.getLong("UserId", 0));
 
         TextView txEnregistrer = (TextView) findViewById(R.id.txEnregistrer);
         TextView txBi = (TextView) findViewById(R.id.txBi);
@@ -108,7 +108,15 @@ public class LoginFacebook extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(tendancesexe>=0) {
-                    LoginManager.getInstance().logInWithReadPermissions(LoginFacebook.this, Arrays.asList("public_profile", "email","user_photos"));
+                    user.tendancesexe=tendancesexe;
+                    user.connecte=true;
+                    user.statut=1;
+                    user.save();
+                    WebService WS = new WebService(getApplicationContext());
+
+                    WS.CreateUser(user);
+
+                    startActivity(new Intent(getApplicationContext(),FragmentsSliderActivity.class));
                 }else{
                     Toast.makeText(getApplicationContext(),getResources().getString(R.string.tendance),Toast.LENGTH_LONG).show();
                 }

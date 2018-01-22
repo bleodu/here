@@ -26,6 +26,7 @@
         android:layout_marginBottom="50dip"
         android:gravity="center_horizontal|top">
 
+
         <RelativeLayout
             android:layout_height="40dip"
             android:layout_width="match_parent"
@@ -45,6 +46,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/txFacebook" />
+
+
 
             <ImageView
                 android:id="@+id/imageView11"

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -35,8 +36,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 
@@ -44,7 +54,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import com.facebook.FacebookSdk;
 
@@ -77,8 +92,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private TextView btNewUser;
+
     private TextView btNewConnexion;
     private Button btPref;
+    private CallbackManager callbackManager;
     private View mLoginFormView;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
@@ -99,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         preferences = getSharedPreferences("EASER", MODE_PRIVATE);
 
-
+        callbackManager = CallbackManager.Factory.create();
         mEmailView = (EditText) findViewById(R.id.email);
         //populateAutoComplete();
         mEmailView.setText(preferences.getString("phone", ""));
@@ -119,6 +136,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(i);
             }
         });
+
+
         //btPref = (Button) findViewById(R.id.prefeaser);
         /*mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -186,8 +205,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mconnexionFacebook.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),LoginFacebook.class);
+                Intent i = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);
+                //LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email","user_photos"));
             }
         });
 

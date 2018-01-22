@@ -212,7 +212,7 @@ public class Conversation extends AppCompatActivity {
 
             idconv = getIntent().getStringExtra("idconv");
             nomconv = getIntent().getStringExtra("nomconv");
-
+            amis=1;
 
             imPhotoConversation.setVisibility(View.INVISIBLE);
             gridPhotos.setVisibility(View.VISIBLE);
@@ -252,7 +252,7 @@ public class Conversation extends AppCompatActivity {
 
             btJeVeux.setVisibility(View.INVISIBLE);
             btVeuxPas.setVisibility(View.INVISIBLE);
-            //btLocaliser.setVisibility(View.INVISIBLE);
+            btLocaliser.setVisibility(View.INVISIBLE);
 
 
             JSONArray resultList = WS.GetProfilPhoto(User);

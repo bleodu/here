@@ -69,20 +69,18 @@
         android:id="@+id/userprofil_form"
         android:layout_width="match_parent"
 
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/newfondprofil"
+            android:layout_height="100dip"
             android:orientation="vertical"
+            android:background="@drawable/newfondprofil"
             android:padding="10dip">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"></LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -430,13 +428,13 @@
                     android:id="@+id/btDeconnect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/deconnect"
                     android:textColor="#2c2954"
-                    android:textSize="11.33pt"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:textSize="11.33pt" />
 
                 <Button
                     android:id="@+id/btValidProfil"

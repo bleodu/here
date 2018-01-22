@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,17 +54,18 @@ public class AdapterAmis extends SimpleAdapter {
     TextView imRefuseAmis;
     ImageView imSignaler;
     ImageView imSuppKiffs;
+    ViewPager pager;
 
     boolean gestionAjout;
     HashMap<String, Object> ami;
 
-    public AdapterAmis(Context context, ArrayList<HashMap<String, Object>> data, int resource, String[] from, int[] to, boolean GestionAjout,boolean amis,boolean datatransmis) {
+    public AdapterAmis(Context context, ArrayList<HashMap<String, Object>> data, int resource, String[] from, int[] to, boolean GestionAjout, boolean amis, boolean datatransmis, ViewPager pag) {
         super(context, data, resource, from, to);
 
         this.arrayList=data;
         this.context=context;
         inflater.from(context);
-
+        this.pager=pag;
         /*if(datatransmis){
             this.arrayList=data;
         }else{
@@ -192,6 +195,7 @@ public class AdapterAmis extends SimpleAdapter {
                 imSuppKiffs.setTag(String.valueOf(position));
                 imSignaler.setTag(String.valueOf(position));
                 ligneContact.setTag(String.valueOf(position));
+                imLocaliser.setTag(String.valueOf(position));
                 imRefuseAmis.setVisibility(View.GONE);
                 imAjoutAmis.setVisibility(View.GONE);
 
@@ -353,9 +357,21 @@ public class AdapterAmis extends SimpleAdapter {
                                 imWaitAmis.setVisibility(View.VISIBLE);
                             }else{
                                 if(ami.containsKey("localiser")) {
-                                    if (ami.get("localiser") == "0") {
+                                    if (ami.get("localiser").equals("0")) {
                                         imLocaliser.setImageResource(R.drawable.localiser);
                                         imLocaliser.setVisibility(View.VISIBLE);
+                                        imLocaliser.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                int pos=Integer.parseInt(view.getTag().toString());
+                                                ami = arrayList.get(pos);
+                                                FragmentsSliderActivity.longitude= (String) ami.get("longitude");
+                                                FragmentsSliderActivity.latitude= (String) ami.get("latitude");
+                                                FragmentsSliderActivity.Localiser=true;
+                                                pager.setCurrentItem(0);
+                                            }
+                                        });
+
                                     }
                                 }else{
                                     if(!ami.containsKey("id_kiff")){
