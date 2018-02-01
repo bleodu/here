@@ -67,58 +67,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ed661c5-dcf7-49cb-b67f-b85dbabf557e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_media_compat_27_0_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_android_gms_play_services_base_10_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_android_gms_play_services_basement_10_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_android_gms_play_services_maps_10_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_android_gms_play_services_tasks_10_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_analytics_10_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_analytics_impl_10_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_common_10_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_core_10_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_iid_10_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_messaging_10_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/RequestUserPermission.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_media_compat_27_0_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_android_gms_play_services_base_9_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_android_gms_play_services_basement_9_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_android_gms_play_services_maps_9_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_android_gms_play_services_tasks_9_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_analytics_9_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_analytics_impl_9_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_common_9_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_core_9_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_iid_9_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_google_firebase_firebase_messaging_9_6_0.xml" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_v4_27_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_android_support_support_v4_27_0_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/newfondprofil.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/newfondprofil.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-ldpi/newfondprofil.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-ldpi/newfondprofil.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/newfondprofil.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/newfondprofil.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/newfondprofil.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/newfondprofil.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/newfondprofil.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/newfondprofil.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/newfondprofil.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/newfondprofil.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_android_sdk_4_30_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_applinks_4_30_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_common_4_30_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_core_4_30_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_login_4_30_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_messenger_4_30_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_places_4_30_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_share_4_30_0.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_android_sdk_4_29_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_applinks_4_29_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_common_4_29_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_core_4_29_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_login_4_29_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_messenger_4_29_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_places_4_29_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/com_facebook_android_facebook_share_4_29_0.xml" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_cardview_v7_27_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_android_support_cardview_v7_27_0_2.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/com_android_support_customtabs_27_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_android_support_customtabs_27_0_2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/AddConversation.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/AddConversation.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ContactActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ContactActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/Conversation.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/Conversation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/GPSTracker.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/GPSTracker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/GridViewFacebook.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/GridViewFacebook.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ListAmisAjout.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ListAmisAjout.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/FragmentsSliderActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/FragmentsSliderActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ListeConversations.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ListeConversations.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginFacebook.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginFacebook.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ProfilsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ProfilsActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/AdapterAmis.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/AdapterAmis.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/ImagesFacebook.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/ImagesFacebook.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_profils.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_profils.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_user_profil.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_user_profil.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_contact.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_contact.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_liste_conversations.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_liste_conversations.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_map.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_map.xml" />
     </list>
     <ignored path="KENFESTOCHE.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -155,42 +136,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UserProfil.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UserProfil.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11595">
-              <caret line="879" column="0" lean-forward="false" selection-start-line="879" selection-start-column="0" selection-end-line="879" selection-end-column="0" />
+            <state relative-caret-position="1155">
+              <caret line="181" column="0" lean-forward="false" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#18292#18293#0" expanded="false" />
-                <element signature="e#18347#18348#0" expanded="false" />
-                <marker date="1516373756840" expanded="false" signature="37719:37798" ph="() → {" />
-                <marker date="1516373756840" expanded="false" signature="38241:38260" ph="}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values-en/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="25" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values-br/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#5959#5963#0" expanded="false" />
-                <element signature="e#6000#6004#0" expanded="false" />
-                <element signature="e#6014#6018#0" expanded="false" />
-                <element signature="e#6048#6052#0" expanded="false" />
+                <marker date="1517417508358" expanded="false" signature="37899:37978" ph="() → {" />
+                <marker date="1517417508358" expanded="false" signature="38421:38440" ph="}" />
               </folding>
             </state>
           </provider>
@@ -199,14 +152,46 @@
       <file leaf-file-name="Conversation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/Conversation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6195">
-              <caret line="453" column="0" lean-forward="false" selection-start-line="453" selection-start-column="0" selection-end-line="453" selection-end-column="0" />
+            <state relative-caret-position="673">
+              <caret line="164" column="24" lean-forward="false" selection-start-line="164" selection-start-column="24" selection-end-line="164" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WebService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/webservices/WebService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="279">
+              <caret line="2095" column="0" lean-forward="false" selection-start-line="2095" selection-start-column="0" selection-end-line="2095" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProfilsActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ProfilsActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="20250">
+              <caret line="1462" column="5" lean-forward="false" selection-start-line="1462" selection-start-column="5" selection-end-line="1462" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="681">
+              <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#24565#24566#0" expanded="false" />
-                <element signature="e#24637#24638#0" expanded="false" />
-                <element signature="e#32635#32636#0" expanded="false" />
-                <element signature="e#32675#32676#0" expanded="false" />
+                <element signature="e#3631#3845#0" expanded="true" />
+                <element signature="e#3844#3845#0" expanded="true" />
+                <element signature="e#5633#6679#0" expanded="true" />
+                <element signature="e#6678#6679#0" expanded="true" />
+                <element signature="e#12155#12198#0" expanded="true" />
+                <element signature="e#12292#13330#0" expanded="true" />
+                <element signature="e#13329#13330#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -215,75 +200,56 @@
       <file leaf-file-name="MapActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22770">
-              <caret line="1577" column="43" lean-forward="false" selection-start-line="1577" selection-start-column="43" selection-end-line="1577" selection-end-column="43" />
+            <state relative-caret-position="191">
+              <caret line="1766" column="0" lean-forward="false" selection-start-line="1766" selection-start-column="0" selection-end-line="1766" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#17797#17798#0" expanded="false" />
-                <element signature="e#17868#17869#0" expanded="false" />
-                <element signature="e#25603#25604#0" expanded="false" />
-                <element signature="e#25658#25659#0" expanded="false" />
-                <element signature="e#86955#86956#0" expanded="false" />
-                <element signature="e#86983#86984#0" expanded="false" />
+                <element signature="e#18897#19583#0" expanded="true" />
+                <element signature="e#19582#19583#0" expanded="true" />
+                <element signature="e#45515#53665#0" expanded="true" />
+                <element signature="e#53664#53665#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_send_mot_passe.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_send_mot_passe.xml">
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-          <provider selected="true" editor-type-id="android-designer2">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_profils.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_profils.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2220">
-              <caret line="148" column="54" lean-forward="false" selection-start-line="148" selection-start-column="54" selection-end-line="148" selection-end-column="54" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
+            <state relative-caret-position="110">
               <caret line="9" column="74" lean-forward="false" selection-start-line="9" selection-start-column="54" selection-end-line="9" selection-end-column="74" />
               <folding />
             </state>
-          </provider>
-          <provider editor-type-id="android-manifest">
-            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="23" lean-forward="false" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+            <state relative-caret-position="255">
+              <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FragmentsSliderActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="701">
+              <caret line="354" column="49" lean-forward="false" selection-start-line="354" selection-start-column="49" selection-end-line="354" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FragmentsSliderActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/FragmentsSliderActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="855">
-              <caret line="72" column="36" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="36" />
+            <state relative-caret-position="415">
+              <caret line="53" column="35" lean-forward="false" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -305,18 +271,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>add</find>
-      <find>LoadSoi</find>
-      <find>clicInconnu</find>
-      <find>MaPo</find>
-      <find>40000</find>
-      <find>Refre</find>
-      <find>googleMap.C</find>
-      <find>SaveUser</find>
-      <find>loginMa</find>
-      <find>for</find>
-      <find>srcC</find>
-      <find>btLoca</find>
       <find>btLocaliser.Seton</find>
       <find>local</find>
       <find>loc</find>
@@ -325,7 +279,6 @@
       <find>kiffs.ad</find>
       <find>localiser</find>
       <find>pager</find>
-      <find>param_s</find>
       <find>param_sauf</find>
       <find>ligneContact</find>
       <find>GridView</find>
@@ -335,6 +288,19 @@
       <find>cerclemoi</find>
       <find>cercle</find>
       <find>3000</find>
+      <find>txTypeSoiree</find>
+      <find>param_s</find>
+      <find>txHoraireSoiree</find>
+      <find>facebook</find>
+      <find>cliclsoiree</find>
+      <find>cliclsoiree=false</find>
+      <find>GetSoirees</find>
+      <find>LoadSoir</find>
+      <find>LoadS</find>
+      <find>lstMarkerInconnus.clear();</find>
+      <find>Deconn</find>
+      <find>deconne</find>
+      <find>mHideKiffs</find>
     </findStrings>
   </component>
   <component name="GenerateSignedApkSettings">
@@ -1969,21 +1935,15 @@
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/my_bordersendko.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/btaccept.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_liste_conversations.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login_facebook.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/AjoutAmis.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_add_conversation.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_ajout_amis.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_param.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ProfilDetailActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-br/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/webservices/ParamActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/FragmentsSliderActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ProfilsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/Utilisateur.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ListeConversations.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/AdapterConversation.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_contact.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/compositionlignecontact.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/webservices/WebService.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" />
@@ -1992,35 +1952,41 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activityphoto.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ActivityAdjustPhoto.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_chat_view_conversation.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_map.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/RequestUserPermission.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/Conversation.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/GPSTracker.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginFacebook.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/ImagesFacebook.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/GridViewFacebook.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_user_profil.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ListAmisAjout.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/AddConversation.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ContactActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/AdapterAmis.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_profils.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_map.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values-br/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_contact.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ContactActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_liste_conversations.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ListeConversations.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/FragmentsSliderActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ProfilsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/Conversation.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1920" />
+    <option name="x" value="-1" />
     <option name="y" value="23" />
-    <option name="width" value="2560" />
-    <option name="height" value="1417" />
+    <option name="width" value="1680" />
+    <option name="height" value="973" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -2062,6 +2028,31 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KENFESTOCHE" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Gradle Scripts" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidBuildScriptsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KENFESTOCHE" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -2097,69 +2088,11 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KENFESTOCHE" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidBuildScriptsGroupNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KENFESTOCHE" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KENFESTOCHE" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KENFESTOCHE" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kenfestoche" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
-    <property name="settings.editor.selected.configurable" value="instant.run" />
-    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="android.project.structure.last.selected" value="Analytics" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="device.picker.selection" value="0123456789ABCDEF" />
@@ -2289,7 +2222,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516636805269" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517510121346" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2337,7 +2270,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516636805269" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517510121346" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2369,6 +2302,27 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -2499,7 +2453,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1516636805270" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1517510121347" />
       </method>
     </configuration>
     <list size="1">
@@ -2728,7 +2682,14 @@
       <option name="project" value="LOCAL" />
       <updated>1513170435134</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Corrections anomalies">
+      <created>1516636823171</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1516636823171</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2741,31 +2702,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="23" width="2560" height="1417" extended-state="6" />
-    <editor active="true" />
+    <frame x="-1" y="23" width="1680" height="973" extended-state="6" />
     <layout>
-      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32974634" sideWeight="0.49841145" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289777" sideWeight="0.49841145" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32686085" sideWeight="0.4813344" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25211376" sideWeight="0.21803018" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20770128" sideWeight="0.21803018" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15011914" sideWeight="0.38546458" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29054573" sideWeight="0.61795074" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19830899" sideWeight="0.39872915" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14527287" sideWeight="0.3991263" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14352392" sideWeight="0.3991263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32744044" sideWeight="0.46902305" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32820907" sideWeight="0.5333598" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32590315" sideWeight="0.5333598" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30822444" sideWeight="0.66322476" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1477363" sideWeight="0.6145354" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26007327" sideWeight="0.6145354" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14346765" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24969475" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30822444" sideWeight="0.3367752" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17140661" sideWeight="0.3367752" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23056443" sideWeight="0.53543305" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2779,7 +2740,6 @@
       <window_info id="StringPreview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" x="2020" y="123" width="2360" height="1217" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32513452" sideWeight="0.48252583" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -2864,13 +2824,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java</url>
-          <line>946</line>
+          <line>949</line>
           <properties />
           <option name="timeStamp" value="90" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java</url>
-          <line>945</line>
+          <line>948</line>
           <properties />
           <option name="timeStamp" value="92" />
         </line-breakpoint>
@@ -2900,25 +2860,25 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java</url>
-          <line>478</line>
+          <line>482</line>
           <properties />
           <option name="timeStamp" value="343" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java</url>
-          <line>509</line>
+          <line>513</line>
           <properties />
           <option name="timeStamp" value="345" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java</url>
-          <line>519</line>
+          <line>523</line>
           <properties />
           <option name="timeStamp" value="346" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
-          <line>888</line>
+          <line>899</line>
           <properties />
           <option name="timeStamp" value="435" />
         </line-breakpoint>
@@ -2947,7 +2907,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/FragmentsSliderActivity.java</url>
-          <line>86</line>
+          <line>95</line>
           <properties />
           <option name="timeStamp" value="603" />
         </line-breakpoint>
@@ -2959,7 +2919,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
-          <line>427</line>
+          <line>438</line>
           <properties />
           <option name="timeStamp" value="621" />
         </line-breakpoint>
@@ -3018,7 +2978,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ProfilsActivity.java</url>
-          <line>1316</line>
+          <line>1317</line>
           <properties />
           <option name="timeStamp" value="705" />
         </line-breakpoint>
@@ -3042,39 +3002,27 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java</url>
-          <line>1342</line>
+          <line>1345</line>
           <properties />
           <option name="timeStamp" value="731" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java</url>
-          <line>1252</line>
+          <line>1255</line>
           <properties />
           <option name="timeStamp" value="732" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java</url>
-          <line>936</line>
+          <line>939</line>
           <properties />
           <option name="timeStamp" value="737" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
-          <line>1313</line>
-          <properties />
-          <option name="timeStamp" value="741" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
-          <line>1873</line>
+          <line>1916</line>
           <properties />
           <option name="timeStamp" value="747" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
-          <line>1367</line>
-          <properties />
-          <option name="timeStamp" value="748" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginFacebook.java</url>
@@ -3084,7 +3032,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java</url>
-          <line>879</line>
+          <line>882</line>
           <properties />
           <option name="timeStamp" value="775" />
         </line-breakpoint>
@@ -3107,49 +3055,85 @@
           <option name="timeStamp" value="779" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/AdapterAmis.java</url>
-          <line>359</line>
-          <properties />
-          <option name="timeStamp" value="780" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
-          <line>1830</line>
+          <line>1873</line>
           <properties />
           <option name="timeStamp" value="782" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
-          <line>1749</line>
-          <properties />
-          <option name="timeStamp" value="783" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
-          <line>1752</line>
-          <properties />
-          <option name="timeStamp" value="785" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
-          <line>1840</line>
+          <line>1883</line>
           <properties />
           <option name="timeStamp" value="787" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
-          <line>672</line>
+          <line>683</line>
           <properties />
           <option name="timeStamp" value="788" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java</url>
+          <line>296</line>
+          <properties />
+          <option name="timeStamp" value="789" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java</url>
+          <line>302</line>
+          <properties />
+          <option name="timeStamp" value="790" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ContactActivity.java</url>
+          <line>201</line>
+          <properties />
+          <option name="timeStamp" value="792" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java</url>
+          <line>1604</line>
+          <properties />
+          <option name="timeStamp" value="817" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java</url>
+          <line>83</line>
+          <properties />
+          <option name="timeStamp" value="820" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/FragmentsSliderActivity.java</url>
+          <line>53</line>
+          <properties />
+          <option name="timeStamp" value="822" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java</url>
+          <line>110</line>
+          <properties />
+          <option name="timeStamp" value="823" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/Conversation.java</url>
+          <line>164</line>
+          <properties />
+          <option name="timeStamp" value="825" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java</url>
+          <line>331</line>
+          <properties />
+          <option name="timeStamp" value="826" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java</url>
-          <line>462</line>
+          <line>466</line>
           <properties field="mEmail" class="com.kenfestoche.smartcoder.kenfestoche.LoginActivity.UserLoginTask" />
           <option name="timeStamp" value="342" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="789" />
+      <option name="time" value="827" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -3165,16 +3149,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/rowphotoprofil.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
       <provider selected="true" editor-type-id="android-designer2">
         <state />
@@ -3235,16 +3209,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_liste_conversations.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_conversation.xml">
       <provider selected="true" editor-type-id="android-designer2">
         <state />
@@ -3252,14 +3216,6 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3284,16 +3240,6 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_contact.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="113" column="0" lean-forward="true" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -3324,16 +3270,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_map.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="668">
-          <caret line="606" column="56" lean-forward="false" selection-start-line="606" selection-start-column="42" selection-end-line="606" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/RequestUserPermission.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
@@ -3352,13 +3288,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="284">
           <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ListeConversations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="38" column="13" lean-forward="false" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -3388,30 +3317,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3081">
-          <caret line="94" column="0" lean-forward="false" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ProfilsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7712">
-          <caret line="812" column="0" lean-forward="false" selection-start-line="812" selection-start-column="0" selection-end-line="812" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/webservices/WebService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="260" column="0" lean-forward="false" selection-start-line="260" selection-start-column="0" selection-end-line="260" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/support-fragment/27.0.2/659085cb974e7ec1f25451d23f11578332ea0d7e/support-fragment-27.0.2-sources.jar!/android/support/v4/app/FragmentActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="505">
@@ -3426,13 +3331,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/ImagesFacebook.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="225" column="18" lean-forward="false" selection-start-line="225" selection-start-column="18" selection-end-line="225" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_user_profil.xml">
       <provider selected="true" editor-type-id="android-designer2">
         <state />
@@ -3443,27 +3341,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="201" column="0" lean-forward="false" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/AdapterConversation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="477">
           <caret line="121" column="36" lean-forward="false" selection-start-line="121" selection-start-column="36" selection-end-line="121" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/GridViewFacebook.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="953">
-          <caret line="68" column="29" lean-forward="false" selection-start-line="68" selection-start-column="29" selection-end-line="68" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3492,100 +3373,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ContactActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/ImagesFacebook.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2040">
-          <caret line="189" column="0" lean-forward="false" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
+        <state relative-caret-position="83">
+          <caret line="154" column="0" lean-forward="true" selection-start-line="154" selection-start-column="0" selection-end-line="154" selection-end-column="0" />
+          <folding>
+            <element signature="e#2585#2760#0" expanded="false" />
+            <element signature="e#2759#2760#0" expanded="false" />
+            <element signature="e#5911#7783#0" expanded="false" />
+            <element signature="e#7782#7783#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/GridViewFacebook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="68" column="29" lean-forward="false" selection-start-line="68" selection-start-column="29" selection-end-line="68" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/Conversation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6195">
-          <caret line="453" column="0" lean-forward="false" selection-start-line="453" selection-start-column="0" selection-end-line="453" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#24565#24566#0" expanded="false" />
-            <element signature="e#24637#24638#0" expanded="false" />
-            <element signature="e#32635#32636#0" expanded="false" />
-            <element signature="e#32675#32676#0" expanded="false" />
-          </folding>
-        </state>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_profils.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-br/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#5959#5963#0" expanded="false" />
-            <element signature="e#6000#6004#0" expanded="false" />
-            <element signature="e#6014#6018#0" expanded="false" />
-            <element signature="e#6048#6052#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-en/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="25" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="25" />
+        <state relative-caret-position="1007">
+          <caret line="148" column="54" lean-forward="false" selection-start-line="148" selection-start-column="54" selection-end-line="148" selection-end-column="54" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="73" lean-forward="false" selection-start-line="6" selection-start-column="73" selection-end-line="6" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/AdapterAmis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="359" column="72" lean-forward="false" selection-start-line="359" selection-start-column="72" selection-end-line="359" selection-end-column="72" />
-          <folding>
-            <element signature="e#11542#12793#0" expanded="true" />
-            <element signature="e#12792#12793#0" expanded="true" />
-            <element signature="e#15316#16124#0" expanded="true" />
-            <element signature="e#16123#16124#0" expanded="true" />
-            <element signature="e#18488#19584#0" expanded="true" />
-            <element signature="e#19583#19584#0" expanded="true" />
-            <marker date="1516376006961" expanded="false" signature="2900:2916" ph="&lt;~&gt;" />
-            <marker date="1516376006961" expanded="false" signature="4372:4388" ph="&lt;~&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11595">
-          <caret line="879" column="0" lean-forward="false" selection-start-line="879" selection-start-column="0" selection-end-line="879" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#18292#18293#0" expanded="false" />
-            <element signature="e#18347#18348#0" expanded="false" />
-            <marker date="1516373756840" expanded="false" signature="37719:37798" ph="() → {" />
-            <marker date="1516373756840" expanded="false" signature="38241:38260" ph="}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22770">
-          <caret line="1577" column="43" lean-forward="false" selection-start-line="1577" selection-start-column="43" selection-end-line="1577" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#17797#17798#0" expanded="false" />
-            <element signature="e#17868#17869#0" expanded="false" />
-            <element signature="e#25603#25604#0" expanded="false" />
-            <element signature="e#25658#25659#0" expanded="false" />
-            <element signature="e#86955#86956#0" expanded="false" />
-            <element signature="e#86983#86984#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3600,41 +3416,212 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_profils.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="583">
+          <caret line="122" column="60" lean-forward="false" selection-start-line="122" selection-start-column="4" selection-end-line="122" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-br/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="128" column="26" lean-forward="false" selection-start-line="128" selection-start-column="18" selection-end-line="128" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_map.xml">
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="776">
+          <caret line="606" column="56" lean-forward="false" selection-start-line="606" selection-start-column="42" selection-end-line="606" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-en/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="126" column="26" lean-forward="false" selection-start-line="126" selection-start-column="18" selection-end-line="126" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/model/AdapterAmis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="359" column="0" lean-forward="false" selection-start-line="359" selection-start-column="0" selection-end-line="359" selection-end-column="0" />
+          <folding>
+            <marker date="1516376006961" expanded="false" signature="2900:2916" ph="&lt;~&gt;" />
+            <marker date="1516376006961" expanded="false" signature="4372:4388" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_contact.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2220">
-          <caret line="148" column="54" lean-forward="false" selection-start-line="148" selection-start-column="54" selection-end-line="148" selection-end-column="54" />
+        <state relative-caret-position="720">
+          <caret line="48" column="45" lean-forward="false" selection-start-line="45" selection-start-column="3" selection-end-line="48" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="74" lean-forward="false" selection-start-line="9" selection-start-column="54" selection-end-line="9" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_liste_conversations.xml">
+      <provider editor-type-id="android-designer2">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="23" lean-forward="false" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+        <state relative-caret-position="871">
+          <caret line="101" column="51" lean-forward="false" selection-start-line="101" selection-start-column="51" selection-end-line="101" selection-end-column="51" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ListeConversations.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="163" column="48" lean-forward="false" selection-start-line="163" selection-start-column="48" selection-end-line="163" selection-end-column="48" />
+          <folding>
+            <element signature="e#2985#5438#0" expanded="false" />
+            <element signature="e#5437#5438#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/support-fragment/27.0.2/659085cb974e7ec1f25451d23f11578332ea0d7e/support-fragment-27.0.2-sources.jar!/android/support/v4/app/FragmentManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="2210" column="0" lean-forward="false" selection-start-line="2210" selection-start-column="0" selection-end-line="2210" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ContactActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="736">
+          <caret line="204" column="11" lean-forward="false" selection-start-line="198" selection-start-column="8" selection-end-line="204" selection-end-column="11" />
+          <folding>
+            <element signature="e#6821#6982#0" expanded="true" />
+            <element signature="e#6981#6982#0" expanded="true" />
+            <element signature="e#8033#9125#0" expanded="true" />
+            <element signature="e#9124#9125#0" expanded="true" />
+            <element signature="e#20034#20165#0" expanded="true" />
+            <element signature="e#20164#20165#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MapActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="1766" column="0" lean-forward="false" selection-start-line="1766" selection-start-column="0" selection-end-line="1766" selection-end-column="0" />
+          <folding>
+            <element signature="e#18897#19583#0" expanded="true" />
+            <element signature="e#19582#19583#0" expanded="true" />
+            <element signature="e#45515#53665#0" expanded="true" />
+            <element signature="e#53664#53665#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/Conversation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="673">
+          <caret line="164" column="24" lean-forward="false" selection-start-line="164" selection-start-column="24" selection-end-line="164" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/webservices/WebService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="2095" column="0" lean-forward="false" selection-start-line="2095" selection-start-column="0" selection-end-line="2095" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="681">
+          <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+          <folding>
+            <element signature="e#3631#3845#0" expanded="true" />
+            <element signature="e#3844#3845#0" expanded="true" />
+            <element signature="e#5633#6679#0" expanded="true" />
+            <element signature="e#6678#6679#0" expanded="true" />
+            <element signature="e#12155#12198#0" expanded="true" />
+            <element signature="e#12292#13330#0" expanded="true" />
+            <element signature="e#13329#13330#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/FragmentsSliderActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="72" column="36" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="36" />
+        <state relative-caret-position="415">
+          <caret line="53" column="35" lean-forward="false" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="37" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="9" column="74" lean-forward="false" selection-start-line="9" selection-start-column="54" selection-end-line="9" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="701">
+          <caret line="354" column="49" lean-forward="false" selection-start-line="354" selection-start-column="49" selection-end-line="354" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/ProfilsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20250">
+          <caret line="1462" column="5" lean-forward="false" selection-start-line="1462" selection-start-column="5" selection-end-line="1462" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/kenfestoche/smartcoder/kenfestoche/UserProfil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1155">
+          <caret line="181" column="0" lean-forward="false" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
+          <folding>
+            <marker date="1517417508358" expanded="false" signature="37899:37978" ph="() → {" />
+            <marker date="1517417508358" expanded="false" signature="38421:38440" ph="}" />
+          </folding>
         </state>
       </provider>
     </entry>

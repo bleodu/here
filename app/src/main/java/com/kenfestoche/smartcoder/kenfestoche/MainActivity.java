@@ -79,7 +79,17 @@ public class MainActivity extends AppCompatActivity {
 
         editor = pref.edit();
 
-        User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+        //User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+
+        if(!pref.getString("idfb","").equals("")){
+            User = WS.GetUserFacebook(pref.getString("idfb",""));
+            User.connecte=true;
+        }else if(!pref.getString("phone","").equals("")){
+            User=WS.Connect(pref.getString("phone",""),pref.getString("pass",""));
+            User.connecte=true;
+        }else{
+            User=null;
+        }
 
         if(!pref.getString("Langue","").equals("")){
             setLanguageForApp(pref.getString("codeLangue",""));
@@ -100,14 +110,17 @@ public class MainActivity extends AppCompatActivity {
         }else{
             if(User != null)
             {
-                if(User.connecte==true && (User.statut>1 || User.id_facebook!="")){
+                if((User.connecte==true && User.statut>1) || (User.id_facebook!=null)){
                     //WebService WS = new WebService(getBaseContext());
                     //User=WS.SaveUser(User);
                     User=WS.Connect(User.phone,User.password);
                     User.save();
                     editor = pref.edit();
                     editor.putLong("UserId", User.getId());
+                    editor.putString("phone",User.phone);
+                    editor.putString("pass",User.password);
                     editor.commit();
+
                     finish();
                     startActivity(new Intent(getApplicationContext(),FragmentsSliderActivity.class));
 
@@ -116,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
                     //User=WS.SaveUser(User);
                     editor = pref.edit();
                     editor.putLong("UserId", User.getId());
+                    editor.putString("phone",User.phone);
+                    editor.putString("pass",User.password);
                     editor.commit();
                     finish();
                     startActivity(new Intent(getApplicationContext(),VerifSmsCode.class));
@@ -209,6 +224,9 @@ public class MainActivity extends AppCompatActivity {
 
                         user.email=object.getString("email");
                         user.id_facebook=object.getString("id");
+                        editor.putString("idfb",object.getString("id"));
+                        editor.commit();
+
                         if(object.has("gender")){
                             switch (object.getString("gender"))
                             {
@@ -251,6 +269,12 @@ public class MainActivity extends AppCompatActivity {
                     user.save();
                     editor = pref.edit();
                     editor.putLong("UserId", user.getId());
+                    try {
+                        editor.putString("idfb",object.getString("id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    editor.commit();
                     editor.commit();
                     finish();
                     startActivity(new Intent(getApplicationContext(),FragmentsSliderActivity.class));

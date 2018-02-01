@@ -170,7 +170,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
         cliclsoiree = FragmentsSliderActivity.ClicSoiree;
         pager = (ViewPager) container;
 
-
+        User = FragmentsSliderActivity.User;
         View rootView = inflater.inflate(R.layout.activity_map, container, false);
 
         imLegAmis = (LinearLayout) rootView.findViewById(R.id.imlegamis);
@@ -199,8 +199,19 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
             txLegMatch.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
-        if (cliclsoiree) {
+        if (User.bfetes == true || User.bdebit == true) {
+            cliclsoiree = true;
+        } else if (User.bfetes == false && User.bdebit == false) {
+            cliclsoiree = false;
+        }
+
+        if (cliclsoiree == false) {
             txLegSoiree.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }else{
+            if(txLegSoiree.getPaintFlags() == Paint.STRIKE_THRU_TEXT_FLAG){
+                txLegSoiree.setPaintFlags(txLegSoiree.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+
         }
 
         Typeface facegras = Typeface.createFromAsset(getActivity().getAssets(), "weblysleekuisb.ttf");
@@ -328,7 +339,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
         imPhotoMap.setVisibility(View.INVISIBLE);
 
-        User = FragmentsSliderActivity.User;
+
 
         txDateDebit.setText(getResources().getString(R.string.date) + " : " + day + "/" + month + "/" + year);
         txDate.setText(getResources().getString(R.string.date) + " : " + day + "/" + month + "/" + year);
@@ -512,7 +523,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                 }
 
-               LoadSoiree();
+               RefreshPositions();
             }
         });
 
@@ -534,8 +545,8 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     }
 
                 }
-
-                LoadSoiree();
+                User.save();
+               RefreshPositions();
 
 
             }
@@ -1161,8 +1172,28 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
 
-                //googleMap.setMyLocationEnabled(true);
+                if(lstMarkerInconnus!=null)
+                {
+                    lstMarkerInconnus.clear();
+                }
 
+                if(lstMarkerAmis!=null)
+                {
+                    lstMarkerAmis.clear();
+                }
+
+                if(lstMarkerMatchs!=null)
+                {
+                    lstMarkerMatchs.clear();
+                }
+
+                if(lstMarkerSoirees!=null)
+                {
+                    lstMarkerSoirees.clear();
+                }
+
+                //googleMap.setMyLocationEnabled(true);
+                RefreshPositions();
                 // check if GPS enabled
                 if (gps.canGetLocation()) {
 
@@ -1178,7 +1209,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                     markerPosition= googleMap.addMarker(MaPosition);
 
-                    RefreshPositions();
+
 
 
                     // For zooming automatically to the location of the marker
@@ -1222,7 +1253,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                                 try {
                                     txNomSoiree.setText(getResources().getString(R.string.nom) + " : " + Soiree.getJSONObject(0).getString("nomsoiree"));
                                     txAdresse.setText(Soiree.getJSONObject(0).getString("adresse"));
-                                    txHoraireSoiree.setText(getResources().getString(R.string.typesoiree) + " : " + getResources().getString(R.string.horaireouverture) + " : " + Soiree.getJSONObject(0).getString("horairedebut") + " à " + Soiree.getJSONObject(0).getString("horairefin"));
+                                    txHoraireSoiree.setText(getResources().getString(R.string.horaireouverture) + " : " + Soiree.getJSONObject(0).getString("horairedebut") + " à " + Soiree.getJSONObject(0).getString("horairefin"));
                                     txDescriptif.setText(Soiree.getJSONObject(0).getString("descriptif"));
                                     txLienSite.setText(getResources().getString(R.string.liensite) + " : " + Soiree.getJSONObject(0).getString("liensite"));
 
@@ -1245,6 +1276,10 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                                             case "4":
                                                 txTypeSoiree.setText(getResources().getString(R.string.typesoiree) + " : " + getResources().getString(R.string.concert));
+                                                break;
+
+                                            case "0":
+                                                txTypeSoiree.setVisibility(View.GONE);
                                                 break;
 
 
@@ -1475,7 +1510,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
         double latitude;
         double longitude;
 
-        if (User != null) {
+        if (User != null && googleMap!=null) {
             WebService WS = new WebService(getContext());
             JSONArray ListPositions;
 
@@ -1499,11 +1534,11 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                             for (int j = 0; j < lstMarkerSoirees.size(); j++) {
                                 Marker marker = lstMarkerSoirees.get(j);
-                                if(marker.getTitle().equals(Position.getString("soirée"))){
+                                if(marker.getTag().equals(Position.getString("id"))){
                                     if(marker.getPosition().latitude!=latitude) {
                                         marker.remove();
                                         lstMarkerSoirees.remove(marker);
-                                        marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("soirée")).icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
+                                        marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
                                         marker.setTag(Position.getString("id"));
                                         lstMarkerSoirees.add(marker);
 
@@ -1514,7 +1549,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                             }
 
                             if(bmarkerTrouve==false){
-                                marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("soirée")).icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
+                                marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
                                 marker.setTag(Position.getString("id"));
                                 lstMarkerSoirees.add(marker);
                             }
@@ -1546,6 +1581,8 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                 if(lstMarkerInconnus==null){
                     lstMarkerInconnus = new ArrayList<Marker>();
                 }
+
+
                 Boolean bmarkerTrouve=false;
                 for (int i = 0; i < ListPositions.length(); i++) {
                     JSONObject Position = null;
@@ -1727,9 +1764,13 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
             User.nbaffichemap = User.nbaffichemap + 1;
 
+
+
             if (User.nbaffichemap == 3 && User.popupmap == 0) {
                 impopupmap.setVisibility(View.VISIBLE);
             }
+
+
 
             LocationManager locationManager = (LocationManager) getActivity().getSystemService(getActivity().getBaseContext().LOCATION_SERVICE);
 
@@ -1744,6 +1785,8 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     //googleMap.clear();
                     double latitude = 0;
                     double longitude = 0;
+
+
 
                     if(MaPosition==null){
                         MaPosition = new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi));

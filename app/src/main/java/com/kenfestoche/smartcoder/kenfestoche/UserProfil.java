@@ -211,7 +211,7 @@ public class UserProfil extends Fragment {
         MonActivity = getActivity();
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-
+        User = FragmentsSliderActivity.User;
         Typeface face=Typeface.createFromAsset(getActivity().getAssets(),"fonts/weblysleekuil.ttf");
 
         newUser=false;
@@ -537,6 +537,9 @@ public class UserProfil extends Fragment {
                 User.delete();
 
                 editor = pref.edit();
+                editor.putString("phone","");
+                editor.putString("pass","");
+                editor.putString("idfb","");
                 editor.putLong("UserId", 0);
                 editor.commit();
                 Intent i = new Intent(getActivity().getApplicationContext(),MainActivity.class);
@@ -994,7 +997,7 @@ public class UserProfil extends Fragment {
 
             getActivity().startActivity(i);*/
 
-        }else if(requestCode == 3 || requestCode == -1) { //CROP IMAGE
+        }else if(requestCode == 3) { //CROP IMAGE
             Uri selectedImage = data.getData();
             String[] filePath = { MediaStore.Images.Media.DATA };
             Cursor c = getActivity().getContentResolver().query(

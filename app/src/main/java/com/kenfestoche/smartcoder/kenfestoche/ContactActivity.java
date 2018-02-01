@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -79,7 +80,7 @@ public class ContactActivity extends Fragment {
     ProgressBar pgLoad;
     String kiffsStringId="";
     String amisStringId="";
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     AdapterAmis Amisrray;
     TextView txHeader;
     GetListContacts mLoadContact;
@@ -152,7 +153,7 @@ public class ContactActivity extends Fragment {
         txMesKiffs = (TextView) v.findViewById(R.id.txMesKiffs);
         txAmis = (TextView) v.findViewById(R.id.txAmis);
         //txPseudoLigne = (TextView) v.findViewById(R.id.txPseudoLigne);
-
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
         //BanniereContact = (ImageView) v.findViewById(R.id.imBanniereContact);
         //BanniereContact.setImageResource(R.drawable.bannierecontact);
         imPlusAmis = (ImageView) v.findViewById(R.id.imPlusAmis);
@@ -194,6 +195,16 @@ public class ContactActivity extends Fragment {
 
         txMesKiffs.setText(getResources().getString(R.string.kiffs));
         txAmis.setText(getResources().getString(R.string.mesamis));
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                LoadContacts();
+
+            }
+        });
+
+
 
 
         imFlecheDroite.setOnClickListener(new View.OnClickListener() {
@@ -586,6 +597,8 @@ public class ContactActivity extends Fragment {
 
         setListViewHeightBasedOnChildren(lstKiffs);
         setListViewHeightBasedOnChildren(lstAmis);
+
+        swipeRefreshLayout.setRefreshing(false);
 
         //pgLoad.setVisibility(View.GONE);
 

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -48,6 +49,7 @@ public class ListeConversations extends AppCompatActivity {
     RelativeLayout rlvNewConversation;
     AdapterConversation ConversationsArray;
     ImageView imFleche;
+    SwipeRefreshLayout swipeRefreshLayout;
     JSONArray ListConversations;
     TextView txHeader;
     @Override
@@ -72,10 +74,75 @@ public class ListeConversations extends AppCompatActivity {
         txHeader = (TextView) findViewById(R.id.txHeader);
         rlvNewConversation = (RelativeLayout) findViewById(R.id.rlvNewConversation);
         imFleche = (ImageView) findViewById(R.id.imFlecheGaucheListConversations);
-
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
         txNewConversation.setTypeface(face);
         txHeader.setTypeface(faceGenerica);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                WebService WS = new WebService(getBaseContext());
+
+                ListConversations = WS.GetListConversations(User);
+                conversations.clear();
+
+                if (ListConversations != null) {
+
+                    String Url = null;
+
+                    for (int i = 0; i < ListConversations.length(); i++) {
+                        JSONObject LaConv = null;
+
+                        HashMap<String, Object> valeur = new HashMap<String, Object>();
+                        try {
+                            LaConv = ListConversations.getJSONObject(i);
+                            valeur.put("id", LaConv.getString("id"));
+                            valeur.put("conversation", LaConv.getString("conversation"));
+                            valeur.put("nbMess", LaConv.getInt("nbMess"));
+                            JSONArray JsonArrayPhotos = WS.GetUsersConversation(LaConv.getString("id"));
+                            ArrayList<String> photos = new ArrayList<String>();
+
+                            if (JsonArrayPhotos != null) {
+
+
+                                for (int j = 0; j < JsonArrayPhotos.length(); j++) {
+                                    JSONObject LeUser = null;
+
+
+                                    try {
+                                        LeUser = JsonArrayPhotos.getJSONObject(j);
+                                        Url = LeUser.getString("photo").replace(" ","%20");
+
+                                        Bitmap bitmap=null;
+                                        photos.add(Url);
+
+
+
+
+                                    } catch (JSONException e1) {
+                                        // TODO Auto-generated catch block
+                                        e1.printStackTrace();
+                                    }
+
+                                }
+                                valeur.put("listphotos", photos);
+                            }
+
+                        } catch (JSONException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+
+                        conversations.add(valeur);
+                    }
+                }
+
+                ConversationsArray.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+        });
 
 
         rlvNewConversation.setOnClickListener(new View.OnClickListener() {

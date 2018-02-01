@@ -792,6 +792,7 @@ public class ProfilsActivity extends Fragment {
 
         View v = inflater.inflate(R.layout.activity_profils, container, false);
 
+        User = FragmentsSliderActivity.User;
 
         locale=Locale.getDefault();
 

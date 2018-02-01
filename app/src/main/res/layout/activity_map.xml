@@ -264,7 +264,7 @@
             android:layout_centerHorizontal="true"
             android:background="#fff"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="visible">
 
 
             <TextView

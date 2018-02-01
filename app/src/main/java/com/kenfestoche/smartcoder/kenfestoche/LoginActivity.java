@@ -336,12 +336,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     user.connecte=true;
                     user.save();
                     editor.putLong("UserId", user.getId());
-                    editor.commit();
                     Intent i = new Intent(getApplicationContext(), FragmentsSliderActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.putExtra("phone", mEmailView.getText().toString());
                     editor = preferences.edit();
+                    editor.putString("idfb", "");
                     editor.putString("phone", mEmailView.getText().toString());
+                    editor.putString("pass",mPasswordView.getText().toString());
                     editor.commit();
                     finish();
                     startActivity(i);
@@ -351,6 +352,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     user.connecte=true;
                     user.save();
                     editor.putLong("UserId", user.getId());
+                    editor.putString("idfb", "");
+                    editor.putString("phone", mEmailView.getText().toString());
+                    editor.putString("pass",mPasswordView.getText().toString());
                     editor.commit();
                     Intent i = new Intent(getApplicationContext(), VerifSmsCode.class);
                     startActivity(i);

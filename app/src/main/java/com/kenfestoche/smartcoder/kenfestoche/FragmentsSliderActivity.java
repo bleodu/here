@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import com.eftimoff.viewpagertransformers.RotateUpTransformer;
 import com.eftimoff.viewpagertransformers.StackTransformer;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
+import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 
 import java.util.List;
 import java.util.Vector;
@@ -48,8 +49,16 @@ public class FragmentsSliderActivity extends FragmentActivity {
         pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
         editor = pref.edit();
+        WebService WS = new WebService(getApplicationContext());
+        //User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
+        if(!pref.getString("idfb","").equals("")){
+            User = WS.GetUserFacebook(pref.getString("idfb",""));
+            User.connecte=true;
+        }else if(!pref.getString("phone","").equals("")){
+            User=WS.Connect(pref.getString("phone",""),pref.getString("pass",""));
+            User.connecte=true;
+        }
 
-        User = Utilisateur.findById(Utilisateur.class,pref.getLong("UserId", 0));
         // Création de la liste de Fragments que fera défiler le PagerAdapter
         List fragments = new Vector();
 
