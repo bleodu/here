@@ -457,7 +457,7 @@ public class Conversation extends AppCompatActivity {
                 btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
                 btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
                 btLocaliser.setEnabled(false);
-            }else if(statut.equals("1") && User.sexe==0){ // pour les hommes
+            }else if((statut.equals("1") || statut.equals("0")) && User.sexe==0){ // pour les hommes
                 btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
                 btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
                 btLocaliser.setEnabled(false);
@@ -997,7 +997,7 @@ public class Conversation extends AppCompatActivity {
                     btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
                     btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
                     btLocaliser.setEnabled(false);
-                }else if(statut.equals("1") && User.sexe==0){ // pour les hommes
+                }else if((statut.equals("1") || statut.equals("0")) && User.sexe==0){
                     btLocaliser.setBackgroundResource(R.drawable.my_bordersendko);
                     btLocaliser.setTextColor(getResources().getColor(R.color.rosedeselect));
                     btLocaliser.setEnabled(false);

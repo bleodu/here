@@ -73,7 +73,7 @@
                 <RelativeLayout
                     android:id="@+id/rltProfil"
                     android:layout_width="fill_parent"
-                    android:layout_height="380dp"
+                    android:layout_height="420dp"
                     android:layout_gravity="center">
 
                     <TextView
@@ -92,10 +92,10 @@
                     <com.lorentzos.flingswipe.SwipeFlingAdapterView
                         android:id="@+id/frameProfil"
                         android:layout_width="fill_parent"
-                        android:layout_height="380dp"
+                        android:layout_height="420dp"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="20dip"
+                        android:layout_marginTop="10dip"
                         app:rotation_degrees="20.5" />
 
                     <RelativeLayout
@@ -132,7 +132,7 @@
                     android:id="@+id/pbKiffe"
                     android:layout_width="match_parent"
                     android:layout_height="30dip"
-                    android:layout_marginBottom="15dip"
+                    android:layout_marginBottom="5dip"
                     android:layout_marginLeft="15dip"
                     android:layout_marginRight="15dip" />
 
