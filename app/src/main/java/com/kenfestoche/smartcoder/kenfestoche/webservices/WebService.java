@@ -177,7 +177,7 @@ public class WebService {
 
             int bytesRead, bytesAvailable, bufferSize;
             byte[] buffer;
-            int maxBufferSize = 1*1024*1024;
+            int maxBufferSize = 1*4096*4096;
 
             try
             {

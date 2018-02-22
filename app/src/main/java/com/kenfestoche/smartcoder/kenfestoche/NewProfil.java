@@ -372,7 +372,8 @@ public class NewProfil extends AppCompatActivity {
                         //SharedPreferences pref = getSharedPreferences("EASER", MODE_PRIVATE);
 
                         editor = preferences.edit();
-
+                        editor.putString("phone",User.phone);
+                        editor.putString("pass",User.password);
                         editor.putLong("UserId",User.getId());
 
                         editor.commit();

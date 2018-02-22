@@ -33,7 +33,7 @@
 
     <string name="main_tel">Avec un n° de téléphone</string>
 
-    <string name="header_contact">DAREMPREDOU</string>
+    <string name="header_contact">darempredou</string>
 
     <string name="typesoiree">seurt nozhvez</string>
     <string name="liensite">lerc\'hienn</string>
@@ -160,7 +160,7 @@
     <string name="mesmatch">va c’hiff-ed</string>
     <string name="mesamisleg">va mignoned</string>
     <string name="soireemap">nozvezh</string>
-    <string name="Profil">PROFIL</string>
+    <string name="Profil">profil</string>
     <string-array name="pref_example_list_titles">
         <item>Always</item>
         <item>When possible</item>
@@ -171,8 +171,8 @@
         <item>0</item>
         <item>-1</item>
     </string-array>
-    <string name="MAP">MAP</string>
-    <string name="EASER">EASER</string>
+    <string name="MAP">map</string>
+    <string name="EASER">easer</string>
     <string name="politique">penndiviz an diaz-titouroù</string>
     <string name="conditiongenerale">reolennoù hollek</string>
 

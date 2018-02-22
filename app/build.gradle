@@ -8,8 +8,8 @@ android {
         minSdkVersion 16
         multiDexEnabled true
         targetSdkVersion 26
-        versionCode 36
-        versionName "36"
+        versionCode 44
+        versionName "44"
     }
     dexOptions {
         javaMaxHeapSize "4g"
@@ -39,6 +39,7 @@ dependencies {
     // this line must be included to integrate with Firebase
     //Add this line
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.yalantis:ucrop:2.2.1'
     compile 'com.github.Plumillon:ChipView:1.2.0'
     compile 'com.github.bumptech.glide:glide:3.5.1'
     compile 'com.lorentzos.swipecards:library:1.0.9'

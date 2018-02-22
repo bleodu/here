@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center_horizontal">
+    android:layout_height="350dip"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
 
     <com.kenfestoche.smartcoder.kenfestoche.model.SquareImageView
         android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:src="@drawable/fille"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        />
+        android:layout_width="340dip"
+        android:layout_height="390dip"
+        android:scaleType="fitXY"
+        android:src="@drawable/fille" />
 
 </LinearLayout>

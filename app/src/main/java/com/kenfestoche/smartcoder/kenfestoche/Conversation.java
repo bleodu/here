@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class Conversation extends AppCompatActivity {
@@ -180,6 +181,8 @@ public class Conversation extends AppCompatActivity {
                         try {
                             bitmap = BitmapFactory.decodeStream(pictureURL.openStream());
                             imPhotoConversation.setImageBitmap(bitmap);
+
+
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -205,6 +208,16 @@ public class Conversation extends AppCompatActivity {
                 btLocaliser.setBackgroundResource(R.drawable.my_bordersend);
                 btLocaliser.setTextColor(getResources().getColor(R.color.blanc));
             }
+
+            imPhotoConversation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getApplicationContext(),ProfilDetailActivity.class);
+                    i.putExtra("id_user",id_kiffs);
+                    i.putExtra("new_match",true);
+                    startActivity(i);
+                }
+            });
 
 
 
@@ -309,7 +322,7 @@ public class Conversation extends AppCompatActivity {
                     //edtSendMessage.setVisibility(View.VISIBLE);
                     //txResteMessage.setVisibility(View.INVISIBLE);
                     try {
-                        if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                        if(resultList.getJSONObject(0).getInt("nbMess")>9){
                             //if(bmessageMax==false){
                             //imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
                             if(User.popupmessage==0){
@@ -327,7 +340,7 @@ public class Conversation extends AppCompatActivity {
                             //bmessageMax=true;
                             //}
                         }else{
-                            int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                            int nbMess = 10 - resultList.getJSONObject(0).getInt("nbMess");
                             txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " +  getResources().getString(R.string.contact_message));
                         }
                     } catch (JSONException e) {
@@ -339,7 +352,7 @@ public class Conversation extends AppCompatActivity {
 
 
                     try {
-                        if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                        if(resultList.getJSONObject(0).getInt("nbMess")>9){
                             //if(bmessageMax==false){
                             //edtSendMessage.setVisibility(View.INVISIBLE);
                             edtSendMessage.setEnabled(false);
@@ -351,7 +364,7 @@ public class Conversation extends AppCompatActivity {
                             //bmessageMax=true;
                             //}
                         }else{
-                            int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                            int nbMess = 10 - resultList.getJSONObject(0).getInt("nbMess");
                             txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " + getResources().getString(R.string.contact_message));
                         }
                     } catch (JSONException e) {
@@ -393,7 +406,7 @@ public class Conversation extends AppCompatActivity {
                     //edtSendMessage.setVisibility(View.VISIBLE);
                     //txResteMessage.setVisibility(View.INVISIBLE);
                     try {
-                        if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                        if(resultList.getJSONObject(0).getInt("nbMess")>9){
                             //if(bmessageMax==false){
                             //imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
                             if(User.popupmessage==0){
@@ -408,7 +421,7 @@ public class Conversation extends AppCompatActivity {
                             //bmessageMax=true;
                             //}
                         }else{
-                            int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                            int nbMess = 10 - resultList.getJSONObject(0).getInt("nbMess");
                             txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " +  getResources().getString(R.string.contact_message));
                         }
                     } catch (JSONException e) {
@@ -420,7 +433,7 @@ public class Conversation extends AppCompatActivity {
 
 
                     try {
-                        if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                        if(resultList.getJSONObject(0).getInt("nbMess")>9){
                             //if(bmessageMax==false){
                             edtSendMessage.setEnabled(false);
                             edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
@@ -432,7 +445,7 @@ public class Conversation extends AppCompatActivity {
                             //bmessageMax=true;
                             //}
                         }else{
-                            int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                            int nbMess = 10 - resultList.getJSONObject(0).getInt("nbMess");
                             txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " + getResources().getString(R.string.contact_message));
                         }
                     } catch (JSONException e) {
@@ -849,7 +862,7 @@ public class Conversation extends AppCompatActivity {
                         //edtSendMessage.setVisibility(View.VISIBLE);
                         //txResteMessage.setVisibility(View.INVISIBLE);
                         try {
-                            if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                            if(resultList.getJSONObject(0).getInt("nbMess")>9){
                                 //if(bmessageMax==false){
                                     //imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
                                     if(User.popupmessage==0){
@@ -867,7 +880,7 @@ public class Conversation extends AppCompatActivity {
                                     //bmessageMax=true;
                                 //}
                             }else{
-                                int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                                int nbMess = 10 - resultList.getJSONObject(0).getInt("nbMess");
                                 txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " +  getResources().getString(R.string.contact_message));
                             }
                         } catch (JSONException e) {
@@ -879,7 +892,7 @@ public class Conversation extends AppCompatActivity {
 
 
                         try {
-                            if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                            if(resultList.getJSONObject(0).getInt("nbMess")>9){
                                 //if(bmessageMax==false){
                                     //edtSendMessage.setVisibility(View.INVISIBLE);
                                     edtSendMessage.setEnabled(false);
@@ -891,7 +904,7 @@ public class Conversation extends AppCompatActivity {
                                     //bmessageMax=true;
                                 //}
                             }else{
-                                int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                                int nbMess = 10 - resultList.getJSONObject(0).getInt("nbMess");
                                 txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " + getResources().getString(R.string.contact_message));
                             }
                         } catch (JSONException e) {
@@ -933,7 +946,7 @@ public class Conversation extends AppCompatActivity {
                         //edtSendMessage.setVisibility(View.VISIBLE);
                         //txResteMessage.setVisibility(View.INVISIBLE);
                         try {
-                            if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                            if(resultList.getJSONObject(0).getInt("nbMess")>9){
                                 //if(bmessageMax==false){
                                     //imPopUpMessages.setImageResource(R.drawable.popupmaxmessage);
                                     if(User.popupmessage==0){
@@ -948,7 +961,7 @@ public class Conversation extends AppCompatActivity {
                                     //bmessageMax=true;
                                 //}
                             }else{
-                                int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                                int nbMess = 10 - resultList.getJSONObject(0).getInt("nbMess");
                                 txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " +  getResources().getString(R.string.contact_message));
                             }
                         } catch (JSONException e) {
@@ -960,7 +973,7 @@ public class Conversation extends AppCompatActivity {
 
 
                             try {
-                                if(resultList.getJSONObject(0).getInt("nbMess")>5){
+                                if(resultList.getJSONObject(0).getInt("nbMess")>9){
                                     //if(bmessageMax==false){
                                         edtSendMessage.setEnabled(false);
                                         edtSendMessage.setBackgroundResource(R.drawable.my_bordersendko);
@@ -972,7 +985,7 @@ public class Conversation extends AppCompatActivity {
                                         //bmessageMax=true;
                                     //}
                                 }else{
-                                    int nbMess = 6 - resultList.getJSONObject(0).getInt("nbMess");
+                                    int nbMess = 10 - resultList.getJSONObject(0).getInt("nbMess");
                                     txResteMessage.setText(getResources().getString(R.string.contact_nbmessage) + " " + nbMess + " " + getResources().getString(R.string.contact_message));
                                 }
                             } catch (JSONException e) {

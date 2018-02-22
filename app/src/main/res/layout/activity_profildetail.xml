@@ -19,7 +19,8 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip">
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/indicator"
@@ -31,28 +32,29 @@
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/pagerProfil"
+                android:layout_width="match_parent"
+                android:layout_height="350dip"
+                android:layout_alignEnd="@+id/imSignalement"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_height="300dp"
-                android:layout_width="wrap_content" />
+                android:layout_alignRight="@+id/imSignalement"
+                android:layout_centerInParent="false" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/imFlecheGauche"
-                android:layout_margin="10dip"
-                android:src="@drawable/fleche"
-                android:layout_alignParentLeft="true" />
-
-            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_margin="10dip"
-                android:src="@drawable/signaler"
+                android:src="@drawable/fleche" />
+
+            <ImageView
                 android:id="@+id/imSignalement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_marginLeft="10dip"
+                android:src="@drawable/signaler" />
 
 
         </RelativeLayout>
@@ -64,7 +66,7 @@
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="5dip"
             android:gravity="center_vertical"
             android:layout_gravity="left">
 

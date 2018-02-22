@@ -72,6 +72,7 @@ import com.kenfestoche.smartcoder.kenfestoche.webservices.ParamActivity;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.yalantis.ucrop.UCrop;
 //import com.squareup.okhttp.OkHttpClient;
 
 
@@ -135,7 +136,7 @@ public class UserProfil extends Fragment {
     Button Valider;
 
     MyGridPhoto gridPhotos;
-
+    Uri outputFileUri;
     EditText Edtqqmot;
 
     ImageView imgAdd;
@@ -904,21 +905,39 @@ public class UserProfil extends Fragment {
             try {
                 //String picUri=\"your irl";
 
-                Intent myCropIntent = new Intent("com.android.camera.action.CROP");
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = timeStamp + ".jpg";
+                File storageDir = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES);
+                String ImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+                File file = new File(ImagePath);
+                outputFileUri = Uri.fromFile(file);
 
-                myCropIntent.setDataAndType(selectedImage, "image/*");
-                myCropIntent.putExtra("crop", "true");
-                myCropIntent.putExtra("aspectX", 1);
-                myCropIntent.putExtra("aspectY", 1);
-                myCropIntent.putExtra("outputX", 300);
-                myCropIntent.putExtra("outputY", 300);
-                myCropIntent.putExtra("return-data", true);
-                startActivityForResult(myCropIntent, 3);
+                UCrop.Options options = new UCrop.Options();
+                options.setCompressionQuality(100);
+                options.setActiveWidgetColor(Color.parseColor("#2c2954"));
+                options.setToolbarColor(Color.parseColor("#2c2954"));
+                options.setCropFrameColor(Color.parseColor("#2c2954"));
+                options.setStatusBarColor(Color.parseColor("#2c2954"));
+                options.setToolbarTitle("Photo");
+                UCrop.of(selectedImage, Uri.fromFile(new File(getActivity().getCacheDir(), imageFileName)))
+                        .withAspectRatio(1, 1)
+                        .withOptions(options)
+                        .withMaxResultSize(800, 800)
+                        .start(getContext(), this, UCrop.REQUEST_CROP);
             }
 
             catch (ActivityNotFoundException e) {
 
                 String errorMessage = "No Activity found";
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+
+                WebService WS = new WebService(getContext());
+                WS.UploadImage(picturePath,User);
+                //notifyDataSetChanged here or update your UI on different thread
+                adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity);
+                //adapterPhoto.notifyDataSetChanged();
+                gridPhotos.setAdapter(adapterPhoto);
             }
 
 
@@ -940,27 +959,42 @@ public class UserProfil extends Fragment {
 
         }else if(requestCode == 1){ //TAKE A PHOTO
             //Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Bitmap photo=null;
+            try {
+                photo = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), outputFileUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // outputFileUri = (Uri) data.getExtras().get(MediaStore.EXTRA_OUTPUT);
+
             Uri tempUri = null;
-            File imgFile = new  File(pictureImagePath);
+            //tempUri = data.getData();
+            tempUri = getImageUri(getActivity().getApplicationContext(), photo);
+            File finalFile = new File(getRealPathFromURI(tempUri));
+            //mImageCaptureUri= (Uri) data.getExtras().get("URI");
+            picturePath = finalFile.getPath();
+            //tempUri = getImageUri(getActivity().getApplicationContext(), photo);
+            /*File imgFile = new  File(pictureImagePath);
             if(imgFile.exists()){
                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 tempUri = getImageUri(getActivity().getApplicationContext(), myBitmap);
-                //ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
+               // ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
                 //myImage.setImageBitmap(myBitmap);
 
-            }
+            }*/
+
         
             
             // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
         
-            ///Uri tempUri = getImageUri(getActivity().getApplicationContext(), photo);
+            //Uri tempUri = getImageUri(getActivity().getApplicationContext(), photo);
 
             // CALL THIS METHOD TO GET THE ACTUAL PATH
-            /*File finalFile = new File(getRealPathFromURI(tempUri));
+            //File finalFile = new File(getRealPathFromURI(tempUri));
             //mImageCaptureUri= (Uri) data.getExtras().get("URI");
-            picturePath = finalFile.getPath();
+            //picturePath = finalFile.getPath();
                     //String picturePath = mImageCaptureUri.getPath();
-            MonActivity.runOnUiThread(new Runnable() {
+            /*MonActivity.runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
@@ -977,21 +1011,46 @@ public class UserProfil extends Fragment {
             try {
                 //String picUri=\"your irl";
 
-                Intent myCropIntent = new Intent("com.android.camera.action.CROP");
 
-                myCropIntent.setDataAndType(tempUri, "image/*");
-                myCropIntent.putExtra("crop", "true");
-                myCropIntent.putExtra("aspectX", 1);
-                myCropIntent.putExtra("aspectY", 1);
-                myCropIntent.putExtra("outputX", 300);
-                myCropIntent.putExtra("outputY", 300);
-                myCropIntent.putExtra("return-data", true);
-                startActivityForResult(myCropIntent, 3);
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = timeStamp + ".jpg";
+                File storageDir = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES);
+                String ImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+                File file = new File(ImagePath);
+                outputFileUri = Uri.fromFile(file);
+
+                UCrop.Options options = new UCrop.Options();
+                options.setCompressionQuality(100);
+                options.setActiveWidgetColor(Color.parseColor("#2c2954"));
+                options.setToolbarColor(Color.parseColor("#2c2954"));
+                options.setCropFrameColor(Color.parseColor("#2c2954"));
+                options.setStatusBarColor(Color.parseColor("#2c2954"));
+                options.setToolbarTitle("Photo");
+                UCrop.of(tempUri, Uri.fromFile(new File(getActivity().getCacheDir(), imageFileName)))
+                        .withAspectRatio(1, 1)
+                        .withOptions(options)
+                        .withMaxResultSize(800, 800)
+                        .start(getContext(), this, UCrop.REQUEST_CROP);
             }
 
             catch (ActivityNotFoundException e) {
 
                 String errorMessage = "No Activity found";
+                Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                MonActivity.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        WebService WS = new WebService(getContext());
+                        WS.UploadImage(picturePath,User);
+                        //notifyDataSetChanged here or update your UI on different thread
+                        adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity);
+                        //adapterPhoto.notifyDataSetChanged();
+                        gridPhotos.setAdapter(adapterPhoto);
+                    }
+                });
             }
 
            /* Intent i = new Intent(getActivity().getApplicationContext(),ActivityAdjustPhoto.class);
@@ -1002,18 +1061,42 @@ public class UserProfil extends Fragment {
 
         }else if(requestCode == 3) { //CROP IMAGE
             try{
-                Uri selectedImage = data.getData();
+
+                Uri tempUri = null;
+
+                if(data.getExtras()!=null){
+                    Bitmap photo = data.getExtras().getParcelable("data");
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+                    tempUri = getImageUri(getActivity().getApplicationContext(), photo);
+
+                    File finalFile = new File(getRealPathFromURI(tempUri));
+                    //mImageCaptureUri= (Uri) data.getExtras().get("URI");
+                    picturePath = finalFile.getPath();
+                }else{
+                    Uri selectedImage = data.getData();
+                    File finalFile = new File(getRealPathFromURI(selectedImage));
+                    //mImageCaptureUri= (Uri) data.getExtras().get("URI");
+                    picturePath = finalFile.getPath();
+                }
+
+
+
+
+
+                /*Uri selectedImage = data.getData();
                 File finalFile = new File(getRealPathFromURI(selectedImage));
                 //mImageCaptureUri= (Uri) data.getExtras().get("URI");
-                picturePath = finalFile.getPath();
+                picturePath = finalFile.getPath();*/
                 //String picturePath = mImageCaptureUri.getPath();
-            /*String[] filePath = { MediaStore.Images.Media.DATA };
-            Cursor c = getActivity().getContentResolver().query(
-                    selectedImage, filePath, null, null, null);
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePath[0]);
-            picturePath = c.getString(columnIndex);
-            c.close();*/
+                /*String[] filePath = { MediaStore.Images.Media.DATA };
+                Cursor c = getActivity().getContentResolver().query(
+                        selectedImage, filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                picturePath = c.getString(columnIndex);
+                c.close();*/
 
 
                 SharedPreferences pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
@@ -1034,10 +1117,38 @@ public class UserProfil extends Fragment {
                     }
                 });
             }catch (Exception e){
-
+                Toast.makeText(getContext(),e.getCause().getMessage(),Toast.LENGTH_LONG).show();
             }
 
-        }else{
+        }else if (resultCode == getActivity().RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            final Uri resultUri = UCrop.getOutput(data);
+            /*File finalFile = new File(getRealPathFromURI(resultUri));
+            //mImageCaptureUri= (Uri) data.getExtras().get("URI");
+            picturePath = finalFile.getPath();*/
+            SharedPreferences pref = getActivity().getSharedPreferences("EASER", getActivity().MODE_PRIVATE);
+
+            SharedPreferences.Editor edt = pref.edit();
+
+            MonActivity.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    WebService WS = new WebService(getContext());
+                    WS.UploadImage(resultUri.getPath(),User);
+                    //notifyDataSetChanged here or update your UI on different thread
+                    adapterPhoto=new ImagesProfil(MonActivity.getApplicationContext(),1,User,MonActivity);
+                    //adapterPhoto.notifyDataSetChanged();
+                    gridPhotos.setAdapter(adapterPhoto);
+                }
+            });
+
+
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            final Throwable cropError = UCrop.getError(data);
+        }
+
+        else{
 
             MonActivity.runOnUiThread(new Runnable() {
 
@@ -1051,6 +1162,67 @@ public class UserProfil extends Fragment {
             });
 
 
+        }
+    }
+
+    private Bitmap getBitmap(String path) {
+
+        Uri uri = Uri.fromFile(new File(path));
+        InputStream in = null;
+        try {
+            final int IMAGE_MAX_SIZE = 1200000; // 1.2MP
+            in = getActivity().getContentResolver().openInputStream(uri);
+
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(in, null, o);
+            in.close();
+
+
+            int scale = 1;
+            while ((o.outWidth * o.outHeight) * (1 / Math.pow(scale, 2)) >
+                    IMAGE_MAX_SIZE) {
+                scale++;
+            }
+            Log.d("", "scale = " + scale + ", orig-width: " + o.outWidth + ", orig-height: " + o.outHeight);
+
+            Bitmap b = null;
+            in = getActivity().getContentResolver().openInputStream(uri);
+            if (scale > 1) {
+                scale--;
+                // scale to max possible inSampleSize that still yields an image
+                // larger than target
+                o = new BitmapFactory.Options();
+                o.inSampleSize = scale;
+                b = BitmapFactory.decodeStream(in, null, o);
+
+                // resize to desired dimensions
+                int height = b.getHeight();
+                int width = b.getWidth();
+                Log.d("", "1th scale operation dimenions - width: " + width + ", height: " + height);
+
+                double y = Math.sqrt(IMAGE_MAX_SIZE
+                        / (((double) width) / height));
+                double x = (y / height) * width;
+
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(b, (int) x,
+                        (int) y, true);
+                b.recycle();
+                b = scaledBitmap;
+
+                System.gc();
+            } else {
+                b = BitmapFactory.decodeStream(in);
+            }
+            in.close();
+
+            Log.d("", "bitmap size - width: " + b.getWidth() + ", height: " +
+                    b.getHeight());
+            return b;
+        } catch (IOException e) {
+            Log.e("", e.getMessage(), e);
+            return null;
         }
     }
 
@@ -1300,8 +1472,9 @@ public class UserProfil extends Fragment {
                                             Environment.DIRECTORY_PICTURES);
                                     pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
                                     File file = new File(pictureImagePath);
-                                    Uri outputFileUri = Uri.fromFile(file);
+                                    outputFileUri = Uri.fromFile(file);
                                     Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
                                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
                                     startActivityForResult(cameraIntent, 1);
                                 }
@@ -1440,8 +1613,9 @@ public class UserProfil extends Fragment {
                                         Environment.DIRECTORY_PICTURES);
                                 pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
                                 File file = new File(pictureImagePath);
-                                Uri outputFileUri = Uri.fromFile(file);
+                                outputFileUri = Uri.fromFile(file);
                                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
                                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
                                 startActivityForResult(cameraIntent, 1);
                             }

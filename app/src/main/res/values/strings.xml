@@ -31,7 +31,7 @@
     <string name="contact_nbmessage">Vous pouvez envoyer </string>
     <string name="contact_lelocaliser">Vous pouvez le localiser </string>
     <string name="contact_message">messages</string>
-    <string name="header_contact">CONTACTS</string>
+    <string name="header_contact">contacts</string>
 
     <string name="main_tel">Avec un n° de téléphone</string>
     <string name="main_fb">avec Facebook</string>
@@ -154,9 +154,9 @@
     <string name="mesmatch">mes matchs</string>
     <string name="mesamisleg">mes amis</string>
     <string name="soireemap">soirée</string>
-    <string name="EASER">EASER</string>
-    <string name="MAP">MAP</string>
-    <string name="Profil">PROFIL</string>
+    <string name="EASER">easer</string>
+    <string name="MAP">map</string>
+    <string name="Profil">profil</string>
     <string name="politique">politique de confidentialité</string>
     <string name="conditiongenerale">conditions générales</string>
     <string-array name="pref_example_list_titles">

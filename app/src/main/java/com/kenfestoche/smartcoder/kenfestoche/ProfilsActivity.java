@@ -599,7 +599,7 @@ public class ProfilsActivity extends Fragment {
                     JSONArray Rep = WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"1");
                     try {
                         JSONObject Retour=Rep.getJSONObject(0);
-                        if(Retour.getString("NEWMATCH")=="1"){
+                        if(Retour.getString("NEWMATCH").equals("1")){
                             //Toast.makeText(getApplicationContext(), "Vous avez un nouveau match", Toast.LENGTH_LONG).show();
                             rlvNewKiff.setVisibility(View.VISIBLE);
 
@@ -1269,7 +1269,7 @@ public class ProfilsActivity extends Fragment {
                     JSONArray Rep = WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"1");
                     try {
                         JSONObject Retour=Rep.getJSONObject(0);
-                        if(Retour.getString("NEWMATCH")=="1"){
+                        if(Retour.getString("NEWMATCH").equals("1")){
                             //Toast.makeText(getApplicationContext(), "Vous avez un nouveau match", Toast.LENGTH_LONG).show();
                             rlvNewKiff.setVisibility(View.VISIBLE);
 
