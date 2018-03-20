@@ -58,7 +58,7 @@ public class ProfilDetailActivity extends AppCompatActivity {
     TextView txAge;
     TextView txNom;
     TextView txDescription;
-
+    TextView txVerifie;
     String idUserKiff;
     ImageButton rbcalme1;
     ImageButton rbcalme2;
@@ -111,6 +111,7 @@ public class ProfilDetailActivity extends AppCompatActivity {
 
         }
 
+        txVerifie = findViewById(R.id.txVerifie);
 
         imFlecheGauche = (ImageView) findViewById(R.id.imFlecheGauche);
         imSignalement = (ImageView) findViewById(R.id.imSignalement);
@@ -146,6 +147,8 @@ public class ProfilDetailActivity extends AppCompatActivity {
         txAge.setTypeface(face);
         txNom.setTypeface(face);
         txDescription.setTypeface(face);
+        txVerifie.setTypeface(face);
+
 
 
         if(pref.getString("Langue","").equals("Breton")){
@@ -251,6 +254,12 @@ public class ProfilDetailActivity extends AppCompatActivity {
             txAge.setText(userobj.getString("age") + " Ans");
             txNom.setText(userobj.getString("pseudo"));
             txDescription.setText(userobj.getString("description"));
+
+            if(userobj.getInt("statut")==2){
+                txVerifie.setVisibility(View.VISIBLE);
+            }else{
+                txVerifie.setVisibility(View.INVISIBLE);
+            }
 
             switch (userobj.getInt("calme"))
             {

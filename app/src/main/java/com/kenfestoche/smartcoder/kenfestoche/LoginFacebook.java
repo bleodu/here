@@ -115,8 +115,10 @@ public class LoginFacebook extends AppCompatActivity {
                     WebService WS = new WebService(getApplicationContext());
 
                     WS.CreateUser(user);
+                    Intent i = new Intent(getApplicationContext(),SendMotPasse.class);
+                    i.putExtra("idfacebook",preferences.getString("idfb",""));
 
-                    startActivity(new Intent(getApplicationContext(),FragmentsSliderActivity.class));
+                    startActivity(i);
                 }else{
                     Toast.makeText(getApplicationContext(),getResources().getString(R.string.tendance),Toast.LENGTH_LONG).show();
                 }
@@ -186,14 +188,6 @@ public class LoginFacebook extends AppCompatActivity {
 
 
 
-
-        //loginButton = (LoginButton)findViewById(R.id.login_button);
-        /*loginButton.setBackgroundResource(R.drawable.boutonfacebook);
-        loginButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        loginButton.setCompoundDrawablePadding(0);
-        loginButton.setPadding(0, 0, 0, 0);*/
-        //loginButton.setText(" avec Facebook");
-        //info = (TextView)findViewById(R.id.txRetour);
 
 
 

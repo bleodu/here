@@ -1,5 +1,6 @@
 package com.kenfestoche.smartcoder.kenfestoche;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +32,9 @@ public class SendMotPasse extends AppCompatActivity {
 
         ValidSmsCode = (Button) findViewById(R.id.btVerifCode);
 
+        final String idFacebook = getIntent().getExtras().getString("idfacebook","");
+
+
         Typeface face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
 
         NumTel.setTypeface(face);
@@ -59,8 +63,13 @@ public class SendMotPasse extends AppCompatActivity {
                     WebService WS = new WebService(getBaseContext());
                     Utilisateur User = new Utilisateur();
                     User.phone =NumTel.getText().toString();
+                    JSONArray Result=null;
+                    if(idFacebook.equals("")){
+                        Result =WS.GetSmsCode(User,false,true,"");
+                    }else{
+                        Result =WS.GetSmsCode(User,true,false,idFacebook);
+                    }
 
-                    JSONArray Result =WS.GetSmsCode(User,false,true);
                     try {
                         JSONObject Code = Result.getJSONObject(0);
 
@@ -68,6 +77,12 @@ public class SendMotPasse extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),Code.getString("message"),Toast.LENGTH_LONG).show();
                         }else{
                             Toast.makeText(getApplicationContext(),"Code envoyé par SMS.",Toast.LENGTH_LONG).show();
+                            if(!idFacebook.equals("")){
+                                Intent i = new Intent(SendMotPasse.this,VerifSmsCode.class);
+                                i.putExtra("idfacebook",idFacebook);
+                                i.putExtra("phonefb",NumTel.getText().toString());
+                                startActivity(i);
+                            }
                             finish();
                         }
 

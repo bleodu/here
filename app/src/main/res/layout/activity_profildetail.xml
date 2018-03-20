@@ -240,28 +240,46 @@
             android:id="@+id/txDescription" />
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            app:srcCompat="@drawable/beurk"
             android:id="@+id/imBeurk"
-            android:layout_weight="1" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/txVerifie"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/beurk" />
+
+        <TextView
+            android:id="@+id/txVerifie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dip"
+            android:text="@string/profil_verifie"
+            android:textColor="#cd0c63"
+            android:textSize="18dip" />
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/kiffe"
-            android:layout_marginBottom="15dip"
-            android:gravity="right"
             android:id="@+id/imKiffe"
-            android:layout_weight="1" />
-    </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/txVerifie"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/kiffe" />
+    </RelativeLayout>
 
 </LinearLayout>

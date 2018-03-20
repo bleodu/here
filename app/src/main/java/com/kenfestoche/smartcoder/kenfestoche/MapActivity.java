@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -93,9 +94,17 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
     Marker markerPosition;
 
     ArrayList<Marker> lstMarkerInconnus;
+
+    ArrayList<MarkerOptions> lstMarkerInconnusOptions;
     ArrayList<Marker> lstMarkerSoirees;
+    ArrayList<JSONObject> lstMarkerSoireesJS;
+    ArrayList<MarkerOptions> lstMarkerSoireeOptions;
     ArrayList<Marker> lstMarkerMatchs;
+    ArrayList<MarkerOptions> lstMarkerMatchOptions;
+    ArrayList<JSONObject> lstMarkerMatchJS;
     ArrayList<Marker> lstMarkerAmis;
+    ArrayList<JSONObject> lstMarkerAmisJS;
+    ArrayList<MarkerOptions> lstMarkerAmisOptions;
     LocationManager locationManager;
 
     TextView txFetes;
@@ -213,6 +222,21 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
             }
 
         }
+
+        lstMarkerSoirees = new ArrayList<Marker>();
+        lstMarkerSoireesJS = new ArrayList<JSONObject>();
+        lstMarkerSoireeOptions = new ArrayList<MarkerOptions>();
+
+        lstMarkerMatchs = new ArrayList<Marker>();
+        lstMarkerMatchJS = new ArrayList<JSONObject>();
+        lstMarkerMatchOptions = new ArrayList<MarkerOptions>();
+
+        lstMarkerAmis = new ArrayList<Marker>();
+        lstMarkerAmisJS = new ArrayList<JSONObject>();
+        lstMarkerAmisOptions = new ArrayList<MarkerOptions>();
+
+        lstMarkerInconnus = new ArrayList<Marker>();
+        lstMarkerInconnusOptions = new ArrayList<MarkerOptions>();
 
         Typeface facegras = Typeface.createFromAsset(getActivity().getAssets(), "weblysleekuisb.ttf");
 
@@ -515,15 +539,37 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                 }
 
                 if (cliclsoiree == false) {
+                    if(lstMarkerSoirees!=null){
+                        for (int i = 0; i < lstMarkerSoirees.size(); i++) {
+                            Marker marker = lstMarkerSoirees.get(i);
+                            marker.remove();
+                        }
+                        lstMarkerSoirees.clear();
+                        //lstMarkerSoireeOptions.clear();
+                    }
+
                     txLegSoiree.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
                 }else{
                     if(txLegSoiree.getPaintFlags() == Paint.STRIKE_THRU_TEXT_FLAG){
                         txLegSoiree.setPaintFlags(txLegSoiree.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
                     }
+                    if(lstMarkerSoireeOptions != null){
+                        for (int j = 0; j < lstMarkerSoireeOptions.size(); j++) {
+                            MarkerOptions mkOption = lstMarkerSoireeOptions.get(j);
+
+                            Marker marker = googleMap.addMarker(mkOption);
+                            marker.setTag(3);
+                            lstMarkerSoirees.add(marker);
+
+
+                        }
+
+                    }
 
                 }
 
-               RefreshPositions();
+              // RefreshPositions();
             }
         });
 
@@ -539,14 +585,34 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                 if (cliclsoiree == false) {
                     txLegSoiree.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+                    for (int i = 0; i < lstMarkerSoirees.size(); i++) {
+                        Marker marker = lstMarkerSoirees.get(i);
+                        marker.remove();
+                    }
+                    lstMarkerSoirees.clear();
+                    //lstMarkerSoireeOptions.clear();
                 }else{
                     if(txLegSoiree.getPaintFlags() == Paint.STRIKE_THRU_TEXT_FLAG){
                         txLegSoiree.setPaintFlags(txLegSoiree.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
                     }
 
+                    if(lstMarkerSoireeOptions!=null){
+                        for (int j = 0; j < lstMarkerSoireeOptions.size(); j++) {
+                            MarkerOptions mkOption = lstMarkerSoireeOptions.get(j);
+
+                            Marker marker = googleMap.addMarker(mkOption);
+                            marker.setTag(3);
+                            lstMarkerSoirees.add(marker);
+
+
+                        }
+                    }
+
+
                 }
                 User.save();
-               RefreshPositions();
+               //RefreshPositions();
 
 
             }
@@ -691,7 +757,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     CameraPosition cameraPosition = new CameraPosition.Builder().target(moi).zoom(15).build();
                     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-                    if(cercleMoi==null){
+                    /*if(cercleMoi==null){
                         cercleMoi= googleMap.addCircle(new CircleOptions()
                                 .center(moi)
                                 .radius(300)
@@ -702,7 +768,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                     }else{
                         cercleMoi.setCenter(moi);
-                    }
+                    }*/
 
 
 
@@ -730,85 +796,14 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     clicAmis = true;
                     FragmentsSliderActivity.ClicAmis = true;
 
-                    RefreshPositions();
+                    for (int i = 0; i < lstMarkerAmis.size(); i++) {
+                        Marker marker = lstMarkerAmis.get(i);
+                        marker.remove();
+                    }
+                    lstMarkerAmis.clear();
+                    //lstMarkerAmisOptions.clear();
 
-                   /* if (User != null) {
-                        WebService WS = new WebService(getContext());
-                        JSONArray ListPositions;
-                        if (clicInconnu == false) {
-                            ListPositions = WS.GetLastPositionUserInconnu(User);
 
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
-                                    marker.setTag("0");
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }
-
-                        if (clicKiff == false) {
-                            ListPositions = WS.GetLastPositionUserMatch(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
-                                    marker.setTag(Position.getString("id_user"));
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-
-                        }
-
-                        if (clicAmis == false) {
-                            ListPositions = WS.GetLastPositionUserAmis(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
-                                    marker.setTag(Position.getString("id_user"));
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }
-
-                    }*/
 
                 } else {
                     //imLegAmis.setImageResource(R.drawable.amisgras);
@@ -816,32 +811,20 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     //txLegAmis.setPaintFlags(Paint);
                     clicAmis = false;
                     FragmentsSliderActivity.ClicAmis = false;
-                    /*double latitude;
-                    double longitude;
-                    WebService WS = new WebService(getContext());
-                    JSONArray ListPositions = WS.GetLastPositionUserAmis(User);
 
-                    for (int i = 0; i < ListPositions.length(); i++) {
-                        JSONObject Position = null;
+                    if(lstMarkerAmisOptions!=null){
+                        for (int j = 0; j < lstMarkerAmisOptions.size(); j++) {
 
-                        try {
-                            Position = ListPositions.getJSONObject(i);
+                            MarkerOptions mkOption = lstMarkerAmisOptions.get(j);
 
-                            latitude = Position.getDouble("latitude");
-                            longitude = Position.getDouble("longitude");
+                            Marker marker = googleMap.addMarker(mkOption);
+                            marker.setTag(1);
+                            lstMarkerAmis.add(marker);
 
-                            LatLng user = new LatLng(latitude, longitude);
-
-                            marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
-                            marker.setTag(Position.getString("id_user"));
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                    }
 
-                    }*/
-
-                    RefreshPositions();
+                    //RefreshPositions();
                 }
             }
         });
@@ -854,116 +837,33 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     clicKiff = true;
                     FragmentsSliderActivity.ClicMatch = true;
                     txLegMatch.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    for (int i = 0; i < lstMarkerMatchs.size(); i++) {
+                        Marker marker = lstMarkerMatchs.get(i);
+                        marker.remove();
+                    }
+                    lstMarkerMatchs.clear();
+                    //lstMarkerMatchOptions.clear();
+                    //RefreshPositions();
 
-                    RefreshPositions();
-                   /*if (User != null) {
-                        WebService WS = new WebService(getContext());
-                        JSONArray ListPositions;
-                        if (clicInconnu == false) {
-                            ListPositions = WS.GetLastPositionUserInconnu(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
-                                    marker.setTag("0");
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }
-
-                        if (clicKiff == false) {
-                            ListPositions = WS.GetLastPositionUserMatch(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
-                                    marker.setTag(Position.getString("id_user"));
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-
-                        }
-
-                        if (clicAmis == false) {
-                            ListPositions = WS.GetLastPositionUserAmis(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
-                                    marker.setTag(Position.getString("id_user"));
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }
-
-                    }*/
                 } else {
                     //imLegKiffs.setImageResource(R.drawable.matchgras);
                     txLegMatch.setPaintFlags(txLegMatch.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
                     clicKiff = false;
                     FragmentsSliderActivity.ClicMatch = false;
-                    /*double latitude;
-                    double longitude;
-                    WebService WS = new WebService(getContext());
-                    JSONArray ListPositions = WS.GetLastPositionUserMatch(User);
 
-                    for (int i = 0; i < ListPositions.length(); i++) {
-                        JSONObject Position = null;
+                    if(lstMarkerMatchOptions!=null){
+                        for (int j = 0; j < lstMarkerMatchOptions.size(); j++) {
 
-                        try {
-                            Position = ListPositions.getJSONObject(i);
+                            MarkerOptions mkOption = lstMarkerMatchOptions.get(j);
 
-                            latitude = Position.getDouble("latitude");
-                            longitude = Position.getDouble("longitude");
+                            Marker marker = googleMap.addMarker(mkOption);
+                            marker.setTag(2);
+                            lstMarkerMatchs.add(marker);
 
-                            LatLng user = new LatLng(latitude, longitude);
-
-                            marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
-                            marker.setTag(Position.getString("id_user"));
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                    }
 
-                    }*/
-                    RefreshPositions();
+                    //RefreshPositions();
 
                 }
 
@@ -980,170 +880,34 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     clicInconnu = true;
                     FragmentsSliderActivity.ClicInconnu = true;
 
-                    /*googleMap.clear();
-                    double latitude = gps.getLatitude();
-                    double longitude = gps.getLongitude();
-
-                    // For dropping a marker at a point on the Map
-                    LatLng moi = new LatLng(latitude, longitude);
-
-                    MaPosition = new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi));
+                    for (int i = 0; i < lstMarkerInconnus.size(); i++) {
+                        Marker marker = lstMarkerInconnus.get(i);
+                        marker.remove();
+                    }
+                    lstMarkerInconnus.clear();
+                    //lstMarkerInconnusOptions.clear();
 
 
-                    googleMap.addMarker(MaPosition);
-
-                    if (User != null) {
-                        latitude = gps.getLatitude();
-                        longitude = gps.getLongitude();
-                        // For dropping a marker at a point on the Map
-                        moi = new LatLng(latitude, longitude);
-
-                        MaPosition = new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi));
-
-
-                        googleMap.addMarker(MaPosition);
-                        WebService WS = new WebService(getContext());
-                        JSONArray ListPositions;
-
-                        ListPositions = WS.GetSoirees(User);
-
-                        for (int i = 0; i < ListPositions.length(); i++) {
-                            JSONObject Position = null;
-
-                            try {
-                                Position = ListPositions.getJSONObject(i);
-
-                                latitude = Position.getDouble("latitude");
-                                longitude = Position.getDouble("longitude");
-
-                                LatLng user = new LatLng(latitude, longitude);
-
-                                marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
-                                marker.setTag(Position.getString("id"));
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                    }*/
-
-                    /*if (User != null) {
-                        WebService WS = new WebService(getContext());
-                        JSONArray ListPositions;
-                        if (clicInconnu == false) {
-                            ListPositions = WS.GetLastPositionUserInconnu(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
-                                    marker.setTag("0");
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }
-
-                        if (clicKiff == false) {
-                            ListPositions = WS.GetLastPositionUserMatch(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
-                                    marker.setTag(Position.getString("id_user"));
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-
-                        }
-
-                        if (clicAmis == false) {
-                            ListPositions = WS.GetLastPositionUserAmis(User);
-
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
-                                    marker.setTag(Position.getString("id_user"));
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-
-                        }
-                    }*/
-
-                    RefreshPositions();
-
-                } else {
+                }else {
                     //imLegInconnu.setImageResource(R.drawable.inconnugras);
                     txLegInconnu.setPaintFlags(txLegInconnu.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
                     clicInconnu = false;
                     FragmentsSliderActivity.ClicInconnu = false;
 
-                    /*double latitude;
-                    double longitude;
-                    WebService WS = new WebService(getContext());
-                    JSONArray ListPositions = WS.GetLastPositionUserInconnu(User);
+                    if(lstMarkerInconnusOptions!=null){
+                        for (int j = 0; j < lstMarkerInconnusOptions.size(); j++) {
 
-                    for (int i = 0; i < ListPositions.length(); i++) {
-                        JSONObject Position = null;
+                            MarkerOptions mkOption = lstMarkerInconnusOptions.get(j);
 
-                        try {
-                            Position = ListPositions.getJSONObject(i);
+                            Marker marker = googleMap.addMarker(mkOption);
+                            marker.setTag(0);
+                            lstMarkerInconnus.add(marker);
 
-                            latitude = Position.getDouble("latitude");
-                            longitude = Position.getDouble("longitude");
-
-                            LatLng user = new LatLng(latitude, longitude);
-
-                            marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
-                            marker.setTag("0");
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                    }
 
-                    }*/
-
-                    RefreshPositions();
 
                 }
-                //imLegInconnu.setImageResource(R.drawable.legendeinconnusbarre);
             }
         });
 
@@ -1193,7 +957,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                 }
 
                 //googleMap.setMyLocationEnabled(true);
-                RefreshPositions();
+                //RefreshPositions();
                 // check if GPS enabled
                 if (gps.canGetLocation()) {
 
@@ -1255,7 +1019,20 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                                     txAdresse.setText(Soiree.getJSONObject(0).getString("adresse"));
                                     txHoraireSoiree.setText(getResources().getString(R.string.horaireouverture) + " : " + Soiree.getJSONObject(0).getString("horairedebut") + " à " + Soiree.getJSONObject(0).getString("horairefin"));
                                     txDescriptif.setText(Soiree.getJSONObject(0).getString("descriptif"));
-                                    txLienSite.setText(getResources().getString(R.string.liensite) + " : " + Soiree.getJSONObject(0).getString("liensite"));
+                                    txLienSite.setText(Soiree.getJSONObject(0).getString("liensite"));
+
+                                    if(txLienSite.getText().toString().trim().equals("")){
+                                        txLienSite.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Intent i = new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(txLienSite.getText().toString()));
+                                                startActivity(i);
+                                            }
+                                        });
+                                    }else{
+                                        txLienSite.setVisibility(View.GONE);
+                                    }
 
                                     if (Soiree.getJSONObject(0).getString("typedebit").equals("1")) {
                                         txLienSite.setText(getResources().getString(R.string.debit) + " : " + Soiree.getJSONObject(0).getString("choixdebit"));
@@ -1295,32 +1072,154 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                         } else {
                             WebService WS = new WebService(getContext());
 
-                            if (marker.getTag() != null) {
-                                try {
-                                    JSONArray UserList = WS.GetinfoUser(marker.getTag().toString());
-
-                                    String photo = "";
-                                    if (UserList != null && UserList.length() > 0) {
+                            if(marker.getTag()!=null){
+                                if((int) marker.getTag()==1){
+                                    //amis
+                                    for(int i = 0;i < lstMarkerAmisJS.size(); i++){
+                                        JSONObject Obj = lstMarkerAmisJS.get(i);
                                         try {
-                                            photo = UserList.getJSONObject(0).getString("photo");
+                                            if(Obj.get("pseudo").equals(marker.getTitle())){
+                                                JSONArray UserList = WS.GetinfoUser((String) Obj.get("id_user"));
+                                                String photo = "";
+                                                if (UserList != null && UserList.length() > 0) {
+                                                    try {
+                                                        photo = UserList.getJSONObject(0).getString("photo");
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    Picasso.with(getContext()).load(photo).resize(300, 300).into(imPhotoMap);
+                                                    //imPhotoMap.setImageBitmap(bitmap);
+                                                    try {
+                                                        imPhotoMap.setTag(UserList.getJSONObject(0).getString("id"));
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    imPhotoMap.setVisibility(View.VISIBLE);
+                                                } else {
+                                                    imPhotoMap.setVisibility(View.INVISIBLE);
+                                                }
+                                            }
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
-                                        Picasso.with(getContext()).load(photo).resize(300, 300).into(imPhotoMap);
-                                        //imPhotoMap.setImageBitmap(bitmap);
-                                        try {
-                                            imPhotoMap.setTag(UserList.getJSONObject(0).getString("id"));
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                        imPhotoMap.setVisibility(View.VISIBLE);
-                                    } else {
-                                        imPhotoMap.setVisibility(View.INVISIBLE);
                                     }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
                                 }
+
+                                if((int) marker.getTag()==2){
+                                    //amis
+                                    for(int i = 0;i < lstMarkerMatchJS.size(); i++){
+                                        JSONObject Obj = lstMarkerMatchJS.get(i);
+                                        try {
+                                            if(Obj.get("pseudo").equals(marker.getTitle())){
+                                                JSONArray UserList = WS.GetinfoUser((String) Obj.get("id_user"));
+                                                String photo = "";
+                                                if (UserList != null && UserList.length() > 0) {
+                                                    try {
+                                                        photo = UserList.getJSONObject(0).getString("photo");
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    Picasso.with(getContext()).load(photo).resize(300, 300).into(imPhotoMap);
+                                                    //imPhotoMap.setImageBitmap(bitmap);
+                                                    try {
+                                                        imPhotoMap.setTag(UserList.getJSONObject(0).getString("id"));
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    imPhotoMap.setVisibility(View.VISIBLE);
+                                                } else {
+                                                    imPhotoMap.setVisibility(View.INVISIBLE);
+                                                }
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+
+                                if((int) marker.getTag()==3){
+                                    //amis
+                                    for(int i = 0;i < lstMarkerSoireesJS.size(); i++){
+                                        JSONObject Obj = lstMarkerSoireesJS.get(i);
+                                        try {
+                                            if(Obj.get("nomsoiree").equals(marker.getTitle())){
+                                                JSONArray Soiree = WS.GetInfoSoiree((String) Obj.get("id"));
+
+                                                String photo = "";
+                                                if (Soiree != null && Soiree.length() > 0) {
+
+                                                    try {
+                                                        txNomSoiree.setText(getResources().getString(R.string.nom) + " : " + Soiree.getJSONObject(0).getString("nomsoiree"));
+                                                        txAdresse.setText(Soiree.getJSONObject(0).getString("adresse"));
+                                                        txHoraireSoiree.setText(getResources().getString(R.string.horaireouverture) + " : " + Soiree.getJSONObject(0).getString("horairedebut") + " à " + Soiree.getJSONObject(0).getString("horairefin"));
+                                                        txDescriptif.setText(Soiree.getJSONObject(0).getString("descriptif"));
+                                                        txLienSite.setText( Soiree.getJSONObject(0).getString("liensite"));
+
+                                                        if(!txLienSite.getText().toString().trim().equals("")){
+                                                            txLienSite.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+                                                            txLienSite.setOnClickListener(new View.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(View v) {
+                                                                    String url = txLienSite.getText().toString();
+                                                                    if (!url.startsWith("https://") && !url.startsWith("http://")){
+                                                                        url = "http://" + url;
+                                                                    }
+                                                                    Intent i = new Intent(Intent.ACTION_VIEW,
+                                                                            Uri.parse(url));
+                                                                    getActivity().startActivity(i);
+                                                                }
+
+                                                            });
+                                                        }else{
+                                                            txLienSite.setVisibility(View.GONE);
+                                                        }
+
+                                                        if (Soiree.getJSONObject(0).getString("typedebit").equals("1")) {
+                                                            txLienSite.setText(getResources().getString(R.string.debit) + " : " + Soiree.getJSONObject(0).getString("choixdebit"));
+                                                            txTypeSoiree.setVisibility(View.GONE);
+                                                        } else {
+                                                            switch (Soiree.getJSONObject(0).getString("typesoiree")) {
+                                                                case "1":
+                                                                    txTypeSoiree.setText(getResources().getString(R.string.typesoiree) + " : " + getResources().getString(R.string.bar));
+                                                                    break;
+
+                                                                case "2":
+                                                                    txTypeSoiree.setText(getResources().getString(R.string.typesoiree) + " : " + getResources().getString(R.string.barnuit));
+                                                                    break;
+
+                                                                case "3":
+                                                                    txTypeSoiree.setText(getResources().getString(R.string.typesoiree) + " : " + getResources().getString(R.string.boitenuit));
+                                                                    break;
+
+                                                                case "4":
+                                                                    txTypeSoiree.setText(getResources().getString(R.string.typesoiree) + " : " + getResources().getString(R.string.concert));
+                                                                    break;
+
+                                                                case "0":
+                                                                    txTypeSoiree.setVisibility(View.GONE);
+                                                                    break;
+
+
+                                                            }
+
+                                                        }
+                                                        lnDetailSoiree.setVisibility(View.VISIBLE);
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                }
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+
                             }
+
+
+
 
                         }
                         //Using position get Value from arraylist
@@ -1402,102 +1301,11 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                 for (int i = 0; i < lstMarkerSoirees.size(); i++) {
                     Marker marker = lstMarkerSoirees.get(i);
-
                     marker.remove();
 
                 }
 
 
-                //googleMap.clear();
-                /*double latitude = gps.getLatitude();
-                double longitude = gps.getLongitude();
-
-                // For dropping a marker at a point on the Map
-                LatLng moi = new LatLng(latitude, longitude);
-
-                MaPosition = new MarkerOptions().position(moi).title("Ma Position").snippet("Moi").icon(BitmapDescriptorFactory.fromResource(R.drawable.goutemoi));
-
-
-                googleMap.addMarker(MaPosition);
-
-                if (User != null) {
-                    WebService WS = new WebService(getContext());
-                    JSONArray ListPositions;
-                    if (clicInconnu == false) {
-                        ListPositions = WS.GetLastPositionUserInconnu(User);
-
-                        for (int i = 0; i < ListPositions.length(); i++) {
-                            JSONObject Position = null;
-
-                            try {
-                                Position = ListPositions.getJSONObject(i);
-
-                                latitude = Position.getDouble("latitude");
-                                longitude = Position.getDouble("longitude");
-
-                                LatLng user = new LatLng(latitude, longitude);
-
-                                marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
-                                marker.setTag("0");
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-
-                    if (clicKiff == false) {
-                        ListPositions = WS.GetLastPositionUserMatch(User);
-
-                        for (int i = 0; i < ListPositions.length(); i++) {
-                            JSONObject Position = null;
-
-                            try {
-                                Position = ListPositions.getJSONObject(i);
-
-                                latitude = Position.getDouble("latitude");
-                                longitude = Position.getDouble("longitude");
-
-                                LatLng user = new LatLng(latitude, longitude);
-
-                                marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
-                                marker.setTag(Position.getString("id_user"));
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                    }
-
-                    if (clicAmis == false) {
-                        ListPositions = WS.GetLastPositionUserAmis(User);
-
-                        for (int i = 0; i < ListPositions.length(); i++) {
-                            JSONObject Position = null;
-
-                            try {
-                                Position = ListPositions.getJSONObject(i);
-
-                                latitude = Position.getDouble("latitude");
-                                longitude = Position.getDouble("longitude");
-
-                                LatLng user = new LatLng(latitude, longitude);
-
-                                marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
-                                marker.setTag(Position.getString("id_user"));
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                    }
-                }*/
             }
         } else {
             imSoireeLongClic = false;
@@ -1518,6 +1326,8 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                 ListPositions = WS.GetSoirees(User);
                 if(lstMarkerSoirees==null){
                     lstMarkerSoirees = new ArrayList<Marker>();
+                    lstMarkerSoireesJS = new ArrayList<JSONObject>();
+                    lstMarkerSoireeOptions = new ArrayList<MarkerOptions>();
                 }
                 Boolean bmarkerTrouve=false;
                 if (ListPositions != null) {
@@ -1532,15 +1342,16 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                             LatLng user = new LatLng(latitude, longitude);
 
-                            for (int j = 0; j < lstMarkerSoirees.size(); j++) {
-                                Marker marker = lstMarkerSoirees.get(j);
-                                if(marker.getTag().equals(Position.getString("id"))){
-                                    if(marker.getPosition().latitude!=latitude) {
-                                        marker.remove();
-                                        lstMarkerSoirees.remove(marker);
-                                        marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
-                                        marker.setTag(Position.getString("id"));
-                                        lstMarkerSoirees.add(marker);
+                            for (int j = 0; j < lstMarkerSoireeOptions.size(); j++) {
+                                MarkerOptions mkOptions = lstMarkerSoireeOptions.get(j);
+                                if(mkOptions.getTitle().equals(Position.getString("soirée"))){
+                                    if(mkOptions.getPosition().latitude!=latitude) {
+                                        //marker.remove();
+                                        lstMarkerSoireeOptions.remove(marker);
+                                        lstMarkerSoireesJS.add(Position);
+                                        mkOptions = new MarkerOptions().position(user).title(Position.getString("nomsoiree")).icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree));
+                                        //marker.setTag(Position.getString("id"));
+                                        lstMarkerSoireeOptions.add(mkOptions);
 
                                     }
                                     bmarkerTrouve=true;
@@ -1549,9 +1360,10 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                             }
 
                             if(bmarkerTrouve==false){
-                                marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
-                                marker.setTag(Position.getString("id"));
-                                lstMarkerSoirees.add(marker);
+                                lstMarkerSoireesJS.add(Position);
+                                MarkerOptions mkOptions = new MarkerOptions().position(user).title(Position.getString("nomsoiree")).icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree));
+                                //marker.setTag(Position.getString("id"));
+                                lstMarkerSoireeOptions.add(mkOptions);
                             }
 
                            // marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
@@ -1564,7 +1376,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     }
                 }
 
-            }else{
+            }/*else{
                 if(lstMarkerSoirees!=null){
                     for (int i = 0; i < lstMarkerSoirees.size(); i++) {
                         Marker marker = lstMarkerSoirees.get(i);
@@ -1573,14 +1385,17 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     lstMarkerSoirees.clear();
                 }
 
-            }
+            }*/
 
             if (clicInconnu == false) {
                 ListPositions = WS.GetLastPositionUserInconnu(User);
 
                 if(lstMarkerInconnus==null){
                     lstMarkerInconnus = new ArrayList<Marker>();
+                    lstMarkerInconnusOptions = new ArrayList<MarkerOptions>();
                 }
+
+
 
 
                 Boolean bmarkerTrouve=false;
@@ -1594,15 +1409,19 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                         longitude = Position.getDouble("longitude");
                         LatLng user = new LatLng(latitude, longitude);
                         //recherche si présent dans la liste des inconnus
-                        for (int j = 0; j < lstMarkerInconnus.size(); j++) {
-                            Marker marker = lstMarkerInconnus.get(j);
-                            if(marker.getTitle().equals(Position.getString("pseudo"))){
-                                if(marker.getPosition().latitude!=latitude) {
-                                    marker.remove();
-                                    lstMarkerInconnus.remove(marker);
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
-                                    marker.setTag(0);
-                                    lstMarkerInconnus.add(marker);
+                        for (int j = 0; j < lstMarkerInconnusOptions.size(); j++) {
+                            MarkerOptions mk = lstMarkerInconnusOptions.get(j);
+                            if(mk.getTitle().equals(Position.getString("pseudo"))){
+                                if(mk.getPosition().latitude!=latitude) {
+                                    //marker.remove();
+
+                                    lstMarkerInconnusOptions.remove(mk);
+                                    //marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
+                                    //marker.setTag(0);
+                                    //lstMarkerInconnus.add(marker);
+                                    MarkerOptions mkOption=new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose));
+
+                                    lstMarkerInconnusOptions.add(mkOption);
 
                                 }
                                 bmarkerTrouve=true;
@@ -1611,9 +1430,12 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                         }
 
                         if(bmarkerTrouve==false){
-                            marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
-                            marker.setTag(0);
-                            lstMarkerInconnus.add(marker);
+                            //marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
+                            //marker.setTag(0);
+
+                            //lstMarkerInconnus.add(marker);
+                            MarkerOptions mkOption=new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose));
+                            lstMarkerInconnusOptions.add(mkOption);
                         }
 
 
@@ -1623,13 +1445,9 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     }
 
                 }
-            }else{
-                for (int i = 0; i < lstMarkerInconnus.size(); i++) {
-                    Marker marker = lstMarkerInconnus.get(i);
-                    marker.remove();
-                }
-                lstMarkerInconnus.clear();
-            }
+            }//else{
+
+            //}
 
             if (clicKiff == false) {
                 Boolean bmarkerTrouve=false;
@@ -1637,6 +1455,10 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                 if(lstMarkerMatchs==null){
                     lstMarkerMatchs = new ArrayList<Marker>();
+                    lstMarkerMatchOptions = new ArrayList<MarkerOptions>();
+                    lstMarkerMatchJS = new ArrayList<JSONObject>();
+                }else{
+                    lstMarkerMatchJS.clear();
                 }
 
                 for (int i = 0; i < ListPositions.length(); i++) {
@@ -1650,15 +1472,16 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                         LatLng user = new LatLng(latitude, longitude);
 
-                        for (int j = 0; j < lstMarkerMatchs.size(); j++) {
-                            Marker marker = lstMarkerMatchs.get(j);
-                            if(marker.getTitle().equals(Position.getString("id_user"))){
-                                if(marker.getPosition().latitude!=latitude) {
-                                    marker.remove();
-                                    lstMarkerMatchs.remove(marker);
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
-                                    marker.setTag(Position.getString("id_user"));
-                                    lstMarkerMatchs.add(marker);
+                        for (int j = 0; j < lstMarkerMatchOptions.size(); j++) {
+                            MarkerOptions mk = lstMarkerMatchOptions.get(j);
+                            if(mk.getTitle().equals(Position.getString("id_user"))){
+                                if(mk.getPosition().latitude!=latitude) {
+
+                                    lstMarkerMatchOptions.remove(marker);
+                                    lstMarkerMatchJS.add(Position);
+                                    MarkerOptions mkOption = new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte));
+                                    //marker.setTag(Position.getString("id_user"));
+                                    lstMarkerMatchOptions.add(mkOption);
                                 }
 
 
@@ -1667,9 +1490,10 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                         }
 
                         if(bmarkerTrouve==false){
-                            marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
-                            marker.setTag(Position.getString("id_user"));
-                            lstMarkerMatchs.add(marker);
+                            MarkerOptions mkOption = new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte));
+                            lstMarkerMatchJS.add(Position);
+                            //marker.setTag(Position.getString("id_user"));
+                            lstMarkerMatchOptions.add(mkOption);
                         }
 
                         //marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
@@ -1681,13 +1505,13 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                 }
 
-            }else{
+            }/*else{
                 for (int i = 0; i < lstMarkerMatchs.size(); i++) {
                     Marker marker = lstMarkerMatchs.get(i);
                     marker.remove();
                 }
                 lstMarkerMatchs.clear();
-            }
+            }*/
 
             if (clicAmis == false) {
                 ListPositions = WS.GetLastPositionUserAmis(User);
@@ -1696,7 +1520,12 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                 if(lstMarkerAmis==null){
                     lstMarkerAmis = new ArrayList<Marker>();
+                    lstMarkerAmisJS = new ArrayList<JSONObject>();
+                    lstMarkerAmisOptions = new ArrayList<MarkerOptions>();
+                }else{
+                    lstMarkerAmisJS.clear();
                 }
+
                 for (int i = 0; i < ListPositions.length(); i++) {
                     JSONObject Position = null;
 
@@ -1708,16 +1537,18 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                         LatLng user = new LatLng(latitude, longitude);
 
-                        for (int j = 0; j < lstMarkerAmis.size(); j++) {
-                            Marker marker = lstMarkerAmis.get(j);
+                        for (int j = 0; j < lstMarkerAmisOptions.size(); j++) {
+                            MarkerOptions marker = lstMarkerAmisOptions.get(j);
                             if(marker.getTitle().equals(Position.getString("id_user"))){
                                 if(marker.getPosition().latitude!=latitude){
                                     if(marker.getPosition().latitude!=latitude) {
-                                        marker.remove();
-                                        lstMarkerAmis.remove(marker);
-                                        marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
-                                        marker.setTag(Position.getString("id_user"));
-                                        lstMarkerAmis.add(marker);
+
+                                        lstMarkerAmisOptions.remove(marker);
+                                        lstMarkerAmisJS.add(Position);
+                                        marker = new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu));
+                                        //marker.set(Position);
+                                        ///marker.setTag(Position.getString("id_user"));
+                                        lstMarkerAmisOptions.add(marker);
                                     }
 
                                 }
@@ -1729,9 +1560,10 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                         }
 
                         if(bmarkerTrouve==false){
-                            marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
-                            marker.setTag(Position.getString("id_user"));
-                            lstMarkerAmis.add(marker);
+                            MarkerOptions mkOption = new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu));
+                            lstMarkerAmisJS.add(Position);
+                            ///marker.setTag(Position.getString("id_user"));
+                            lstMarkerAmisOptions.add(mkOption);
                         }
 
                         //marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
@@ -1743,13 +1575,13 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                 }
 
-            }else{
+            }/*else{
                 for (int i = 0; i < lstMarkerAmis.size(); i++) {
                     Marker marker = lstMarkerAmis.get(i);
                     marker.remove();
                 }
                 lstMarkerAmis.clear();
-            }
+            }*/
 
         }
     }
@@ -1794,9 +1626,9 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     }else{
 
                         markerPosition.setPosition(moi);
-                        if(cercleMoi!=null){
+                        /*if(cercleMoi!=null){
                             cercleMoi.setCenter(moi);
-                        }
+                        }*/
                         //MaPosition.position(moi);
                     }
 
@@ -1829,13 +1661,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
             };
 
             if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
+
                 ActivityCompat.requestPermissions(
                         getActivity(),
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -1882,9 +1708,9 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
             markerPosition = googleMap.addMarker(MaPosition);
         }else{
             markerPosition.setPosition(moi);
-            if(cercleMoi!=null){
+            /*if(cercleMoi!=null){
                 cercleMoi.setCenter(moi);
-            }
+            }*/
 
             //MaPosition.position(moi);
         }
@@ -1903,113 +1729,6 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
 
 
-           /* JSONArray ListPositions;
-
-            if (cliclsoiree == false) {
-                ListPositions = WS.GetSoirees(User);
-                if(ListPositions!=null){
-                    for (int i = 0; i < ListPositions.length(); i++) {
-                        JSONObject Position = null;
-
-                        try {
-                            Position = ListPositions.getJSONObject(i);
-
-                            latitude = Position.getDouble("latitude");
-                            longitude = Position.getDouble("longitude");
-
-
-                            LatLng user = new LatLng(latitude, longitude);
-
-                            marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
-
-                            marker.setTag(Position.getString("id"));
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }
-
-
-
-            }
-
-            if (clicInconnu == false) {
-                ListPositions = WS.GetLastPositionUserInconnu(User);
-
-                for (int i = 0; i < ListPositions.length(); i++) {
-                    JSONObject Position = null;
-
-                    try {
-                        Position = ListPositions.getJSONObject(i);
-
-                        latitude = Position.getDouble("latitude");
-                        longitude = Position.getDouble("longitude");
-
-                        LatLng user = new LatLng(latitude, longitude);
-
-                        marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
-                        marker.setTag("0");
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-
-            if (clicKiff == false) {
-                ListPositions = WS.GetLastPositionUserMatch(User);
-
-                for (int i = 0; i < ListPositions.length(); i++) {
-                    JSONObject Position = null;
-
-                    try {
-                        Position = ListPositions.getJSONObject(i);
-
-                        latitude = Position.getDouble("latitude");
-                        longitude = Position.getDouble("longitude");
-
-                        LatLng user = new LatLng(latitude, longitude);
-
-                        marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
-                        marker.setTag(Position.getString("id_user"));
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-            }
-
-            if (clicAmis == false) {
-                ListPositions = WS.GetLastPositionUserAmis(User);
-
-                for (int i = 0; i < ListPositions.length(); i++) {
-                    JSONObject Position = null;
-
-                    try {
-                        Position = ListPositions.getJSONObject(i);
-
-                        latitude = Position.getDouble("latitude");
-                        longitude = Position.getDouble("longitude");
-
-                        LatLng user = new LatLng(latitude, longitude);
-
-                        marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
-                        marker.setTag(Position.getString("id_user"));
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-            }*/
-
-           RefreshPositions();
 
 
         }
@@ -2035,6 +1754,13 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
 
         int boucle=1;
+        boolean trouve=false;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            publishProgress(0);
+        }
 
         @Override
         protected void onProgressUpdate(Object... values) {
@@ -2054,16 +1780,16 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
 
 
-                    cercleMoi = googleMap.addCircle(new CircleOptions()
+                    /*cercleMoi = googleMap.addCircle(new CircleOptions()
                             .center(moi)
                             .radius(300)
                             .strokeWidth(2)
                             .strokeColor(Color.rgb(41,41,84))
-                            .fillColor(Color.TRANSPARENT));
+                            .fillColor(Color.TRANSPARENT));*/
 
                 }else{
                     markerPosition.setPosition(moi);
-                    if(cercleMoi==null){
+                    /*if(cercleMoi==null){
                         cercleMoi=googleMap.addCircle(new CircleOptions()
                                 .center(moi)
                                 .radius(300)
@@ -2072,124 +1798,107 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                                 .fillColor(Color.TRANSPARENT));
                     }else{
                         cercleMoi.setCenter(moi);
-                    }
+                    }*/
 
+                }
+
+
+                if(lstMarkerInconnusOptions!=null && clicInconnu==false){
+                    for (int j = 0; j < lstMarkerInconnusOptions.size(); j++) {
+                        MarkerOptions mkOption = lstMarkerInconnusOptions.get(j);
+                        trouve=false;
+                        for(int f=0; f < lstMarkerInconnus.size(); f++){
+                            Marker mk = lstMarkerInconnus.get(f);
+                            if(mkOption.getTitle().toString().equals(mk.getTitle().toString())){
+                                mk.setPosition(mkOption.getPosition());
+                                trouve=true;
+                            }
+                        }
+
+                        if(trouve==false){
+                            Marker marker = googleMap.addMarker(mkOption);
+                            marker.setTag(0);
+                            lstMarkerInconnus.add(marker);
+                        }
+
+                        //marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+
+                    }
+                }
+
+                if(lstMarkerAmisOptions!=null && clicAmis==false){
+                    for (int j = 0; j < lstMarkerAmisOptions.size(); j++) {
+                        MarkerOptions mkOption = lstMarkerAmisOptions.get(j);
+                        trouve=false;
+                        for(int f=0; f < lstMarkerAmis.size(); f++){
+                            Marker mk = lstMarkerAmis.get(f);
+                            if(mkOption.getTitle().toString().equals(mk.getTitle().toString())){
+                                mk.setPosition(mkOption.getPosition());
+                                trouve=true;
+                            }
+                        }
+
+                        if(trouve==false){
+                            Marker marker = googleMap.addMarker(mkOption);
+                            marker.setTag(1);
+                            lstMarkerAmis.add(marker);
+                        }
+
+                        //marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+
+                    }
+                }
+
+                if(lstMarkerMatchOptions!=null && clicKiff==false){
+                    for (int j = 0; j < lstMarkerMatchOptions.size(); j++) {
+                        MarkerOptions mkOption = lstMarkerMatchOptions.get(j);
+                        trouve=false;
+                        for(int f=0; f < lstMarkerMatchs.size(); f++){
+                            Marker mk = lstMarkerMatchs.get(f);
+                            if(mkOption.getTitle().toString().equals(mk.getTitle().toString())){
+                                mk.setPosition(mkOption.getPosition());
+                                trouve=true;
+                            }
+                        }
+
+                        if(trouve==false){
+                            Marker marker = googleMap.addMarker(mkOption);
+                            marker.setTag(2);
+                            lstMarkerMatchs.add(marker);
+                        }
+
+                        //marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+
+                    }
+                }
+
+                if(lstMarkerSoireeOptions!=null && cliclsoiree){
+                    for (int j = 0; j < lstMarkerSoireeOptions.size(); j++) {
+                        MarkerOptions mkOption = lstMarkerSoireeOptions.get(j);
+                        trouve=false;
+                        for(int f=0; f < lstMarkerSoirees.size(); f++){
+                            Marker mk = lstMarkerSoirees.get(f);
+                            if(mkOption.getTitle().toString().equals(mk.getTitle().toString())){
+                                mk.setPosition(mkOption.getPosition());
+                                trouve=true;
+                            }
+                        }
+
+                        if(trouve==false){
+                            Marker marker = googleMap.addMarker(mkOption);
+                            marker.setTag(3);
+                            lstMarkerSoirees.add(marker);
+                        }
+
+                        //marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
+
+                    }
                 }
 
 
 
 
 
-                RefreshPositions();
-
-                /*if (User != null) {
-                    WebService WS = new WebService(getContext());
-                    JSONArray ListPositions;
-
-                    if (cliclsoiree == false) {
-                        ListPositions = WS.GetSoirees(User);
-                        if(ListPositions!=null){
-                            for (int i = 0; i < ListPositions.length(); i++) {
-                                JSONObject Position = null;
-
-                                try {
-                                    Position = ListPositions.getJSONObject(i);
-
-                                    latitude = Position.getDouble("latitude");
-                                    longitude = Position.getDouble("longitude");
-
-                                    LatLng user = new LatLng(latitude, longitude);
-
-                                    marker = googleMap.addMarker(new MarkerOptions().position(user).title("soirée").icon(BitmapDescriptorFactory.fromResource(R.drawable.bouteillesoiree)));
-                                    marker.setTag(Position.getString("id"));
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }
-
-
-
-                    }
-
-                    if (clicInconnu == false) {
-                        ListPositions = WS.GetLastPositionUserInconnu(User);
-
-                        for (int i = 0; i < ListPositions.length(); i++) {
-                            JSONObject Position = null;
-
-                            try {
-                                Position = ListPositions.getJSONObject(i);
-
-                                latitude = Position.getDouble("latitude");
-                                longitude = Position.getDouble("longitude");
-
-                                LatLng user = new LatLng(latitude, longitude);
-
-                                marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouterose)));
-                                marker.setTag("0");
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-
-                    if (clicKiff == false) {
-                        ListPositions = WS.GetLastPositionUserMatch(User);
-
-                        for (int i = 0; i < ListPositions.length(); i++) {
-                            JSONObject Position = null;
-
-                            try {
-                                Position = ListPositions.getJSONObject(i);
-
-                                latitude = Position.getDouble("latitude");
-                                longitude = Position.getDouble("longitude");
-
-                                LatLng user = new LatLng(latitude, longitude);
-
-                                marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.gouteverte)));
-                                marker.setTag(Position.getString("id_user"));
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                    }
-
-                    if (clicAmis == false) {
-                        ListPositions = WS.GetLastPositionUserAmis(User);
-
-                        for (int i = 0; i < ListPositions.length(); i++) {
-                            JSONObject Position = null;
-
-                            try {
-                                Position = ListPositions.getJSONObject(i);
-
-                                latitude = Position.getDouble("latitude");
-                                longitude = Position.getDouble("longitude");
-
-                                LatLng user = new LatLng(latitude, longitude);
-
-                                marker = googleMap.addMarker(new MarkerOptions().position(user).title(Position.getString("pseudo")).icon(BitmapDescriptorFactory.fromResource(R.drawable.goutebleu)));
-                                marker.setTag(Position.getString("id_user"));
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                    }
-
-
-                }*/
             }
 
 
@@ -2201,12 +1910,12 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                 while(boucle==1){
                     try {
-                        Thread.sleep(40000);
-
+                        Thread.sleep(200);
+                        RefreshPositions();
                         if(isCancelled()){
                             boucle=2;
                         }
-
+                        //RefreshPositions();
                         publishProgress(0);
                     } catch (InterruptedException e) {
                         e.printStackTrace();

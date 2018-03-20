@@ -73,7 +73,8 @@
                 <RelativeLayout
                     android:id="@+id/rltProfil"
                     android:layout_width="fill_parent"
-                    android:layout_height="440dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_gravity="center">
 
                     <TextView
@@ -93,7 +94,7 @@
                         android:id="@+id/frameProfil"
                         android:layout_width="fill_parent"
                         android:layout_height="440dp"
-                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dip"
                         app:rotation_degrees="20.5" />
@@ -126,8 +127,6 @@
 
                 </RelativeLayout>
 
-
-
                 <ImageView
                     android:id="@+id/pbKiffe"
                     android:layout_width="match_parent"
@@ -138,7 +137,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dip"
                     android:gravity="bottom"
                     android:orientation="horizontal">
 
@@ -154,7 +154,6 @@
                         android:id="@+id/txNbKiffs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="TextView"
@@ -184,7 +183,8 @@
             android:layout_marginRight="15dip"
             android:layout_marginTop="55dip"
             android:background="#2c2954"
-            android:padding="10dip">
+            android:padding="10dip"
+            android:visibility="invisible">
 
             <LinearLayout
                 android:layout_width="match_parent"

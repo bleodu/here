@@ -146,12 +146,13 @@
 <string name="pref_description_social_recommendations">Recommandé pour être trouver sur la carte par les profils
 </string>
 
+
+
 <string name="pref_title_display_name">Pseudo</string>
 
-
+    <string name="continuer">Next</string>
 <string name="pref_title_display_id">Votre ID</string>
-
-
+    <string name="profil_verifie">Verified profile</string>
 <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
 <string name="mesinconnus">strangers</string>
 <string name="mesmatch">my likes</string>

@@ -147,24 +147,15 @@
             android:layout_marginRight="20dip">
 
             <TextView
+                android:id="@+id/txFacebook"
                 android:layout_width="wrap_content"
                 android:layout_height="40dip"
-                android:gravity="center_vertical"
-                android:text="@string/main_fb"
-                android:textColor="#fff"
-                android:textSize="25dip"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:id="@+id/txFacebook" />
-
-            <ImageView
-                android:id="@+id/imageView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/facebook"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/txFacebook"
-                android:layout_toStartOf="@+id/txFacebook" />
+                android:gravity="center_vertical"
+                android:text="@string/continuer"
+                android:textColor="#fff"
+                android:textSize="25dip" />
 
         </RelativeLayout>
 

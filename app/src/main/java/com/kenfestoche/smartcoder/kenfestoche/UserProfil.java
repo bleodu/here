@@ -1377,7 +1377,7 @@ public class UserProfil extends Fragment {
         txAmour.setText(getResources().getString(R.string.amour));
         txPres.setText(getResources().getString(R.string.pres));
         txPhotos.setText(getResources().getString(R.string.photo));
-        Edtqqmot.setHint(getResources().getString(R.string.photo));
+        Edtqqmot.setHint(getResources().getString(R.string.jesuis));
         txDeconnexion.setText(getResources().getString(R.string.deconnect));
         Valider.setText(getResources().getString(R.string.action_sign_in));
         MonActivity.runOnUiThread(new Runnable() {

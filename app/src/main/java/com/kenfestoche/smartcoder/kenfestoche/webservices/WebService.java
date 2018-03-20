@@ -813,7 +813,7 @@ public class WebService {
 
     }
 
-    public JSONArray GetSmsCode(Utilisateur User,Boolean newSms,Boolean smsPass) {
+    public JSONArray GetSmsCode(Utilisateur User,Boolean newSms,Boolean smsPass,String idFacebook) {
         if(isOnline()){
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
@@ -827,7 +827,7 @@ public class WebService {
                 try {
                     client = (HttpURLConnection) url.openConnection();
                     client.setRequestMethod("POST");
-                    String urlParameters = "phone="+User.phone;
+                    String urlParameters = "phone="+User.phone+"&idFacebook="+idFacebook;
                     if(newSms){
                         urlParameters = urlParameters+"&newSMS=OK";
                     }

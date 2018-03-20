@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         }else{
             if(User != null)
             {
-                if((User.connecte==true && User.statut>1) || (User.id_facebook!=null)){
+                if((User.connecte==true && User.statut>1) || (User.id_facebook!=null && User.statut>1)){
                     //WebService WS = new WebService(getBaseContext());
                     //User=WS.SaveUser(User);
                     User=WS.Connect(User.phone,User.password);
@@ -133,7 +133,9 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("pass",User.password);
                     editor.commit();
                     finish();
-                    startActivity(new Intent(getApplicationContext(),VerifSmsCode.class));
+                    Intent i = new Intent(getApplicationContext(),SendMotPasse.class);
+                    i.putExtra("idfacebook",pref.getString("idfb",""));
+                    startActivity(i);
                 }
             }
 
@@ -211,6 +213,11 @@ public class MainActivity extends AppCompatActivity {
                 Utilisateur Uti = null;
                 try {
                     Uti = WS.GetUserFacebook(object.getString("id"));
+                    if(object.has("first_name")){
+                        Uti.login=object.getString("first_name");
+                    }else{
+                        Uti.login=object.getString("name");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -218,8 +225,10 @@ public class MainActivity extends AppCompatActivity {
                 {
                     user=new Utilisateur();
                     try {
-                        if(object.has("last_name")){
-                            user.login=object.getString("last_name");
+                        if(object.has("first_name")){
+                            user.login=object.getString("first_name");
+                        }else{
+                            user.login=object.getString("name");
                         }
 
                         user.email=object.getString("email");

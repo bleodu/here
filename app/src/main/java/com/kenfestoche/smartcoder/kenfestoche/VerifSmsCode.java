@@ -59,15 +59,27 @@ public class VerifSmsCode extends AppCompatActivity {
 
         SendSms.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
 
-
-
-        Bundle extras = getIntent().getExtras();
-        User = Utilisateur.findById(Utilisateur.class,preferences.getLong("UserId", 0));
-
-
+        final String idFacebook = getIntent().getExtras().getString("idfacebook","");
+        final String phoneFB = getIntent().getExtras().getString("phonefb","");
         final WebService WS = new WebService(getBaseContext());
+        Bundle extras = getIntent().getExtras();
+        //User = Utilisateur.findById(Utilisateur.class,preferences.getLong("UserId", 0));
 
-        JSONArray Result = WS.GetSmsCode(User,false,false);
+        if(!preferences.getString("idfb","").equals("")){
+            User = WS.GetUserFacebook(preferences.getString("idfb",""));
+            User.connecte=true;
+        }else if(!preferences.getString("phone","").equals("")){
+            User=WS.Connect(preferences.getString("phone",""),preferences.getString("pass",""));
+            User.connecte=true;
+        }else{
+            User=null;
+        }
+
+
+
+
+
+        JSONArray Result = WS.GetSmsCode(User,false,false,idFacebook);
 
         try {
             Code = Result.getJSONObject(0);
@@ -82,9 +94,9 @@ public class VerifSmsCode extends AppCompatActivity {
 
 
 
-                Utilisateur User = Utilisateur.findById(Utilisateur.class, preferences.getLong("UserId",0));
+                //Utilisateur User = Utilisateur.findById(Utilisateur.class, preferences.getLong("UserId",0));
 
-                JSONArray Result = WS.GetSmsCode(User,true,false);
+                JSONArray Result = WS.GetSmsCode(User,true,false,idFacebook);
 
                 try {
                     Code = Result.getJSONObject(0);
@@ -108,6 +120,10 @@ public class VerifSmsCode extends AppCompatActivity {
                 try {
                     if(Code.getString("codesms").toString().equals(CodeSms.getText().toString())){
                         User.activnotif=1;
+                        if(!phoneFB.equals("")){
+                            User.phone=phoneFB;
+                        }
+
                         User.statut=2;
                         User.save();
                         WebService WS = new WebService(getBaseContext());

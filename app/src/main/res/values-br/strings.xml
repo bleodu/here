@@ -55,6 +55,7 @@
     <string name="montel">niv. bellgomz</string>
     <string name="rep">roll-pellgomz</string>
     <string name="newuser">anv nevez</string>
+    <string name="continuer">kendec\'hel</string>
 
     <string name="ilvousreste">Ne chom dit nemet ur c\'hiff, ret eo beurkañ muioc\'h</string>
 
@@ -153,7 +154,7 @@
 
 
     <string name="pref_title_display_id">Votre ID</string>
-
+    <string name="profil_verifie">Profil vérifié</string>
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string name="mesinconnus">va dianv</string>

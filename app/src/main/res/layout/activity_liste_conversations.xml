@@ -97,6 +97,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lstconversations"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:layout_margin="20dip"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>

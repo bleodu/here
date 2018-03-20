@@ -134,6 +134,7 @@
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
+    <string name="continuer">Continuer</string>
 
     <string name="pref_title_profil">Cacher mon profil</string>
     <string name="pref_title_gps">Cacher ma position à mes amis</string>
@@ -148,7 +149,7 @@
 
     <string name="pref_title_display_id">Votre ID</string>
 
-
+    <string name="profil_verifie">Profil vérifié</string>
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string name="mesinconnus">mes inconnus</string>
     <string name="mesmatch">mes matchs</string>

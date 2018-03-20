@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.kenfestoche.smartcoder.kenfestoche.UserProfil"
 
+    android:background="@drawable/newfondprofil"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -68,394 +69,403 @@
     <ScrollView
         android:id="@+id/userprofil_form"
         android:layout_width="match_parent"
-
         android:layout_height="match_parent">
 
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dip"
-            android:background="@drawable/newfondprofil"
-            android:orientation="vertical"
-            android:padding="10dip">
+            android:layout_height="match_parent">
 
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txPlutot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:autoText="false"
-                    android:text="@string/jesuisplutot"
-                    android:textAlignment="center"
-                    android:textColor="#2c2954"
-                    android:textSize="11pt" />
-
-                <ImageView
-                    android:id="@+id/imLignePLutot"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ligne" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|fill_horizontal"
-                android:layout_marginTop="20dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/txcalme"
-                    android:layout_width="60dip"
-                    android:layout_height="wrap_content"
-                    android:autoText="false"
-                    android:text="@string/calme"
-                    android:textAlignment="center"
-                    android:textColor="#2c2954"
-                    android:textSize="12sp" />
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="10dp"
-
-                    android:layout_marginRight="10dp"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:id="@+id/rdcalme1"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:layout_weight="1"
-                        android:background="#d2d2db" />
-
-                    <ImageButton
-                        android:id="@+id/rdcalme2"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:layout_weight="1"
-                        android:background="#d2d2db" />
-
-                    <ImageButton
-                        android:id="@+id/rdcalme3"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:layout_weight="1"
-                        android:background="#d2d2db" />
-
-                    <ImageButton
-                        android:id="@+id/rdcalme4"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:layout_weight="1"
-                        android:background="#d2d2db" />
-
-                    <ImageButton
-                        android:id="@+id/rdcalme5"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:layout_weight="1"
-                        android:background="#d2d2db" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="40dip"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txfetard"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autoText="false"
-                        android:text="@string/fetard"
-                        android:textAlignment="center"
-                        android:textColor="#2c2954"
-                        android:textSize="12sp" />
-
-                    <ImageView
-                        android:id="@+id/imageView12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/bouteille" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="20dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/txverre"
-                    android:layout_width="60dip"
-                    android:layout_height="wrap_content"
-                    android:text="@string/amis"
-                    android:textAlignment="center"
-                    android:textColor="#2c2954"
-                    android:textSize="12sp" />
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:id="@+id/rdverre1"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:layout_weight="1"
-                        android:background="#d2d2db" />
-
-                    <ImageButton
-                        android:id="@+id/rdverre2"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:layout_weight="1"
-                        android:background="#d2d2db" />
-
-                    <ImageButton
-                        android:id="@+id/rdverre3"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:layout_weight="1"
-                        android:background="#d2d2db" />
-
-                    <ImageButton
-                        android:id="@+id/rdverre4"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:layout_weight="1"
-                        android:background="#d2d2db" />
-
-                    <ImageButton
-                        android:id="@+id/rdverre5"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="5dip"
-                        android:layout_marginRight="5dip"
-                        android:layout_weight="1"
-                        android:background="#d2d2db" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="40dip"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txaffinite"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/amour"
-                        android:textAlignment="center"
-                        android:textColor="#2c2954"
-                        android:textSize="12sp" />
-
-                    <ImageView
-                        android:id="@+id/imCoeur"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/coeur" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imAdd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:id="@+id/txPhotos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/photo"
-                    android:textAlignment="center"
-                    android:textColor="#2c2954"
-                    android:textSize="11.33pt" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imLignePhoto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dip"
-                app:srcCompat="@drawable/ligne" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto
-                    android:id="@+id/gridphotos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:horizontalSpacing="10dp"
-                    android:numColumns="3"
-                    android:stretchMode="columnWidth"
-                    android:verticalSpacing="10dp">
-
-
-                </com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:id="@+id/txPresentation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pres"
-                    android:textAlignment="center"
-                    android:textColor="#2c2954"
-                    android:textSize="11.33pt" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imLignePres"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dip"
-                app:srcCompat="@drawable/ligne" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#2c2954">
-
-                <EditText
-                    android:id="@+id/edtqqmot"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#2c2954"
-                    android:ems="10"
-                    android:hint="@string/jesuis"
-                    android:inputType="textMultiLine"
-                    android:maxLength="150"
-                    android:textColor="#fff"
-                    android:textColorHint="#fff"
-                    android:textSize="11.33pt" />
-
-                <TextView
-                    android:id="@+id/txNbCaract"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_margin="5dip"
-                    android:text="150"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#fff"
-                    android:textColorHint="#fff"
-                    android:textSize="8pt" />
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="10dip">
 
-                <TextView
-                    android:id="@+id/btDeconnect"
-                    android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dip">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/deconnect"
-                    android:textColor="#2c2954"
-                    android:textSize="11.33pt" />
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btValidProfil"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/txPlutot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoText="false"
+                        android:text="@string/jesuisplutot"
+                        android:textAlignment="center"
+                        android:textColor="#2c2954"
+                        android:textSize="11pt" />
+
+                    <ImageView
+                        android:id="@+id/imLignePLutot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ligne" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|fill_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txcalme"
+                        android:layout_width="60dip"
+                        android:layout_height="wrap_content"
+                        android:autoText="false"
+                        android:text="@string/calme"
+                        android:textAlignment="center"
+                        android:textColor="#2c2954"
+                        android:textSize="12sp" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+
+                        android:layout_marginRight="10dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/rdcalme1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:layout_weight="1"
+                            android:background="#d2d2db" />
+
+                        <ImageButton
+                            android:id="@+id/rdcalme2"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:layout_weight="1"
+                            android:background="#d2d2db" />
+
+                        <ImageButton
+                            android:id="@+id/rdcalme3"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:layout_weight="1"
+                            android:background="#d2d2db" />
+
+                        <ImageButton
+                            android:id="@+id/rdcalme4"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:layout_weight="1"
+                            android:background="#d2d2db" />
+
+                        <ImageButton
+                            android:id="@+id/rdcalme5"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:layout_weight="1"
+                            android:background="#d2d2db" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="40dip"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txfetard"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autoText="false"
+                            android:text="@string/fetard"
+                            android:textAlignment="center"
+                            android:textColor="#2c2954"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/imageView12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/bouteille" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txverre"
+                        android:layout_width="60dip"
+                        android:layout_height="wrap_content"
+                        android:text="@string/amis"
+                        android:textAlignment="center"
+                        android:textColor="#2c2954"
+                        android:textSize="12sp" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/rdverre1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:layout_weight="1"
+                            android:background="#d2d2db" />
+
+                        <ImageButton
+                            android:id="@+id/rdverre2"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:layout_weight="1"
+                            android:background="#d2d2db" />
+
+                        <ImageButton
+                            android:id="@+id/rdverre3"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:layout_weight="1"
+                            android:background="#d2d2db" />
+
+                        <ImageButton
+                            android:id="@+id/rdverre4"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:layout_weight="1"
+                            android:background="#d2d2db" />
+
+                        <ImageButton
+                            android:id="@+id/rdverre5"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:layout_weight="1"
+                            android:background="#d2d2db" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="40dip"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txaffinite"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/amour"
+                            android:textAlignment="center"
+                            android:textColor="#2c2954"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/imCoeur"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/coeur" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/txPhotos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/photo"
+                        android:textAlignment="center"
+                        android:textColor="#2c2954"
+                        android:textSize="11.33pt" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imLignePhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    app:srcCompat="@drawable/ligne" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto
+                        android:id="@+id/gridphotos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:horizontalSpacing="10dp"
+                        android:numColumns="3"
+                        android:stretchMode="columnWidth"
+                        android:verticalSpacing="10dp">
+
+
+                    </com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/txPresentation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pres"
+                        android:textAlignment="center"
+                        android:textColor="#2c2954"
+                        android:textSize="11.33pt" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imLignePres"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    app:srcCompat="@drawable/ligne" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#2c2954">
+
+                    <EditText
+                        android:id="@+id/edtqqmot"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#2c2954"
+                        android:ems="10"
+                        android:hint="@string/jesuis"
+                        android:inputType="textMultiLine"
+                        android:maxLength="150"
+                        android:textColor="#fff"
+                        android:textColorHint="#fff"
+                        android:textSize="11.33pt" />
+
+                    <TextView
+                        android:id="@+id/txNbCaract"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="5dip"
+                        android:text="150"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#fff"
+                        android:textColorHint="#fff"
+                        android:textSize="8pt" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="center_horizontal"
-                    android:background="#2c2954"
-                    android:padding="6dip"
-                    android:text="@string/action_sign_in"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textColor="#fff"
-                    android:textSize="18dip" />
+                    android:layout_gravity="bottom"
+                    android:paddingTop="10dip">
+
+                    <TextView
+                        android:id="@+id/btDeconnect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/deconnect"
+                        android:textColor="#2c2954"
+                        android:textSize="11.33pt" />
+
+                    <Button
+                        android:id="@+id/btValidProfil"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center_horizontal"
+                        android:background="#2c2954"
+                        android:padding="6dip"
+                        android:text="@string/action_sign_in"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="#fff"
+                        android:textSize="18dip" />
 
 
-            </RelativeLayout>
+                </RelativeLayout>
 
 
-        </LinearLayout>
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
 
     </ScrollView>
+
 
 
 </LinearLayout>

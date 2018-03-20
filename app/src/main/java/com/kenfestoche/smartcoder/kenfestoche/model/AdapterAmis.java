@@ -348,13 +348,14 @@ public class AdapterAmis extends SimpleAdapter {
                             //imAjoutAmis.setVisibility(View.INVISIBLE);
                             if(ami.get("statut").equals("0")){
                                 imAjoutAmis.setVisibility(View.VISIBLE);
-
+                                imLocaliser.setVisibility(View.INVISIBLE);
                                 //imAjoutAmis.setImageResource(R.drawable.btajouter);
                                 imRefuseAmis.setVisibility(View.VISIBLE);
                                 //imRefuseAmis.setImageResource(R.drawable.btrefuser);
                             }else if(ami.get("statut").equals("1")){
                                 imWaitAmis.setImageResource(R.drawable.sablier);
                                 imWaitAmis.setVisibility(View.VISIBLE);
+                                imLocaliser.setVisibility(View.INVISIBLE);
                             }else{
                                 if(ami.containsKey("localiser")) {
                                     if (ami.get("localiser").equals("0")) {
