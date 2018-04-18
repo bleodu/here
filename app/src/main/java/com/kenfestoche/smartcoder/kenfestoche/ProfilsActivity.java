@@ -165,6 +165,7 @@ public class ProfilsActivity extends Fragment {
 
 
 
+
         txDistanceKiffs.setVisibility(View.INVISIBLE);
         boutonBeurk.setVisibility(View.INVISIBLE);
         boutonKiffe.setVisibility(View.INVISIBLE);
@@ -462,6 +463,16 @@ public class ProfilsActivity extends Fragment {
         });
 
 
+        // Optionally add an OnItemClickListener
+        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClicked(int itemPosition, Object dataObject) {
+
+                Intent i = new Intent(getContext(), ProfilDetailActivity.class);
+                i.putExtra("id_user",idUserKiff);
+                getActivity().startActivity(i);
+            }
+        });
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
@@ -1269,11 +1280,14 @@ public class ProfilsActivity extends Fragment {
                     JSONArray Rep = WS.KiffUser(String.valueOf(User.id_user),idUserKiff,"1");
                     try {
                         JSONObject Retour=Rep.getJSONObject(0);
-                        if(Retour.getString("NEWMATCH").equals("1")){
-                            //Toast.makeText(getApplicationContext(), "Vous avez un nouveau match", Toast.LENGTH_LONG).show();
-                            rlvNewKiff.setVisibility(View.VISIBLE);
+                        if(Retour!=null){
+                            if(Retour.getString("NEWMATCH").equals("1")){
+                                //Toast.makeText(getApplicationContext(), "Vous avez un nouveau match", Toast.LENGTH_LONG).show();
+                                rlvNewKiff.setVisibility(View.VISIBLE);
 
+                            }
                         }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -1769,9 +1783,9 @@ public class ProfilsActivity extends Fragment {
 
             imKiffBeurk.setVisibility(View.VISIBLE);
             if(pref.getString("Langue","").equals("Anglais")){
-                imKiffBeurk.setImageResource(R.drawable.btlikeengros);
+                imKiffBeurk.setImageResource(R.drawable.kiffengrosnew);
             }else{
-                imKiffBeurk.setImageResource(R.drawable.kiffegros);
+                imKiffBeurk.setImageResource(R.drawable.kiffnewgros);
             }
 
         }
@@ -1801,9 +1815,9 @@ public class ProfilsActivity extends Fragment {
 
             imKiffBeurk.setVisibility(View.VISIBLE);
             if(pref.getString("Langue","").equals("Anglais")){
-                imKiffBeurk.setImageResource(R.drawable.btbeurkengros);
+                imKiffBeurk.setImageResource(R.drawable.beurkengrosnew);
             }else{
-                imKiffBeurk.setImageResource(R.drawable.beurkgros);
+                imKiffBeurk.setImageResource(R.drawable.beurknewgros);
             }
 
         }

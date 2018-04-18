@@ -28,11 +28,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         //Displaying data in log
         //It is optional
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Notification Message Body: " + remoteMessage.getData().values().toArray()[0]);
+        try{
+            Log.d(TAG, "From: " + remoteMessage.getFrom());
+            Log.d(TAG, "Notification Message Body: " + remoteMessage.getData().values().toArray()[0]);
 
-        //Calling method to generate notification
-        sendNotification(remoteMessage.getData().values().toArray()[0].toString());
+            //Calling method to generate notification
+            sendNotification(remoteMessage.getData().values().toArray()[0].toString());
+        }catch (Exception e){
+
+        }
+
     }
 
     //This method is only generating push notification

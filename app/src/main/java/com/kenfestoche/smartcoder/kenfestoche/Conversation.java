@@ -654,9 +654,8 @@ public class Conversation extends AppCompatActivity {
         lstChat.smoothScrollToPosition(DetailConversationArray.getCount() - 1);
 
 
-        listconv=new ListConversation();
-        listconv.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
+        //listconv.execute();
         /*this.runOnUiThread(new Runnable() {
 
             @Override
@@ -755,7 +754,13 @@ public class Conversation extends AppCompatActivity {
                             try {
                                 i.putExtra("Latitude", UserKiffs.getString("latitude"));
                                 i.putExtra("Longitude", UserKiffs.getString("longitude"));
+                                if(amis<=0){
+                                    i.putExtra("MatchLocaliser", true);
+                                }
+                                i.putExtra("UserMap",UserKiffs.getString("pseudo"));
                                 i.putExtra("Pseudo", UserKiffs.getString("pseudo"));
+                                i.putExtra("IdUserMap", UserKiffs.getString("id_user"));
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -803,9 +808,22 @@ public class Conversation extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        listconv.cancel(true);
+        //listconv.cancel(true);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(listconv!=null){
+            listconv.cancel(true);
+        }
+
+
+        listconv=new ListConversation();
+        //listconv.(false);
+        listconv.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+    }
 
     private class ListConversation extends AsyncTask<Void, Integer, Void>
     {

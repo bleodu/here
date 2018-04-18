@@ -110,6 +110,7 @@ public class LoginFacebook extends AppCompatActivity {
                 if(tendancesexe>=0) {
                     user.tendancesexe=tendancesexe;
                     user.connecte=true;
+                    user.activnotif=1;
                     user.statut=1;
                     user.save();
                     WebService WS = new WebService(getApplicationContext());

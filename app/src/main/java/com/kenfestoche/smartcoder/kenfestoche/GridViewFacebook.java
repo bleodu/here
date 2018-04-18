@@ -14,6 +14,7 @@ import com.kenfestoche.smartcoder.kenfestoche.model.ImagesFacebook;
 import com.kenfestoche.smartcoder.kenfestoche.model.ImagesProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.Utilisateur;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
+import com.yalantis.ucrop.UCrop;
 
 public class GridViewFacebook extends AppCompatActivity {
 
@@ -43,8 +44,32 @@ public class GridViewFacebook extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 4 || requestCode == -1) { //CROP IMAGE
-            Uri selectedImage = data.getData();
+        if(requestCode == UCrop.REQUEST_CROP || requestCode == -1) { //CROP IMAGE
+
+            final Uri resultUri = UCrop.getOutput(data);
+            /*File finalFile = new File(getRealPathFromURI(resultUri));
+            //mImageCaptureUri= (Uri) data.getExtras().get("URI");
+            picturePath = finalFile.getPath();*/
+
+            SharedPreferences pref = this.getSharedPreferences("EASER", this.MODE_PRIVATE);
+
+            SharedPreferences.Editor edt = pref.edit();
+
+            this.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    WebService WS = new WebService(getApplicationContext());
+                    WS.UploadImage(resultUri.getPath(),User);
+
+                    finish();
+
+
+                }
+            });
+
+            /*Uri selectedImage = data.getData();
             String[] filePath = { MediaStore.Images.Media.DATA };
             Cursor c = this.getContentResolver().query(
                     selectedImage, filePath, null, null, null);
@@ -66,10 +91,10 @@ public class GridViewFacebook extends AppCompatActivity {
                     WebService WS = new WebService(getApplicationContext());
                     WS.UploadImage(picturePath,User);
 
-                    finish();
+
 
                 }
-            });
+            });*/
 
         }
     }

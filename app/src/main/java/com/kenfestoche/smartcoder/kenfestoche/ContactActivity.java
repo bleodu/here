@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.arasthel.asyncjob.AsyncJob;
 import com.kenfestoche.smartcoder.kenfestoche.model.AdapterAmis;
 import com.kenfestoche.smartcoder.kenfestoche.model.ImagesProfil;
 import com.kenfestoche.smartcoder.kenfestoche.model.MyGridPhoto;
@@ -55,6 +56,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ContactActivity extends Fragment {
 
@@ -83,7 +86,7 @@ public class ContactActivity extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     AdapterAmis Amisrray;
     TextView txHeader;
-    GetListContacts mLoadContact;
+    AsyncTaskRunner mLoadContact;
     LinearLayout panelKiffs;
     RelativeLayout panelAmis;
     Typeface face;
@@ -101,7 +104,6 @@ public class ContactActivity extends Fragment {
         MonActivity = getActivity();
 
         User = FragmentsSliderActivity.User;
-
 
 
 
@@ -199,7 +201,12 @@ public class ContactActivity extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadContacts();
+                try {
+                    LoadContacts();
+                    swipeRefreshLayout.setRefreshing(false);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -310,209 +317,10 @@ public class ContactActivity extends Fragment {
 
     }
 
+    void LoadContacts() throws InterruptedException
 
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        txHeader.setText(getResources().getString(R.string.header_contact));
-        txMesKiffs.setText(getResources().getString(R.string.kiffs));
-        txAmis.setText(getResources().getString(R.string.mesamis));
-
-        WebService WS = new WebService(getContext());
-        JSONArray ListMessage = WS.GetMessageNonLu(User.id_user,"","0");
-
-        if(ListMessage!=null){
-            txNbMessage.setVisibility(View.VISIBLE);
-            txNbMessage.setText(String.valueOf(ListMessage.length()));
-            txNbMessage.setTypeface(face,Typeface.BOLD);
-        }else{
-            txNbMessage.setVisibility(View.INVISIBLE);
-            txNbMessage.setText("");
-            txNbMessage.setTypeface(face,Typeface.BOLD);
-        }
-
-       /* mLoadContact =new GetListContacts();
-        mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
-
-        /*mLoadContact =new GetListContacts();
-        mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
-        //LoadContacts();
-        //lstKiffs.setAdapter(KiffsArray);
-        //setListViewHeightBasedOnChildren(lstKiffs);
-        //setListViewHeightBasedOnChildren(lstAmis);
-
-    }
-
-    private class GetListContacts extends AsyncTask<Void, Integer, Void>
     {
-
-        Boolean NewMess=false;
-        JSONArray ListKiffs;
-        JSONArray ListAmis;
-
-        @Override
-        protected void onPreExecute() {
-
-            super.onPreExecute();
-            pgLoad.setVisibility(View.VISIBLE);
-            //lstAmis.setVisibility(View.INVISIBLE);
-            NewMess=false;
-            //setListViewHeightBasedOnChildren(lstKiffs);
-            //setListViewHeightBasedOnChildren(lstAmis);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values){
-            super.onProgressUpdate(values);
-            // Mise à jour de la ProgressBar
-
-            if(values[0]==0){
-                Amisrray.notifyDataSetChanged();
-            }else{
-                KiffsArray.notifyDataSetChanged();
-            }
-
-            //setListViewHeightBasedOnChildren(lstKiffs);
-            //setListViewHeightBasedOnChildren(lstAmis);
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-
-            WebService WS = new WebService(getContext(),false);
-            //ListKiffs = WS.GetListKiffs(User,kiffsStringId);
-            //ListAmis = WS.GetListAmis(User,amisStringId);
-            ListKiffs = WS.GetListKiffs(User,"");
-            ListAmis = WS.GetListAmis(User,"");
-
-
-            kiffs.clear();
-            amis.clear();
-
-            if(ListKiffs != null && ListKiffs.length()>0)
-            {
-                NewMess=true;
-                String Url=null;
-
-                for (int i = 0; i < ListKiffs.length(); i++) {
-                    if(this.isCancelled())
-                    {
-                        Log.v("LOGGDS", "Chargement kiffs annulé");
-                        break;
-                    }
-
-                    JSONObject LeKiff=null;
-
-                    HashMap<String, Object> valeur = new HashMap<String, Object>();
-                    try {
-                        LeKiff = ListKiffs.getJSONObject(i);
-                        valeur.put("pseudo", LeKiff.getString("pseudo"));
-                        valeur.put("id_kiff", LeKiff.getString("id_user_kiff"));
-                        valeur.put("vu", LeKiff.getInt("vu"));
-                        valeur.put("nbMess", LeKiff.getInt("nbMess"));
-                        valeur.put("user", User);
-                        Url = LeKiff.getString("photo").replace(" ","%20");
-                        valeur.put("url",Url);
-
-                        kiffsStringId = kiffsStringId + LeKiff.getString("id_user_kiff") + ",";
-
-                    } catch (JSONException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-
-
-                    kiffs.add(valeur);
-                    kiffssauv.add(valeur);
-                    //publishProgress(0);
-
-
-
-                }
-            }
-
-            if(ListAmis != null && ListAmis.length()>0)
-            {
-                NewMess=true;
-                String Url=null;
-
-                for (int i = 0; i < ListAmis.length(); i++) {
-                    if(this.isCancelled())
-                    {
-                        Log.v("LOGGDS", "Chargement amis annulé");
-                        break;
-                    }
-
-                    JSONObject Amis=null;
-
-                    HashMap<String, Object> valeur = new HashMap<String, Object>();
-                    try {
-                        Amis = ListAmis.getJSONObject(i);
-                        valeur.put("pseudo", Amis.getString("pseudo"));
-                        valeur.put("statut", Amis.getString("statut"));
-                        valeur.put("id_ami", Amis.getString("id_useramis"));
-                        valeur.put("latitude", Amis.getString("latitude"));
-                        valeur.put("longitude", Amis.getString("longitude"));
-                        valeur.put("localiser", Amis.getString("localiser"));
-                        valeur.put("nbMess", Amis.getInt("nbMess"));
-                        valeur.put("user", User);
-
-                        amisStringId = amisStringId + Amis.getString("id_useramis") + ",";
-                        Url = Amis.getString("photo").replace(" ","%20");
-                        valeur.put("url",Url);
-
-
-
-
-                    } catch (JSONException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-
-                    amis.add(valeur);
-
-                    //publishProgress(1);
-
-
-
-
-                }
-            }
-
-            if(ListAmis!=null && ListAmis.length()>0){
-                publishProgress(0);
-            }
-
-            if(ListKiffs!=null && ListKiffs.length()>0){
-                publishProgress(1);
-            }
-
-
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            pgLoad.setVisibility(View.GONE);
-            if(NewMess){
-                setListViewHeightBasedOnChildren(lstKiffs);
-                setListViewHeightBasedOnChildren(lstAmis);
-            }
-
-
-        }
-
-
-    }
-
-    public void LoadContacts()
-    {
-
+        //swipeRefreshLayout.setRefreshing(true);
         WebService WS = new WebService(getContext());
 
         kiffs.clear();
@@ -551,10 +359,10 @@ public class ContactActivity extends Fragment {
                 kiffs.add(valeur);
                 kiffssauv.add(valeur);
 
-                KiffsArray.notifyDataSetChanged();
+
             }
         }
-
+        //Thread.sleep(5000);
         if(ListAmis != null && ListAmis.length()>0)
         {
 
@@ -588,34 +396,115 @@ public class ContactActivity extends Fragment {
                 }
 
                 amis.add(valeur);
-                Amisrray.notifyDataSetChanged();
+
 
 
             }
         }
 
+        KiffsArray.notifyDataSetChanged();
+        Amisrray.notifyDataSetChanged();
+
 
         setListViewHeightBasedOnChildren(lstKiffs);
         setListViewHeightBasedOnChildren(lstAmis);
 
-        swipeRefreshLayout.setRefreshing(false);
 
         //pgLoad.setVisibility(View.GONE);
 
+    }
+
+    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+
+        private String resp;
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try {
+                LoadContacts();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return resp;
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            // execution of result of Long time consuming operation
+
+            KiffsArray.notifyDataSetChanged();
+            Amisrray.notifyDataSetChanged();
+
+
+            setListViewHeightBasedOnChildren(lstKiffs);
+            setListViewHeightBasedOnChildren(lstAmis);
+            pgLoad.setVisibility(View.GONE);
+
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            pgLoad.setVisibility(View.VISIBLE);
+        }
+
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+
+
+        }
     }
 
     @Override
     public void setUserVisibleHint(boolean visible) {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
+            pgLoad.setVisibility(View.VISIBLE);
+            // Create a job to run on background
+            AsyncJob.OnBackgroundJob job = new AsyncJob.OnBackgroundJob() {
+                @Override
+                public void doOnBackground() {
+                    // Pretend to do some background processing
+                    try {
+                        LoadContacts();
 
-            MonActivity.runOnUiThread(new Runnable() {
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    // This toast should show a difference of 1000ms between calls
+                    AsyncJob.doOnMainThread(new AsyncJob.OnMainThreadJob() {
+                        @Override
+                        public void doInUIThread() {
+                            pgLoad.setVisibility(View.GONE);
+                        }
+                    });
+                }
+            };
+
+            job.doOnBackground();
+
+
+
+           /* MonActivity.runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
-                LoadContacts();
+                try {
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            });
+            });*/
+
+           /* mLoadContact =new AsyncTaskRunner();
+            mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
+
+
 
             //mLoadContact =new GetListContacts();
             //mLoadContact.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -639,9 +528,9 @@ public class ContactActivity extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(mLoadContact != null){
+        /*if(mLoadContact != null){
             mLoadContact.cancel(true);
-        }
+        }*/
 
     }
 

@@ -1,6 +1,8 @@
 package com.kenfestoche.smartcoder.kenfestoche.model;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -8,6 +10,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -366,10 +369,45 @@ public class AdapterAmis extends SimpleAdapter {
                                             public void onClick(View view) {
                                                 int pos=Integer.parseInt(view.getTag().toString());
                                                 ami = arrayList.get(pos);
-                                                FragmentsSliderActivity.longitude= (String) ami.get("longitude");
-                                                FragmentsSliderActivity.latitude= (String) ami.get("latitude");
-                                                FragmentsSliderActivity.Localiser=true;
-                                                pager.setCurrentItem(0);
+                                                WebService WS = new WebService(context);
+
+                                                JSONArray Result = WS.GetinfoUser((String) ami.get("id_ami"));
+                                                if(Result!=null) {
+                                                    JSONObject UserKiffs = null;
+                                                    try {
+                                                        UserKiffs = Result.getJSONObject(0);
+                                                        if(UserKiffs.getInt("derniereposition")<6)
+                                                        {
+                                                            FragmentsSliderActivity.longitude= (String) ami.get("longitude");
+                                                            FragmentsSliderActivity.latitude= (String) ami.get("latitude");
+                                                            FragmentsSliderActivity.Localiser=true;
+                                                            Utilisateur uti = (Utilisateur) ami.get("user");
+                                                            FragmentsSliderActivity.UserMap= (String) ami.get("pseudo");
+                                                            FragmentsSliderActivity.IdUserMap= (String) ami.get("id_ami");
+                                                            pager.setCurrentItem(0);
+                                                        }else{
+                                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(view.getContext());
+                                                            builder1.setTitle("Pas de position");
+                                                            builder1.setMessage("L'utilisateur n'est plus connecté. Position introuvable");
+                                                            builder1.setCancelable(true);
+                                                            builder1.setNeutralButton(android.R.string.ok,
+                                                                    new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int id) {
+                                                                            dialog.cancel();
+                                                                        }
+                                                                    });
+
+                                                            AlertDialog alert11 = builder1.create();
+                                                            alert11.show();
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                }
+
+
+
                                             }
                                         });
 

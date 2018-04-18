@@ -788,6 +788,12 @@ public class WebService {
                         user.affinity=Uti.getInt("affinity");
                         user.id_user=Uti.getInt("iduser");
                         user.statut=Uti.getInt("statut");
+                        user.activnotif=Uti.getInt("activnotif");
+                        user.inclusfb=Uti.getInt("inclusfb");
+                        user.profilsaufkiffs=Uti.getInt("profilsaufkiffs");
+                        user.popupmessage=Uti.getInt("popupmessage");
+                        user.popupmap=Uti.getInt("popupmap");
+                        user.popupprofils=Uti.getInt("popuprofil");
                         user.connecte=true;
                         user.save();
 

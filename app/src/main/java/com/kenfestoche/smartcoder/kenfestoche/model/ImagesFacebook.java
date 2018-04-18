@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.yalantis.ucrop.UCrop;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +43,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -213,7 +218,28 @@ public class ImagesFacebook extends BaseAdapter {
                 }
                 Uri tempUri = getImageUri(mContext, image);
 
-                Intent myCropIntent = new Intent("com.android.camera.action.CROP");
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = timeStamp + ".jpg";
+                File storageDir = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES);
+                String ImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+                File file = new File(ImagePath);
+
+                UCrop.Options options = new UCrop.Options();
+                options.setCompressionQuality(100);
+                options.setActiveWidgetColor(Color.parseColor("#2c2954"));
+                options.setToolbarColor(Color.parseColor("#2c2954"));
+                options.setCropFrameColor(Color.parseColor("#2c2954"));
+                options.setStatusBarColor(Color.parseColor("#2c2954"));
+                options.setToolbarTitle("Photo");
+
+                UCrop.of(tempUri, Uri.fromFile(new File(mContext.getCacheDir(), imageFileName)))
+                        .withAspectRatio(1, 1)
+                        .withOptions(options)
+                        .withMaxResultSize(800, 800)
+                        .start((Activity)mContext, UCrop.REQUEST_CROP);
+
+                /*Intent myCropIntent = new Intent("com.android.camera.action.CROP");
 
                 myCropIntent.setDataAndType(tempUri, "image/*");
                 myCropIntent.putExtra("crop", "true");
@@ -222,7 +248,7 @@ public class ImagesFacebook extends BaseAdapter {
                 myCropIntent.putExtra("outputX", 300);
                 myCropIntent.putExtra("outputY", 300);
                 myCropIntent.putExtra("return-data", true);
-                ((Activity)mContext).startActivityForResult(myCropIntent, 4);
+                ((Activity)mContext).startActivityForResult(myCropIntent, 4);*/
                 //((Activity)mContext).finish();
                 //Uri tempUri = Uri.parse("android.resource://com.kenfestoche.smartcoder.kenfestoche/" + R.drawable.your_image_id);
                 // CALL THIS METHOD TO GET THE ACTUAL PATH

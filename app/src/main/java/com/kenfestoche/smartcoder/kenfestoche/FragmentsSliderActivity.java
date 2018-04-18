@@ -25,6 +25,9 @@ public class FragmentsSliderActivity extends FragmentActivity {
     SharedPreferences pref;
     public static Utilisateur User;
     public static boolean Localiser=false;
+    public static boolean MatchLocaliser=false;
+    public static String UserMap;
+    public static String IdUserMap;
     public static String latitude;
     public static String longitude;
     public static boolean ClicAmis=false;
@@ -40,8 +43,11 @@ public class FragmentsSliderActivity extends FragmentActivity {
 
         if(getIntent().getExtras()!=null){
             Localiser = getIntent().getExtras().getBoolean("Localiser",false);
+            MatchLocaliser = getIntent().getExtras().getBoolean("MatchLocaliser",false);
             latitude = getIntent().getExtras().getString("Latitude");
             longitude  = getIntent().getExtras().getString("Longitude");
+            IdUserMap  = getIntent().getExtras().getString("IdUserMap");
+            UserMap  = getIntent().getExtras().getString("UserMap");
             newuser  = getIntent().getExtras().getInt("newuser",0);
         }
 
