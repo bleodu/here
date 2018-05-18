@@ -1163,8 +1163,8 @@ public class UserProfil extends Fragment {
 
                 if (permission != PackageManager.PERMISSION_GRANTED) {
                     // We don't have permission so prompt the user
-                    ActivityCompat.requestPermissions(
-                            getActivity(),
+                    requestPermissions(
+
                             new String[]{Manifest.permission.CAMERA},
                             99
                     );
@@ -1177,8 +1177,8 @@ public class UserProfil extends Fragment {
 
                     if (permission != PackageManager.PERMISSION_GRANTED) {
                         // We don't have permission so prompt the user
-                        ActivityCompat.requestPermissions(
-                                getActivity(),
+                        requestPermissions(
+
                                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                 99
                         );
@@ -1191,8 +1191,8 @@ public class UserProfil extends Fragment {
 
                         if (permission != PackageManager.PERMISSION_GRANTED) {
                             // We don't have permission so prompt the user
-                            ActivityCompat.requestPermissions(
-                                    getActivity(),
+                            requestPermissions(
+
                                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                                     99
                             );
@@ -1240,7 +1240,7 @@ public class UserProfil extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
+        /*int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
 
@@ -1304,7 +1304,7 @@ public class UserProfil extends Fragment {
             Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(pickPhoto ,0);
-        }
+        }*/
     }
 
     private Bitmap getBitmap(String path) {
@@ -1594,7 +1594,7 @@ public class UserProfil extends Fragment {
 
                                 if (permission != PackageManager.PERMISSION_GRANTED) {
                                     // We don't have permission so prompt the user
-                                    requestPermissions(
+                                    ActivityCompat.requestPermissions(getActivity(),
                                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                                             99
                                     );
@@ -1611,7 +1611,7 @@ public class UserProfil extends Fragment {
 
                                 if (permission != PackageManager.PERMISSION_GRANTED) {
                                     // We don't have permission so prompt the user
-                                    requestPermissions(              new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    ActivityCompat.requestPermissions(getActivity(),           new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                             99
                                     );
                                 }
@@ -1623,7 +1623,7 @@ public class UserProfil extends Fragment {
 
                                     if (permission != PackageManager.PERMISSION_GRANTED) {
                                         // We don't have permission so prompt the user
-                                        requestPermissions(
+                                        ActivityCompat.requestPermissions(getActivity(),
                                                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                                                 99
                                         );
@@ -1736,8 +1736,8 @@ public class UserProfil extends Fragment {
 
                             if (permission != PackageManager.PERMISSION_GRANTED) {
                                 // We don't have permission so prompt the user
-                                ActivityCompat.requestPermissions(
-                                        getActivity(),
+                                requestPermissions(
+
                                         new String[]{Manifest.permission.CAMERA},
                                         1
                                 );
@@ -1750,42 +1750,44 @@ public class UserProfil extends Fragment {
 
                             if (permission != PackageManager.PERMISSION_GRANTED) {
                                 // We don't have permission so prompt the user
-                                ActivityCompat.requestPermissions(
-                                        getActivity(),
+                                requestPermissions(
+
                                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                         1
                                 );
                             }
 
-                        }else{
-                            permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                        }
+                        permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                        if (permission != PackageManager.PERMISSION_GRANTED) {
+
+
                             if (permission != PackageManager.PERMISSION_GRANTED) {
+                                // We don't have permission so prompt the user
+                                requestPermissions(
 
-
-                                if (permission != PackageManager.PERMISSION_GRANTED) {
-                                    // We don't have permission so prompt the user
-                                    ActivityCompat.requestPermissions(
-                                            getActivity(),
-                                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                            1
-                                    );
-                                }
-
-                            }else{
-                                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                                String imageFileName = timeStamp + ".jpg";
-                                File storageDir = Environment.getExternalStoragePublicDirectory(
-                                        Environment.DIRECTORY_PICTURES);
-                                pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
-                                File file = new File(pictureImagePath);
-                                outputFileUri = Uri.fromFile(file);
-                                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
-                                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                                startActivityForResult(cameraIntent, 1);
+                                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                        1
+                                );
                             }
 
+                        }else{
+                            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                            String imageFileName = timeStamp + ".jpg";
+                            File storageDir = Environment.getExternalStoragePublicDirectory(
+                                    Environment.DIRECTORY_PICTURES);
+                            pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+                            File file = new File(pictureImagePath);
+                            outputFileUri = Uri.fromFile(file);
+                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+                            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                            startActivityForResult(cameraIntent, 1);
                         }
+
+
+
+
                 /*
                  * File photo = new
                  * File(Environment.getExternalStorageDirectory(),
