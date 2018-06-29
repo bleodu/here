@@ -27,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -93,6 +94,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
     ImageButton btautres;
     Marker markerPosition;
     boolean RefreshSoiree;
+    ProgressBar pgLoad;
 
     ArrayList<Marker> lstMarkerInconnus;
 
@@ -194,6 +196,8 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
         imGeoloc = (ImageView) rootView.findViewById(R.id.imgeoloc);
         imPhotoMap = (ImageView) rootView.findViewById(R.id.imPhotoMap);
         imSoiree = (LinearLayout) rootView.findViewById(R.id.imSoiree);
+
+        pgLoad = (ProgressBar) rootView.findViewById(R.id.pgChargement);
 
         txLegAmis = (TextView) rootView.findViewById(R.id.txAmis);
         txLegMatch = (TextView) rootView.findViewById(R.id.txMatch);
@@ -601,6 +605,8 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
                 }
                 RefreshSoiree=true;
+                pgLoad.setVisibility(View.VISIBLE);
+
                 User.save();
                //RefreshPositions();
 
@@ -659,7 +665,43 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
             }
         });
 
+        txConcert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (User.bconcert) {
+                    btconcert.setBackgroundColor(Color.parseColor("#d2d2db"));
+                    User.bconcert = false;
+
+                } else {
+                    btconcert.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bconcert = true;
+                    btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bfetes = true;
+                }
+
+                User.save();
+            }
+        });
+
         btbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (User.bbar) {
+                    btbar.setBackgroundColor(Color.parseColor("#d2d2db"));
+                    User.bbar = false;
+
+                } else {
+                    btbar.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bbar = true;
+                    btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bfetes = true;
+                }
+
+                User.save();
+            }
+        });
+
+        txBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (User.bbar) {
@@ -695,6 +737,24 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
             }
         });
 
+        txBoiteNuit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (User.bboitenuit) {
+                    btboitenuit.setBackgroundColor(Color.parseColor("#d2d2db"));
+                    User.bboitenuit = false;
+
+                } else {
+                    btboitenuit.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bboitenuit = true;
+                    btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bfetes = true;
+                }
+
+                User.save();
+            }
+        });
+
         btbarnuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -713,7 +773,43 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
             }
         });
 
+        txBarNuit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (User.bbarnuit) {
+                    btbarnuit.setBackgroundColor(Color.parseColor("#d2d2db"));
+                    User.bbarnuit = false;
+
+                } else {
+                    btbarnuit.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bbarnuit = true;
+                    btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bfetes = true;
+                }
+
+                User.save();
+            }
+        });
+
         btautres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (User.bautre) {
+                    btautres.setBackgroundColor(Color.parseColor("#d2d2db"));
+                    User.bautre = false;
+
+                } else {
+                    btautres.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bautre = true;
+                    btFetes.setBackgroundColor(Color.parseColor("#2c2954"));
+                    User.bfetes = true;
+                }
+
+                User.save();
+            }
+        });
+
+        txAutres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (User.bautre) {
@@ -970,6 +1066,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                     if (FragmentsSliderActivity.Localiser) {
                         //RefreshPositions();
                         // For dropping a marker at a point on the Map
+                        pgLoad.setVisibility(View.VISIBLE);
                         moi = new LatLng(Double.parseDouble(FragmentsSliderActivity.latitude), Double.parseDouble(FragmentsSliderActivity.longitude));
                         CameraPosition cameraPosition = new CameraPosition.Builder().target(moi).zoom(15).build();
                         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -1022,6 +1119,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                             marker.setTag(1);
                             lstMarkerAmis.add(marker);
                         }
+                        pgLoad.setVisibility(View.GONE);
 
 
                     } else {
@@ -1639,6 +1737,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
         super.onResume();
         refreshMap = new RefreshMap();
         refreshMap.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        pgLoad.setVisibility(View.VISIBLE);
 
 
     }
@@ -1650,14 +1749,20 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
              User.nbaffichemap = User.nbaffichemap + 1;
 
-
+            pgLoad.setVisibility(View.VISIBLE);
 
             if (User.nbaffichemap == 3 && User.popupmap == 0) {
                 impopupmap.setVisibility(View.VISIBLE);
             }
-            if(refreshMap.isCancelled() || refreshMap==null){
+            if(refreshMap==null){
+
                 refreshMap = new RefreshMap();
                 refreshMap.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }else{
+                if(refreshMap.isCancelled()){
+                    refreshMap = new RefreshMap();
+                    refreshMap.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                }
             }
 
 
@@ -1981,7 +2086,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
 
 
             }
-
+            pgLoad.setVisibility(View.GONE);
 
         }
 
@@ -2012,7 +2117,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-
+            pgLoad.setVisibility(View.VISIBLE);
 
 
         }

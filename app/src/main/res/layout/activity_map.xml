@@ -8,10 +8,10 @@
     tools:context="com.kenfestoche.smartcoder.kenfestoche.MapActivity">
 
     <RelativeLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#2c2954"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imageView9"
@@ -32,13 +32,13 @@
             android:textSize="45dip" />
 
         <ImageView
+            android:id="@+id/imFlecheDroiteMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imFlecheDroiteMap"
-            android:src="@drawable/flechedroite"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dip"
-            android:layout_alignParentRight="true" />
+            android:src="@drawable/flechedroite" />
 
     </RelativeLayout>
 
@@ -264,7 +264,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/rounded_edge"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="invisible">
 
 
             <TextView
@@ -332,7 +332,7 @@
                 android:layout_gravity="right"
                 android:layout_margin="10dip"
                 android:background="#2c2954"
-                android:text="@string/action_sign_in"
+                android:text="@string/valider"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="@color/text_color"
                 android:textSize="18dip" />
@@ -604,7 +604,7 @@
                     android:layout_gravity="right"
                     android:layout_margin="10dip"
                     android:background="#2c2954"
-                    android:text="@string/action_sign_in"
+                    android:text="@string/valider"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@color/text_color"
                     android:textSize="18dip" />
@@ -612,6 +612,16 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/pgChargement"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:indeterminateTint="#2c2954"
+            android:layout_weight="1" />
 
     </RelativeLayout>
 

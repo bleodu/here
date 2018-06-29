@@ -201,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         mconnexion.setTypeface(face);
-        TextView mconnexionFacebook = (TextView) findViewById(R.id.btconnexion);
+        /*TextView mconnexionFacebook = (TextView) findViewById(R.id.btconnexion);
         mconnexionFacebook.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        mconnexionFacebook.setTypeface(face);
+        mconnexionFacebook.setTypeface(face);*/
 
 
 

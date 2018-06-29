@@ -8,8 +8,8 @@ android {
         minSdkVersion 16
         multiDexEnabled true
         targetSdkVersion 26
-        versionCode 49
-        versionName "49"
+        versionCode 52
+        versionName "52"
     }
     dexOptions {
         javaMaxHeapSize "4g"
@@ -45,6 +45,7 @@ dependencies {
     // this line must be included to integrate with Firebase
     //Add this line
     implementation 'com.arasthel:asyncjob-library:1.0.3'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.github.yalantis:ucrop:2.2.1'
     implementation 'com.github.Plumillon:ChipView:1.2.0'
@@ -59,6 +60,7 @@ dependencies {
     implementation 'com.eftimoff:android-viewpager-transformers:1.0.1@aar'
     implementation 'com.google.firebase:firebase-core:10.2.1'
     implementation 'com.google.firebase:firebase-messaging:10.2.1'
+    implementation 'com.isseiaoki:simplecropview:1.1.7'
     implementation 'me.relex:circleindicator:1.2.2@aar'
     testImplementation 'junit:junit:4.12'
 }

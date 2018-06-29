@@ -921,7 +921,7 @@ public class UserProfil extends Fragment {
                 File file = new File(ImagePath);
                 outputFileUri = Uri.fromFile(file);
 
-                UCrop.Options options = new UCrop.Options();
+                /*UCrop.Options options = new UCrop.Options();
                 options.setCompressionQuality(100);
                 options.setActiveWidgetColor(Color.parseColor("#2c2954"));
                 options.setToolbarColor(Color.parseColor("#2c2954"));
@@ -932,7 +932,11 @@ public class UserProfil extends Fragment {
                         .withAspectRatio(1, 1)
                         .withOptions(options)
                         .withMaxResultSize(800, 800)
-                        .start(getContext(), this, UCrop.REQUEST_CROP);
+                        .start(getContext(), this, UCrop.REQUEST_CROP);*/
+
+                Intent i = new Intent(getActivity(),CropGDSActivity.class);
+                i.putExtra("PathUri",selectedImage);
+                getActivity().startActivity(i);
             }
 
             catch (ActivityNotFoundException e) {
@@ -1028,8 +1032,10 @@ public class UserProfil extends Fragment {
                 File file = new File(ImagePath);
                 outputFileUri = Uri.fromFile(file);
 
-                UCrop.Options options = new UCrop.Options();
+
+                /*UCrop.Options options = new UCrop.Options();
                 options.setCompressionQuality(100);
+
                 options.setActiveWidgetColor(Color.parseColor("#2c2954"));
                 options.setToolbarColor(Color.parseColor("#2c2954"));
                 options.setCropFrameColor(Color.parseColor("#2c2954"));
@@ -1039,7 +1045,19 @@ public class UserProfil extends Fragment {
                         .withAspectRatio(1, 1)
                         .withOptions(options)
                         .withMaxResultSize(800, 800)
-                        .start(getContext(), this, UCrop.REQUEST_CROP);
+                        .start(getContext(), this, UCrop.REQUEST_CROP);*/
+
+
+                Intent i = new Intent(getActivity(),CropGDSActivity.class);
+                i.putExtra("PathUri",tempUri);
+                getActivity().startActivity(i);
+
+                /*CropImage.activity(outputFileUri)
+                        //.setGuidelines(CropImageView.Guidelines.ON)
+                        .setAspectRatio(1,1)
+                        .setMaxCropResultSize(800,800)
+                        .start(getContext(), this);*/
+
             }
 
             catch (ActivityNotFoundException e) {
@@ -1305,67 +1323,6 @@ public class UserProfil extends Fragment {
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(pickPhoto ,0);
         }*/
-    }
-
-    private Bitmap getBitmap(String path) {
-
-        Uri uri = Uri.fromFile(new File(path));
-        InputStream in = null;
-        try {
-            final int IMAGE_MAX_SIZE = 1200000; // 1.2MP
-            in = getActivity().getContentResolver().openInputStream(uri);
-
-            // Decode image size
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(in, null, o);
-            in.close();
-
-
-            int scale = 1;
-            while ((o.outWidth * o.outHeight) * (1 / Math.pow(scale, 2)) >
-                    IMAGE_MAX_SIZE) {
-                scale++;
-            }
-            Log.d("", "scale = " + scale + ", orig-width: " + o.outWidth + ", orig-height: " + o.outHeight);
-
-            Bitmap b = null;
-            in = getActivity().getContentResolver().openInputStream(uri);
-            if (scale > 1) {
-                scale--;
-                // scale to max possible inSampleSize that still yields an image
-                // larger than target
-                o = new BitmapFactory.Options();
-                o.inSampleSize = scale;
-                b = BitmapFactory.decodeStream(in, null, o);
-
-                // resize to desired dimensions
-                int height = b.getHeight();
-                int width = b.getWidth();
-                Log.d("", "1th scale operation dimenions - width: " + width + ", height: " + height);
-
-                double y = Math.sqrt(IMAGE_MAX_SIZE
-                        / (((double) width) / height));
-                double x = (y / height) * width;
-
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(b, (int) x,
-                        (int) y, true);
-                b.recycle();
-                b = scaledBitmap;
-
-                System.gc();
-            } else {
-                b = BitmapFactory.decodeStream(in);
-            }
-            in.close();
-
-            Log.d("", "bitmap size - width: " + b.getWidth() + ", height: " +
-                    b.getHeight());
-            return b;
-        } catch (IOException e) {
-            Log.e("", e.getMessage(), e);
-            return null;
-        }
     }
 
 

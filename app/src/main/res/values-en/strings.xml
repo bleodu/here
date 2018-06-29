@@ -14,7 +14,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Phone number</string>
     <string name="prompt_password">password</string>
-    <string name="action_sign_in">save</string>
+    <string name="action_sign_in">Ok</string>
     <string name="deconnect">log out</string>
     <string name="homo">gay</string>
     <string name="bi">bi</string>
@@ -117,7 +117,7 @@
     <string name="parametre">Parameters</string>
     <string name="valider">save</string>
     <string name="action_connexion">log in</string>
-    <string name="action_sign_in_short">save</string>
+    <string name="action_sign_in_short">Ok</string>
     <string name="coloreaser">#2c2954</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">Mot de passe requis</string>

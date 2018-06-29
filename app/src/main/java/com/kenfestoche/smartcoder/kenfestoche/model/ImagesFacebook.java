@@ -27,6 +27,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
+import com.kenfestoche.smartcoder.kenfestoche.CropGDSActivity;
 import com.kenfestoche.smartcoder.kenfestoche.FragmentsSliderActivity;
 import com.kenfestoche.smartcoder.kenfestoche.R;
 import com.kenfestoche.smartcoder.kenfestoche.webservices.WebService;
@@ -225,7 +226,7 @@ public class ImagesFacebook extends BaseAdapter {
                 String ImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
                 File file = new File(ImagePath);
 
-                UCrop.Options options = new UCrop.Options();
+                /*UCrop.Options options = new UCrop.Options();
                 options.setCompressionQuality(100);
                 options.setActiveWidgetColor(Color.parseColor("#2c2954"));
                 options.setToolbarColor(Color.parseColor("#2c2954"));
@@ -237,7 +238,12 @@ public class ImagesFacebook extends BaseAdapter {
                         .withAspectRatio(1, 1)
                         .withOptions(options)
                         .withMaxResultSize(800, 800)
-                        .start((Activity)mContext, UCrop.REQUEST_CROP);
+                        .start((Activity)mContext, UCrop.REQUEST_CROP);*/
+
+                Intent i = new Intent(mContext,CropGDSActivity.class);
+                i.putExtra("PathUri",tempUri);
+                mContext.startActivity(i);
+
 
                 /*Intent myCropIntent = new Intent("com.android.camera.action.CROP");
 

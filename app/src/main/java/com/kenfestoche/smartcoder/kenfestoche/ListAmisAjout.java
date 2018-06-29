@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
@@ -49,6 +50,7 @@ public class ListAmisAjout extends AppCompatActivity {
     Utilisateur User;
     RelativeLayout RlvMonRep;
     RelativeLayout RlvMonPhone;
+    ImageView imFlecheGauche;
     RelativeLayout RlvRechTel;
     int TypeRecherche;
     AdapterAmis AmisArray;
@@ -68,7 +70,7 @@ public class ListAmisAjout extends AppCompatActivity {
         RlvMonPhone = (RelativeLayout) findViewById(R.id.rlvTelPhone);
         RlvRechTel = (RelativeLayout) findViewById(R.id.rlvRechTel);
         txHeader= (TextView) findViewById(R.id.txHeader);
-
+        imFlecheGauche = (ImageView) findViewById(R.id.imFlecheGaucheListAmis);
         face=Typeface.createFromAsset(getAssets(),"fonts/weblysleekuil.ttf");
         Typeface faceGenerica=Typeface.createFromAsset(getAssets(),"Generica.otf");
 
@@ -85,7 +87,12 @@ public class ListAmisAjout extends AppCompatActivity {
         TypeRecherche= getIntent().getExtras().getInt("TypeRech");
         WebService WS = new WebService(getBaseContext());
 
-
+        imFlecheGauche.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         RlvMonRep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

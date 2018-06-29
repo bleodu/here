@@ -96,6 +96,8 @@ public class GridViewFacebook extends AppCompatActivity {
                 }
             });*/
 
+        }else{
+            finish();
         }
     }
 }
