@@ -96,6 +96,8 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
     boolean RefreshSoiree;
     ProgressBar pgLoad;
 
+    Boolean bDisableSoiree;
+
     ArrayList<Marker> lstMarkerInconnus;
 
     ArrayList<MarkerOptions> lstMarkerInconnusOptions;
@@ -179,6 +181,7 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
                              Bundle savedInstanceState) {
 
 
+        bDisableSoiree = true;
         clicAmis = FragmentsSliderActivity.ClicAmis;
         clicInconnu = FragmentsSliderActivity.ClicInconnu;
         clicKiff = FragmentsSliderActivity.ClicMatch;
@@ -362,6 +365,11 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
         User.horaire = hour + ":" + minute;
         User.horairedebit = hour + ":" + minute;
         User.save();
+
+        if(bDisableSoiree){
+            txLegSoiree.setVisibility(View.INVISIBLE);
+            imSoiree.setVisibility(View.INVISIBLE);
+        }
 
 
         if (User.bfetes) {
@@ -1752,7 +1760,10 @@ public class MapActivity extends Fragment implements LocationListener, GoogleApi
             pgLoad.setVisibility(View.VISIBLE);
 
             if (User.nbaffichemap == 3 && User.popupmap == 0) {
-                impopupmap.setVisibility(View.VISIBLE);
+                if(bDisableSoiree==false){
+                    impopupmap.setVisibility(View.VISIBLE);
+                }
+
             }
             if(refreshMap==null){
 
